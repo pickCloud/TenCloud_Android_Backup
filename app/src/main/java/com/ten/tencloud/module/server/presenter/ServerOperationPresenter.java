@@ -1,0 +1,34 @@
+package com.ten.tencloud.module.server.presenter;
+
+import com.ten.tencloud.base.presenter.BasePresenter;
+import com.ten.tencloud.model.subscribe.JesSubscribe;
+import com.ten.tencloud.module.server.contract.ServerOperationContract;
+import com.ten.tencloud.module.server.model.ServerModel;
+
+/**
+ * Created by lxq on 2017/11/23.
+ */
+
+public class ServerOperationPresenter extends BasePresenter<ServerOperationContract.View>
+        implements ServerOperationContract.Presenter<ServerOperationContract.View> {
+
+    @Override
+    public void rebootServer(String id) {
+        mSubscriptions.add(ServerModel.getInstance().rebootServer(id).subscribe(new JesSubscribe<Object>(mView) {
+            @Override
+            public void _onSuccess(Object o) {
+                mView.rebootSuccess();
+            }
+        }));
+    }
+
+    @Override
+    public void delServer(String id) {
+        mSubscriptions.add(ServerModel.getInstance().delServer(id).subscribe(new JesSubscribe<Object>(mView) {
+            @Override
+            public void _onSuccess(Object o) {
+                mView.delSuccess();
+            }
+        }));
+    }
+}

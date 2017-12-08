@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">拾·云</string>
+    <string name="DES_KEY">123456</string>
+
+    <string name="server">服务器</string>
+    <string name="project">项目</string>
+    <string name="resource">资源</string>
+    <string name="discover">发现</string>
+    <string name="mine">我的</string>
+    <string-array name="tabServerDetail">
+        <item>监控</item>
+        <item>基本信息</item>
+        <item>配置信息</item>
+        <item>容器列表</item>
+        <item>日志</item>
+    </string-array>
+
+    <string name="sqsm">厦门十全十美网络科技有限公司</string>
+
+    <!--校验格式提示-->
+    <string name="tips_verify_phone_error">请输入正确的手机号</string>
+    <string name="tips_verify_phone_empty">请输入手机号</string>
+    <string name="tips_verify_code_empty">请输入验证码</string>
+    <string name="tips_verify_code_error">请输入正确的验证码</string>
+    <string name="tips_verify_code_length">验证码长度为6位</string>
+    <string name="tips_verify_password_empty">密码不能为空</string>
+    <string name="tips_verify_password_length">密码长度最小为6位</string>
+    <string name="tips_verify_password_unmatched">两次密码不匹配</string>
+
+</resources>

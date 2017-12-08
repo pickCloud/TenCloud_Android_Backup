@@ -1,0 +1,138 @@
+apply plugin: 'com.android.application'
+
+def cfg = rootProject.ext.configuration
+def libs = rootProject.ext.libraries
+
+android {
+
+    signingConfigs {
+        release {
+            keyAlias '10Com'
+            keyPassword 'sqsm1234'
+            storePassword 'sqsm1234'
+            storeFile file('./TenCloud.jks')
+        }
+    }
+
+
+    compileSdkVersion cfg.compileVersion
+    buildToolsVersion cfg.buildToolsVersion
+    defaultConfig {
+        applicationId "com.ten.tencloud"
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
+        versionCode cfg.versionCode
+        versionName cfg.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+    compile "com.android.support.constraint:constraint-layout:${libs.constraint_layout}"
+    compile "com.android.support:design:${libs.supportVersion}"
+    compile "com.android.support:cardview-v7:${libs.supportVersion}"
+    compile "com.android.support:support-v13:${libs.supportVersion}"
+    compile "com.android.support:recyclerview-v7:${libs.supportVersion}"
+
+    compile "com.timehop.stickyheadersrecyclerview:library:${libs.stickyheadersrecyclerview}@aar"
+
+    /**
+     * butterknife
+     */
+    compile "com.jakewharton:butterknife:${libs.butterknife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknife}"
+
+    /**
+     * xrecyclerview
+     */
+    compile "com.jcodecraeer:xrecyclerview:${libs.xrecyclerview}"
+
+    /**
+     * 运行时权限注解框架
+     */
+    compile "com.github.hotchemi:permissionsdispatcher:${libs.permissionsdispatcher}"
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:${libs.permissionsdispatcher}"
+
+    /**
+     *  RxJava
+     */
+    compile "io.reactivex:rxjava:${libs.rxjava}"
+    compile "io.reactivex:rxandroid:${libs.rxandroid}"
+    /**
+     *  retrofit2
+     */
+    compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
+    compile "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
+
+    compile("com.github.ihsanbal:LoggingInterceptor:${libs.okhttp3_logging}") {
+        exclude group: 'org.json', module: 'json'
+    }
+
+    /**
+     * Glide
+     */
+    compile "com.github.bumptech.glide:glide:${libs.glide}"
+    compile "com.github.bumptech.glide:okhttp3-integration:${libs.glide_okhttp3}"
+    compile "jp.wasabeef:glide-transformations:${libs.glide_transformations}"
+
+    /**
+     * log
+     */
+    compile "com.github.zhaokaiqiang.klog:library:${libs.klog}"
+
+    /**
+     *  流式布局
+     */
+    compile "com.google.android:flexbox:${libs.flexbox}"
+
+    /**
+     * 内存检测leakcanary
+     */
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${libs.leakcanary}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
+
+    compile "com.orhanobut:hawk:${libs.hawk}"
+
+    /**
+     * 图表库
+     */
+    implementation "com.github.PhilJay:MPAndroidChart:${libs.MPAndroidChart}"
+
+    /**
+     * 下拉刷新上拉加载
+     */
+    compile "com.scwang.smartrefresh:SmartRefreshLayout:${libs.SmartRefreshLayout}"
+
+    /**
+     * 选择器
+     */
+    compile "com.contrarywind:Android-PickerView:${libs.PickerView}"
+
+    compile(name: 'gt3geetest_sdk', ext: 'aar')
+
+    testCompile 'junit:junit:4.12'
+}

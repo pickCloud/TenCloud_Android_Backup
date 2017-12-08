@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <View
+        style="@style/LineHorizontal2f3543"
+        android:layout_marginTop="16dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_name"
+        style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="名称" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/ListItemTextValue"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="服务商" />
+
+            <TextView
+                android:id="@+id/tv_provider"
+                style="@style/ListItemTextValue" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="地址" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                style="@style/ListItemTextValue" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="IP" />
+
+            <TextView
+                android:id="@+id/tv_ip"
+                style="@style/ListItemTextValue" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="状态" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                style="@style/ListItemTextValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_server_status"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:textColor="@color/select_server_status"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="添加时间" />
+
+            <TextView
+                android:id="@+id/tv_add_time"
+                style="@style/ListItemTextValue" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/LineHorizontal2f3543" />
+
+    <Button
+        android:id="@+id/btn_restart"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shape_round_default"
+        android:gravity="center"
+        android:text="重启"
+        android:textColor="@color/text_color_232730"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_del"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_round_ef9a9a"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="@color/text_color_502016"
+        android:textSize="16sp" />
+
+</LinearLayout>

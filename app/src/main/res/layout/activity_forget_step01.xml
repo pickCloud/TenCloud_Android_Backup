@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="手机" />
+
+            <EditText
+                android:id="@+id/et_phone"
+                style="@style/ListItemEditValue"
+                android:hint="请输入手机号码"
+                android:inputType="phone" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="验证码" />
+
+            <EditText
+                android:id="@+id/et_code"
+                style="@style/ListItemEditValue"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:hint="验证码"
+                android:inputType="number"
+                android:maxLength="6" />
+
+            <Button
+                android:id="@+id/btn_send_code"
+                android:layout_width="73dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/selector_login_code"
+                android:text="发送验证码"
+                android:textColor="@color/select_login_code"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="密码" />
+
+            <EditText
+                android:id="@+id/et_new_pw"
+                style="@style/ListItemEditValue"
+                android:hint="请输入新密码"
+                android:inputType="textPassword" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="确认密码" />
+
+            <EditText
+                android:id="@+id/et_new_pw_verify"
+                style="@style/ListItemEditValue"
+                android:hint="请再输入一遍"
+                android:inputType="textPassword" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <View style="@style/LineHorizontal2f3543" />
+
+    <Button
+        style="@style/BtnLoginStepNext"
+        android:onClick="retrieve"
+        android:text="找回密码" />
+
+    <TextView
+        style="@style/BottomCompanyText"
+        android:text="@string/sqsm" />
+
+</LinearLayout>

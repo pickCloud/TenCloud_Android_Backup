@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <View
+        style="@style/LineHorizontal2f3543"
+        android:layout_marginTop="16dp" />
+
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="操作系统" />
+
+            <TextView
+                android:id="@+id/tv_os"
+                style="@style/ListItemTextValue" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="系统类型" />
+
+            <TextView
+                android:id="@+id/tv_os_type"
+                style="@style/ListItemTextValue" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="CPU" />
+
+            <TextView
+                android:id="@+id/tv_cpu"
+                style="@style/ListItemTextValue" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="内存" />
+
+            <TextView
+                android:id="@+id/tv_memory"
+                style="@style/ListItemTextValue" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/LineHorizontal2f3543" />
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_232730"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_provider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:layout_marginLeft="16dp"
+        android:text="阿里云"
+        android:textColor="@color/colorPrimary"
+        android:textSize="10sp" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/fbl_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="9dp"
+        app:alignContent="center"
+        app:flexWrap="wrap" />
+
+</LinearLayout>
