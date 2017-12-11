@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.module.login.contract.PerfectUserContract;
 import com.ten.tencloud.module.login.presenter.PerfectUserPresenter;
-import com.ten.tencloud.module.main.ui.MainActivity;
 
 import butterknife.BindView;
 
@@ -33,6 +33,7 @@ public class PerfectUserActivity extends BaseActivity implements PerfectUserCont
 
 
     public void register(View view) {
+        setSuccess();
         String newPW = mEtNewPW.getText().toString().trim();
         String newPWVerify = mEtNewPWVerify.getText().toString().trim();
         if (TextUtils.isEmpty(newPW) || TextUtils.isEmpty(newPWVerify)) {
@@ -52,7 +53,7 @@ public class PerfectUserActivity extends BaseActivity implements PerfectUserCont
 
     @Override
     public void setSuccess() {
-        startActivityNoValue(this, MainActivity.class);
+        TenApp.getInstance().jumpMainActivity();
         finish();
     }
 

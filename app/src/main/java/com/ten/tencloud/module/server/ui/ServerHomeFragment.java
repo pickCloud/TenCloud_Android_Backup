@@ -16,7 +16,6 @@ import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.ServerBean;
-import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
 import com.ten.tencloud.module.server.presenter.ServerHomePresenter;
@@ -62,7 +61,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         header.findViewById(R.id.rl_temp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppBaseCache.getInstance().resetAppBaseCache();
                 TenApp.getInstance().jumpLoginActivity();
             }
         });

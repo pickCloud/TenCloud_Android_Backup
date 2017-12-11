@@ -31,4 +31,24 @@ public class ServerOperationPresenter extends BasePresenter<ServerOperationContr
             }
         }));
     }
+
+    @Override
+    public void startServer(String id) {
+        mSubscriptions.add(ServerModel.getInstance().startServer(id).subscribe(new JesSubscribe<Object>(mView) {
+            @Override
+            public void _onSuccess(Object o) {
+                mView.startSuccess();
+            }
+        }));
+    }
+
+    @Override
+    public void stopServer(String id) {
+        mSubscriptions.add(ServerModel.getInstance().stopServer(id).subscribe(new JesSubscribe<Object>(mView) {
+            @Override
+            public void _onSuccess(Object o) {
+                mView.stopSuccess();
+            }
+        }));
+    }
 }

@@ -22,4 +22,5 @@ public class ServerDetailPresenter extends BasePresenter<ServerDetailContract.Vi
             }
         }));
     }
+
 }

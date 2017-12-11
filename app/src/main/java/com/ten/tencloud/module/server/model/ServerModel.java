@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.RequestBody;
 import rx.Observable;
@@ -128,6 +129,34 @@ public class ServerModel {
     }
 
     /**
+     * 开机
+     *
+     * @param id
+     * @return
+     */
+    public Observable<Object> startServer(String id) {
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .startServer(id)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 关机
+     *
+     * @param id
+     * @return
+     */
+    public Observable<Object> stopServer(String id) {
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .stopServer(id)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
      * 删除
      *
      * @param id
@@ -221,6 +250,26 @@ public class ServerModel {
         return TenApp.getRetrofitClient().getTenServerApi()
                 .getServerHistory(body)
                 .map(new HttpResultFunc<List<ServerHistoryBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 修改服务器名字
+     *
+     * @param id
+     * @param name
+     * @return
+     */
+    public Observable<Object> changeServerName(String id, String name) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("name", name);
+        RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .changeServerInfo(body)
+                .map(new HttpResultFunc<>())
+                .delay(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

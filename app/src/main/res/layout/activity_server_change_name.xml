@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/ListItemLLFirst"
+        android:layout_height="56dp">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <EditText
+                android:id="@+id/et_server"
+                style="@style/ListItemEditValue"
+                android:layout_width="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="1"
+                android:hint="请输入主机名称" />
+
+            <ImageButton
+                android:id="@+id/ib_del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@null"
+                android:src="@mipmap/icon_del" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/LineHorizontal2f3543"
+            android:layout_marginBottom="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

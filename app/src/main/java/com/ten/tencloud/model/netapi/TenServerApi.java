@@ -44,6 +44,12 @@ public interface TenServerApi {
     @POST("/api/server/del")
     Observable<Response<JesResponse<Object>>> delServer(@Body RequestBody body);
 
+    @POST("/api/server/start/{id}")
+    Observable<Response<JesResponse<Object>>> startServer(@Path("id") String id);
+
+    @POST("/api/server/stop/{id}")
+    Observable<Response<JesResponse<Object>>> stopServer(@Path("id") String id);
+
     @GET("/api/server/containers/{id}")
     Observable<Response<JesResponse<List<List<String>>>>> getContaninersByServer(@Path("id") String id);
 
@@ -55,5 +61,8 @@ public interface TenServerApi {
 
     @POST("/api/server/performance")
     Observable<Response<JesResponse<List<ServerHistoryBean>>>> getServerHistory(@Body RequestBody body);
+
+    @POST("/api/server/update")
+    Observable<Response<JesResponse<Object>>> changeServerInfo(@Body RequestBody body);
 
 }

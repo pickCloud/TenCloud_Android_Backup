@@ -35,6 +35,7 @@ import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.module.login.ui.LoginActivity;
+import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.utils.ToastUtils;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.widget.dialog.LoadDialog;
@@ -62,10 +63,17 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     private BroadcastReceiver mLoginReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            AppBaseCache.getInstance().resetAppBaseCache();
-            Intent loginIntent = new Intent(mContext, LoginActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//清空堆栈
-            startActivity(loginIntent);
+            if (Constants.LOGON_ACTION.equals(intent.getAction())) {
+                AppBaseCache.getInstance().resetAppBaseCache();
+                Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//清空堆栈
+                startActivity(loginIntent);
+            } else if (Constants.MAIN_ACTION.equals(intent.getAction())) {
+                Intent loginIntent = new Intent(mContext, MainActivity.class);
+                loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//清空堆栈
+                startActivity(loginIntent);
+            }
+
         }
     };
     private LoadDialog mLoadDialog;
@@ -378,9 +386,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         //反注册广播
         unregisterReceiver(mLoginReceiver);
-        super.onDestroy();
+        hideLoading();
+        mLoadDialog = null;
     }
 
     public void hideKeyboard() {

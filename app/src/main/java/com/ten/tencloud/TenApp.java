@@ -98,6 +98,14 @@ public class TenApp extends Application {
     }
 
     /**
+     * 跳转到主页
+     */
+    public void jumpMainActivity() {
+        Intent intent = new Intent(Constants.MAIN_ACTION);
+        sendBroadcast(intent);
+    }
+
+    /**
      * 加密秘钥
      *
      * @return

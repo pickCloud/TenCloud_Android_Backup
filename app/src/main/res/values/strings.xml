@@ -19,8 +19,8 @@
 
     <!--校验格式提示-->
     <string name="tips_verify_phone_error">请输入正确的手机号</string>
-    <string name="tips_verify_phone_empty">请输入手机号</string>
-    <string name="tips_verify_code_empty">请输入验证码</string>
+    <string name="tips_verify_phone_empty">手机号不能为空</string>
+    <string name="tips_verify_code_empty">验证码不能为空</string>
     <string name="tips_verify_code_error">请输入正确的验证码</string>
     <string name="tips_verify_code_length">验证码长度为6位</string>
     <string name="tips_verify_password_empty">密码不能为空</string>

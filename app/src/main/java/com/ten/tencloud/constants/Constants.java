@@ -45,7 +45,15 @@ public class Constants {
      */
     public static final String TOKEN = "token";
 
+    /**
+     * 跳转到登录页
+     */
     public static final String LOGON_ACTION = "TENCLOUD_LOGIN_ACTION";
+
+    /**
+     * 跳转到主页
+     */
+    public static final String MAIN_ACTION = "TENCLOUD_MAIN_ACTION";
 
     public static final String SPF_NAME_USER = "UserInfo";
     public static final String SPF_NAME_COMMON = PROJECT_NAME;

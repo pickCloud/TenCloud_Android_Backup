@@ -11,7 +11,9 @@
 
     <LinearLayout
         android:id="@+id/ll_name"
-        style="@style/ListItemLLFirst">
+        style="@style/ListItemLLFirst"
+        android:clickable="true"
+        android:focusable="true">
 
         <LinearLayout style="@style/ListItemLL2">
 
@@ -134,20 +136,54 @@
 
     </LinearLayout>
 
-    <View style="@style/LineHorizontal2f3543" />
+    <View
+        style="@style/LineHorizontal2f3543"
+        android:layout_marginBottom="24dp" />
 
     <Button
         android:id="@+id/btn_restart"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/shape_round_default"
         android:gravity="center"
         android:text="重启"
         android:textColor="@color/text_color_232730"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_round_default"
+        android:gravity="center"
+        android:text="开机"
+        android:textColor="@color/text_color_232730"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_round_default"
+        android:gravity="center"
+        android:text="关机"
+        android:textColor="@color/text_color_232730"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_del"
@@ -155,7 +191,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/shape_round_ef9a9a"
         android:gravity="center"
         android:text="删除"
