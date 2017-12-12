@@ -134,7 +134,6 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
         mLcNet.getLegend().setEnabled(true);//标签设置
         mLcNet.getLegend().setTextSize(10);
         mLcNet.getLegend().setForm(Legend.LegendForm.LINE);
-        mLcNet.getLegend().setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
         mLcNet.getLegend().setFormSize(8);
         mLcNet.getLegend().setFormToTextSpace(2);
         mLcNet.getLegend().setTextColor(getResources().getColor(R.color.text_color_899ab6));

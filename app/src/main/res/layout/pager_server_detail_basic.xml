@@ -196,6 +196,7 @@
         android:gravity="center"
         android:text="删除"
         android:textColor="@color/text_color_502016"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
 </LinearLayout>

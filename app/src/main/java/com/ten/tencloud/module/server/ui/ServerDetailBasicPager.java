@@ -51,6 +51,8 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     Button mBtnStart;
     @BindView(R.id.btn_stop)
     Button mBtnStop;
+    @BindView(R.id.btn_del)
+    Button mBtnDel;
 
     private boolean isFirst = true;
     private ServerDetailPresenter mServerDetailPresenter;
@@ -136,6 +138,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     @Override
     public void showServerDetail(ServerDetailBean serverDetailBean) {
         isFirst = false;
+        mBtnDel.setVisibility(VISIBLE);
         mName = serverDetailBean.getBasic_info().getName();
         mTvName.setText(mName);
         mTvProvider.setText(serverDetailBean.getBusiness_info().getProvider());
@@ -162,7 +165,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
 
     @Override
     public void rebootSuccess() {
-        showMessage("重启成功");
+        showMessage("重启中");
     }
 
     @Override
@@ -172,11 +175,12 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
 
     @Override
     public void startSuccess() {
-        showMessage("开机成功");
+        showMessage("正在开机");
     }
 
     @Override
     public void stopSuccess() {
-        showMessage("关机成功");
+        showMessage("正在关机");
     }
+
 }

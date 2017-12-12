@@ -182,7 +182,8 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lc_net"
                 android:layout_width="match_parent"
-                android:layout_height="190dp" />
+                android:layout_height="210dp"
+                android:layout_marginBottom="8dp" />
         </LinearLayout>
 
     </ScrollView>

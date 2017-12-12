@@ -13,6 +13,8 @@ public class Url {
 //    public static final String BASE_URL_DEBUG = "http://47.94.18.22:18010";
     public static final String BASE_URL_DEBUG = "http://47.94.18.22:18080";
 
+    public final static String WEBSOCKET_UEL_DEBUG = "ws://47.94.18.22:18080";
+
     public static final String BASE_URL_PUBLIC = "http://47.94.18.22:18080";
 //    public static final String BASE_URL_PUBLIC = "https://c.10.com";
 

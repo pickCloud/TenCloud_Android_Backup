@@ -32,6 +32,6 @@ ext {
             flexbox                  : "0.3.0",
             SmartRefreshLayout       : "1.0.3",
             MPAndroidChart           : "v3.0.3",
-            PickerView               : "3.2.7",
+            PickerView               : "3.2.7"
     ]
 }
