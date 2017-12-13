@@ -5,6 +5,13 @@ import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.server.contract.ServerOperationContract;
 import com.ten.tencloud.module.server.model.ServerModel;
 
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by lxq on 2017/11/23.
  */
@@ -50,5 +57,25 @@ public class ServerOperationPresenter extends BasePresenter<ServerOperationContr
                 mView.stopSuccess();
             }
         }));
+    }
+
+    @Override
+    public void queryServerState(final String id) {
+        mSubscriptions.add(
+                Observable.interval(1, 5, TimeUnit.SECONDS)
+                        .flatMap(new Func1<Long, Observable<String>>() {
+                            @Override
+                            public Observable<String> call(Long aLong) {
+                                return ServerModel.getInstance().queryServerState(id);
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new JesSubscribe<String>(mView) {
+                            @Override
+                            public void _onSuccess(String s) {
+                                mView.showState(s);
+                            }
+                        }));
     }
 }

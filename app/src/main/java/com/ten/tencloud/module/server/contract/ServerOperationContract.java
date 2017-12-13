@@ -16,6 +16,8 @@ public class ServerOperationContract {
         void startSuccess();
 
         void stopSuccess();
+
+        void showState(String state);
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
@@ -26,5 +28,7 @@ public class ServerOperationContract {
         void startServer(String id);
 
         void stopServer(String id);
+
+        void queryServerState(String id);
     }
 }

@@ -1,9 +1,11 @@
 package com.ten.tencloud.module.server.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,8 +18,15 @@ import com.ten.tencloud.module.server.contract.ServerOperationContract;
 import com.ten.tencloud.module.server.presenter.ServerDetailPresenter;
 import com.ten.tencloud.module.server.presenter.ServerOperationPresenter;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by lxq on 2017/11/29.
@@ -54,14 +63,20 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     @BindView(R.id.btn_del)
     Button mBtnDel;
 
-    private boolean isFirst = true;
     private ServerDetailPresenter mServerDetailPresenter;
-    private String mId;
     private ServerOperationPresenter mServerOperationPresenter;
+
+    private boolean isFirst = true;
+    private String mId;
     private AlertDialog mDialog;
 
     private int clickState = 0;
     private String mName;
+
+    //是否正在查询状态
+    private boolean isQuerying = false;
+    private String mInstanceId;
+    private Subscription mAnimSubscribe;
 
     public ServerDetailBasicPager(Context context) {
         super(context);
@@ -88,11 +103,12 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                                 mServerOperationPresenter.delServer(mId);
                                 break;
                         }
-                        mServerOperationPresenter.rebootServer(mId);
                     }
                 }).create();
     }
 
+
+    public final static int CODE_CHANGE_NAME = 1000;
 
     @OnClick({R.id.ll_name, R.id.btn_restart, R.id.btn_del, R.id.btn_start, R.id.btn_stop})
     public void onClick(View view) {
@@ -101,7 +117,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                 Intent intent = new Intent(mContext, ServerChangeNameActivity.class);
                 intent.putExtra("id", mId);
                 intent.putExtra("name", mName);
-                mContext.startActivity(intent);
+                ((Activity) mContext).startActivityForResult(intent, CODE_CHANGE_NAME);
                 break;
             case R.id.btn_restart:
                 clickState = CLICK_STATE_REBOOT;
@@ -127,6 +143,14 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == CODE_CHANGE_NAME) {
+            mName = data.getStringExtra("name");
+            mTvName.setText(mName);
+        }
+    }
+
+    @Override
     public void init() {
         if (isFirst) {
             mId = getArgument("id");
@@ -138,6 +162,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     @Override
     public void showServerDetail(ServerDetailBean serverDetailBean) {
         isFirst = false;
+        mInstanceId = serverDetailBean.getBasic_info().getInstance_id();
         mBtnDel.setVisibility(VISIBLE);
         mName = serverDetailBean.getBasic_info().getName();
         mTvName.setText(mName);
@@ -145,42 +170,111 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         mTvAddress.setText(serverDetailBean.getBasic_info().getAddress());
         mTvIP.setText(serverDetailBean.getBasic_info().getPublic_ip());
         String machine_status = serverDetailBean.getBasic_info().getMachine_status();
-        if ("运行中".equals(machine_status)) {
-            mTvStatus.setEnabled(true);
-        } else {
-            mTvStatus.setEnabled(false); //已停止和异常
+        setState(machine_status);
+        mTvAddTime.setText(serverDetailBean.getBasic_info().getCreated_time());
+    }
+
+    /**
+     * 根据状态设置按钮状态
+     *
+     * @param state
+     */
+    private void setState(final String state) {
+        mTvStatus.setText(state);
+        mTvStatus.setSelected(true);
+        mTvStatus.setEnabled(!"已停止".equals(state));
+        if ("异常".equals(state)) {
+            mTvStatus.setSelected(false);
         }
-        if ("已停止".equals(machine_status)) {
+        if ("已停止".equals(state)) {
             mBtnStop.setVisibility(GONE);
             mBtnRestart.setVisibility(GONE);
             mBtnStart.setVisibility(VISIBLE);
-        } else {
+        } else if ("运行中".equals(state) || "异常".equals(state)) {
             mBtnStop.setVisibility(VISIBLE);
             mBtnRestart.setVisibility(VISIBLE);
             mBtnStart.setVisibility(GONE);
+        } else {
+            mBtnStop.setVisibility(GONE);
+            mBtnRestart.setVisibility(GONE);
+            mBtnStart.setVisibility(GONE);
         }
-        mTvStatus.setText(machine_status);
-        mTvAddTime.setText(serverDetailBean.getBasic_info().getCreated_time());
+
+        //开启打点动画
+        i = 0;
+        if (mAnimSubscribe != null && !mAnimSubscribe.isUnsubscribed()) {
+            mAnimSubscribe.unsubscribe();
+        }
+        if ("停止中".equals(state) || "启动中".equals(state)) {
+            mAnimSubscribe = Observable.interval(0, 500, TimeUnit.MILLISECONDS)
+                    .map(new Func1<Long, Integer>() {
+                        @Override
+                        public Integer call(Long aLong) {
+                            return i++ % 3;
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<Integer>() {
+                        @Override
+                        public void call(Integer integer) {
+                            if (integer == 0) {
+                                mTvStatus.setText(state + ".");
+                            } else if (integer == 1) {
+                                mTvStatus.setText(state + "..");
+                            } else {
+                                mTvStatus.setText(state + "...");
+                            }
+                        }
+                    });
+        }
+    }
+
+    int i = 0;
+
+    private void queryState() {
+        if (!isQuerying && !TextUtils.isEmpty(mInstanceId)) {
+            mServerOperationPresenter.queryServerState(mInstanceId);
+            isQuerying = true;
+        }
     }
 
     @Override
     public void rebootSuccess() {
         showMessage("重启中");
+        queryState();
     }
 
     @Override
     public void delSuccess() {
         showMessage("删除成功");
+        queryState();
     }
 
     @Override
     public void startSuccess() {
         showMessage("正在开机");
+        queryState();
     }
 
     @Override
     public void stopSuccess() {
         showMessage("正在关机");
+        queryState();
     }
 
+    @Override
+    public void showState(String state) {
+        setState(state);
+        mTvStatus.setText(state);
+    }
+
+    @Override
+    public void onActivityDestroy() {
+        super.onActivityDestroy();
+        mServerDetailPresenter.detachView();
+        mServerOperationPresenter.detachView();
+        if (mAnimSubscribe != null && !mAnimSubscribe.isUnsubscribed()) {
+            mAnimSubscribe.unsubscribe();
+        }
+    }
 }

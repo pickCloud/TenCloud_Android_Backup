@@ -1,6 +1,7 @@
 package com.ten.tencloud.base.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -58,6 +59,14 @@ public abstract class BasePager extends LinearLayout implements IBaseView {
     }
 
     public abstract void init();
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
+    }
+
+    public void onActivityDestroy(){
+
+    }
 
     @Override
     public void showMessage(@NonNull String message) {

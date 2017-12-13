@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.server.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -61,5 +62,23 @@ public class ServerDetailActivity extends BaseActivity {
                     mPagers.get(position).init();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == ServerDetailBasicPager.CODE_CHANGE_NAME) {
+            initTitleBar(true, data.getStringExtra("name"));
+        }
+        for (BasePager pager : mPagers) {
+            pager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        for (BasePager pager : mPagers) {
+            pager.onActivityDestroy();
+        }
+        super.onDestroy();
     }
 }

@@ -39,6 +39,7 @@ public class ServerChangeNameActivity extends BaseActivity implements ServerChan
                     showMessage("名称未变化");
                     return;
                 }
+                mName = name;
                 mServerChangeNamePresenter.changeName(mId, name);
             }
         });
@@ -69,6 +70,9 @@ public class ServerChangeNameActivity extends BaseActivity implements ServerChan
     @Override
     public void changeSuccess() {
         showMessage("修改成功");
+        Intent data = new Intent();
+        data.putExtra("name", mName);
+        setResult(ServerDetailBasicPager.CODE_CHANGE_NAME, data);
         finish();
     }
 

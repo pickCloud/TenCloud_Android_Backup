@@ -48,6 +48,7 @@ public abstract class BasePresenter<V extends IBaseView> implements IBasePresent
     @Override
     public void detachView() {
         unSubscribe();
+        mView.hideLoading();
         this.mView = null;
     }
 

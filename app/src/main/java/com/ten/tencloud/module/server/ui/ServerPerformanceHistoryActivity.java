@@ -244,6 +244,7 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
             mRefresh.finishLoadmore();
         } else {
             showMessage("暂无数据");
+            mAdapter.clear();
             mRefresh.finishRefresh();
         }
     }

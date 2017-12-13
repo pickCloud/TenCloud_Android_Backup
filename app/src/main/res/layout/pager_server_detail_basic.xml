@@ -104,9 +104,10 @@
             <TextView
                 android:id="@+id/tv_status"
                 style="@style/ListItemTextValue"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_server_status"
+                android:gravity="center"
                 android:paddingBottom="2dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

@@ -157,6 +157,19 @@ public class ServerModel {
     }
 
     /**
+     * 查询服务器状态
+     *
+     * @param id
+     * @return
+     */
+    public Observable<String> queryServerState(String id) {
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .queryServerState(id)
+                .map(new HttpResultFunc<String>());
+    }
+
+
+    /**
      * 删除
      *
      * @param id

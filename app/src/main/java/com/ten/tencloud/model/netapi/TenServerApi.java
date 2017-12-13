@@ -38,17 +38,20 @@ public interface TenServerApi {
     @GET("/api/server/{id}")
     Observable<Response<JesResponse<ServerDetailBean>>> getServerDetail(@Path("id") String id);
 
-    @GET("/api/server/reboot/{id}")
-    Observable<Response<JesResponse<Object>>> rebootServer(@Path("id") String id);
-
     @POST("/api/server/del")
     Observable<Response<JesResponse<Object>>> delServer(@Body RequestBody body);
 
-    @POST("/api/server/start/{id}")
+    @GET("/api/server/reboot/{id}")
+    Observable<Response<JesResponse<Object>>> rebootServer(@Path("id") String id);
+
+    @GET("/api/server/start/{id}")
     Observable<Response<JesResponse<Object>>> startServer(@Path("id") String id);
 
-    @POST("/api/server/stop/{id}")
+    @GET("/api/server/stop/{id}")
     Observable<Response<JesResponse<Object>>> stopServer(@Path("id") String id);
+
+    @GET("/api/server/{id}/status")
+    Observable<Response<JesResponse<String>>> queryServerState(@Path("id") String id);
 
     @GET("/api/server/containers/{id}")
     Observable<Response<JesResponse<List<List<String>>>>> getContaninersByServer(@Path("id") String id);

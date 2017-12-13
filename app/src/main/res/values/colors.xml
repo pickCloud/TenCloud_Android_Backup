@@ -22,6 +22,7 @@
 
     <color name="bg_tran_48bbc0_20">#3348bbc0</color>
     <color name="bg_tran_ef9a9a_20">#33ef9a9a</color>
+    <color name="bg_tran_f15532_20">#33f15532</color>
     <color name="bg_tran_899ab6_30">#4d899ab6</color>
     <color name="bg_tran_48bbc0_30">#4d48bbc0</color>
     <color name="bg_tran_3f4656_30">#4d3f4656</color>
@@ -33,6 +34,7 @@
     <color name="text_color_232730">#232730</color>
     <color name="text_color_502016">#502016</color>
     <color name="text_color_ef9a9a">#ef9a9a</color>
+    <color name="text_color_f15532">#f15532</color>
 
     <color name="line_color_3f4656">#3f4656</color>
     <color name="line_color_2f3543">#2F3543</color>
