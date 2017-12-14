@@ -147,6 +147,18 @@ public class GlideUtils {
                 .into(imageView);
     }
 
+    public void loadCircleImage(Context context, ImageView imageView, String imgUrl,int errorImg) {
+        Glide.with(context)
+                .load(imgUrl)
+                .error(R.mipmap.img_load)
+                .crossFade()
+                .priority(Priority.NORMAL) //下载的优先级
+                .diskCacheStrategy(DiskCacheStrategy.ALL) //缓存策略
+                .bitmapTransform(new CropCircleTransformation(context))
+                .into(imageView);
+    }
+
+
     /**
      * 加载模糊的圆角的图片
      *

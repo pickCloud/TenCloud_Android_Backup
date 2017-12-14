@@ -8,6 +8,7 @@ import com.ten.tencloud.base.adapter.CJSFragmentPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.TempFragment;
 import com.ten.tencloud.module.server.ui.ServerHomeFragment;
+import com.ten.tencloud.module.user.ui.MineFragment;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.widget.navlayout.NavLayout;
 
@@ -55,7 +56,7 @@ public class MainActivity extends BaseActivity {
         pagerAdapter.addFragment(new TempFragment());
         pagerAdapter.addFragment(new TempFragment());
         pagerAdapter.addFragment(new TempFragment());
-        pagerAdapter.addFragment(new TempFragment());
+        pagerAdapter.addFragment(new MineFragment());
         mVpContent.setOffscreenPageLimit(titles.length);
         mVpContent.setAdapter(pagerAdapter);
         mVpContent.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {

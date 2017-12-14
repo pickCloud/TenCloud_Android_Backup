@@ -2,7 +2,6 @@ package com.ten.tencloud.module.login.presenter;
 
 import android.text.TextUtils;
 
-import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.User;
@@ -37,7 +36,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 .subscribe(new JesSubscribe<User>(mView) {
                     @Override
                     public void _onSuccess(User result) {
-                        AppBaseCache.getInstance().setUser(result);
+                        AppBaseCache.getInstance().setToken(result.getToken());
                         SPFHelper spfHelper = new SPFHelper(mView.getContext(), "");
                         spfHelper.putString("loginName", phone);
                         mView.loginSuccess();
@@ -47,7 +46,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     public void _onError(JesException e) {
                         mView.showMessage(e.getMessage());
                         if (e.getCode() == 10404) {
-                            KLog.e(AppBaseCache.getInstance().getToken());
                             mView.unregistered();
                         }
                     }
@@ -63,7 +61,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         mSubscriptions.add(mModel.loginByCode(phone, code).subscribe(new JesSubscribe<User>(mView) {
             @Override
             public void _onSuccess(User user) {
-                AppBaseCache.getInstance().setUser(user);
+                AppBaseCache.getInstance().setToken(user.getToken());
                 SPFHelper spfHelper = new SPFHelper(mView.getContext(), "");
                 spfHelper.putString("loginName", phone);
                 mView.loginSuccess();

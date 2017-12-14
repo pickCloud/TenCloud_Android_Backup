@@ -1,19 +1,21 @@
 package com.ten.tencloud.bean;
 
-import java.util.List;
-
 /**
  * Created by lxq on 2017/11/21.
  */
 
 public class User {
 
-    private String loginName;
     private String token;
     private String name;
     private String phone;
     private String email;
-    private String office;
+    private String mobile;
+    private String password;
+    private String image_url;
+    private int gender;
+    private String cid;//公司ID
+
 
     public User() {
     }
@@ -21,40 +23,6 @@ public class User {
     public User(String mobile, String password) {
         this.mobile = mobile;
         this.password = password;
-    }
-
-    private String mobile;
-    private String password;
-
-    private List<Role> role;
-
-    public static class Role{
-        private String menuId;
-        private String permission;
-
-        public String getMenuId() {
-            return menuId;
-        }
-
-        public void setMenuId(String menuId) {
-            this.menuId = menuId;
-        }
-
-        public String getPermission() {
-            return permission;
-        }
-
-        public void setPermission(String permission) {
-            this.permission = permission;
-        }
-    }
-
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
     }
 
     public String getToken() {
@@ -89,19 +57,43 @@ public class User {
         this.email = email;
     }
 
-    public List<Role> getRole() {
-        return role;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setRole(List<Role> role) {
-        this.role = role;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
-    public String getOffice() {
-        return office;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOffice(String office) {
-        this.office = office;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 }

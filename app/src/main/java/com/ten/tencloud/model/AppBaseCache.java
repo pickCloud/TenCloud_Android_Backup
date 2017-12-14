@@ -3,12 +3,9 @@ package com.ten.tencloud.model;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.Constants;
-
-import java.util.List;
 
 /**
  * 基本参数缓存
@@ -17,29 +14,23 @@ import java.util.List;
 
 public class AppBaseCache {
 
-    private final String USER_ID = "USER_ID";
     private final String USER_NAME = "USER_NAME";
-    private final String REAL_NAME = "REAL_NAME";
     private final String MOBILE = "MOBILE";
     private final String EMAIL = "EMAIL";
     private final String SESSION_ID = "SESSION_ID";
     private final String TOKEN = "TOKEN";
-    private final String ROLE = "ROLE";//权限控制
-    private final String DEPT = "DEPT";//部门
+    private final String CID = "CID";//公司ID
 
     private static AppBaseCache sAppBaseCache;
     private static SPFHelper spfHelper;
 
-    private String userId;
     private String userName;
-    private String realName;
     private String mobile;
     private String eMail;
     private String sessionId;
-    private String role;
-    private String dept;
 
     private String token;
+    private String cid;
 
     private AppBaseCache(Context context) {
         spfHelper = new SPFHelper(context, Constants.SPF_NAME_USER);
@@ -62,13 +53,10 @@ public class AppBaseCache {
     }
 
     public AppBaseCache setUser(User user) {
-        setUserName(user.getLoginName())
-                .setToken(user.getToken())
-                .setRealName(user.getName())
+        setUserName(user.getName())
                 .setEmail(user.getEmail())
-                .setMobile(user.getPhone())
-                .setDept(user.getOffice())
-                .setRole(user.getRole());
+                .setCid(user.getCid())
+                .setMobile(user.getMobile());
         return this;
     }
 
@@ -82,20 +70,6 @@ public class AppBaseCache {
         synchronized (this) {
             spfHelper = new SPFHelper(context, preferenceName);
         }
-    }
-
-    public String getUserId() {
-        if (TextUtils.isEmpty(userId)) {
-            return spfHelper.getString(USER_ID, null);
-        }
-        return userId;
-    }
-
-    public AppBaseCache setUserId(String userId) {
-        if (spfHelper.putString(USER_ID, userId)) {
-            this.userId = userId;
-        }
-        return this;
     }
 
     public String getUserName() {
@@ -140,16 +114,16 @@ public class AppBaseCache {
         return this;
     }
 
-    public String getRealName() {
-        if (TextUtils.isEmpty(realName)) {
-            return spfHelper.getString(REAL_NAME, null);
+    public String getCid() {
+        if (TextUtils.isEmpty(cid)) {
+            return spfHelper.getString(CID, "");
         }
-        return realName;
+        return cid;
     }
 
-    public AppBaseCache setRealName(String realName) {
-        if (spfHelper.putString(REAL_NAME, realName)) {
-            this.realName = realName;
+    public AppBaseCache setCid(String cid) {
+        if (spfHelper.putString(CID, cid)) {
+            this.cid = cid;
         }
         return this;
     }
@@ -178,37 +152,6 @@ public class AppBaseCache {
     public AppBaseCache setEmail(String eMail) {
         if (spfHelper.putString(EMAIL, eMail)) {
             this.eMail = eMail;
-        }
-        return this;
-    }
-
-    public String getRole() {
-        if (TextUtils.isEmpty(role)) {
-            return spfHelper.getString(ROLE, null);
-        }
-        return role;
-    }
-
-    public AppBaseCache setRole(List<User.Role> role) {
-        if (role != null) {
-            String json = new Gson().toJson(role);
-            if (spfHelper.putString(ROLE, json)) {
-                this.role = json;
-            }
-        }
-        return this;
-    }
-
-    public String getDept() {
-        if (TextUtils.isEmpty(dept)) {
-            return spfHelper.getString(DEPT, null);
-        }
-        return dept;
-    }
-
-    public AppBaseCache setDept(String dept) {
-        if (spfHelper.putString(DEPT, dept)) {
-            this.dept = dept;
         }
         return this;
     }

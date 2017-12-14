@@ -14,7 +14,6 @@ import com.ten.tencloud.module.login.contract.LoginCaptchaContract;
 import com.ten.tencloud.module.login.contract.RegisterContract;
 import com.ten.tencloud.module.login.presenter.LoginCaptchaPresenter;
 import com.ten.tencloud.module.login.presenter.RegisterPresenter;
-import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.utils.Utils;
 
 import butterknife.BindView;
@@ -159,7 +158,7 @@ public class RegisterActivity extends BaseActivity implements LoginCaptchaContra
     @Override
     public void registerSuccess() {
         showMessage("注册成功");
-        startActivityNoValue(this, MainActivity.class);
+        TenApp.getInstance().jumpMainActivity();
         finish();
     }
 

@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.ContentInfoBean;
 import com.ten.tencloud.bean.NetSpeedBean;
-import com.ten.tencloud.model.AppBaseCache;
 
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -93,20 +92,6 @@ public class Utils {
         return match.matches();
     }
 
-    /**
-     * 页面权限
-     * 是否拥有权限
-     *
-     * @param role
-     * @return
-     */
-    public static boolean hasRole(String role) {
-        if (!TextUtils.isEmpty(AppBaseCache.getInstance().getRole())) {
-            return AppBaseCache.getInstance().getRole().contains(role);
-        }
-        return false;
-    }
-
     public static ContentInfoBean handContent(String str) {
         return TenApp.getInstance().getGsonInstance().fromJson(str, ContentInfoBean.class);
     }
@@ -125,4 +110,15 @@ public class Utils {
         }
         return recv_speed + "/" + send_speed;
     }
+
+
+    /**
+     * 把手机号中间4位改成*
+     * @param phone
+     * @return
+     */
+    public static String hide4Phone(String phone) {
+        return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+    }
+
 }

@@ -26,5 +26,8 @@
     <string name="tips_verify_password_empty">密码不能为空</string>
     <string name="tips_verify_password_length">密码长度最小为6位</string>
     <string name="tips_verify_password_unmatched">两次密码不匹配</string>
+    <string name="tips_verify_user_empty">用户名不能为空</string>
+    <string name="tips_verify_ip_empty">IP不能为空</string>
+    <string name="tips_verify_server_empty">主机名称不能为空</string>
 
 </resources>

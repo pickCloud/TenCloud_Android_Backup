@@ -366,7 +366,8 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
         dataSet.setCircleRadius(3f);
         dataSet.setDrawCircleHole(true);//空心
         dataSet.setCircleHoleRadius(1f);
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSet.setCubicIntensity(0.6f);//折线平滑度
         dataSet.setValueTextSize(9f);
         dataSet.setDrawValues(false);
         dataSet.setDrawFilled(true);
@@ -448,7 +449,8 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
             set1.setCircleRadius(3f);
             set1.setDrawCircleHole(true);//空心
             set1.setCircleHoleRadius(1f);
-            set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+            set1.setCubicIntensity(0.6f);
             set1.setValueTextSize(9f);
             set1.setDrawValues(false);
             set1.setDrawFilled(true);

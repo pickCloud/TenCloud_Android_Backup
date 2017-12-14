@@ -8,6 +8,7 @@ import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.Url;
 import com.ten.tencloud.model.netapi.TenLoginApi;
 import com.ten.tencloud.model.netapi.TenServerApi;
+import com.ten.tencloud.model.netapi.TenUserApi;
 import com.ten.tencloud.model.retrofit.AddCookiesInterceptor;
 import com.ten.tencloud.model.retrofit.ResponseConverterFactory;
 
@@ -64,6 +65,10 @@ public class InitRetrofit {
 
     public TenServerApi getTenServerApi() {
         return client.create(TenServerApi.class);
+    }
+
+    public TenUserApi getTenUserApi() {
+        return client.create(TenUserApi.class);
     }
 
 }

@@ -25,7 +25,7 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View> impl
         mSubscriptions.add(mModel.register(mobile, password, auth_code).subscribe(new JesSubscribe<User>(mView) {
             @Override
             public void _onSuccess(User user) {
-                AppBaseCache.getInstance().setUser(user);
+                AppBaseCache.getInstance().setToken(user.getToken());
                 SPFHelper spfHelper = new SPFHelper(mView.getContext(), "");
                 spfHelper.putString("loginName", mobile);
                 mView.registerSuccess();

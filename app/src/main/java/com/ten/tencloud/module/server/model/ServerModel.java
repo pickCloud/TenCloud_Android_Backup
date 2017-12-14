@@ -11,6 +11,7 @@ import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -176,8 +177,10 @@ public class ServerModel {
      * @return
      */
     public Observable<Object> delServer(String id) {
-        Map<String, String> map = new HashMap<>();
-        map.put("id", id);
+        Map<String, Object> map = new HashMap<>();
+        List<String> ids = new ArrayList<>();
+        ids.add(id);
+        map.put("id", ids);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
         return TenApp.getRetrofitClient().getTenServerApi()
                 .delServer(body)
