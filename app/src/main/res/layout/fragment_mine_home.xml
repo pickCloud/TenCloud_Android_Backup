@@ -43,7 +43,7 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
-            <ImageView
+            <com.ten.tencloud.widget.CircleImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -100,6 +100,94 @@
                 android:src="@mipmap/icon_arrow_right" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_company"
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout style="@style/SettingItemLayout">
+
+            <ImageView
+                style="@style/SettingItemIcon"
+                android:src="@mipmap/icon_company" />
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="我的公司" />
+
+            <TextView
+                android:id="@+id/tv_company_des"
+                style="@style/SettingItemDes"
+                android:text="0家公司" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/SettingItemLayout">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            style="@style/SettingItemIcon"
+            android:src="@mipmap/icon_service" />
+
+        <TextView
+            android:id="@+id/tv_label"
+            style="@style/SettingItemLabel"
+            android:text="客服服务" />
+
+        <TextView
+            android:id="@+id/tv_des"
+            style="@style/SettingItemDes" />
+
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_arrow_right" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/SettingItemLayout"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            style="@style/SettingItemIcon"
+            android:src="@mipmap/icon_setting" />
+
+        <TextView
+            style="@style/SettingItemLabel"
+            android:text="设置" />
+
+        <TextView style="@style/SettingItemDes" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_arrow_right" />
 
     </LinearLayout>
 

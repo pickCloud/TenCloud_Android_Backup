@@ -218,9 +218,9 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                         @Override
                         public void call(Integer integer) {
                             if (integer == 0) {
-                                mTvStatus.setText(state + ".");
+                                mTvStatus.setText(state + ".  ");
                             } else if (integer == 1) {
-                                mTvStatus.setText(state + "..");
+                                mTvStatus.setText(state + ".. ");
                             } else {
                                 mTvStatus.setText(state + "...");
                             }

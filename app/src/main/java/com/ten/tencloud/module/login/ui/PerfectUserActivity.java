@@ -26,6 +26,7 @@ public class PerfectUserActivity extends BaseActivity implements PerfectUserCont
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_perfect_user);
+        initTitleBar(true, "完善资料");
         mPhone = getIntent().getStringExtra("phone");
         mPresenter = new PerfectUserPresenter();
         mPresenter.attachView(this);

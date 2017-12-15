@@ -114,11 +114,16 @@ public class Utils {
 
     /**
      * 把手机号中间4位改成*
+     *
      * @param phone
      * @return
      */
     public static String hide4Phone(String phone) {
         return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+    }
+
+    public static String strIsEmptyForDefault(String str, String defaultStr) {
+        return TextUtils.isEmpty(str) ? defaultStr : str;
     }
 
 }

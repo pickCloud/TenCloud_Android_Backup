@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_input"
+        style="@style/ListItemLLFirst"
+        android:layout_height="56dp">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <EditText
+                android:id="@+id/et_info"
+                style="@style/ListItemEditValue"
+                android:layout_width="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/ib_del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@null"
+                android:onClick="btnDel"
+                android:src="@mipmap/icon_del" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/LineHorizontal2f3543"
+            android:layout_marginBottom="8dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/ll_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48.5dp"
+            android:background="@color/bg_232730"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_gender"
+                style="@style/SettingItemLayout">
+
+                <TextView
+                    style="@style/SettingItemLabel"
+                    android:text="男" />
+
+                <TextView
+                    android:id="@+id/tv_gender_des"
+                    style="@style/SettingItemDes" />
+
+                <ImageView
+                    android:id="@+id/iv_man"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_select_blue"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/line_color_2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48.5dp"
+            android:background="@color/bg_232730"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_birth"
+                style="@style/SettingItemLayout">
+
+                <TextView
+                    style="@style/SettingItemLabel"
+                    android:text="女" />
+
+                <TextView
+                    android:id="@+id/tv_birth_des"
+                    style="@style/SettingItemDes" />
+
+                <ImageView
+                    android:id="@+id/iv_women"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_select_blue"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color_2f3543" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

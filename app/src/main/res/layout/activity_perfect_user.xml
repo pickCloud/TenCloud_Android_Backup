@@ -95,7 +95,7 @@
     <Button
         style="@style/BtnLoginStepNext"
         android:onClick="register"
-        android:text="确认并登入" />
+        android:text="确认并登录" />
 
     <TextView
         style="@style/BottomCompanyText"

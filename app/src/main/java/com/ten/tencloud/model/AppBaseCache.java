@@ -14,6 +14,8 @@ import com.ten.tencloud.constants.Constants;
 
 public class AppBaseCache {
 
+    private final String USER_INFO = "USER_INFO";
+
     private final String USER_NAME = "USER_NAME";
     private final String MOBILE = "MOBILE";
     private final String EMAIL = "EMAIL";
@@ -24,6 +26,7 @@ public class AppBaseCache {
     private static AppBaseCache sAppBaseCache;
     private static SPFHelper spfHelper;
 
+    private String userInfo;
     private String userName;
     private String mobile;
     private String eMail;
@@ -70,6 +73,21 @@ public class AppBaseCache {
         synchronized (this) {
             spfHelper = new SPFHelper(context, preferenceName);
         }
+    }
+
+    public User getUserInfo() {
+        if (TextUtils.isEmpty(userInfo)) {
+            String json = spfHelper.getString(USER_INFO, "");
+            return TenApp.getInstance().getGsonInstance().fromJson(json, User.class);
+        }
+        return TenApp.getInstance().getGsonInstance().fromJson(userInfo, User.class);
+    }
+
+    public AppBaseCache setUserInfo(User user) {
+        if (spfHelper.putString(USER_INFO, userInfo)) {
+            this.userInfo = TenApp.getInstance().getGsonInstance().toJson(user);
+        }
+        return this;
     }
 
     public String getUserName() {

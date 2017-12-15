@@ -51,7 +51,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".module.server.ui.ServerPerformanceHistoryActivity" />
         <activity android:name=".module.login.ui.PerfectUserActivity" />
-        <activity android:name=".module.server.ui.ServerChangeNameActivity"></activity>
+        <activity android:name=".module.server.ui.ServerChangeNameActivity" />
+        <activity android:name=".module.user.ui.UserInfoActivity" />
+        <activity android:name=".module.user.ui.UserUpdateActivity"></activity>
     </application>
 
 </manifest>

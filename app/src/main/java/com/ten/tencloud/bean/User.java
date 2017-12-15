@@ -14,6 +14,7 @@ public class User {
     private String password;
     private String image_url;
     private int gender;
+    private long birthday;
     private String cid;//公司ID
 
 
@@ -95,5 +96,13 @@ public class User {
 
     public void setCid(String cid) {
         this.cid = cid;
+    }
+
+    public long getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(long birthday) {
+        this.birthday = birthday;
     }
 }
