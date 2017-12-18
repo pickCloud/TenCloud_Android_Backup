@@ -4,8 +4,11 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.ten.tencloud.TenApp;
+import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.Constants;
+
+import io.objectbox.Box;
 
 /**
  * 基本参数缓存
@@ -14,26 +17,14 @@ import com.ten.tencloud.constants.Constants;
 
 public class AppBaseCache {
 
-    private final String USER_INFO = "USER_INFO";
-
-    private final String USER_NAME = "USER_NAME";
-    private final String MOBILE = "MOBILE";
-    private final String EMAIL = "EMAIL";
-    private final String SESSION_ID = "SESSION_ID";
     private final String TOKEN = "TOKEN";
     private final String CID = "CID";//公司ID
 
     private static AppBaseCache sAppBaseCache;
     private static SPFHelper spfHelper;
 
-    private String userInfo;
-    private String userName;
-    private String mobile;
-    private String eMail;
-    private String sessionId;
-
     private String token;
-    private String cid;
+    private int cid;
 
     private AppBaseCache(Context context) {
         spfHelper = new SPFHelper(context, Constants.SPF_NAME_USER);
@@ -52,15 +43,12 @@ public class AppBaseCache {
     public AppBaseCache resetAppBaseCache() {
         spfHelper.clearPreference();
         sAppBaseCache = new AppBaseCache(TenApp.getInstance());
+        Box<User> userBox = TenApp.getInstance().getBoxStore().boxFor(User.class);
+        User first = userBox.query().build().findFirst();
+        if (first != null) {
+            userBox.remove(first);
+        }
         return sAppBaseCache;
-    }
-
-    public AppBaseCache setUser(User user) {
-        setUserName(user.getName())
-                .setEmail(user.getEmail())
-                .setCid(user.getCid())
-                .setMobile(user.getMobile());
-        return this;
     }
 
     /**
@@ -76,46 +64,18 @@ public class AppBaseCache {
     }
 
     public User getUserInfo() {
-        if (TextUtils.isEmpty(userInfo)) {
-            String json = spfHelper.getString(USER_INFO, "");
-            return TenApp.getInstance().getGsonInstance().fromJson(json, User.class);
-        }
-        return TenApp.getInstance().getGsonInstance().fromJson(userInfo, User.class);
+        Box<User> userBox = TenApp.getInstance().getBoxStore().boxFor(User.class);
+        return userBox.query().build().findFirst();
     }
 
-    public AppBaseCache setUserInfo(User user) {
-        if (spfHelper.putString(USER_INFO, userInfo)) {
-            this.userInfo = TenApp.getInstance().getGsonInstance().toJson(user);
+    public void setUserInfo(User user) {
+        Box<User> userBox = TenApp.getInstance().getBoxStore().boxFor(User.class);
+        User first = userBox.query().build().findFirst();
+        if (first != null) {
+            userBox.remove(first);
         }
-        return this;
-    }
-
-    public String getUserName() {
-        if (TextUtils.isEmpty(userName)) {
-            return spfHelper.getString(USER_NAME, null);
-        }
-        return userName;
-    }
-
-    public AppBaseCache setUserName(String userName) {
-        if (spfHelper.putString(USER_NAME, userName)) {
-            this.userName = userName;
-        }
-        return this;
-    }
-
-    public String getSessionId() {
-        if (TextUtils.isEmpty(sessionId)) {
-            return spfHelper.getString(SESSION_ID, "");
-        }
-        return sessionId;
-    }
-
-    public AppBaseCache setSessionId(String sessionId) {
-        if (spfHelper.putString(SESSION_ID, sessionId)) {
-            this.sessionId = sessionId;
-        }
-        return this;
+        user.setId(0);
+        userBox.put(user);
     }
 
     public String getToken() {
@@ -132,45 +92,21 @@ public class AppBaseCache {
         return this;
     }
 
-    public String getCid() {
-        if (TextUtils.isEmpty(cid)) {
-            return spfHelper.getString(CID, "");
-        }
-        return cid;
+    public int getCid() {
+        return spfHelper.getInt(CID, 0);
     }
 
-    public AppBaseCache setCid(String cid) {
-        if (spfHelper.putString(CID, cid)) {
+    public AppBaseCache setCid(int cid) {
+        if (spfHelper.putInt(CID, cid)) {
             this.cid = cid;
         }
         return this;
     }
 
-    public String getMobile() {
-        if (TextUtils.isEmpty(mobile)) {
-            return spfHelper.getString(MOBILE, null);
-        }
-        return mobile;
+    public void saveUserInfoWithLogin(LoginInfoBean result) {
+        setUserInfo(result.getUser());
+        setCid(result.getCid());
+        setToken(result.getToken());
     }
 
-    public AppBaseCache setMobile(String mobile) {
-        if (spfHelper.putString(MOBILE, mobile)) {
-            this.mobile = mobile;
-        }
-        return this;
-    }
-
-    public String geteMail() {
-        if (TextUtils.isEmpty(eMail)) {
-            return spfHelper.getString(EMAIL, null);
-        }
-        return eMail;
-    }
-
-    public AppBaseCache setEmail(String eMail) {
-        if (spfHelper.putString(EMAIL, eMail)) {
-            this.eMail = eMail;
-        }
-        return this;
-    }
 }

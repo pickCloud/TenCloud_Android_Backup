@@ -71,8 +71,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, L
         createView(R.layout.activity_login);
         hideToolBar();
         StatusBarUtils.setTransparent(this);
-        String loginName = new SPFHelper(this, "").getString("loginName", "");
-//        mEtUsername.setText(loginName);
+        mMobile = new SPFHelper(this, "").getString("loginName", "");
+        mEtPhonePw.setText(mMobile);
         mLoginPresenter = new LoginPresenter();
         mLoginCaptchaPresenter = new LoginCaptchaPresenter();
         mLoginPresenter.attachView(this);

@@ -44,7 +44,7 @@ public class ServerListPresenter extends BasePresenter<ServerListContract.View>
                     @Override
                     public void _onSuccess(List<ServerBean> serverBeans) {
                         if (serverBeans == null || serverBeans.size() == 0) {
-                            mView.showMessage("搜索结果为空");
+                            mView.showEmpty();
                         } else {
                             mView.showServerList(serverBeans);
                         }

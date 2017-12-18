@@ -1,7 +1,7 @@
 package com.ten.tencloud.module.login.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
-import com.ten.tencloud.bean.User;
+import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.SPFHelper;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
@@ -22,10 +22,10 @@ public class RegisterPresenter extends BasePresenter<RegisterContract.View> impl
 
     @Override
     public void register(final String mobile, String password, String auth_code) {
-        mSubscriptions.add(mModel.register(mobile, password, auth_code).subscribe(new JesSubscribe<User>(mView) {
+        mSubscriptions.add(mModel.register(mobile, password, auth_code).subscribe(new JesSubscribe<LoginInfoBean>(mView) {
             @Override
-            public void _onSuccess(User user) {
-                AppBaseCache.getInstance().setToken(user.getToken());
+            public void _onSuccess(LoginInfoBean result) {
+                AppBaseCache.getInstance().saveUserInfoWithLogin(result);
                 SPFHelper spfHelper = new SPFHelper(mView.getContext(), "");
                 spfHelper.putString("loginName", mobile);
                 mView.registerSuccess();

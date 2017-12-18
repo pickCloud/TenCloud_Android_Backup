@@ -30,12 +30,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ten.tencloud.BuildConfig;
 import com.ten.tencloud.R;
 import com.ten.tencloud.constants.Constants;
-import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.module.login.ui.LoginActivity;
 import com.ten.tencloud.module.main.ui.MainActivity;
+import com.ten.tencloud.module.other.ui.TestActivity;
 import com.ten.tencloud.utils.ToastUtils;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.widget.dialog.LoadDialog;
@@ -63,8 +64,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     private BroadcastReceiver mLoginReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            if (mLoadDialog != null) {
+                mLoadDialog.cancel();
+            }
             if (Constants.LOGON_ACTION.equals(intent.getAction())) {
-                AppBaseCache.getInstance().resetAppBaseCache();
                 Intent loginIntent = new Intent(mContext, LoginActivity.class);
                 loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//清空堆栈
                 startActivity(loginIntent);
@@ -86,7 +89,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        registerReceiver(mLoginReceiver, new IntentFilter(Constants.LOGON_ACTION));
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.LOGON_ACTION);
+        filter.addAction(Constants.MAIN_ACTION);
+        registerReceiver(mLoginReceiver, filter);
     }
 
     protected void createView(@LayoutRes int layoutId) {
@@ -95,6 +101,16 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         FrameLayout mFlContent = (FrameLayout) findViewById(R.id.fl_content);
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
         mBarTitle = (TextView) findViewById(R.id.tv_bar_title);
+        //测试
+        mBarTitle.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (BuildConfig.DEBUG) {
+                    startActivityNoValue(mContext, TestActivity.class);
+                }
+                return false;
+            }
+        });
         mBarTitleSub = (TextView) findViewById(R.id.tv_bar_title_sub);
         appBar = (AppBarLayout) findViewById(R.id.app_bar);
         ll_search = (LinearLayout) findViewById(R.id.ll_search);
@@ -332,7 +348,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @Override
     public void hideLoading() {
         if (mLoadDialog != null) {
-            mLoadDialog.cancel();
+            mLoadDialog.cancelDelay();
         }
     }
 
@@ -389,7 +405,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         super.onDestroy();
         //反注册广播
         unregisterReceiver(mLoginReceiver);
-        hideLoading();
+        if (mLoadDialog != null) {
+            mLoadDialog.cancel();
+        }
         mLoadDialog = null;
     }
 
@@ -400,5 +418,4 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
                     hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
 }

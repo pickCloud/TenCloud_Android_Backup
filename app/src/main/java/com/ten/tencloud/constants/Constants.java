@@ -72,4 +72,10 @@ public class Constants {
     public static final int SMS_TIME_OUT = 10405;
 
 
+    /**
+     * 页面ResultCode
+     */
+    public static final int ACTIVITY_RESULT_CODE_REFRESH = 10086;
+
+
 }

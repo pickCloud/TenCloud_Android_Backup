@@ -24,7 +24,6 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                 .subscribe(new JesSubscribe<User>(mView) {
                     @Override
                     public void _onSuccess(User user) {
-                        AppBaseCache.getInstance().setUser(user);
                         AppBaseCache.getInstance().setUserInfo(user);
                         mView.showUserInfo(user);
                     }

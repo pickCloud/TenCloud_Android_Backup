@@ -2,6 +2,7 @@ package com.ten.tencloud.module.login.model;
 
 
 import com.ten.tencloud.TenApp;
+import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.bean.SendSMSBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.model.HttpResultFunc;
@@ -42,11 +43,11 @@ public class LoginModel {
      * @param password
      * @return
      */
-    public Observable<User> loginByPassword(String userName, String password) {
+    public Observable<LoginInfoBean> loginByPassword(String userName, String password) {
         User user = new User(userName, password);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(user));
         return TenApp.getRetrofitClient().getTenLoginApi().loginByPassword(body)
-                .map(new HttpResultFunc<User>())
+                .map(new HttpResultFunc<LoginInfoBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -58,13 +59,13 @@ public class LoginModel {
      * @param code
      * @return
      */
-    public Observable<User> loginByCode(String phone, String code) {
+    public Observable<LoginInfoBean> loginByCode(String phone, String code) {
         Map<String, String> map = new HashMap<>();
         map.put("mobile", phone);
         map.put("auth_code", code);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
         return TenApp.getRetrofitClient().getTenLoginApi().loginByCode(body)
-                .map(new HttpResultFunc<User>())
+                .map(new HttpResultFunc<LoginInfoBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -111,14 +112,14 @@ public class LoginModel {
      * @param auth_code
      * @return
      */
-    public Observable<User> register(String mobile, String password, String auth_code) {
+    public Observable<LoginInfoBean> register(String mobile, String password, String auth_code) {
         Map<String, String> map = new HashMap<>();
         map.put("mobile", mobile);
         map.put("password", password);
         map.put("auth_code", auth_code);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
         return TenApp.getRetrofitClient().getTenLoginApi().register(body)
-                .map(new HttpResultFunc<User>())
+                .map(new HttpResultFunc<LoginInfoBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

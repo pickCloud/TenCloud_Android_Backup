@@ -89,7 +89,7 @@ public abstract class BasePager extends LinearLayout implements IBaseView {
     @Override
     public void hideLoading() {
         if (mLoadDialog != null) {
-            mLoadDialog.cancel();
+            mLoadDialog.cancelDelay();
         }
     }
 

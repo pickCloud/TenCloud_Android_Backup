@@ -117,7 +117,7 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
     @Override
     public void hideLoading() {
         if (mLoadDialog != null) {
-            mLoadDialog.cancel();
+            mLoadDialog.cancelDelay();
         }
     }
 

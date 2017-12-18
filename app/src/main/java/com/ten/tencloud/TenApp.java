@@ -16,8 +16,12 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.socks.library.KLog;
 import com.squareup.leakcanary.LeakCanary;
+import com.ten.tencloud.bean.MyObjectBox;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.InitRetrofit;
+
+import io.objectbox.BoxStore;
 
 /**
  * Created by lxq on 2017/11/20.
@@ -28,6 +32,7 @@ public class TenApp extends Application {
     private static TenApp sTenApp;
     private static InitRetrofit sInitRetrofit;
     private static Gson gson;
+    private static BoxStore sBoxStore;
 
     public static TenApp getInstance() {
         return sTenApp;
@@ -41,6 +46,7 @@ public class TenApp extends Application {
         }
         LeakCanary.install(this);
         sTenApp = this;
+        sBoxStore = MyObjectBox.builder().androidContext(this).build();
         initRefreshView();
         //日志打印
         KLog.init(BuildConfig.DEBUG, Constants.PROJECT_NAME);
@@ -93,6 +99,7 @@ public class TenApp extends Application {
      * 跳转登录页
      */
     public void jumpLoginActivity() {
+        AppBaseCache.getInstance().resetAppBaseCache();
         Intent intent = new Intent(Constants.LOGON_ACTION);
         sendBroadcast(intent);
     }
@@ -122,5 +129,9 @@ public class TenApp extends Application {
             gson = new Gson();
         }
         return gson;
+    }
+
+    public synchronized BoxStore getBoxStore() {
+        return sBoxStore;
     }
 }

@@ -1,10 +1,17 @@
 package com.ten.tencloud.bean;
 
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
 /**
  * Created by lxq on 2017/11/21.
  */
 
+@Entity
 public class User {
+
+    @Id
+    private long id;
 
     private String token;
     private String name;
@@ -24,6 +31,14 @@ public class User {
     public User(String mobile, String password) {
         this.mobile = mobile;
         this.password = password;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getToken() {

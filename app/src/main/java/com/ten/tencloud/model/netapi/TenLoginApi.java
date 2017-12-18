@@ -1,6 +1,7 @@
 package com.ten.tencloud.model.netapi;
 
 import com.ten.tencloud.base.bean.JesResponse;
+import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.bean.User;
 
 import okhttp3.RequestBody;
@@ -17,10 +18,10 @@ import rx.Observable;
 public interface TenLoginApi {
 
     @POST("/api/user/login/password")
-    Observable<Response<JesResponse<User>>> loginByPassword(@Body RequestBody body);
+    Observable<Response<JesResponse<LoginInfoBean>>> loginByPassword(@Body RequestBody body);
 
     @POST("/api/user/login")
-    Observable<Response<JesResponse<User>>> loginByCode(@Body RequestBody body);
+    Observable<Response<JesResponse<LoginInfoBean>>> loginByCode(@Body RequestBody body);
 
     @POST("/api/user/sms")
     Observable<Response<JesResponse<Object>>> sendSms(@Body RequestBody body);
@@ -29,7 +30,7 @@ public interface TenLoginApi {
     Observable<Response<JesResponse<Object>>> reset(@Body RequestBody body);
 
     @POST("/api/user/register")
-    Observable<Response<JesResponse<User>>> register(@Body RequestBody body);
+    Observable<Response<JesResponse<LoginInfoBean>>> register(@Body RequestBody body);
 
     @POST("/api/user/password/set")
     Observable<Response<JesResponse<User>>> setPassword(@Body RequestBody body);

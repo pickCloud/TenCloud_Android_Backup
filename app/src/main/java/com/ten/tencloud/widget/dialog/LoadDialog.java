@@ -52,8 +52,7 @@ public class LoadDialog extends Dialog {
         });
     }
 
-    @Override
-    public void cancel() {
+    public void cancelDelay() {
         long currentTime = System.currentTimeMillis();
         long intervalTime = currentTime - showTime;
         if (intervalTime < MIN_LOADING_TIME) {
@@ -62,11 +61,12 @@ public class LoadDialog extends Dialog {
                     .subscribe(new Action1<Object>() {
                         @Override
                         public void call(Object o) {
-                            LoadDialog.super.cancel();
+                            cancel();
                         }
                     });
         } else {
-            super.cancel();
+            cancel();
         }
     }
+
 }

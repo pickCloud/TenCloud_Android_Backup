@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.presenter.BasePresenter;
-import com.ten.tencloud.bean.User;
+import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.SPFHelper;
@@ -33,10 +33,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             return;
         }
         Subscription mSubscribe = mModel.loginByPassword(phone, password)
-                .subscribe(new JesSubscribe<User>(mView) {
+                .subscribe(new JesSubscribe<LoginInfoBean>(mView) {
                     @Override
-                    public void _onSuccess(User result) {
-                        AppBaseCache.getInstance().setToken(result.getToken());
+                    public void _onSuccess(LoginInfoBean result) {
+                        AppBaseCache.getInstance().saveUserInfoWithLogin(result);
                         SPFHelper spfHelper = new SPFHelper(mView.getContext(), "");
                         spfHelper.putString("loginName", phone);
                         mView.loginSuccess();
@@ -58,10 +58,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         if (!verifyAccountByCode(phone, code)) {
             return;
         }
-        mSubscriptions.add(mModel.loginByCode(phone, code).subscribe(new JesSubscribe<User>(mView) {
+        mSubscriptions.add(mModel.loginByCode(phone, code).subscribe(new JesSubscribe<LoginInfoBean>(mView) {
             @Override
-            public void _onSuccess(User user) {
-                AppBaseCache.getInstance().setToken(user.getToken());
+            public void _onSuccess(LoginInfoBean result) {
+                AppBaseCache.getInstance().saveUserInfoWithLogin(result);
                 SPFHelper spfHelper = new SPFHelper(mView.getContext(), "");
                 spfHelper.putString("loginName", phone);
                 mView.loginSuccess();

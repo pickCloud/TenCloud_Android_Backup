@@ -16,6 +16,8 @@ public class ServerListContract {
     public interface View extends IBaseView {
         void showServerList(List<ServerBean> servers);
 
+        void showEmpty();
+
         void showProviders(List<ProviderBean> providers);
     }
 

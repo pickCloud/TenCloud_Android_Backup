@@ -13,6 +13,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.contract.UserHomeContract;
 import com.ten.tencloud.module.user.presenter.UserHomePresenter;
 import com.ten.tencloud.utils.Utils;
@@ -30,6 +31,8 @@ import butterknife.OnClick;
 
 public class MineFragment extends BaseFragment implements UserHomeContract.View {
 
+    @BindView(R.id.tv_switch)
+    TextView mTvSwitch;
     @BindView(R.id.tv_user_name)
     TextView mTvUserName;
     @BindView(R.id.iv_certification)
@@ -76,23 +79,25 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         }
     }
 
-    @OnClick({R.id.ll_user, R.id.btn_switch})
+    @OnClick({R.id.ll_user, R.id.tv_switch})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_user:
                 startActivity(new Intent(mActivity, UserInfoActivity.class));
                 break;
-            case R.id.btn_switch:
-
+            case R.id.tv_switch:
+                mTvSwitch.setSelected(!mTvSwitch.isSelected());
                 break;
         }
     }
 
     @Override
     public void showUserInfo(User user) {
-        mTvUserName.setText(user.getName());
-        mTvPhone.setText(Utils.hide4Phone(user.getMobile()));
-        GlideUtils.getInstance().loadCircleImage(mActivity, mIvAvatar, user.getImage_url(), R.mipmap.icon_userphoto);
+        if (user != null) {
+            mTvUserName.setText(user.getName());
+            mTvPhone.setText(Utils.hide4Phone(user.getMobile()));
+            GlideUtils.getInstance().loadCircleImage(mActivity, mIvAvatar, user.getImage_url(), R.mipmap.icon_userphoto);
+        }
     }
 
     @Override
@@ -102,5 +107,11 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
             count = companies.size();
         }
         mTvCompanyDes.setText(count + "家公司");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showUserInfo(AppBaseCache.getInstance().getUserInfo());
     }
 }

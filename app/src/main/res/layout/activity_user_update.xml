@@ -38,11 +38,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@id/ll_gender"
+        android:id="@+id/ll_gender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +50,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/ll_gender"
+                android:id="@+id/ll_man"
                 style="@style/SettingItemLayout">
 
                 <TextView
@@ -86,7 +85,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/ll_birth"
+                android:id="@+id/ll_woman"
                 style="@style/SettingItemLayout">
 
                 <TextView

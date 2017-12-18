@@ -141,6 +141,12 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
     }
 
     @Override
+    public void showEmpty() {
+        showMessage("搜索结果为空");
+        mServerAdapter.clear();
+    }
+
+    @Override
     public void showProviders(List<ProviderBean> providers) {
         this.providers = providers;
         mServerFilterDialog.setData(providers);

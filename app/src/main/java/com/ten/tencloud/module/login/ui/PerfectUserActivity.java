@@ -34,7 +34,6 @@ public class PerfectUserActivity extends BaseActivity implements PerfectUserCont
 
 
     public void register(View view) {
-        setSuccess();
         String newPW = mEtNewPW.getText().toString().trim();
         String newPWVerify = mEtNewPWVerify.getText().toString().trim();
         if (TextUtils.isEmpty(newPW) || TextUtils.isEmpty(newPWVerify)) {
@@ -55,7 +54,6 @@ public class PerfectUserActivity extends BaseActivity implements PerfectUserCont
     @Override
     public void setSuccess() {
         TenApp.getInstance().jumpMainActivity();
-        finish();
     }
 
     @Override

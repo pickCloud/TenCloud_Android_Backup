@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.utils.DateUtils;
 import com.ten.tencloud.utils.Utils;
@@ -31,6 +32,7 @@ public class UserInfoActivity extends BaseActivity {
     TextView mTvGender;
     @BindView(R.id.tv_birth_des)
     TextView mTvBirth;
+    private User mUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +43,14 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void initView() {
-        User userInfo = AppBaseCache.getInstance().getUserInfo();
-        GlideUtils.getInstance().loadCircleImage(this, mIvAvatar, userInfo.getImage_url(), R.mipmap.icon_userphoto);
-        mTvName.setText(Utils.strIsEmptyForDefault(userInfo.getName(), "未设置"));
-        mTvEmail.setText(Utils.strIsEmptyForDefault(userInfo.getEmail(), "未设置"));
-        mTvBirth.setText(DateUtils.timestampToString(userInfo.getBirthday(), "yyyy-MM-dd"));
-        if (userInfo.getGender() == 1) {
+        mUserInfo = AppBaseCache.getInstance().getUserInfo();
+        GlideUtils.getInstance().loadCircleImage(this, mIvAvatar, mUserInfo.getImage_url(), R.mipmap.icon_userphoto);
+        mTvName.setText(Utils.strIsEmptyForDefault(mUserInfo.getName(), "未设置"));
+        mTvEmail.setText(Utils.strIsEmptyForDefault(mUserInfo.getEmail(), "未设置"));
+        mTvBirth.setText(DateUtils.timestampToString(mUserInfo.getBirthday(), "yyyy-MM-dd"));
+        if (mUserInfo.getGender() == 1) {
             mTvGender.setText("男");
-        } else if (userInfo.getGender() == 2) {
+        } else if (mUserInfo.getGender() == 2) {
             mTvGender.setText("女");
         } else {
             mTvGender.setText("未知");
@@ -65,7 +67,8 @@ public class UserInfoActivity extends BaseActivity {
             case R.id.ll_name: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);
                 intent.putExtra("type", UserUpdateActivity.TYPE_NAME);
-                startActivity(intent);
+                intent.putExtra("name", mUserInfo.getName());
+                startActivityForResult(intent, 0);
                 break;
             }
 
@@ -75,19 +78,28 @@ public class UserInfoActivity extends BaseActivity {
             case R.id.ll_email: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);
                 intent.putExtra("type", UserUpdateActivity.TYPE_EMAIL);
-                startActivity(intent);
+                intent.putExtra("email", mUserInfo.getEmail());
+                startActivityForResult(intent, 0);
                 break;
             }
 
             case R.id.ll_gender: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);
                 intent.putExtra("type", UserUpdateActivity.TYPE_GENDER);
-                startActivity(intent);
+                intent.putExtra("gender", mUserInfo.getGender());
+                startActivityForResult(intent, 0);
                 break;
             }
             case R.id.ll_birth:
 
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
+            initView();
         }
     }
 }

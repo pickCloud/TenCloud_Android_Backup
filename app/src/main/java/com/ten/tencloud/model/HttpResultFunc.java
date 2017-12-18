@@ -1,13 +1,11 @@
 package com.ten.tencloud.model;
 
 
-import android.text.TextUtils;
-
+import com.google.gson.Gson;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.bean.JesResponse;
+import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.constants.Constants;
-
-import java.util.Map;
 
 import retrofit2.Response;
 import rx.functions.Func1;
@@ -36,11 +34,10 @@ public class HttpResultFunc<T> implements Func1<Response<JesResponse<T>>, T> {
                 jesResponse = TenApp.getInstance().getGsonInstance()
                         .fromJson(response.errorBody().string(), JesResponse.class);
                 if (jesResponse != null && jesResponse.getData() != null) {
-                    Map<String, String> data1 = (Map) jesResponse.getData();
-                    String token = data1.get("token");
-                    if (!TextUtils.isEmpty(token)) {
-                        AppBaseCache.getInstance().setToken(token);
-                    }
+                    Gson gson = TenApp.getInstance().getGsonInstance();
+                    String json = gson.toJson(jesResponse.getData());
+                    LoginInfoBean loginInfo = gson.fromJson(json, LoginInfoBean.class);
+                    AppBaseCache.getInstance().saveUserInfoWithLogin(loginInfo);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
