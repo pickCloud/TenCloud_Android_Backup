@@ -75,7 +75,7 @@ public class Constants {
     /**
      * 页面ResultCode
      */
-    public static final int ACTIVITY_RESULT_CODE_REFRESH = 10086;
+    public static final int ACTIVITY_RESULT_CODE_REFRESH = 20086;
 
 
 }

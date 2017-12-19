@@ -51,11 +51,11 @@ public class RvServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBean, RvSe
         //net
         holder.tvNet.setText(Utils.handNetSpeed(serverBean.getNet_content()));
         String provider = serverBean.getProvider();
-        if (provider.contains("阿里云")) {
+        if ("阿里云".equals(provider)) {
             holder.ivProviderIcon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_aliyun));
-        } else if (provider.contains("亚马逊云")) {
+        } else if ("亚马逊云".equals(provider)) {
             holder.ivProviderIcon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_amazon));
-        } else if (provider.contains("微软云")) {
+        } else if ("微软云".equals(provider)) {
             holder.ivProviderIcon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_microyun));
         }
     }

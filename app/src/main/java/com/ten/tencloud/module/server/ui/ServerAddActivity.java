@@ -38,6 +38,7 @@ public class ServerAddActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_add);
         initTitleBar(true, "添加主机");
+        // TODO: 2017/12/19 Service
         mServerAddModel = new ServerAddModel(new ServerAddModel.onServerAddListener() {
             @Override
             public void setData(WebSocket webSocket) {

@@ -83,6 +83,7 @@ public class ServerHistoryTimeDialog extends Dialog {
         mPvStartTime = new TimePickerView.Builder(context, mTimeSelectListener)
                 .setRangDate(handTime(DEFALUT_START_MIN), handTime(System.currentTimeMillis() / 1000))
                 .setDecorView((ViewGroup) window.getDecorView())
+                .isCenterLabel(false)
                 .build();
         endMin = startTime;
         mView.setAlpha(0.5f);
@@ -123,6 +124,7 @@ public class ServerHistoryTimeDialog extends Dialog {
         mPvEndTime = new TimePickerView.Builder(context, mTimeSelectListener)
                 .setRangDate(handTime(endMin), handTime(System.currentTimeMillis() / 1000))
                 .setDecorView((ViewGroup) getWindow().getDecorView())
+                .isCenterLabel(false)
                 .build();
     }
 

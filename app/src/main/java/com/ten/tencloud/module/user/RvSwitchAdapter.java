@@ -1,0 +1,91 @@
+package com.ten.tencloud.module.user;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
+import com.ten.tencloud.bean.CompanyBean;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * Created by lxq on 2017/12/19.
+ */
+
+public class RvSwitchAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, RvSwitchAdapter.ViewHolder> {
+
+    private int selectPos = -1;//选中
+
+    public RvSwitchAdapter(Context context) {
+        super(context);
+    }
+
+    @Override
+    protected ViewHolder doOnCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.item_role_switch, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    protected void doOnBindViewHolder(ViewHolder holder, final int position) {
+        holder.ivSelect.setVisibility(selectPos == position ? View.VISIBLE : View.INVISIBLE);
+        holder.tvName.setText(datas.get(position).getCompany_name());
+        holder.tvName.setSelected(selectPos == position);
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectPos != position) {
+                    notifyItemChanged(selectPos);
+                    selectPos = position;
+                    notifyItemChanged(position);
+                    if (mOnSelectListener != null) {
+                        mOnSelectListener.onSelect(datas.get(position));
+                    }
+                }
+            }
+        });
+    }
+
+    public void setSelectCid(int cid) {
+        int temp = 0;
+        for (CompanyBean data : datas) {
+            if (data.getCid() == cid) {
+                selectPos = temp;
+                return;
+            }
+            temp++;
+        }
+    }
+
+    public interface OnSelectListener {
+        void onSelect(CompanyBean company);
+    }
+
+    private OnSelectListener mOnSelectListener;
+
+    public void setOnSelectListener(OnSelectListener onSelectListener) {
+        mOnSelectListener = onSelectListener;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_name)
+        TextView tvName;
+        @BindView(R.id.iv_select)
+        ImageView ivSelect;
+        @BindView(R.id.ll_layout)
+        View view;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+}

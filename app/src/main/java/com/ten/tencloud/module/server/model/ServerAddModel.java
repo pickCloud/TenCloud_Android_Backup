@@ -55,6 +55,7 @@ public class ServerAddModel {
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 t.printStackTrace();
                 KLog.d(t.getMessage());
+                ToastUtils.showLongToast("添加发生异常，请重试");
             }
         };
         mClient = new OkHttpClient();
