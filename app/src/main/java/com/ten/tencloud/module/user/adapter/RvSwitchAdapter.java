@@ -1,4 +1,4 @@
-package com.ten.tencloud.module.user;
+package com.ten.tencloud.module.user.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.CompanyBean;
@@ -36,6 +37,9 @@ public class RvSwitchAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, RvS
 
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, final int position) {
+
+        KLog.d("selectPos=====>" + selectPos);
+
         holder.ivSelect.setVisibility(selectPos == position ? View.VISIBLE : View.INVISIBLE);
         holder.tvName.setText(datas.get(position).getCompany_name());
         holder.tvName.setSelected(selectPos == position);
@@ -55,13 +59,11 @@ public class RvSwitchAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, RvS
     }
 
     public void setSelectCid(int cid) {
-        int temp = 0;
-        for (CompanyBean data : datas) {
-            if (data.getCid() == cid) {
-                selectPos = temp;
-                return;
+        for (int i = 0; i < datas.size(); i++) {
+            if (datas.get(i).getCid() == cid) {
+                selectPos = i;
+                break;
             }
-            temp++;
         }
     }
 

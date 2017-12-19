@@ -13,12 +13,13 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.model.AppBaseCache;
-import com.ten.tencloud.module.user.RvSwitchAdapter;
+import com.ten.tencloud.module.user.adapter.RvSwitchAdapter;
 import com.ten.tencloud.module.user.contract.UserHomeContract;
 import com.ten.tencloud.module.user.presenter.UserHomePresenter;
 import com.ten.tencloud.utils.UiUtils;
@@ -78,6 +79,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         mUserHomePresenter = new UserHomePresenter();
         mUserHomePresenter.attachView(this);
         mUserInfo = AppBaseCache.getInstance().getUserInfo();
+        cid = AppBaseCache.getInstance().getCid();
+        KLog.d("cid==>" + cid);
         initPopupWindow();
         initView();
     }
@@ -108,6 +111,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
             @Override
             public void onSelect(CompanyBean company) {
                 cid = company.getCid();
+                AppBaseCache.getInstance().setCid(cid);
                 mSelectCompany = company;
                 mPopupWindow.dismiss();
                 initView();
@@ -179,6 +183,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         }
         mTvCompanyDes.setText(count + "家公司");
         mAdapter.setDatas(data);
+        mAdapter.setSelectCid(cid);
     }
 
     @Override
