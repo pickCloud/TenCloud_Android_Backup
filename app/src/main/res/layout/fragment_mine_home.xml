@@ -278,6 +278,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_setting"
         style="@style/SettingItemLayout"
         android:layout_marginTop="16dp">
 

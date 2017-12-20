@@ -15,11 +15,15 @@ public class UserHomeContract {
         void showUserInfo(User user);
 
         void showCompanies(List<CompanyBean> companies);
+
+        void showCompanyInfo(CompanyBean companyInfo);
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
         void getUserInfo();
 
         void getCompanies();
+
+        void getCompanyByCid(int cid);
     }
 }

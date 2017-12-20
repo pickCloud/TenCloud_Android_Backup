@@ -76,6 +76,20 @@ public class UserModel {
     }
 
     /**
+     * 获取公司详情
+     *
+     * @param cid
+     * @return
+     */
+    public Observable<List<CompanyBean>> getCompanyInfoByCid(int cid) {
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .getCompanyInfoByCid(cid)
+                .map(new HttpResultFunc<List<CompanyBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
      * 修改用户信息
      *
      * @param map
@@ -90,4 +104,21 @@ public class UserModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    /**
+     * 修改企业信息
+     *
+     * @param map
+     * @return
+     */
+    public Observable<Object> updateCompanyInfo(Map<String, Object> map) {
+        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .updateCompanyInfo(body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

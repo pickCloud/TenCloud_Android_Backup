@@ -11,11 +11,11 @@ import com.ten.tencloud.BuildConfig;
 
 public class Url {
 //    public static final String BASE_URL_DEBUG = "http://47.94.18.22:18010";
-    public static final String BASE_URL_DEBUG = "http://47.94.18.22:18080";
+    public static final String BASE_URL_DEBUG = "https://c.10.com";
 
-    public final static String WEBSOCKET_UEL_DEBUG = "ws://47.94.18.22:18080";
+    public final static String WEBSOCKET_UEL_DEBUG = "ws://c.10.com";
 
-    public static final String BASE_URL_PUBLIC = "http://47.94.18.22:18080";
+    public static final String BASE_URL_PUBLIC = "https://c.10.com";
 //    public static final String BASE_URL_PUBLIC = "https://c.10.com";
 
     public static String BASE_URL;

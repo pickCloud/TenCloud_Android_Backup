@@ -41,4 +41,17 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                     }
                 }));
     }
+
+    @Override
+    public void getCompanyByCid(int cid) {
+        mSubscriptions.add(UserModel.getInstance().getCompanyInfoByCid(cid)
+                .subscribe(new JesSubscribe<List<CompanyBean>>(mView) {
+                    @Override
+                    public void _onSuccess(List<CompanyBean> companyBean) {
+                        if (companyBean != null && companyBean.size() > 0) {
+                            mView.showCompanyInfo(companyBean.get(0));
+                        }
+                    }
+                }));
+    }
 }

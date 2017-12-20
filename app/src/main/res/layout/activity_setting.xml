@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_account"
+        style="@style/SettingItemLayout">
+
+        <TextView
+            style="@style/SettingItemLabel"
+            android:text="账号安全" />
+
+        <TextView style="@style/SettingItemDes" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_arrow_right" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_logout"
+        style="@style/SettingItemLayout"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <TextView
+            style="@style/SettingItemLabel"
+            android:text="退出登录" />
+
+    </LinearLayout>
+
+</LinearLayout>

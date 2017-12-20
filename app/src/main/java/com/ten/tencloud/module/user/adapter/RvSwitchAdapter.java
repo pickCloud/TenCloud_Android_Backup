@@ -38,8 +38,6 @@ public class RvSwitchAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, RvS
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, final int position) {
 
-        KLog.d("selectPos=====>" + selectPos);
-
         holder.ivSelect.setVisibility(selectPos == position ? View.VISIBLE : View.INVISIBLE);
         holder.tvName.setText(datas.get(position).getCompany_name());
         holder.tvName.setSelected(selectPos == position);

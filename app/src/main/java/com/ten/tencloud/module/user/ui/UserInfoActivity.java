@@ -97,7 +97,7 @@ public class UserInfoActivity extends BaseActivity implements UserUpdateContract
                 break;
             case R.id.ll_name: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);
-                intent.putExtra("type", UserUpdateActivity.TYPE_NAME);
+                intent.putExtra("type", UserUpdateActivity.TYPE_USER_NAME);
                 intent.putExtra("name", mUserInfo.getName());
                 startActivityForResult(intent, 0);
                 break;
@@ -108,7 +108,7 @@ public class UserInfoActivity extends BaseActivity implements UserUpdateContract
                 break;
             case R.id.ll_email: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);
-                intent.putExtra("type", UserUpdateActivity.TYPE_EMAIL);
+                intent.putExtra("type", UserUpdateActivity.TYPE_USER_EMAIL);
                 intent.putExtra("email", mUserInfo.getEmail());
                 startActivityForResult(intent, 0);
                 break;
@@ -116,7 +116,7 @@ public class UserInfoActivity extends BaseActivity implements UserUpdateContract
 
             case R.id.ll_gender: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);
-                intent.putExtra("type", UserUpdateActivity.TYPE_GENDER);
+                intent.putExtra("type", UserUpdateActivity.TYPE_USER_GENDER);
                 intent.putExtra("gender", mUserInfo.getGender());
                 startActivityForResult(intent, 0);
                 break;

@@ -22,6 +22,8 @@ public class User {
     private String image_url;
     private int gender;
     private long birthday;
+    private String create_time;
+
     private String cid;//公司ID
 
 
@@ -119,5 +121,13 @@ public class User {
 
     public void setBirthday(long birthday) {
         this.birthday = birthday;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 }

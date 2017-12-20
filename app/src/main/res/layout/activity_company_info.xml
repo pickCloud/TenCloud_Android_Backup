@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="82.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_logo"
+            style="@style/SettingItemLayout"
+            android:layout_height="82dp">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:layout_weight="1"
+                android:text="LOGO" />
+
+            <com.ten.tencloud.widget.CircleImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@mipmap/icon_userphoto" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_name"
+            style="@style/SettingItemLayout">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="企业名称" />
+
+            <TextView
+                android:id="@+id/tv_name_des"
+                style="@style/SettingItemDes" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_contacts"
+            style="@style/SettingItemLayout">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="联系人" />
+
+            <TextView
+                android:id="@+id/tv_contacts_des"
+                style="@style/SettingItemDes" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_contacts_call"
+            style="@style/SettingItemLayout">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="联系方式" />
+
+            <TextView
+                android:id="@+id/tv_contacts_call_des"
+                style="@style/SettingItemDes" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_time"
+            style="@style/SettingItemLayout">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="添加时间" />
+
+            <TextView
+                android:id="@+id/tv_time_des"
+                style="@style/SettingItemDes" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_authentication"
+            style="@style/SettingItemLayout">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="是否认证" />
+
+            <TextView
+                android:id="@+id/tv_authentication_des"
+                style="@style/SettingItemDes"
+                android:text="还未认证" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_auth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

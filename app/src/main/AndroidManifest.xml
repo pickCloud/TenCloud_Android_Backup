@@ -54,7 +54,11 @@
         <activity android:name=".module.server.ui.ServerChangeNameActivity" />
         <activity android:name=".module.user.ui.UserInfoActivity" />
         <activity android:name=".module.user.ui.UserUpdateActivity" />
-        <activity android:name=".module.other.ui.TestActivity"></activity>
+        <activity android:name=".module.other.ui.TestActivity" />
+        <activity android:name=".module.user.ui.CompanyInfoActivity" />
+        <activity android:name=".module.user.ui.CompanyNameSubmitActivity" />
+        <activity android:name=".module.user.ui.SettingActivity" />
+        <activity android:name=".module.user.ui.SettingAccountActivity"></activity>
     </application>
 
 </manifest>

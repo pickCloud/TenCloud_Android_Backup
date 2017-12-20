@@ -2,18 +2,17 @@ package com.ten.tencloud.module.user.contract;
 
 import com.ten.tencloud.base.presenter.IBasePresenter;
 import com.ten.tencloud.base.view.IBaseView;
+import com.ten.tencloud.bean.CompanyBean;
 
 /**
  * Created by lxq on 2017/12/14.
  */
-public class UserUpdateContract {
+public class CompanyInfoContract {
     public interface View extends IBaseView {
-        void updateSuccess();
+        void showCompanyInfo(CompanyBean companyInfo);
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
-        void updateUserInfo(String key, String value);
-
-        void updateCompanyInfo(int cid, String name, String contact, String mobile);
+        void getCompanyByCid(int cid);
     }
 }

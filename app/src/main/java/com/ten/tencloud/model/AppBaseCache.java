@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.ten.tencloud.TenApp;
+import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.Constants;
@@ -19,12 +20,14 @@ public class AppBaseCache {
 
     private final String TOKEN = "TOKEN";
     private final String CID = "CID";//公司ID
+    private final String LOGIN_COMPANY = "LOGIN_COMPANY";//记录登录的公司
 
     private static AppBaseCache sAppBaseCache;
     private static SPFHelper spfHelper;
 
     private String token;
     private int cid;
+    private String loginCompany;
 
     private AppBaseCache(Context context) {
         spfHelper = new SPFHelper(context, Constants.SPF_NAME_USER);
@@ -109,4 +112,16 @@ public class AppBaseCache {
         setToken(result.getToken());
     }
 
+    public void saveSelectCompanyWithLogin(CompanyBean companyBean) {
+        String json = TenApp.getInstance().getGsonInstance().toJson(companyBean);
+        spfHelper.putString(LOGIN_COMPANY, json);
+    }
+
+    public CompanyBean getSelectCompanyWithLogin() {
+        String json = spfHelper.getString(LOGIN_COMPANY, "");
+        if (TextUtils.isEmpty(json)) {
+            return null;
+        }
+        return TenApp.getInstance().getGsonInstance().fromJson(json, CompanyBean.class);
+    }
 }

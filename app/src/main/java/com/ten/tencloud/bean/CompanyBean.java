@@ -19,8 +19,10 @@ public class CompanyBean {
     private String name;
     private int id;
     private String contact;
-    private Object description;
+    private String description;
     private String mobile;
+    private String update_time;
+    private String create_time;
 
     //===========
     private String company_name;
@@ -52,11 +54,11 @@ public class CompanyBean {
         this.contact = contact;
     }
 
-    public Object getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -98,5 +100,21 @@ public class CompanyBean {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 }

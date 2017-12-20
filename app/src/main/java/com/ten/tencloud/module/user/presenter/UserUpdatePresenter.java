@@ -27,4 +27,21 @@ public class UserUpdatePresenter extends BasePresenter<UserUpdateContract.View>
                     }
                 }));
     }
+
+    @Override
+    public void updateCompanyInfo(int cid, String name, String contact, String mobile) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("name", name);
+        map.put("contact", contact);
+        map.put("mobile", mobile);
+
+        mSubscriptions.add(UserModel.getInstance().updateCompanyInfo(map)
+                .subscribe(new JesSubscribe<Object>(mView) {
+                    @Override
+                    public void _onSuccess(Object o) {
+                        mView.updateSuccess();
+                    }
+                }));
+    }
 }

@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.CompanyBean;
@@ -80,7 +79,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         mUserHomePresenter.attachView(this);
         mUserInfo = AppBaseCache.getInstance().getUserInfo();
         cid = AppBaseCache.getInstance().getCid();
-        KLog.d("cid==>" + cid);
+        mSelectCompany = AppBaseCache.getInstance().getSelectCompanyWithLogin();
         initPopupWindow();
         initView();
     }
@@ -91,13 +90,11 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
             mViewRoleUser.setVisibility(View.VISIBLE);
             mIvCertification.setImageResource(R.mipmap.icon_idcard_off);
             mTvUserName.setVisibility(View.GONE);
-            mTvName.setText(mUserInfo.getName());
         } else {
             mViewRoleUser.setVisibility(View.GONE);
             mViewRoleCompany.setVisibility(View.VISIBLE);
             mIvCertification.setImageResource(R.mipmap.icon_comreg_off);
             mTvUserName.setVisibility(View.VISIBLE);
-            mTvName.setText(mSelectCompany.getCompany_name());
         }
     }
 
@@ -111,10 +108,12 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
             @Override
             public void onSelect(CompanyBean company) {
                 cid = company.getCid();
-                AppBaseCache.getInstance().setCid(cid);
                 mSelectCompany = company;
+                AppBaseCache.getInstance().setCid(cid);
+                AppBaseCache.getInstance().saveSelectCompanyWithLogin(company);
                 mPopupWindow.dismiss();
                 initView();
+                showUserInfo(mUserInfo);
             }
         });
         contentView.setAdapter(mAdapter);
@@ -141,16 +140,26 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         }
     }
 
-    @OnClick({R.id.ll_user, R.id.tv_switch})
+    @OnClick({R.id.ll_user, R.id.tv_switch, R.id.ll_setting})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_user:
-                startActivity(new Intent(mActivity, UserInfoActivity.class));
+                if (cid == 0) {
+                    startActivity(new Intent(mActivity, UserInfoActivity.class));
+                } else {
+                    Intent intent = new Intent(mActivity, CompanyInfoActivity.class);
+                    intent.putExtra("cid", cid);
+                    intent.putExtra("isAdmin", mSelectCompany.getIs_admin());
+                    startActivity(intent);
+                }
                 break;
             case R.id.tv_switch:
                 mTvSwitch.setSelected(true);
                 mPopupWindow.showAsDropDown(mTvSwitch, 0
                         , UiUtils.dip2px(mActivity, 8));
+                break;
+            case R.id.ll_setting:
+                startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
         }
     }
@@ -164,7 +173,11 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
                 mTvName.setText(user.getName());
                 GlideUtils.getInstance().loadCircleImage(mActivity, mIvAvatar, user.getImage_url(), R.mipmap.icon_userphoto);
             } else {
-                mTvName.setText(mSelectCompany.getCompany_name());
+                if (mSelectCompany == null) {
+                    mUserHomePresenter.getCompanyByCid(cid);
+                } else {
+                    mTvName.setText(mSelectCompany.getCompany_name());
+                }
             }
         }
     }
@@ -184,6 +197,13 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         mTvCompanyDes.setText(count + "家公司");
         mAdapter.setDatas(data);
         mAdapter.setSelectCid(cid);
+    }
+
+    @Override
+    public void showCompanyInfo(CompanyBean companyInfo) {
+        companyInfo.setCid(companyInfo.getId());
+        mSelectCompany = companyInfo;
+        mTvName.setText(companyInfo.getName());
     }
 
     @Override
