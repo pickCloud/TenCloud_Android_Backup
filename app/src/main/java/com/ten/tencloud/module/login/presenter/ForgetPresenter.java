@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.login.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
+import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.login.contract.ForgetContract;
 import com.ten.tencloud.module.login.model.LoginModel;
@@ -19,11 +20,16 @@ public class ForgetPresenter extends BasePresenter<ForgetContract.View> implemen
 
 
     @Override
-    public void findPassword(String mobile, String new_password, String auth_code) {
-        mSubscriptions.add(mModel.reset(mobile,new_password,auth_code).subscribe(new JesSubscribe<Object>(mView) {
+    public void findPassword(String mobile, String new_password, String auth_code, String oldPw) {
+        mSubscriptions.add(mModel.reset(mobile, new_password, auth_code, oldPw).subscribe(new JesSubscribe<Object>(mView) {
             @Override
             public void _onSuccess(Object o) {
                 mView.findSuccess();
+            }
+
+            @Override
+            public void _onError(JesException e) {
+                mView.findFailed(e);
             }
         }));
     }

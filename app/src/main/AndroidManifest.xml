@@ -58,7 +58,9 @@
         <activity android:name=".module.user.ui.CompanyInfoActivity" />
         <activity android:name=".module.user.ui.CompanyNameSubmitActivity" />
         <activity android:name=".module.user.ui.SettingActivity" />
-        <activity android:name=".module.user.ui.SettingAccountActivity"></activity>
+        <activity android:name=".module.user.ui.SettingAccountActivity" />
+        <activity android:name=".module.user.ui.SettingChangePhoneActivity" />
+        <activity android:name=".module.user.ui.SettingChangePWResultActivity"></activity>
     </application>
 
 </manifest>

@@ -192,7 +192,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                         if (TextUtils.isEmpty(companyContactCall)) {
                             showMessage("联系方式不能为空");
                             return;
-                        } else if (!Utils.isPhone(companyContactCall)) {
+                        } else if (!Utils.isMobile(companyContactCall)) {
                             showMessage("联系方式格式不正确");
                             return;
                         }

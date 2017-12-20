@@ -66,6 +66,8 @@ public class Constants {
     public static final int NET_CODE_RE_LOGIN = 403;
 
     public static final int NET_CODE_NO_MOTHED = 405;
+
+    public static final int NET_CODE_NOT_FOUND = 404;
     //500
     public static final int NET_CODE_INTERNAL_ERROR = 10500;
     //短信验证码超过次数

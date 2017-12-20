@@ -57,11 +57,10 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
         } else if (e instanceof JesException) {
             exception = (JesException) e;
             handleJesException(exception);
-            _onError((JesException) e);
         } else {
             exception = new JesException(e.getMessage(), 100050);
         }
-        mView.showError(exception);
+        _onError((JesException) e);
     }
 
     private void handleJesException(JesException exception) {
@@ -81,7 +80,7 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
     public abstract void _onSuccess(T t);
 
     public void _onError(JesException e) {
-
+        mView.showError(e);
     }
 
 }

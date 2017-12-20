@@ -122,6 +122,10 @@ public class Utils {
         return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
     }
 
+    public static String hide6Phone(String phone) {
+        return phone.replaceAll("(\\d{3})\\d{6}(\\d{2})", "$1******$2");
+    }
+
     public static String strIsEmptyForDefault(String str, String defaultStr) {
         return TextUtils.isEmpty(str) ? defaultStr : str;
     }

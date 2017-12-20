@@ -6,6 +6,7 @@ import com.ten.tencloud.bean.User;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -116,6 +117,21 @@ public class UserModel {
         RequestBody body = RetrofitUtils.stringToJsonBody(json);
         return TenApp.getRetrofitClient().getTenUserApi()
                 .updateCompanyInfo(body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    public Observable<Object> changePhone(String new_mobile,String auth_code,String password){
+        Map<String,String> map = new HashMap<>();
+        map.put("new_mobile",new_mobile);
+        map.put("auth_code",auth_code);
+        map.put("password",password);
+        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .changePhone(body)
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

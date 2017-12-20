@@ -1,6 +1,8 @@
 package com.ten.tencloud.module.login.model;
 
 
+import android.text.TextUtils;
+
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.bean.SendSMSBean;
@@ -92,11 +94,14 @@ public class LoginModel {
      * @param auth_code
      * @return
      */
-    public Observable<Object> reset(String mobile, String new_password, String auth_code) {
+    public Observable<Object> reset(String mobile, String new_password, String auth_code, String old_password) {
         Map<String, String> map = new HashMap<>();
         map.put("mobile", mobile);
         map.put("new_password", new_password);
         map.put("auth_code", auth_code);
+        if (!TextUtils.isEmpty(old_password)) {
+            map.put("old_password", old_password);
+        }
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
         return TenApp.getRetrofitClient().getTenLoginApi().reset(body)
                 .map(new HttpResultFunc<>())

@@ -11,7 +11,9 @@
         android:background="@color/bg_232730"
         android:orientation="vertical">
 
-        <LinearLayout style="@style/SettingItemLayout">
+        <LinearLayout
+            android:id="@+id/ll_phone"
+            style="@style/SettingItemLayout">
 
             <TextView
                 style="@style/SettingItemLabel"
@@ -37,7 +39,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_template"
         android:layout_width="match_parent"
         android:layout_height="48.5dp"
         android:background="@color/bg_232730"

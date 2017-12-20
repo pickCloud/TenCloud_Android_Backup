@@ -26,7 +26,8 @@ public class HttpResultFunc<T> implements Func1<Response<JesResponse<T>>, T> {
                 throw new JesException(jesResponse.getMessage(), jesResponse.getStatus());
             }
             return jesResponse.getData();
-        } else if (response.code() == Constants.NET_CODE_NO_MOTHED) {
+        } else if (response.code() == Constants.NET_CODE_NO_MOTHED
+                || response.code() == Constants.NET_CODE_NOT_FOUND) {
             throw new JesException("服务器内部错误", Constants.NET_CODE_NO_MOTHED);
         } else {
             JesResponse jesResponse = null;

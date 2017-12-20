@@ -43,5 +43,7 @@ public interface TenUserApi {
     @POST("/api/company/update")
     Observable<Response<JesResponse<Object>>> updateCompanyInfo(@Body RequestBody body);
 
+    @POST("/api/user/mobile/reset")
+    Observable<Response<JesResponse<Object>>> changePhone(@Body RequestBody body);
 
 }
