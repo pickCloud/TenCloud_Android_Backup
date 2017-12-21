@@ -60,7 +60,9 @@
         <activity android:name=".module.user.ui.SettingActivity" />
         <activity android:name=".module.user.ui.SettingAccountActivity" />
         <activity android:name=".module.user.ui.SettingChangePhoneActivity" />
-        <activity android:name=".module.user.ui.SettingChangePWResultActivity"></activity>
+        <activity android:name=".module.user.ui.SettingChangePWResultActivity" />
+        <activity android:name=".module.user.ui.CompanyListActivity" />
+        <activity android:name=".module.user.ui.CompanyNewActivity"></activity>
     </application>
 
 </manifest>

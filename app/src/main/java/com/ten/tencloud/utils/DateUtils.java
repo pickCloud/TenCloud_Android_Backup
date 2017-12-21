@@ -44,10 +44,11 @@ public class DateUtils {
     }
 
     /**
-     * Date -> Long
+     * yyyy-MM-dd
+     * @param date
      * @return
      */
-    public static long dateToLong(){
-        return 0;
+    public static String dateToDefault(String date){
+        return date.substring(0,10);
     }
 }

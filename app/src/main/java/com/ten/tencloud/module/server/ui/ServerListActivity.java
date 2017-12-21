@@ -46,7 +46,7 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_list);
-        initTitleBar(true, "服务器列表", R.menu.menu_server_list, new OnMenuItemClickListener() {
+        initTitleBar(true, "服务器列表", R.menu.menu_add, new OnMenuItemClickListener() {
             @Override
             public void onItemClick(MenuItem item) {
                 switch (item.getItemId()) {

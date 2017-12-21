@@ -80,7 +80,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                 mLlInput.setVisibility(View.VISIBLE);
                 mLlGender.setVisibility(View.GONE);
                 mEtInfo.setHint("输入姓名");
-                userName = intent.getStringExtra("userName");
+                userName = intent.getStringExtra("name");
                 mEtInfo.setText(userName);
                 mEtInfo.setSelection(Utils.isEmptyDefaultForString(userName, "").length());
                 break;

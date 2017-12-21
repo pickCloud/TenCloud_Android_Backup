@@ -33,10 +33,14 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
     @Override
     public void getCompanies() {
         mSubscriptions.add(UserModel.getInstance()
-                .getCompaniesWithType(UserModel.COMPANIES_TYPE_PASS_AND_CREATE)
+                .getCompaniesWithType(UserModel.COMPANIES_TYPE_ALL)
                 .subscribe(new JesSubscribe<List<CompanyBean>>(mView) {
                     @Override
                     public void _onSuccess(List<CompanyBean> companyBeans) {
+                        if (companyBeans == null || companyBeans.size() == 0) {
+                            mView.showMessage("暂无公司信息");
+                            return;
+                        }
                         mView.showCompanies(companyBeans);
                     }
                 }));

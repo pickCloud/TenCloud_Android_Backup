@@ -140,7 +140,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         }
     }
 
-    @OnClick({R.id.ll_user, R.id.tv_switch, R.id.ll_setting})
+    @OnClick({R.id.ll_user, R.id.tv_switch, R.id.ll_setting, R.id.ll_company})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_user:
@@ -160,6 +160,9 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
                 break;
             case R.id.ll_setting:
                 startActivity(new Intent(mActivity, SettingActivity.class));
+                break;
+            case R.id.ll_company:
+                startActivity(new Intent(mActivity, CompanyListActivity.class));
                 break;
         }
     }
@@ -192,7 +195,11 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         data.add(personal);
         if (companies != null) {
             count = companies.size();
-            data.addAll(companies);
+            for (CompanyBean company : companies) {
+                if (company.getStatus() == 1) {
+                    data.add(company);
+                }
+            }
         }
         mTvCompanyDes.setText(count + "家公司");
         mAdapter.setDatas(data);
@@ -210,6 +217,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
     public void onResume() {
         super.onResume();
         mUserInfo = AppBaseCache.getInstance().getUserInfo();
+        mUserHomePresenter.getCompanies();
         initView();
         showUserInfo(mUserInfo);
     }

@@ -137,13 +137,16 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/ll_company"
             android:layout_width="match_parent"
             android:layout_height="48.5dp"
             android:background="@color/bg_232730"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="vertical">
 
-            <LinearLayout style="@style/SettingItemLayout">
+            <LinearLayout
+                android:id="@+id/ll_company"
+                style="@style/SettingItemLayout">
 
                 <ImageView
                     style="@style/SettingItemIcon"

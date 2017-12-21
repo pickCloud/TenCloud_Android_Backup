@@ -77,6 +77,28 @@ public class UserModel {
     }
 
     /**
+     * 创建新公司
+     *
+     * @param name
+     * @param contact
+     * @param mobile
+     * @return
+     */
+    public Observable<Object> createCompany(String name, String contact, String mobile) {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("contact", contact);
+        map.put("mobile", mobile);
+        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .createCompany(body)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
      * 获取公司详情
      *
      * @param cid
@@ -123,11 +145,11 @@ public class UserModel {
     }
 
 
-    public Observable<Object> changePhone(String new_mobile,String auth_code,String password){
-        Map<String,String> map = new HashMap<>();
-        map.put("new_mobile",new_mobile);
-        map.put("auth_code",auth_code);
-        map.put("password",password);
+    public Observable<Object> changePhone(String new_mobile, String auth_code, String password) {
+        Map<String, String> map = new HashMap<>();
+        map.put("new_mobile", new_mobile);
+        map.put("auth_code", auth_code);
+        map.put("password", password);
         String json = TenApp.getInstance().getGsonInstance().toJson(map);
         RequestBody body = RetrofitUtils.stringToJsonBody(json);
         return TenApp.getRetrofitClient().getTenUserApi()

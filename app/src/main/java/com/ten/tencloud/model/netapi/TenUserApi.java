@@ -34,6 +34,9 @@ public interface TenUserApi {
     @GET("/api/companies/list/{type}")
     Observable<Response<JesResponse<List<CompanyBean>>>> getCompaniesWithType(@Path("type") int type);
 
+    @POST("/api/company/new")
+    Observable<Response<JesResponse<Object>>> createCompany(@Body RequestBody body);
+
     @GET("/api/company/{id}")
     Observable<Response<JesResponse<List<CompanyBean>>>> getCompanyInfoByCid(@Path("id") int cid);
 
