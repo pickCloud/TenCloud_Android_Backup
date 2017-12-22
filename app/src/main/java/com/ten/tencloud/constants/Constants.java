@@ -70,6 +70,10 @@ public class Constants {
     public static final int NET_CODE_NOT_FOUND = 404;
     //500
     public static final int NET_CODE_INTERNAL_ERROR = 10500;
+
+    public static final int NET_CODE_TIME_OUT = 100020;
+
+    public static final int NET_CODE_NO_NETWORK = 100021;
     //短信验证码超过次数
     public static final int SMS_TIME_OUT = 10405;
 

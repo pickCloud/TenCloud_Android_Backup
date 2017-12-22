@@ -63,7 +63,8 @@
         <activity android:name=".module.user.ui.SettingChangePWResultActivity" />
         <activity android:name=".module.user.ui.CompanyListActivity" />
         <activity android:name=".module.user.ui.CompanyNewActivity" />
-        <activity android:name=".module.user.ui.CompanyNewResultActivity"></activity>
+        <activity android:name=".module.user.ui.CompanyNewResultActivity" />
+        <activity android:name=".module.user.ui.TemplateListActivity"></activity>
     </application>
 
 </manifest>

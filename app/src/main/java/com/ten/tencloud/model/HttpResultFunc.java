@@ -17,6 +17,7 @@ import rx.functions.Func1;
 public class HttpResultFunc<T> implements Func1<Response<JesResponse<T>>, T> {
     @Override
     public T call(Response<JesResponse<T>> response) {
+
         if (response.code() == Constants.NET_CODE_RE_LOGIN) {
             throw new JesException("登录过期，请重新登录", Constants.NET_CODE_RE_LOGIN);
         }

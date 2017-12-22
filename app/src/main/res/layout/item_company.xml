@@ -50,7 +50,7 @@
                     android:text="管理员"
                     android:visibility="invisible"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="14sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/tv_status"

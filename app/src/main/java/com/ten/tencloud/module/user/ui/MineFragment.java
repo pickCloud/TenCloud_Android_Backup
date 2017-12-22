@@ -56,6 +56,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
 
     @BindView(R.id.ll_role_company)
     View mViewRoleCompany;
+    @BindView(R.id.ll_template)
+    View mViewTemplate;
     @BindView(R.id.ll_role_user)
     View mViewRoleUser;
 
@@ -96,6 +98,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
             mViewRoleCompany.setVisibility(View.VISIBLE);
             mIvCertification.setImageResource(R.mipmap.icon_comreg_off);
             mTvUserName.setVisibility(View.VISIBLE);
+            mViewTemplate.setVisibility(mSelectCompany.getIs_admin() != 0 ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -112,6 +115,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
                 mSelectCompany = company;
                 AppBaseCache.getInstance().setCid(cid);
                 AppBaseCache.getInstance().saveSelectCompanyWithLogin(company);
+                mViewTemplate.setVisibility(mSelectCompany.getIs_admin() != 0 ? View.VISIBLE : View.GONE);
                 mPopupWindow.dismiss();
                 initView();
                 showUserInfo(mUserInfo);
@@ -141,7 +145,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         }
     }
 
-    @OnClick({R.id.ll_user, R.id.tv_switch, R.id.ll_setting, R.id.ll_company})
+    @OnClick({R.id.ll_user, R.id.tv_switch, R.id.ll_setting, R.id.ll_company, R.id.ll_template})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_user:
@@ -164,6 +168,9 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
                 break;
             case R.id.ll_company:
                 startActivity(new Intent(mActivity, CompanyListActivity.class));
+                break;
+            case R.id.ll_template:
+                
                 break;
         }
     }

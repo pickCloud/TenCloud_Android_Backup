@@ -41,13 +41,16 @@ public class RvCompanyAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, Rv
         holder.tvCheckTime.setText(DateUtils.dateToDefault(companyBean.getUpdate_time()));
         int status = companyBean.getStatus();
         if (status == -1) {
-            holder.tvStatus.setText("审核未通过");
+            holder.tvStatus.setText("审核不通过");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_f15532));
         } else if (status == 0) {
-            holder.tvStatus.setText("审核中");
+            holder.tvStatus.setText("待审核");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-        } else {
+        } else if (status == 1) {
             holder.tvStatus.setText("审核通过");
+            holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_09bb07));
+        } else if (status == 2) {
+            holder.tvStatus.setText("创始人");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_09bb07));
         }
     }
