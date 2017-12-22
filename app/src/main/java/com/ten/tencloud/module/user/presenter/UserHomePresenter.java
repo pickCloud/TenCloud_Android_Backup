@@ -3,6 +3,7 @@ package com.ten.tencloud.module.user.presenter;
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.UserHomeContract;
@@ -37,9 +38,9 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                 .subscribe(new JesSubscribe<List<CompanyBean>>(mView) {
                     @Override
                     public void _onSuccess(List<CompanyBean> companyBeans) {
+                        GlobalStatusManager.getInstance().setUserInfoNeedRefresh(false);
                         if (companyBeans == null || companyBeans.size() == 0) {
                             mView.showMessage("暂无公司信息");
-                            return;
                         }
                         mView.showCompanies(companyBeans);
                     }

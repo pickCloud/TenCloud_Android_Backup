@@ -16,6 +16,7 @@ import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServerBean;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.contract.ServerListContract;
 import com.ten.tencloud.module.server.presenter.ServerListPresenter;
@@ -150,6 +151,14 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
     public void showProviders(List<ProviderBean> providers) {
         this.providers = providers;
         mServerFilterDialog.setData(providers);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (GlobalStatusManager.getInstance().isServerListNeedRefresh()) {
+            mPresenter.getServerList(1);
+        }
     }
 
     @Override

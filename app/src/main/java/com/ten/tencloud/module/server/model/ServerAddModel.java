@@ -2,7 +2,6 @@ package com.ten.tencloud.module.server.model;
 
 import com.socks.library.KLog;
 import com.ten.tencloud.constants.Url;
-import com.ten.tencloud.utils.ToastUtils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -41,8 +40,8 @@ public class ServerAddModel {
             public void onMessage(WebSocket webSocket, String text) {
                 KLog.d("接收==>" + text);
                 if ("success".equals(text)) {
-                    ToastUtils.showLongToast("主机添加成功");
                     webSocket.cancel();
+                    onServerAddListener.onSuccess();
                 }
             }
 
@@ -54,8 +53,8 @@ public class ServerAddModel {
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 t.printStackTrace();
-                KLog.d(t.getMessage());
-                ToastUtils.showLongToast("添加发生异常，请重试");
+                KLog.e(t.getMessage());
+                onServerAddListener.onFailure(t.getMessage());
             }
         };
         mClient = new OkHttpClient();
@@ -73,6 +72,10 @@ public class ServerAddModel {
 
     public interface onServerAddListener {
         void setData(WebSocket webSocket);
+
+        void onSuccess();
+
+        void onFailure(String message);
     }
 
     private onServerAddListener onServerAddListener;

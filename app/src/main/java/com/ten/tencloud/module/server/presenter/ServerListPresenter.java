@@ -3,6 +3,7 @@ package com.ten.tencloud.module.server.presenter;
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServerBean;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.server.contract.ServerListContract;
 import com.ten.tencloud.module.server.model.ServerModel;
@@ -22,6 +23,7 @@ public class ServerListPresenter extends BasePresenter<ServerListContract.View>
         mSubscriptions.add(ServerModel.getInstance().getServerList(id).subscribe(new JesSubscribe<List<ServerBean>>(mView) {
             @Override
             public void _onSuccess(List<ServerBean> serverBeans) {
+                GlobalStatusManager.getInstance().setServerListNeedRefresh(false);
                 mView.showServerList(serverBeans);
             }
         }));

@@ -143,4 +143,10 @@ public class SettingChangePhoneActivity extends BaseActivity
         showMessage("修改成功");
         finish();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLoginCaptchaPresenter.cancelUtils();
+    }
 }

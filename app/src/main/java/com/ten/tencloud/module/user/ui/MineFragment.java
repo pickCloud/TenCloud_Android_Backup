@@ -17,6 +17,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvSwitchAdapter;
 import com.ten.tencloud.module.user.contract.UserHomeContract;
@@ -196,7 +197,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         if (companies != null) {
             count = companies.size();
             for (CompanyBean company : companies) {
-                if (company.getStatus() == 1) {
+                if (company.getStatus() == 1
+                        || company.getStatus() == 2) {
                     data.add(company);
                 }
             }
@@ -216,9 +218,11 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
     @Override
     public void onResume() {
         super.onResume();
-        mUserInfo = AppBaseCache.getInstance().getUserInfo();
-        mUserHomePresenter.getCompanies();
-        initView();
-        showUserInfo(mUserInfo);
+        if (GlobalStatusManager.getInstance().isUserInfoNeedRefresh()) {
+            mUserInfo = AppBaseCache.getInstance().getUserInfo();
+            mUserHomePresenter.getCompanies();
+            initView();
+            showUserInfo(mUserInfo);
+        }
     }
 }

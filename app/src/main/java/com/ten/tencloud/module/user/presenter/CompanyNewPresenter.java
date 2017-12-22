@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.user.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.CompanyNewContract;
@@ -19,12 +20,13 @@ public class CompanyNewPresenter extends BasePresenter<CompanyNewContract.View>
                 .subscribe(new JesSubscribe<Object>(mView) {
                     @Override
                     public void _onSuccess(Object o) {
+                        GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
                         mView.showSuccess();
                     }
 
                     @Override
                     public void _onError(JesException e) {
-                        mView.showFailed();
+                        mView.showFailed(e);
                     }
                 }));
     }

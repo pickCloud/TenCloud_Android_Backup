@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.ServerDetailBean;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.module.server.contract.ServerDetailContract;
 import com.ten.tencloud.module.server.contract.ServerOperationContract;
 import com.ten.tencloud.module.server.presenter.ServerDetailPresenter;
@@ -247,7 +248,8 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     @Override
     public void delSuccess() {
         showMessage("删除成功");
-        queryState();
+        GlobalStatusManager.getInstance().setServerListNeedRefresh(true);
+//        queryState();
     }
 
     @Override

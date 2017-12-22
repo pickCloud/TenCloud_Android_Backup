@@ -44,6 +44,17 @@ public class ServerAddActivity extends BaseActivity {
             public void setData(WebSocket webSocket) {
                 sendData(webSocket);
             }
+
+            @Override
+            public void onSuccess() {
+                showMessage("主机添加成功");
+                finish();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                showMessage(message);
+            }
         });
     }
 

@@ -1,8 +1,13 @@
 package com.ten.tencloud.module.other.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
@@ -15,11 +20,16 @@ import com.ten.tencloud.utils.StatusBarUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+@RuntimePermissions
 public class SplashActivity extends BaseActivity {
 
     @Override
@@ -31,10 +41,25 @@ public class SplashActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+
         init();
     }
 
     private void init() {
+        PackageManager pkm = getPackageManager();
+        boolean has_permission = (
+                PackageManager.PERMISSION_GRANTED == pkm.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, getPackageName()) &&
+                        PackageManager.PERMISSION_GRANTED == pkm.checkPermission(Manifest.permission.READ_PHONE_STATE, getPackageName())
+        );
+        if (has_permission) {
+            goMain();
+        } else {
+            SplashActivityPermissionsDispatcher.goMainWithCheck(SplashActivity.this);
+        }
+    }
+
+    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void goMain() {
         Observable.just(AppBaseCache.getInstance().getToken()).delay(3, TimeUnit.SECONDS)
                 .map(new Func1<String, Boolean>() {
                     @Override
@@ -54,5 +79,25 @@ public class SplashActivity extends BaseActivity {
                         finish();
                     }
                 });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        SplashActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @OnPermissionDenied({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void showDenied() {
+        showMessage("权限被拒绝");
+        finish();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void showNeverAsk() {
+        showMessage("请开启权限再使用");
+        Uri packageURI = Uri.parse("package:" + getPackageName());
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+        startActivity(intent);
     }
 }

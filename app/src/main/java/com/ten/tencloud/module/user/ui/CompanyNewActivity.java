@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.module.user.contract.CompanyNewContract;
 import com.ten.tencloud.module.user.presenter.CompanyNewPresenter;
 import com.ten.tencloud.utils.Utils;
@@ -58,13 +59,17 @@ public class CompanyNewActivity extends BaseActivity implements CompanyNewContra
 
     @Override
     public void showSuccess() {
-        showMessage("创建成功");
+        startActivityNoValue(this, CompanyNewResultActivity.class);
         setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH);
         finish();
     }
 
     @Override
-    public void showFailed() {
-        showMessage("创建失败");
+    public void showFailed(JesException e) {
+        if (e.getCode() == 10001) {
+            startActivityNoValue(this, CompanyNewResultActivity.class);
+        } else {
+            showMessage("创建失败");
+        }
     }
 }
