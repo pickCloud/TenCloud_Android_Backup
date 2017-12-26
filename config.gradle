@@ -33,6 +33,7 @@ ext {
             SmartRefreshLayout       : "1.0.3",
             MPAndroidChart           : "v3.0.3",
             PickerView               : "3.2.7",
-            objectbox                : "1.3.4"
+            objectbox                : "1.3.4",
+            treeview                 : "1.0.3"
     ]
 }

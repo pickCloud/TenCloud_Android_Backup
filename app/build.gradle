@@ -133,6 +133,8 @@ dependencies {
      */
     compile "com.contrarywind:Android-PickerView:${libs.PickerView}"
 
+    compile "me.texy.treeview:treeview_lib:${libs.treeview}"
+
     compile(name: 'gt3geetest_sdk', ext: 'aar')
 
     testCompile 'junit:junit:4.12'

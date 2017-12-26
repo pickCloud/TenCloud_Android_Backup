@@ -64,7 +64,10 @@
         <activity android:name=".module.user.ui.CompanyListActivity" />
         <activity android:name=".module.user.ui.CompanyNewActivity" />
         <activity android:name=".module.user.ui.CompanyNewResultActivity" />
-        <activity android:name=".module.user.ui.TemplateListActivity"></activity>
+        <activity android:name=".module.user.ui.TemplateListActivity" />
+        <activity android:name=".module.user.ui.PermissionTemplateListActivity" />
+        <activity android:name=".module.user.ui.PermissionChangeActivity" />
+        <activity android:name=".module.user.ui.PermissionTreeActivity"></activity>
     </application>
 
 </manifest>

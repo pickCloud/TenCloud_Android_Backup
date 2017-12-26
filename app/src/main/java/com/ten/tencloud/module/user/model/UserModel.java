@@ -2,6 +2,8 @@ package com.ten.tencloud.module.user.model;
 
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.bean.PermissionTemplateBean;
+import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
@@ -155,6 +157,28 @@ public class UserModel {
         return TenApp.getRetrofitClient().getTenUserApi()
                 .changePhone(body)
                 .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 权限模板列表
+     *
+     * @param cid
+     * @return
+     */
+    public Observable<List<PermissionTemplateBean>> getTemplatesByCid(int cid) {
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .getTemplatesByCid(cid)
+                .map(new HttpResultFunc<List<PermissionTemplateBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<PermissionTreeNodeBean>> getTemplateResource(int cid) {
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .getTemplateResource(cid)
+                .map(new HttpResultFunc<List<PermissionTreeNodeBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

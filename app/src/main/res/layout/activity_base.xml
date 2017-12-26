@@ -48,6 +48,16 @@
 
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/iv_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="invisible" />
+
                 <TextView
                     android:id="@+id/tv_right"
                     android:layout_width="wrap_content"

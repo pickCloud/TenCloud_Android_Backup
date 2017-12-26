@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -84,6 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     private int menuRes = -1;
     private EditText et_search;
     private TextView mTvRight;
+    private ImageView mIvLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         ib_add = (ImageButton) findViewById(R.id.ib_add);
         et_search = (EditText) findViewById(R.id.et_search);
         mTvRight = (TextView) findViewById(R.id.tv_right);
+        mIvLeft = (ImageView) findViewById(R.id.iv_left);
         et_search.setOnEditorActionListener(this);
         mToolBar.setNavigationIcon(R.mipmap.icon_back);
         setSupportActionBar(mToolBar);
@@ -201,6 +205,17 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         initTitleBar(isBack, title);
         mTvRight.setVisibility(View.VISIBLE);
         mTvRight.setText(rightText);
+        mTvRight.setOnClickListener(rightClickListener);
+    }
+
+    public void initTitleBar(String title, @DrawableRes int leftResId, View.OnClickListener leftClickListener,
+                             String rightText, View.OnClickListener rightClickListener) {
+        initTitleBar(false, title);
+        mIvLeft.setVisibility(View.VISIBLE);
+        mIvLeft.setImageResource(leftResId);
+        mIvLeft.setOnClickListener(leftClickListener);
+        mTvRight.setText(rightText);
+        mTvRight.setVisibility(View.VISIBLE);
         mTvRight.setOnClickListener(rightClickListener);
     }
 

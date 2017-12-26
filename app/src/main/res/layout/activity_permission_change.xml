@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical"
+    tools:context="com.ten.tencloud.module.user.ui.PermissionChangeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48.5dp"
+            android:background="@color/bg_232730"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_change_name"
+                style="@style/SettingItemLayout">
+
+                <TextView
+                    style="@style/SettingItemLabel"
+                    android:text="模板名称" />
+
+                <TextView
+                    android:id="@+id/tv_template_name"
+                    style="@style/SettingItemDes" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_arrow_right" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/line_color_2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_template"
+            android:layout_width="match_parent"
+            android:layout_height="48.5dp"
+            android:background="@color/bg_232730"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout style="@style/SettingItemLayout">
+
+                <ImageView
+                    style="@style/SettingItemIcon"
+                    android:src="@mipmap/icon_template" />
+
+                <TextView
+                    style="@style/SettingItemLabel"
+                    android:text="权限模板管理" />
+
+                <TextView style="@style/SettingItemDes" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_arrow_right" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/line_color_2f3543" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_change_permission"
+        style="@style/SettingItemLayout">
+
+        <TextView
+            android:id="@+id/tv_label"
+            style="@style/SettingItemLabel"
+            android:layout_weight="1"
+            android:text="模板权限项" />
+
+        <TextView
+            android:id="@+id/temp1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="功能权限"
+            android:textColor="@color/select_89_56"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_func_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:text="0"
+            android:textColor="@color/select_login_tab"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/temp2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="项"
+            android:textColor="@color/select_89_56"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/temp3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="数据权限"
+            android:textColor="@color/select_89_56"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_data_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:text="0"
+            android:textColor="@color/select_login_tab"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/temp4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:text="项"
+            android:textColor="@color/select_89_56"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_arrow_right" />
+
+    </LinearLayout>
+
+</LinearLayout>

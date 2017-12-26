@@ -170,7 +170,9 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
                 startActivity(new Intent(mActivity, CompanyListActivity.class));
                 break;
             case R.id.ll_template:
-                
+                Intent intent = new Intent(mActivity, PermissionTemplateListActivity.class);
+                intent.putExtra("cid", cid);
+                startActivity(intent);
                 break;
         }
     }
