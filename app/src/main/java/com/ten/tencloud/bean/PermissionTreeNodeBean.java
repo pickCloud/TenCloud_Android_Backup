@@ -9,6 +9,7 @@ import java.util.List;
 public class PermissionTreeNodeBean {
 
     private String name;
+    private String filename;
     private int id;
     private int group;
     private List<PermissionTreeNodeBean> data;
@@ -43,5 +44,13 @@ public class PermissionTreeNodeBean {
 
     public void setData(List<PermissionTreeNodeBean> data) {
         this.data = data;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

@@ -15,7 +15,7 @@ import me.texy.treeview.base.BaseNodeViewBinder;
 
 public class FirstLevelNodeViewBinder extends BaseNodeViewBinder {
 
-    TextView mTvName;
+    private TextView mTvName;
 
     public FirstLevelNodeViewBinder(View view) {
         super(view);

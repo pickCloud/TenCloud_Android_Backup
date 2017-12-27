@@ -43,7 +43,9 @@ public class PermissionTreePager extends BasePager {
     private TreeView mTreeView;
     private List<PermissionTreeNodeBean> mResourceData;
     private PermissionTemplateBean mSelectData;
+    private boolean isView;
     private int mType;
+    private boolean mIsNew;
 
     public PermissionTreePager(Context context) {
         super(context);
@@ -58,7 +60,11 @@ public class PermissionTreePager extends BasePager {
     public void initView() {
         mTreeRootNode = TreeNode.root();
         mResourceData = getArgument("resource");
+        isView = getArgument("isView", false);
         mSelectData = getArgument("select");
+        if (mSelectData == null) {
+            mIsNew = true;
+        }
         mType = getArgument("type");
         addTree(mResourceData, mTreeRootNode, 0);
         mTreeView = new TreeView(mTreeRootNode, mContext, new BaseNodeViewFactory() {
@@ -68,7 +74,7 @@ public class PermissionTreePager extends BasePager {
                     case 0:
                         return new FirstLevelNodeViewBinder(view);
                     default:
-                        return new OtherLevelNodeViewBinder(view);
+                        return new OtherLevelNodeViewBinder(view, isView);
                 }
             }
         });
@@ -94,30 +100,32 @@ public class PermissionTreePager extends BasePager {
             treeNode.setLevel(level);
             parentNode.addChild(treeNode);
             //设置填充
-            if (mType == TYPE_FUNC) {
-                List ids = Arrays.asList(mSelectData.getPermissions().split(","));
-                if (ids.contains(treeNodeBean.getId() + "")) {
-                    treeNode.setSelected(true);
-                }
-            }
-            if (mType == TYPE_DATA) {
-                String rootNodeName = findRootNodeName(treeNode);
-                if ("文件".equals(rootNodeName)) {
-                    List ids = Arrays.asList(mSelectData.getAccess_filehub().split(","));
+            if (mSelectData != null) {
+                if (mType == TYPE_FUNC && mSelectData.getPermissions() != null) {
+                    List ids = Arrays.asList(mSelectData.getPermissions().split(","));
                     if (ids.contains(treeNodeBean.getId() + "")) {
                         treeNode.setSelected(true);
                     }
                 }
-                if ("项目".equals(rootNodeName)) {
-                    List ids = Arrays.asList(mSelectData.getAccess_projects().split(","));
-                    if (ids.contains(treeNodeBean.getId() + "")) {
-                        treeNode.setSelected(true);
+                if (mType == TYPE_DATA) {
+                    String rootNodeName = findRootNodeName(treeNode);
+                    if ("文件".equals(rootNodeName) && mSelectData.getAccess_filehub() != null) {
+                        List ids = Arrays.asList(mSelectData.getAccess_filehub().split(","));
+                        if (ids.contains(treeNodeBean.getId() + "")) {
+                            treeNode.setSelected(true);
+                        }
                     }
-                }
-                if ("云服务器".equals(rootNodeName)) {
-                    List ids = Arrays.asList(mSelectData.getAccess_servers().split(","));
-                    if (ids.contains(treeNodeBean.getId() + "")) {
-                        treeNode.setSelected(true);
+                    if ("项目".equals(rootNodeName) && mSelectData.getAccess_projects() != null) {
+                        List ids = Arrays.asList(mSelectData.getAccess_projects().split(","));
+                        if (ids.contains(treeNodeBean.getId() + "")) {
+                            treeNode.setSelected(true);
+                        }
+                    }
+                    if ("云服务器".equals(rootNodeName) && mSelectData.getAccess_servers() != null) {
+                        List ids = Arrays.asList(mSelectData.getAccess_servers().split(","));
+                        if (ids.contains(treeNodeBean.getId() + "")) {
+                            treeNode.setSelected(true);
+                        }
                     }
                 }
             }
@@ -143,14 +151,24 @@ public class PermissionTreePager extends BasePager {
             return "";
         }
         if (parent.getLevel() == 1) {
-            return ((PermissionTreeNodeBean) parent.getValue()).getName();
+            PermissionTreeNodeBean rootNodeBean = (PermissionTreeNodeBean) parent.getParent().getValue();
+            if (rootNodeBean != null) {
+                return rootNodeBean.getName();
+            }
+            PermissionTreeNodeBean treeNodeBean = (PermissionTreeNodeBean) parent.getValue();
+            return treeNodeBean.getName();
         } else {
             return findRootNodeName(parent);
         }
     }
 
-    public Map<String, Integer[]> getSelectNode() {
-        Map<String, Integer[]> map = new HashMap<>();
+    /**
+     * 获取选择的节点
+     *
+     * @return
+     */
+    public Map<String, Object> getSelectNode() {
+        Map<String, Object> map = new HashMap<>();
         List<TreeNode> selectedNodes = mTreeView.getSelectedNodes();
         if (mType == TYPE_FUNC) {
             List<Integer> selects = new ArrayList<>();
@@ -160,7 +178,28 @@ public class PermissionTreePager extends BasePager {
                     selects.add(nodeBean.getId());
                 }
             }
-            map.put("permissions", selects.toArray(new Integer[selects.size()]));
+            map.put("permissions", selects);
+        }
+        if (mType == TYPE_DATA) {
+            List<Integer> selectsFile = new ArrayList<>();
+            List<Integer> selectsProject = new ArrayList<>();
+            List<Integer> selectsServer = new ArrayList<>();
+            for (TreeNode selectedNode : selectedNodes) {
+                String rootNodeName = findRootNodeName(selectedNode);
+                PermissionTreeNodeBean nodeBean = (PermissionTreeNodeBean) selectedNode.getValue();
+                if (nodeBean.getId() != 0) {
+                    if ("文件".equals(rootNodeName)) {
+                        selectsFile.add(nodeBean.getId());
+                    } else if ("项目".equals(rootNodeName)) {
+                        selectsProject.add(nodeBean.getId());
+                    } else if ("云服务器".equals(rootNodeName)) {
+                        selectsServer.add(nodeBean.getId());
+                    }
+                }
+            }
+            map.put("access_filehub", selectsFile);
+            map.put("access_projects", selectsProject);
+            map.put("access_servers", selectsServer);
         }
         return map;
     }

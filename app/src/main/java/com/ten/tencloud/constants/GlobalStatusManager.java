@@ -19,6 +19,11 @@ public class GlobalStatusManager {
      */
     private boolean userInfoNeedRefresh;
 
+    /**
+     * 模板信息
+     */
+    private boolean templateNeedRefresh;
+
     private GlobalStatusManager() {
     }
 
@@ -45,5 +50,13 @@ public class GlobalStatusManager {
 
     public void setUserInfoNeedRefresh(boolean userInfoNeedRefresh) {
         this.userInfoNeedRefresh = userInfoNeedRefresh;
+    }
+
+    public boolean isTemplateNeedRefresh() {
+        return templateNeedRefresh;
+    }
+
+    public void setTemplateNeedRefresh(boolean templateNeedRefresh) {
+        this.templateNeedRefresh = templateNeedRefresh;
     }
 }

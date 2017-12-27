@@ -14,6 +14,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -60,4 +61,15 @@ public interface TenUserApi {
     @GET("/api/permission/resource/{cid}")
     Observable<Response<JesResponse<List<PermissionTreeNodeBean>>>> getTemplateResource(@Path("cid") int cid);
 
+    @GET("/api/permission/template/{ptId}/format/0")
+    Observable<Response<JesResponse<PermissionTreeNodeBean>>> getTemplate(@Path("ptId") int ptId);
+
+    @PUT("/api/permission/template/{pt_id}/update")
+    Observable<Response<JesResponse<Object>>> updatePermissionTemplate(@Path("pt_id") int ptId, @Body RequestBody body);
+
+    @POST("/api/permission/template/{pt_id}/rename")
+    Observable<Response<JesResponse<Object>>> renameTemplate(@Path("pt_id") int ptId, @Body RequestBody body);
+
+    @POST("/api/permission/template/add")
+    Observable<Response<JesResponse<Object>>> addTemplate(@Body RequestBody body);
 }

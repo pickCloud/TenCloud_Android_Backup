@@ -31,6 +31,9 @@ public class PermissionTemplateBean implements Parcelable {
     private int cid;
     private String access_servers;
 
+    public PermissionTemplateBean() {
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(access_filehub);

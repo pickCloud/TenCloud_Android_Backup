@@ -49,7 +49,15 @@ public abstract class BasePager extends LinearLayout implements IBaseView {
     }
 
     protected <T> T getArgument(String key) {
-        return (T)args.get(key);
+        return (T) args.get(key);
+    }
+
+    protected <T> T getArgument(String key, T defValue) {
+        T value = (T) args.get(key);
+        if (value == null) {
+            return defValue;
+        }
+        return value;
     }
 
     public View createView(@LayoutRes int layoutId) {
@@ -60,11 +68,11 @@ public abstract class BasePager extends LinearLayout implements IBaseView {
 
     public abstract void init();
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
 
-    public void onActivityDestroy(){
+    public void onActivityDestroy() {
 
     }
 

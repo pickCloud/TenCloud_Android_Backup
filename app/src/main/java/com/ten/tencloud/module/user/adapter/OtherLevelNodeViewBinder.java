@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.user.adapter;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -19,13 +20,19 @@ import me.texy.treeview.base.CheckableNodeViewBinder;
 
 public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
 
-    CheckBox mCheckBox;
-    LinearLayout mLlContent;
-    ImageView mIvArrow;
+    private CheckBox mCheckBox;
+    private LinearLayout mLlContent;
+    private ImageView mIvArrow;
+    private boolean isView;
 
-    public OtherLevelNodeViewBinder(View view) {
+    public OtherLevelNodeViewBinder(View view, boolean isView) {
         super(view);
+        this.isView = isView;
         mCheckBox = view.findViewById(R.id.checkbox);
+        if (isView) {
+            mCheckBox.setCompoundDrawables(null, null, null, null);
+            mCheckBox.setEnabled(false);
+        }
         mLlContent = view.findViewById(R.id.ll_content);
         mIvArrow = view.findViewById(R.id.iv_arrow);
     }
@@ -43,7 +50,11 @@ public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
     @Override
     public void bindView(TreeNode treeNode) {
         PermissionTreeNodeBean nodeBean = (PermissionTreeNodeBean) treeNode.getValue();
-        mCheckBox.setText(nodeBean.getName());
+        String name = nodeBean.getName();
+        if (TextUtils.isEmpty(name)) {//文件的情况
+            name = nodeBean.getFilename();
+        }
+        mCheckBox.setText(name);
         int level = treeNode.getLevel();
         int padding;
         if (level == 1) {

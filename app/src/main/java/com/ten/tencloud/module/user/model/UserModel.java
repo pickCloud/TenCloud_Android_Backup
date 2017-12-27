@@ -175,6 +175,12 @@ public class UserModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 获取所有权限的模板，不区分是否有权限
+     *
+     * @param cid
+     * @return
+     */
     public Observable<List<PermissionTreeNodeBean>> getTemplateResource(int cid) {
         return TenApp.getRetrofitClient().getTenUserApi()
                 .getTemplateResource(cid)
@@ -182,5 +188,74 @@ public class UserModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    /**
+     * 获取具体的某个模板拥有的权限
+     *
+     * @param ptId
+     * @return
+     */
+    public Observable<PermissionTreeNodeBean> getTemplate(int ptId) {
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .getTemplate(ptId)
+                .map(new HttpResultFunc<PermissionTreeNodeBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 根据权限模板
+     *
+     * @param ptId
+     * @param map
+     * @return
+     */
+    public Observable<Object> updatePermissionTemplate(int ptId, Map<String, Object> map) {
+        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .updatePermissionTemplate(ptId, body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 重命名
+     *
+     * @param ptId
+     * @param cid
+     * @param name
+     * @return
+     */
+    public Observable<Object> renameTemplate(int ptId, int cid, String name) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("name", name);
+        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .renameTemplate(ptId, body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 新增模板
+     *
+     * @param map
+     * @return
+     */
+    public Observable<Object> addTemplate(Map<String, Object> map) {
+        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .addTemplate(body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

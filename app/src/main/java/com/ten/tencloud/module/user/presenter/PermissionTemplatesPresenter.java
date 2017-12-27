@@ -2,6 +2,7 @@ package com.ten.tencloud.module.user.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.PermissionTemplateBean;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.PermissionTemplatesContract;
 import com.ten.tencloud.module.user.model.UserModel;
@@ -21,6 +22,7 @@ public class PermissionTemplatesPresenter extends BasePresenter<PermissionTempla
                 .subscribe(new JesSubscribe<List<PermissionTemplateBean>>(mView) {
                     @Override
                     public void _onSuccess(List<PermissionTemplateBean> permissionTemplateBeans) {
+                        GlobalStatusManager.getInstance().setTemplateNeedRefresh(false);
                         if (permissionTemplateBeans == null || permissionTemplateBeans.size() == 0) {
                             mView.showEmptyView();
                         } else {
