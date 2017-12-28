@@ -10,6 +10,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.PermissionTemplateBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.module.user.adapter.RvTemplateAdapter;
 import com.ten.tencloud.module.user.contract.PermissionTemplatesContract;
@@ -36,7 +37,7 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
             public void onItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.menu_add_template) {
                     Intent intent = new Intent(mContext, PermissionTemplateNewActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, 0);
                 }
             }
         });
@@ -72,6 +73,13 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
     @Override
     public void showTemplates(List<PermissionTemplateBean> data) {
         mAdapter.setDatas(data);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH){
+            mTemplatesPresenter.getTemplatesByCid(mCid);
+        }
     }
 
     @Override

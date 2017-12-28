@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.user.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
+import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.PermissionTreeContract;
@@ -40,8 +41,8 @@ public class PermissionTreePresenter extends BasePresenter<PermissionTreeContrac
 
 
     @Override
-    public void updatePermission(int ptId, Map<String, Object> map) {
-        mSubscriptions.add(UserModel.getInstance().updatePermissionTemplate(ptId, map)
+    public void updatePermission(int ptId, PermissionTemplateBean bean) {
+        mSubscriptions.add(UserModel.getInstance().updatePermissionTemplate(ptId, bean)
                 .subscribe(new JesSubscribe<Object>(mView) {
                     @Override
                     public void _onSuccess(Object o) {

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
@@ -16,11 +15,6 @@ import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.contract.PermissionNewContract;
 import com.ten.tencloud.module.user.presenter.PermissionNewPresenter;
-
-import org.greenrobot.essentials.StringUtils;
-
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,20 +58,28 @@ public class PermissionTemplateNewActivity extends BaseActivity implements Permi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
             String json = data.getStringExtra("json");
-            Map<String, List<Integer>> map = TenApp.getInstance().getGsonInstance().fromJson(json, new TypeToken<Map<String, List<Integer>>>() {
-            }.getType());
-            List<Integer> permissions = map.get("permissions");
-            List<Integer> access_filehub = map.get("access_filehub");
-            List<Integer> access_projects = map.get("access_projects");
-            List<Integer> access_servers = map.get("access_servers");
-            int funcCount = access_filehub.size() + access_projects.size() + access_servers.size();
+            PermissionTemplateBean temp = TenApp.getInstance().getGsonInstance().fromJson(json, PermissionTemplateBean.class);
+            int funcCount = handCount(temp.getAccess_filehub()) + handCount(temp.getAccess_projects()) + handCount(temp.getAccess_servers());
             mTvDataCount.setText(funcCount + "");
-            mTvFuncCount.setText(permissions.size() + "");
-            mTemplateBean.setPermissions(StringUtils.join(permissions, ","));
-            mTemplateBean.setAccess_filehub(StringUtils.join(access_filehub, ","));
-            mTemplateBean.setAccess_projects(StringUtils.join(access_projects, ","));
-            mTemplateBean.setAccess_servers(StringUtils.join(access_servers, ","));
+            mTvFuncCount.setText(handCount(temp.getPermissions()) + "");
+            mTemplateBean.setPermissions(temp.getPermissions());
+            mTemplateBean.setAccess_filehub(temp.getAccess_filehub());
+            mTemplateBean.setAccess_projects(temp.getAccess_projects());
+            mTemplateBean.setAccess_servers(temp.getAccess_servers());
         }
+    }
+
+    /**
+     * 处理权限数量
+     *
+     * @param permission
+     * @return
+     */
+    private int handCount(String permission) {
+        if (TextUtils.isEmpty(permission)) {
+            return 0;
+        }
+        return permission.split(",").length;
     }
 
     public void submit(View view) {
@@ -93,6 +95,7 @@ public class PermissionTemplateNewActivity extends BaseActivity implements Permi
     @Override
     public void addSuccess() {
         showMessage("新增成功");
+        setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH);
         finish();
     }
 }

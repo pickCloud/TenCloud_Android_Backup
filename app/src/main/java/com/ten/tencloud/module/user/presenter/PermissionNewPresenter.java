@@ -21,10 +21,10 @@ public class PermissionNewPresenter extends BasePresenter<PermissionNewContract.
         Map<String, Object> map = new HashMap<>();
         map.put("name", bean.getName());
         map.put("cid", bean.getCid());
-        map.put("permissions", bean.getPermissions().split(","));
-        map.put("access_servers", bean.getAccess_servers().split(","));
-        map.put("access_projects", bean.getAccess_projects().split(","));
-        map.put("access_filehub", bean.getAccess_filehub().split(","));
+        map.put("permissions", bean.getPermissions());
+        map.put("access_servers", bean.getAccess_servers());
+        map.put("access_projects", bean.getAccess_projects());
+        map.put("access_filehub", bean.getAccess_filehub());
         mSubscriptions.add(UserModel.getInstance().addTemplate(map)
                 .subscribe(new JesSubscribe<Object>(mView) {
                     @Override

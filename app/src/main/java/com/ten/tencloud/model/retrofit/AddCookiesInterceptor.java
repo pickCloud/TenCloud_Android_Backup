@@ -24,6 +24,8 @@ public class AddCookiesInterceptor implements Interceptor {
         if (!TextUtils.isEmpty(token)) {
             builder.addHeader("Authorization", token);
         }
+        int cid = AppBaseCache.getInstance().getCid();
+        builder.addHeader("Cid", cid + "");
         return chain.proceed(builder.build());
     }
 

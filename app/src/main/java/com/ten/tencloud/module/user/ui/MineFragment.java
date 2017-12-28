@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
@@ -53,6 +54,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
     ImageView mIvAvatar;
     @BindView(R.id.tv_company_des)
     TextView mTvCompanyDes;
+    @BindView(R.id.tv_user_manger_des)
+    TextView mTvEmployees;
 
     @BindView(R.id.ll_role_company)
     View mViewRoleCompany;
@@ -99,6 +102,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
             mIvCertification.setImageResource(R.mipmap.icon_comreg_off);
             mTvUserName.setVisibility(View.VISIBLE);
             mViewTemplate.setVisibility(mSelectCompany.getIs_admin() != 0 ? View.VISIBLE : View.GONE);
+            mUserHomePresenter.getEmployees(cid);
         }
     }
 
@@ -222,6 +226,11 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         companyInfo.setCid(companyInfo.getId());
         mSelectCompany = companyInfo;
         mTvName.setText(companyInfo.getName());
+    }
+
+    @Override
+    public void showEmployees(List<EmployeeBean> employees) {
+        mTvEmployees.setText(employees.size() + "个员工");
     }
 
     @Override

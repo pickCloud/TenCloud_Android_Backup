@@ -12,6 +12,8 @@ import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.module.user.adapter.FirstLevelNodeViewBinder;
 import com.ten.tencloud.module.user.adapter.OtherLevelNodeViewBinder;
 
+import org.greenrobot.essentials.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -167,8 +169,8 @@ public class PermissionTreePager extends BasePager {
      *
      * @return
      */
-    public Map<String, Object> getSelectNode() {
-        Map<String, Object> map = new HashMap<>();
+    public Map<String, String> getSelectNode() {
+        Map<String, String> map = new HashMap<>();
         List<TreeNode> selectedNodes = mTreeView.getSelectedNodes();
         if (mType == TYPE_FUNC) {
             List<Integer> selects = new ArrayList<>();
@@ -178,7 +180,7 @@ public class PermissionTreePager extends BasePager {
                     selects.add(nodeBean.getId());
                 }
             }
-            map.put("permissions", selects);
+            map.put("permissions", StringUtils.join(selects, ","));
         }
         if (mType == TYPE_DATA) {
             List<Integer> selectsFile = new ArrayList<>();
@@ -197,9 +199,9 @@ public class PermissionTreePager extends BasePager {
                     }
                 }
             }
-            map.put("access_filehub", selectsFile);
-            map.put("access_projects", selectsProject);
-            map.put("access_servers", selectsServer);
+            map.put("access_filehub", StringUtils.join(selectsFile, ","));
+            map.put("access_projects", StringUtils.join(selectsProject, ","));
+            map.put("access_servers", StringUtils.join(selectsServer, ","));
         }
         return map;
     }

@@ -207,11 +207,10 @@ public class UserModel {
      * 根据权限模板
      *
      * @param ptId
-     * @param map
      * @return
      */
-    public Observable<Object> updatePermissionTemplate(int ptId, Map<String, Object> map) {
-        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+    public Observable<Object> updatePermissionTemplate(int ptId, PermissionTemplateBean bean) {
+        String json = TenApp.getInstance().getGsonInstance().toJson(bean);
         RequestBody body = RetrofitUtils.stringToJsonBody(json);
         return TenApp.getRetrofitClient().getTenUserApi()
                 .updatePermissionTemplate(ptId, body)

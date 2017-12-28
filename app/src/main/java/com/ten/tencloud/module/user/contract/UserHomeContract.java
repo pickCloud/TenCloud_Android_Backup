@@ -3,6 +3,7 @@ package com.ten.tencloud.module.user.contract;
 import com.ten.tencloud.base.presenter.IBasePresenter;
 import com.ten.tencloud.base.view.IBaseView;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public class UserHomeContract {
         void showCompanies(List<CompanyBean> companies);
 
         void showCompanyInfo(CompanyBean companyInfo);
+
+        void showEmployees(List<EmployeeBean> employees);
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
@@ -25,5 +28,7 @@ public class UserHomeContract {
         void getCompanies();
 
         void getCompanyByCid(int cid);
+
+        void getEmployees(int cid);
     }
 }

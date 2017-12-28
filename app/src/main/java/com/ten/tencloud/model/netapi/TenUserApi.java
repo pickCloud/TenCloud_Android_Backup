@@ -3,6 +3,7 @@ package com.ten.tencloud.model.netapi;
 
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.bean.User;
@@ -72,4 +73,11 @@ public interface TenUserApi {
 
     @POST("/api/permission/template/add")
     Observable<Response<JesResponse<Object>>> addTemplate(@Body RequestBody body);
+
+
+    /**
+     * =======================员工
+     */
+    @GET("/api/company/{cid}/employees")
+    Observable<Response<JesResponse<List<EmployeeBean>>>> getEmployeesList(@Path("cid") int cid);
 }

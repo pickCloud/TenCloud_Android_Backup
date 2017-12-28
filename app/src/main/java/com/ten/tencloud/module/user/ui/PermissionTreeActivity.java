@@ -63,8 +63,8 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             }, "确认", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Map<String, Object> funcSelectNode = mFuncPager.getSelectNode();
-                    Map<String, Object> dataSelectNode = mDataPager.getSelectNode();
+                    Map<String, String> funcSelectNode = mFuncPager.getSelectNode();
+                    Map<String, String> dataSelectNode = mDataPager.getSelectNode();
                     dataSelectNode.putAll(funcSelectNode);
                     if (type == TYPE_NEW) {
                         Intent data = new Intent();
@@ -73,11 +73,12 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
                         setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH, data);
                         finish();
                     } else if (type == TYPE_UPDATE) {
-                        dataSelectNode.put("cid", mTemplateBean.getCid());
-                        dataSelectNode.put("name", mTemplateBean.getName());
-                        mTreePresenter.updatePermission(mTemplateBean.getId(), dataSelectNode);
+                        mTemplateBean.setPermissions(dataSelectNode.get("permissions"));
+                        mTemplateBean.setAccess_filehub(dataSelectNode.get("access_filehub"));
+                        mTemplateBean.setAccess_projects(dataSelectNode.get("access_projects"));
+                        mTemplateBean.setAccess_servers(dataSelectNode.get("access_servers"));
+                        mTreePresenter.updatePermission(mTemplateBean.getId(), mTemplateBean);
                     }
-
                 }
             });
         }
@@ -147,6 +148,10 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
     @Override
     public void updateSuccess() {
         showMessage("模板权限更新成功");
+        Intent data = new Intent();
+        data.putExtra("obj", mTemplateBean);
+        setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH, data);
+        finish();
     }
 
     @Override
@@ -164,10 +169,4 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         return permission.split(",").length;
     }
 
-    @Override
-    public void showLoading() {
-        if (type == TYPE_VIEW) {
-            super.showLoading();
-        }
-    }
 }

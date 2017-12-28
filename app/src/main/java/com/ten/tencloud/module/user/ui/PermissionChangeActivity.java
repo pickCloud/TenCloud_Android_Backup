@@ -16,6 +16,9 @@ import butterknife.OnClick;
 
 public class PermissionChangeActivity extends BaseActivity {
 
+    private final static int REQUEST_CODE_NAME = 1000;
+    private final static int REQUEST_CODE_TEMPLATE = 1001;
+
     @BindView(R.id.tv_template_name)
     TextView mTvTemplateName;
     @BindView(R.id.tv_func_count)
@@ -49,13 +52,13 @@ public class PermissionChangeActivity extends BaseActivity {
             case R.id.ll_change_name: {
                 Intent intent = new Intent(this, PermissionChangeNameActivity.class);
                 intent.putExtra("obj", mTemplateBean);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, REQUEST_CODE_NAME);
                 break;
             }
             case R.id.ll_change_permission: {
                 Intent intent = new Intent(this, PermissionTreeActivity.class);
                 intent.putExtra("obj", mTemplateBean);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_TEMPLATE);
                 overridePendingTransition(R.anim.slide_in_top, 0);
                 break;
             }
@@ -72,9 +75,14 @@ public class PermissionChangeActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
-            String name = data.getStringExtra("name");
-            if (!TextUtils.isEmpty(name)) {
-                mTvTemplateName.setText(name);
+            if (requestCode == REQUEST_CODE_NAME) {
+                String name = data.getStringExtra("name");
+                if (!TextUtils.isEmpty(name)) {
+                    mTvTemplateName.setText(name);
+                }
+            } else if (requestCode == REQUEST_CODE_TEMPLATE) {
+                mTemplateBean = data.getParcelableExtra("obj");
+                initView();
             }
         }
     }
