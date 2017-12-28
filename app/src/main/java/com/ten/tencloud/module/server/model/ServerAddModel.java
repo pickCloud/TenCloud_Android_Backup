@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.server.model;
 
 import com.socks.library.KLog;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.constants.Url;
 
 import okhttp3.OkHttpClient;
@@ -57,8 +58,10 @@ public class ServerAddModel {
                 onServerAddListener.onFailure(t.getMessage());
             }
         };
-        mClient = new OkHttpClient();
+//        mClient = new OkHttpClient();
+        mClient = TenApp.getRetrofitClient().getOkHttpClient();
     }
+
 
     /**
      * 设置ip地址和端口号，请求连接

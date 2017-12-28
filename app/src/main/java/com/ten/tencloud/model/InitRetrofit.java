@@ -41,7 +41,7 @@ public class InitRetrofit {
                 .build();
     }
 
-    private OkHttpClient getOkHttpClient() {
+    public OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder newBuilder = new OkHttpClient().newBuilder();
         newBuilder.interceptors().add(new AddCookiesInterceptor());
         //日志打印

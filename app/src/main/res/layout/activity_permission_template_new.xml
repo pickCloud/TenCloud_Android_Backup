@@ -90,7 +90,7 @@
             android:id="@+id/tv_label"
             style="@style/SettingItemLabel"
             android:layout_weight="1"
-            android:text="模板权限项" />
+            android:text="选择权限" />
 
         <TextView
             android:id="@+id/temp1"

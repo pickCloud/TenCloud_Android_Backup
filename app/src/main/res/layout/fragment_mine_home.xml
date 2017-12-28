@@ -190,7 +190,9 @@
             android:background="@color/bg_232730"
             android:orientation="vertical">
 
-            <LinearLayout style="@style/SettingItemLayout">
+            <LinearLayout
+                android:id="@+id/ll_employee"
+                style="@style/SettingItemLayout">
 
                 <ImageView
                     style="@style/SettingItemIcon"

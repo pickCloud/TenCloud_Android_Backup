@@ -88,6 +88,14 @@ public class PermissionTemplateNewActivity extends BaseActivity implements Permi
             showMessage("模板名称不能为空");
             return;
         }
+        String funcCount = mTvFuncCount.getText().toString().trim();
+        String dataCount = mTvDataCount.getText().toString().trim();
+        if ("0".equals(funcCount) && "0".equals(dataCount)) {
+            mTemplateBean.setAccess_servers("");
+            mTemplateBean.setAccess_projects("");
+            mTemplateBean.setAccess_filehub("");
+            mTemplateBean.setPermissions("");
+        }
         mTemplateBean.setName(name);
         mPresenter.addTemplate(mTemplateBean);
     }

@@ -63,6 +63,9 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             }, "确认", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (mFuncPager == null || mDataPager == null) {
+                        return;
+                    }
                     Map<String, String> funcSelectNode = mFuncPager.getSelectNode();
                     Map<String, String> dataSelectNode = mDataPager.getSelectNode();
                     dataSelectNode.putAll(funcSelectNode);

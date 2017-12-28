@@ -149,7 +149,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         }
     }
 
-    @OnClick({R.id.ll_user, R.id.tv_switch, R.id.ll_setting, R.id.ll_company, R.id.ll_template})
+    @OnClick({R.id.ll_user, R.id.tv_switch, R.id.ll_setting,
+            R.id.ll_company, R.id.ll_template, R.id.ll_employee})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_user:
@@ -173,11 +174,17 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
             case R.id.ll_company:
                 startActivity(new Intent(mActivity, CompanyListActivity.class));
                 break;
-            case R.id.ll_template:
+            case R.id.ll_template: {
                 Intent intent = new Intent(mActivity, PermissionTemplateListActivity.class);
                 intent.putExtra("cid", cid);
                 startActivity(intent);
                 break;
+            }
+            case R.id.ll_employee: {
+//                Intent intent = new Intent(mActivity, EmployeeListActivity.class);
+//                startActivity(intent);
+                break;
+            }
         }
     }
 
