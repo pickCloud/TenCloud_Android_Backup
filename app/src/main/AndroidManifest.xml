@@ -33,6 +33,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.main.ui.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.server.ui.ServerListActivity"
@@ -69,7 +70,8 @@
         <activity android:name=".module.user.ui.PermissionTreeActivity" />
         <activity android:name=".module.user.ui.PermissionChangeNameActivity" />
         <activity android:name=".module.user.ui.PermissionTemplateNewActivity" />
-        <activity android:name=".module.user.ui.EmployeeListActivity"></activity>
+        <activity android:name=".module.user.ui.EmployeeListActivity" />
+        <activity android:name=".module.other.ui.SelectPhotoActivity"></activity>
     </application>
 
 </manifest>

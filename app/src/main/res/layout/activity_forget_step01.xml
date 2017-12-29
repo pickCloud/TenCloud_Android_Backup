@@ -124,6 +124,7 @@
     <View style="@style/LineHorizontal2f3543" />
 
     <Button
+        android:id="@+id/btn_ok"
         style="@style/BtnLoginStepNext"
         android:onClick="retrieve"
         android:text="找回密码" />

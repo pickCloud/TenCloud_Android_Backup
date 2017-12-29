@@ -135,6 +135,11 @@ dependencies {
 
     compile "me.texy.treeview:treeview_lib:${libs.treeview}"
 
+    compile "com.qiniu:qiniu-android-sdk:${libs.qiniu}"
+
+    compile "com.jph.takephoto:takephoto_library:${libs.takephoto}"
+
+
     compile(name: 'gt3geetest_sdk', ext: 'aar')
 
     testCompile 'junit:junit:4.12'

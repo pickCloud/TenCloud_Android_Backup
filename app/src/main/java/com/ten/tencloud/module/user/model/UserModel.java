@@ -86,7 +86,7 @@ public class UserModel {
      * @param mobile
      * @return
      */
-    public Observable<Object> createCompany(String name, String contact, String mobile) {
+    public Observable<CompanyBean> createCompany(String name, String contact, String mobile) {
         Map<String, String> map = new HashMap<>();
         map.put("name", name);
         map.put("contact", contact);
@@ -95,7 +95,7 @@ public class UserModel {
         RequestBody body = RetrofitUtils.stringToJsonBody(json);
         return TenApp.getRetrofitClient().getTenUserApi()
                 .createCompany(body)
-                .map(new HttpResultFunc<Object>())
+                .map(new HttpResultFunc<CompanyBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

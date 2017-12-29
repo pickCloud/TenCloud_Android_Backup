@@ -96,12 +96,12 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
             mViewRoleUser.setVisibility(View.VISIBLE);
             mIvCertification.setImageResource(R.mipmap.icon_idcard_off);
             mTvUserName.setVisibility(View.GONE);
+            mViewTemplate.setVisibility(View.GONE);
         } else {
             mViewRoleUser.setVisibility(View.GONE);
             mViewRoleCompany.setVisibility(View.VISIBLE);
             mIvCertification.setImageResource(R.mipmap.icon_comreg_off);
             mTvUserName.setVisibility(View.VISIBLE);
-            mViewTemplate.setVisibility(mSelectCompany.getIs_admin() != 0 ? View.VISIBLE : View.GONE);
             mUserHomePresenter.getEmployees(cid);
         }
     }
@@ -221,6 +221,11 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
                         || company.getStatus() == 2) {
                     data.add(company);
                 }
+                if (cid == company.getCid()) {
+                    mSelectCompany = company;
+                    AppBaseCache.getInstance().saveSelectCompanyWithLogin(mSelectCompany);
+                    mViewTemplate.setVisibility(mSelectCompany.getIs_admin() != 0 ? View.VISIBLE : View.GONE);
+                }
             }
         }
         mTvCompanyDes.setText(count + "家公司");
@@ -245,6 +250,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         super.onResume();
         if (GlobalStatusManager.getInstance().isUserInfoNeedRefresh()) {
             mUserInfo = AppBaseCache.getInstance().getUserInfo();
+            cid = AppBaseCache.getInstance().getCid();
+            mSelectCompany = null;//cid为新创建的公司
             mUserHomePresenter.getCompanies();
             initView();
             showUserInfo(mUserInfo);

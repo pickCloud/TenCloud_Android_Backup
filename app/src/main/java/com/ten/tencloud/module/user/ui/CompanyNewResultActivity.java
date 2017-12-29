@@ -5,6 +5,8 @@ import android.view.View;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.module.main.ui.MainActivity;
 
 import butterknife.BindView;
 
@@ -16,6 +18,7 @@ public class CompanyNewResultActivity extends BaseActivity {
     View mLlFailed;
 
     private boolean mIsSuccess;
+    private int mCid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public class CompanyNewResultActivity extends BaseActivity {
     }
 
     public void btnOk(View view) {
-        finish();
+        mCid = getIntent().getIntExtra("cid", 0);
+        AppBaseCache.getInstance().setCid(mCid);
+        startActivityNoValue(this, MainActivity.class);
     }
 }

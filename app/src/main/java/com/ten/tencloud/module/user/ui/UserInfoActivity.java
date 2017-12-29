@@ -13,6 +13,7 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.module.other.ui.SelectPhotoActivity;
 import com.ten.tencloud.module.user.contract.UserUpdateContract;
 import com.ten.tencloud.module.user.presenter.UserUpdatePresenter;
 import com.ten.tencloud.utils.DateUtils;
@@ -93,7 +94,7 @@ public class UserInfoActivity extends BaseActivity implements UserUpdateContract
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_avatar:
-
+                startActivity(new Intent(this, SelectPhotoActivity.class));
                 break;
             case R.id.ll_name: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);

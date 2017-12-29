@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.user.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,7 +8,7 @@ import android.widget.EditText;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
-import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.module.user.contract.CompanyNewContract;
 import com.ten.tencloud.module.user.presenter.CompanyNewPresenter;
@@ -58,9 +59,11 @@ public class CompanyNewActivity extends BaseActivity implements CompanyNewContra
     }
 
     @Override
-    public void showSuccess() {
-        startActivityNoValue(this, CompanyNewResultActivity.class);
-        setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH);
+    public void showSuccess(CompanyBean bean) {
+        Intent intent = new Intent(this, CompanyNewResultActivity.class);
+        intent.putExtra("cid", bean.getCid());
+        intent.putExtra("isSuccess", true);
+        startActivity(intent);
         finish();
     }
 

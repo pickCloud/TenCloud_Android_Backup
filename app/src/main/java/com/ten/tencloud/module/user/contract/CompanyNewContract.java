@@ -2,6 +2,7 @@ package com.ten.tencloud.module.user.contract;
 
 import com.ten.tencloud.base.presenter.IBasePresenter;
 import com.ten.tencloud.base.view.IBaseView;
+import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.model.JesException;
 
 /**
@@ -10,7 +11,7 @@ import com.ten.tencloud.model.JesException;
 public class CompanyNewContract {
     public interface View extends IBaseView {
 
-        void showSuccess();
+        void showSuccess(CompanyBean bean);
 
         void showFailed(JesException e);
     }

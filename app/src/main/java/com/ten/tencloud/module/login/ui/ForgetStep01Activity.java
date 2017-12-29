@@ -38,6 +38,8 @@ public class ForgetStep01Activity extends BaseActivity implements LoginCaptchaCo
     EditText mEtNewPWVerify;
     @BindView(R.id.ll_old)
     View mLlOld;
+    @BindView(R.id.btn_ok)
+    Button mBtnOk;
 
     private LoginCaptchaPresenter mLoginCaptchaPresenter;
     private String mMobile;
@@ -50,6 +52,9 @@ public class ForgetStep01Activity extends BaseActivity implements LoginCaptchaCo
         createView(R.layout.activity_forget_step01);
         mIsSetting = getIntent().getBooleanExtra("isSetting", false);
         initTitleBar(true, mIsSetting ? "修改密码" : "找回密码");
+        if (mIsSetting) {
+            mBtnOk.setText("修改密码");
+        }
         init();
     }
 
@@ -187,7 +192,11 @@ public class ForgetStep01Activity extends BaseActivity implements LoginCaptchaCo
     @Override
     public void findFailed(JesException e) {
         if (mIsSetting) {
-            startActivityNoValue(this, SettingChangePWResultActivity.class);
+            if (e.getCode() == 10410) {
+                startActivityNoValue(this, SettingChangePWResultActivity.class);
+            } else if (e.getCode() == 10412) {
+                showMessage("验证码错误");
+            }
         } else {
             showMessage(e.getMessage());
         }
