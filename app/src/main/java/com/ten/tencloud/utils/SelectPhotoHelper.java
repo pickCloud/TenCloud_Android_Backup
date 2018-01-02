@@ -75,7 +75,7 @@ public class SelectPhotoHelper {
      * @param takePhoto
      */
     private void configCompress(TakePhoto takePhoto) {
-        if (mOptions.isCompress) {
+        if (!mOptions.isCompress) {
             takePhoto.onEnableCompress(null, false);
             return;
         }
@@ -103,7 +103,7 @@ public class SelectPhotoHelper {
         int width = mOptions.cropWidth;
         CropOptions.Builder builder = new CropOptions.Builder();
         builder.setOutputX(width).setOutputY(height);
-        builder.setWithOwnCrop(false);//剪切工具使用第三方
+        builder.setWithOwnCrop(true);//剪切工具
         return builder.create();
     }
 

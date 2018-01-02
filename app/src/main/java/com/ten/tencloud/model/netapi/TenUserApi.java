@@ -26,6 +26,9 @@ import rx.Observable;
 
 public interface TenUserApi {
 
+    @GET("/api/user/token")
+    Observable<Response<JesResponse<User>>> getUploadToken();
+
     @GET("/api/user")
     Observable<Response<JesResponse<User>>> getUserInfo();
 

@@ -22,7 +22,9 @@ import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvSwitchAdapter;
 import com.ten.tencloud.module.user.contract.UserHomeContract;
+import com.ten.tencloud.module.user.contract.UserInfoContract;
 import com.ten.tencloud.module.user.presenter.UserHomePresenter;
+import com.ten.tencloud.module.user.presenter.UserInfoPresenter;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.utils.glide.GlideUtils;
@@ -38,7 +40,7 @@ import butterknife.OnClick;
  * Created by lxq on 2017/11/23.
  */
 
-public class MineFragment extends BaseFragment implements UserHomeContract.View {
+public class MineFragment extends BaseFragment implements UserHomeContract.View, UserInfoContract.View {
 
     @BindView(R.id.tv_switch)
     TextView mTvSwitch;
@@ -72,6 +74,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
     private RvSwitchAdapter mAdapter;
     private PopupWindow mPopupWindow;
     private User mUserInfo;
+    private UserInfoPresenter mUserInfoPresenter;
 
     @Nullable
     @Override
@@ -83,6 +86,9 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mUserHomePresenter = new UserHomePresenter();
         mUserHomePresenter.attachView(this);
+        mUserInfoPresenter = new UserInfoPresenter();
+        mUserInfoPresenter.attachView(this);
+
         mUserInfo = AppBaseCache.getInstance().getUserInfo();
         cid = AppBaseCache.getInstance().getCid();
         mSelectCompany = AppBaseCache.getInstance().getSelectCompanyWithLogin();
@@ -143,7 +149,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
     @Override
     public void onVisible() {
         if (isFirst) {
-            mUserHomePresenter.getUserInfo();
+            mUserInfoPresenter.getUserInfo();
             mUserHomePresenter.getCompanies();
             isFirst = false;
         }
@@ -250,6 +256,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View 
         super.onResume();
         if (GlobalStatusManager.getInstance().isUserInfoNeedRefresh()) {
             mUserInfo = AppBaseCache.getInstance().getUserInfo();
+            mUserInfoPresenter.getUserInfo();
             cid = AppBaseCache.getInstance().getCid();
             mSelectCompany = null;//cid为新创建的公司
             mUserHomePresenter.getCompanies();
