@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/default_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_take"
+            style="@style/SettingItemLayout"
+            android:gravity="center">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="拍照" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+        <LinearLayout
+            android:id="@+id/ll_gallery"
+            style="@style/SettingItemLayout"
+            android:gravity="center">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="相册" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_cancel"
+            style="@style/SettingItemLayout"
+            android:layout_marginTop="8dp"
+            android:gravity="center">
+
+            <TextView
+                style="@style/SettingItemDes"
+                android:gravity="center"
+                android:text="取消"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -32,6 +32,7 @@ import com.ten.tencloud.utils.DateUtils;
 import com.ten.tencloud.utils.SelectPhotoHelper;
 import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.utils.glide.GlideUtils;
+import com.ten.tencloud.widget.dialog.PhotoSelectDialog;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -67,6 +68,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     private SelectPhotoHelper mPhotoHelper;
     private QiniuPresenter mQiniuPresenter;
     private UserInfoPresenter mUserInfoPresenter;
+    private PhotoSelectDialog mPhotoSelectDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +130,21 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         switch (view.getId()) {
             case R.id.ll_avatar:
                 // TODO: 2018/1/2 底部弹窗 拍照or选中
-                mPhotoHelper.onClick(false, getTakePhoto());
+                if (mPhotoSelectDialog == null) {
+                    mPhotoSelectDialog = new PhotoSelectDialog(this);
+                    mPhotoSelectDialog.setOnBtnClickListener(new PhotoSelectDialog.OnBtnClickListener() {
+                        @Override
+                        public void onTake() {
+                            mPhotoHelper.onClick(true, getTakePhoto());
+                        }
+
+                        @Override
+                        public void onGallery() {
+                            mPhotoHelper.onClick(false, getTakePhoto());
+                        }
+                    });
+                }
+                mPhotoSelectDialog.show();
                 break;
             case R.id.ll_name: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);
