@@ -103,6 +103,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
             mIvCertification.setImageResource(R.mipmap.icon_idcard_off);
             mTvUserName.setVisibility(View.GONE);
             mViewTemplate.setVisibility(View.GONE);
+            mUserInfoPresenter.getUserInfo();
         } else {
             mViewRoleUser.setVisibility(View.GONE);
             mViewRoleCompany.setVisibility(View.VISIBLE);
@@ -187,8 +188,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
                 break;
             }
             case R.id.ll_employee: {
-//                Intent intent = new Intent(mActivity, EmployeeListActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(mActivity, EmployeeListActivity.class);
+                startActivity(intent);
                 break;
             }
         }
@@ -256,8 +257,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         super.onResume();
         if (GlobalStatusManager.getInstance().isUserInfoNeedRefresh()) {
             mUserInfo = AppBaseCache.getInstance().getUserInfo();
-            mUserInfoPresenter.getUserInfo();
             cid = AppBaseCache.getInstance().getCid();
+            mUserInfoPresenter.getUserInfo();
             mSelectCompany = null;//cid为新创建的公司
             mUserHomePresenter.getCompanies();
             initView();

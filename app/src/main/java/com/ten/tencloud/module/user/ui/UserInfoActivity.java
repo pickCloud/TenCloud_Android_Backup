@@ -129,7 +129,6 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_avatar:
-                // TODO: 2018/1/2 底部弹窗 拍照or选中
                 if (mPhotoSelectDialog == null) {
                     mPhotoSelectDialog = new PhotoSelectDialog(this);
                     mPhotoSelectDialog.setOnBtnClickListener(new PhotoSelectDialog.OnBtnClickListener() {
