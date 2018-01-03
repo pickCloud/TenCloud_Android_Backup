@@ -5,6 +5,7 @@ import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
@@ -256,5 +257,20 @@ public class UserModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+
+    /**
+     * 获取用户权限
+     *
+     * @param cid
+     * @return
+     */
+    public Observable<Object> getUserPermission(int cid) {
+        int uid = (int) AppBaseCache.getInstance().getUserInfo().getId();
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .getUserPermission(cid, uid)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
 }

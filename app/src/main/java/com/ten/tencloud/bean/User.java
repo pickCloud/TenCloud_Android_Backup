@@ -10,7 +10,7 @@ import io.objectbox.annotation.Id;
 @Entity
 public class User {
 
-    @Id
+    @Id(assignable = true)
     private long id;
 
     private String token;

@@ -56,6 +56,9 @@ public interface TenUserApi {
     @POST("/api/user/mobile/reset")
     Observable<Response<JesResponse<Object>>> changePhone(@Body RequestBody body);
 
+    @GET("/api/permission/{cid}/user/{uid}/detail/format/1")
+    Observable<Response<JesResponse<Object>>> getUserPermission(@Path("cid") int cid, @Path("uid") int uid);
+
     /**
      * ========================template
      */

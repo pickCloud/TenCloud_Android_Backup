@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    tools:context="com.ten.tencloud.module.user.ui.EmployeeInfoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            style="@style/ListItemLLFirst"
+            android:layout_height="86dp">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <com.ten.tencloud.widget.CircleImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/icon_userphoto" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:textColor="@color/text_color_899ab6"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_admin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_border_admin"
+                            android:paddingBottom="1dp"
+                            android:paddingLeft="4dp"
+                            android:paddingRight="4dp"
+                            android:paddingTop="1dp"
+                            android:text="管理员"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="10sp"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:drawableLeft="@mipmap/icon_phonenum"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/text_color_556278"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="身份证号" />
+
+                <TextView
+                    android:id="@+id/tv_id_num"
+                    style="@style/ListItemTextValue"
+                    android:text="-" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="申请时间" />
+
+                <TextView
+                    android:id="@+id/tv_apply_time"
+                    style="@style/ListItemTextValue"
+                    android:text="-" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="加入时间" />
+
+                <TextView
+                    android:id="@+id/tv_join_time"
+                    style="@style/ListItemTextValue"
+                    android:text="-" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="状态" />
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    style="@style/ListItemTextValue"
+                    android:textColor="@color/select_employee_status" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            style="@style/LineHorizontal2f3543"
+            android:layout_marginBottom="24dp" />
+
+        <!--有权限-->
+        <Button
+            android:id="@+id/btn_view_permission"
+            style="@style/ButtonFullWidth"
+            android:background="@drawable/shape_round_default"
+            android:text="查看权限"
+            android:textColor="@color/text_color_232730"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_replace_admin"
+            style="@style/ButtonFullWidth"
+            android:background="@drawable/shape_round_default"
+            android:text="更换管理员"
+            android:textColor="@color/text_color_232730"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_leave"
+            style="@style/ButtonFullWidth"
+            android:background="@drawable/shape_round_default"
+            android:text="离开企业"
+            android:textColor="@color/text_color_232730"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_allow"
+            style="@style/ButtonFullWidth"
+            android:background="@drawable/shape_round_default"
+            android:text="允许加入"
+            android:textColor="@color/text_color_232730"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_reject"
+            style="@style/ButtonFullWidth"
+            android:background="@drawable/shape_round_ef9a9a"
+            android:text="拒绝加入"
+            android:textColor="@color/text_color_502016"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_setting_permission"
+            style="@style/ButtonFullWidth"
+            android:background="@drawable/shape_round_default"
+            android:text="设置权限"
+            android:textColor="@color/text_color_232730"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_relieve"
+            style="@style/ButtonFullWidth"
+            android:background="@drawable/shape_round_ef9a9a"
+            android:text="解除关系"
+            android:textColor="@color/text_color_502016"
+            android:visibility="gone" />
+
+        <!--没有权限的员工看自己的-->
+        <Button
+            android:id="@+id/btn_leave_no_admin"
+            style="@style/ButtonFullWidth"
+            android:background="@drawable/shape_round_ef9a9a"
+            android:text="离开企业"
+            android:textColor="@color/text_color_502016"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

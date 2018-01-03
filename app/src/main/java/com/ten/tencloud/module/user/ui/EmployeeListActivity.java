@@ -1,11 +1,13 @@
 package com.ten.tencloud.module.user.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.model.AppBaseCache;
@@ -45,6 +47,14 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
 
         mRvEmployee.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvEmployeeAdapter(this);
+        mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<EmployeeBean>() {
+            @Override
+            public void onObjectItemClicked(EmployeeBean employeeBean, int position) {
+                Intent intent = new Intent(mContext, EmployeeInfoActivity.class);
+                intent.putExtra("obj", employeeBean);
+                startActivity(intent);
+            }
+        });
         mRvEmployee.setAdapter(mAdapter);
         mEmployeesListPresenter.getEmployees(AppBaseCache.getInstance().getCid());
     }

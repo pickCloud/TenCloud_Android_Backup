@@ -18,6 +18,7 @@ public class UserHomeContract {
         void showCompanyInfo(CompanyBean companyInfo);
 
         void showEmployees(List<EmployeeBean> employees);
+
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
@@ -27,5 +28,7 @@ public class UserHomeContract {
         void getCompanyByCid(int cid);
 
         void getEmployees(int cid);
+
+        void getPermission(int cid);
     }
 }

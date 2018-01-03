@@ -1,10 +1,13 @@
 package com.ten.tencloud.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by lxq on 2017/12/28.
  */
 
-public class EmployeeBean {
+public class EmployeeBean implements Parcelable {
 
     /**
      * update_time : 2017-12-04 10:57:21
@@ -25,6 +28,32 @@ public class EmployeeBean {
     private int status;
     private int uid;
     private int is_admin; //1 是 0 否
+
+    public EmployeeBean() {
+    }
+
+    protected EmployeeBean(Parcel in) {
+        update_time = in.readString();
+        name = in.readString();
+        mobile = in.readString();
+        create_time = in.readString();
+        id = in.readInt();
+        status = in.readInt();
+        uid = in.readInt();
+        is_admin = in.readInt();
+    }
+
+    public static final Creator<EmployeeBean> CREATOR = new Creator<EmployeeBean>() {
+        @Override
+        public EmployeeBean createFromParcel(Parcel in) {
+            return new EmployeeBean(in);
+        }
+
+        @Override
+        public EmployeeBean[] newArray(int size) {
+            return new EmployeeBean[size];
+        }
+    };
 
     public String getUpdate_time() {
         return update_time;
@@ -88,5 +117,23 @@ public class EmployeeBean {
 
     public void setIs_admin(int is_admin) {
         this.is_admin = is_admin;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(update_time);
+        dest.writeString(name);
+        dest.writeString(mobile);
+        dest.writeString(create_time);
+        dest.writeInt(id);
+        dest.writeInt(status);
+        dest.writeInt(uid);
+        dest.writeInt(is_admin);
     }
 }

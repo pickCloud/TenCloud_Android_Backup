@@ -71,7 +71,8 @@
         <activity android:name=".module.user.ui.PermissionChangeNameActivity" />
         <activity android:name=".module.user.ui.PermissionTemplateNewActivity" />
         <activity android:name=".module.user.ui.EmployeeListActivity" />
-        <activity android:name=".module.other.ui.SelectPhotoActivity"></activity>
+        <activity android:name=".module.other.ui.SelectPhotoActivity" />
+        <activity android:name=".module.user.ui.EmployeeInfoActivity"></activity>
     </application>
 
 </manifest>

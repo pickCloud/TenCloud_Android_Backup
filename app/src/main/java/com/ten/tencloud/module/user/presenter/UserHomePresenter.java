@@ -4,6 +4,7 @@ import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.UserHomeContract;
 import com.ten.tencloud.module.user.model.EmployeesModel;
@@ -54,6 +55,17 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                     @Override
                     public void _onSuccess(List<EmployeeBean> employeeBeans) {
                         mView.showEmployees(employeeBeans);
+                    }
+                }));
+    }
+
+    @Override
+    public void getPermission(int cid) {
+        mSubscriptions.add(UserModel.getInstance().getUserPermission(cid)
+                .subscribe(new JesSubscribe<Object>(mView) {
+                    @Override
+                    public void _onSuccess(Object o) {
+                        AppBaseCache.getInstance().setUserPermission(o.toString());
                     }
                 }));
     }

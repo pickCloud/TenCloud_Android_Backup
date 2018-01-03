@@ -110,6 +110,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
             mIvCertification.setImageResource(R.mipmap.icon_comreg_off);
             mTvUserName.setVisibility(View.VISIBLE);
             mUserHomePresenter.getEmployees(cid);
+            mUserHomePresenter.getPermission(cid);
         }
     }
 
@@ -245,6 +246,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         companyInfo.setCid(companyInfo.getId());
         mSelectCompany = companyInfo;
         mTvName.setText(companyInfo.getName());
+        mTvUserName.setText(companyInfo.getContact());
+        mTvPhone.setText(companyInfo.getMobile());
     }
 
     @Override

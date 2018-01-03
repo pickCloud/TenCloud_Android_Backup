@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.bean.KeyValue;
+import com.ten.tencloud.bean.KeyValue_;
 import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.Constants;
@@ -21,6 +23,7 @@ public class AppBaseCache {
     private final String TOKEN = "TOKEN";
     private final String CID = "CID";//公司ID
     private final String LOGIN_COMPANY = "LOGIN_COMPANY";//记录登录的公司
+    private final String USER_PERMISSION = "USER_PERMISSION";//用户权限
 
     private static AppBaseCache sAppBaseCache;
     private static SPFHelper spfHelper;
@@ -28,6 +31,7 @@ public class AppBaseCache {
     private String token;
     private int cid;
     private String loginCompany;
+    private String userPermission;
 
     private AppBaseCache(Context context) {
         spfHelper = new SPFHelper(context, Constants.SPF_NAME_USER);
@@ -77,7 +81,6 @@ public class AppBaseCache {
         if (first != null) {
             userBox.remove(first);
         }
-        user.setId(0);
         userBox.put(user);
     }
 
@@ -93,6 +96,24 @@ public class AppBaseCache {
             this.token = token;
         }
         return this;
+    }
+
+    public String getUserPermission() {
+        Box<KeyValue> box = TenApp.getInstance().getBoxStore().boxFor(KeyValue.class);
+        KeyValue value = box.query().equal(KeyValue_.key, USER_PERMISSION).build().findFirst();
+        if (value == null) {
+            return "";
+        }
+        return value.getValue();
+    }
+
+    public void setUserPermission(String userPermission) {
+        Box<KeyValue> box = TenApp.getInstance().getBoxStore().boxFor(KeyValue.class);
+        KeyValue first = box.query().equal(KeyValue_.key, USER_PERMISSION).build().findFirst();
+        if (first != null) {
+            box.remove(first);
+        }
+        box.put(new KeyValue(USER_PERMISSION, userPermission));
     }
 
     public int getCid() {

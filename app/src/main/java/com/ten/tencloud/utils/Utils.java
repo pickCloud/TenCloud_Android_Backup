@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.ContentInfoBean;
 import com.ten.tencloud.bean.NetSpeedBean;
+import com.ten.tencloud.model.AppBaseCache;
 
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -130,4 +131,15 @@ public class Utils {
         return TextUtils.isEmpty(str) ? defaultStr : str;
     }
 
+
+    /**
+     * 是否具有某项权限
+     *
+     * @param permission
+     * @return
+     */
+    public static boolean hasPermission(String permission) {
+        String userPermission = AppBaseCache.getInstance().getUserPermission();
+        return userPermission.contains(permission);
+    }
 }
