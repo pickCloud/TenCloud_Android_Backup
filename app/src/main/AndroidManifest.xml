@@ -72,7 +72,10 @@
         <activity android:name=".module.user.ui.PermissionTemplateNewActivity" />
         <activity android:name=".module.user.ui.EmployeeListActivity" />
         <activity android:name=".module.other.ui.SelectPhotoActivity" />
-        <activity android:name=".module.user.ui.EmployeeInfoActivity"></activity>
+        <activity android:name=".module.user.ui.EmployeeInfoActivity" />
+        <activity android:name=".module.user.ui.EmployeeSelectAdminActivity" />
+        <activity android:name=".module.user.ui.EmployeeJoinConditionActivity" />
+        <activity android:name=".module.user.ui.EmployeeInviteActivity"></activity>
     </application>
 
 </manifest>

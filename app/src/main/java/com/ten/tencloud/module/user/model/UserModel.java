@@ -2,6 +2,7 @@ package com.ten.tencloud.module.user.model;
 
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.bean.PermissionTemplate2Bean;
 import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.bean.User;
@@ -264,10 +265,57 @@ public class UserModel {
      * @param cid
      * @return
      */
-    public Observable<Object> getUserPermission(int cid) {
-        int uid = (int) AppBaseCache.getInstance().getUserInfo().getId();
+    public Observable<PermissionTemplate2Bean> getUserPermission(int cid, int uid) {
         return TenApp.getRetrofitClient().getTenUserApi()
                 .getUserPermission(cid, uid)
+                .map(new HttpResultFunc<PermissionTemplate2Bean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取用户权限
+     *
+     * @param cid
+     * @return
+     */
+    public Observable<List<PermissionTreeNodeBean>> viewUserPermission(int cid, int uid) {
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .viewUserPermission(cid, uid)
+                .map(new HttpResultFunc<List<PermissionTreeNodeBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 更新用户权限
+     *
+     * @return
+     */
+    public Observable<Object> updateUserPermission(PermissionTemplateBean bean) {
+        String json = TenApp.getInstance().getGsonInstance().toJson(bean);
+        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .updateUserPermission(body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 移交管理员
+     *
+     * @param uid
+     * @return
+     */
+    public Observable<Object> transferAmdin(int uid) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("cid", AppBaseCache.getInstance().getSelectCompanyWithLogin().getCid());
+        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .transferAdmin(body)
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

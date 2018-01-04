@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_232730"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_round_3f4656"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_join_condition"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="设置个人加入条件"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_invite"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="邀请员工"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_transfer"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="更换管理员"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</LinearLayout>

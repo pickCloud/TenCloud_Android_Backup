@@ -17,6 +17,11 @@ public class PermissionTreeContract {
         void showTemplates(PermissionTreeNodeBean data);
 
         void updateSuccess();
+
+        void showExistPermission(PermissionTemplateBean exist);
+
+        void updateUserPermissionSuccess();
+
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
@@ -26,6 +31,12 @@ public class PermissionTreeContract {
         void getTemplate(int ptId);
 
         void updatePermission(int ptId, PermissionTemplateBean bean);
+
+        void getUserPermission(int uid);
+
+        void viewUserPermission(int uid);
+
+        void updateUserPermission(PermissionTemplateBean bean);
 
     }
 }

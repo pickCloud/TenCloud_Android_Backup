@@ -1,8 +1,10 @@
 package com.ten.tencloud.module.user.presenter;
 
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.bean.PermissionTemplate2Bean;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
@@ -61,11 +63,13 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
 
     @Override
     public void getPermission(int cid) {
-        mSubscriptions.add(UserModel.getInstance().getUserPermission(cid)
-                .subscribe(new JesSubscribe<Object>(mView) {
+        int uid = (int) AppBaseCache.getInstance().getUserInfo().getId();
+        mSubscriptions.add(UserModel.getInstance().getUserPermission(cid, uid)
+                .subscribe(new JesSubscribe<PermissionTemplate2Bean>(mView) {
                     @Override
-                    public void _onSuccess(Object o) {
-                        AppBaseCache.getInstance().setUserPermission(o.toString());
+                    public void _onSuccess(PermissionTemplate2Bean o) {
+                        String s = TenApp.getInstance().getGsonInstance().toJson(o);
+                        AppBaseCache.getInstance().setUserPermission(s);
                     }
                 }));
     }

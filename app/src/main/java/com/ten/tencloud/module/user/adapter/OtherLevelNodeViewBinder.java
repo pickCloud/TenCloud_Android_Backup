@@ -29,10 +29,6 @@ public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
         super(view);
         this.isView = isView;
         mCheckBox = view.findViewById(R.id.checkbox);
-        if (isView) {
-            mCheckBox.setCompoundDrawables(null, null, null, null);
-            mCheckBox.setEnabled(false);
-        }
         mLlContent = view.findViewById(R.id.ll_content);
         mIvArrow = view.findViewById(R.id.iv_arrow);
     }
@@ -51,6 +47,10 @@ public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
     public void bindView(TreeNode treeNode) {
         PermissionTreeNodeBean nodeBean = (PermissionTreeNodeBean) treeNode.getValue();
         String name = nodeBean.getName();
+        if (isView) {
+            mCheckBox.setCompoundDrawables(null, null, null, null);
+            mCheckBox.setEnabled(false);
+        }
         if (TextUtils.isEmpty(name)) {//文件的情况
             name = nodeBean.getFilename();
         }

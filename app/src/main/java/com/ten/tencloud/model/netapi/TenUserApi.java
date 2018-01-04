@@ -4,11 +4,13 @@ package com.ten.tencloud.model.netapi;
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.bean.PermissionTemplate2Bean;
 import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.bean.User;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -57,7 +59,16 @@ public interface TenUserApi {
     Observable<Response<JesResponse<Object>>> changePhone(@Body RequestBody body);
 
     @GET("/api/permission/{cid}/user/{uid}/detail/format/1")
-    Observable<Response<JesResponse<Object>>> getUserPermission(@Path("cid") int cid, @Path("uid") int uid);
+    Observable<Response<JesResponse<PermissionTemplate2Bean>>> getUserPermission(@Path("cid") int cid, @Path("uid") int uid);
+
+    @GET("/api/permission/{cid}/user/{uid}/detail/format/0")
+    Observable<Response<JesResponse<List<PermissionTreeNodeBean>>>> viewUserPermission(@Path("cid") int cid, @Path("uid") int uid);
+
+    @POST("/api/permission/user/update")
+    Observable<Response<JesResponse<Object>>> updateUserPermission(@Body RequestBody body);
+
+    @POST("/api/company/admin/transfer")
+    Observable<Response<JesResponse<Object>>> transferAdmin(@Body RequestBody body);
 
     /**
      * ========================template
@@ -86,4 +97,25 @@ public interface TenUserApi {
      */
     @GET("/api/company/{cid}/employees")
     Observable<Response<JesResponse<List<EmployeeBean>>>> getEmployeesList(@Path("cid") int cid);
+
+    /**
+     * 管理员解除员工
+     */
+    @POST("/api/company/application/dismission")
+    Observable<Response<JesResponse<Object>>> dismissEmployee(@Body RequestBody body);
+
+    /**
+     * 员工退出公司
+     *
+     * @param body
+     * @return
+     */
+    @POST("/api/company/employee/dismission")
+    Observable<Response<JesResponse<Object>>> dismissCompany(@Body RequestBody body);
+
+    @GET("/api/company/{cid}/entry/setting")
+    Observable<Response<JesResponse<Map<String, String>>>> getJoinSetting(@Path("cid") int cid);
+
+    @POST("/api/company/{cid}/entry/setting")
+    Observable<Response<JesResponse<Object>>> setJoinSetting(@Path("cid") int cid, @Body RequestBody body);
 }

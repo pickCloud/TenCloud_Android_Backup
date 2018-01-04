@@ -31,6 +31,8 @@ public class PermissionTemplateBean implements Parcelable {
     private int cid;
     private String access_servers;
 
+    private int uid;
+
     public PermissionTemplateBean() {
     }
 
@@ -141,6 +143,14 @@ public class PermissionTemplateBean implements Parcelable {
 
     public void setAccess_servers(String access_servers) {
         this.access_servers = access_servers;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     @Override

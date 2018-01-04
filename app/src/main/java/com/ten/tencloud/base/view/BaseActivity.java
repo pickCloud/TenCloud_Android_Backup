@@ -201,6 +201,13 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         mBarTitleSub.setText(subTitle);
     }
 
+    public void initTitleBar(boolean isBack, String title, String subTitle, String rightText, View.OnClickListener rightClickListener) {
+        initTitleBar(isBack, title, subTitle);
+        mTvRight.setVisibility(View.VISIBLE);
+        mTvRight.setText(rightText);
+        mTvRight.setOnClickListener(rightClickListener);
+    }
+
     public void initTitleBar(boolean isBack, String title, String rightText, View.OnClickListener rightClickListener) {
         initTitleBar(isBack, title);
         mTvRight.setVisibility(View.VISIBLE);

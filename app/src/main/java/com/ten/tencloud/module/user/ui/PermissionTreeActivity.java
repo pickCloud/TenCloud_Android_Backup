@@ -27,9 +27,15 @@ import butterknife.BindView;
 
 public class PermissionTreeActivity extends BaseActivity implements PermissionTreeContract.View {
 
+    //模板权限
     public static final int TYPE_UPDATE = 0;
     public static final int TYPE_VIEW = 1;
     public static final int TYPE_NEW = 3;
+
+    //给用户设置
+    public static final int TYPE_USER_SETTING = 4;
+    public static final int TYPE_USER_VIEW = 5;
+
 
     @BindView(R.id.tab)
     TabLayout mTab;
@@ -54,6 +60,31 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         type = getIntent().getIntExtra("type", TYPE_UPDATE);
         if (type == TYPE_VIEW) {
             initTitleBar(true, "查看权限", mTemplateBean.getName());
+        } else if (type == TYPE_USER_VIEW) {
+            String name = getIntent().getStringExtra("name");
+            initTitleBar(true, "查看权限", name);
+        } else if (type == TYPE_USER_SETTING) {
+            String name = getIntent().getStringExtra("name");
+            initTitleBar(true, "权限设置", name, "确认", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int uid = getIntent().getIntExtra("uid", -1);
+                    if (mFuncPager == null || mDataPager == null) {
+                        return;
+                    }
+                    Map<String, String> funcSelectNode = mFuncPager.getSelectNode();
+                    Map<String, String> dataSelectNode = mDataPager.getSelectNode();
+                    dataSelectNode.putAll(funcSelectNode);
+                    PermissionTemplateBean templateBean = new PermissionTemplateBean();
+                    templateBean.setPermissions(dataSelectNode.get("permissions"));
+                    templateBean.setAccess_filehub(dataSelectNode.get("access_filehub"));
+                    templateBean.setAccess_projects(dataSelectNode.get("access_projects"));
+                    templateBean.setAccess_servers(dataSelectNode.get("access_servers"));
+                    templateBean.setUid(uid);
+                    templateBean.setCid(AppBaseCache.getInstance().getSelectCompanyWithLogin().getCid());
+                    mTreePresenter.updateUserPermission(templateBean);
+                }
+            });
         } else {
             initTitleBar("模板权限项选择", R.mipmap.icon_close, new View.OnClickListener() {
                 @Override
@@ -94,6 +125,12 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         if (type == TYPE_VIEW) {
             //查看具体模板的权限
             mTreePresenter.getTemplate(AppBaseCache.getInstance().getCid());
+        } else if (type == TYPE_USER_SETTING) {
+            int uid = getIntent().getIntExtra("uid", -1);
+            mTreePresenter.getUserPermission(uid);
+        } else if (type == TYPE_USER_VIEW) {
+            int uid = getIntent().getIntExtra("uid", -1);
+            mTreePresenter.viewUserPermission(uid);
         } else {
             //更新权限
             mTreePresenter.getTemplateResource(AppBaseCache.getInstance().getCid());
@@ -128,20 +165,28 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         mFuncPager.putArgument("resource", data.getData().get(0).getData());
         mFuncPager.putArgument("type", PermissionTreePager.TYPE_FUNC);
         mFuncPager.putArgument("isNew", true);
+        if (type == TYPE_VIEW || type == TYPE_USER_VIEW) {
+            mFuncPager.putArgument("isView", true);
+        }
         mFuncPager.initView();
         pagers.add(mFuncPager);
         mDataPager = new PermissionTreePager(this);
         mDataPager.putArgument("resource", data.getData().get(1).getData());
         mDataPager.putArgument("type", PermissionTreePager.TYPE_DATA);
         mDataPager.putArgument("isNew", true);
+        if (type == TYPE_VIEW || type == TYPE_USER_VIEW) {
+            mDataPager.putArgument("isView", true);
+        }
         mDataPager.initView();
         pagers.add(mDataPager);
-        int funcCount = handCount(mTemplateBean.getPermissions());
-        int dataCount = handCount(mTemplateBean.getAccess_servers())
-                + handCount(mTemplateBean.getAccess_projects())
-                + handCount(mTemplateBean.getAccess_filehub());
-        titles[0] = "功能(" + funcCount + ")";
-        titles[1] = "数据(" + dataCount + ")";
+        if (mTemplateBean != null) {
+            int funcCount = handCount(mTemplateBean.getPermissions());
+            int dataCount = handCount(mTemplateBean.getAccess_servers())
+                    + handCount(mTemplateBean.getAccess_projects())
+                    + handCount(mTemplateBean.getAccess_filehub());
+            titles[0] = "功能(" + funcCount + ")";
+            titles[1] = "数据(" + dataCount + ")";
+        }
         mAdapter = new VpPermissionAdapter(titles, pagers);
         mVpContent.setOffscreenPageLimit(pagers.size());
         mVpContent.setAdapter(mAdapter);
@@ -154,6 +199,17 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         Intent data = new Intent();
         data.putExtra("obj", mTemplateBean);
         setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH, data);
+        finish();
+    }
+
+    @Override
+    public void showExistPermission(PermissionTemplateBean exist) {
+        mTemplateBean = exist;
+    }
+
+    @Override
+    public void updateUserPermissionSuccess() {
+        showMessage("用户权限更新成功");
         finish();
     }
 
