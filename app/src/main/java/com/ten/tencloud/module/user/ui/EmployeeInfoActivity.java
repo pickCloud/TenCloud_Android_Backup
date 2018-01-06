@@ -70,7 +70,6 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         createView(R.layout.activity_employee_info);
         initTitleBar(true, "员工详情");
         mEmployeeInfo = getIntent().getParcelableExtra("obj");
-
         mEmployeesInfoPresenter = new EmployeesInfoPresenter();
         mEmployeesInfoPresenter.attachView(this);
         initView();
@@ -137,7 +136,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
 
     @OnClick({R.id.btn_setting_permission, R.id.btn_view_permission,
             R.id.btn_replace_admin, R.id.btn_leave, R.id.btn_leave_no_admin,
-            R.id.btn_relieve})
+            R.id.btn_relieve, R.id.btn_allow, R.id.btn_reject})
     public void onClick(View view) {
         switch (view.getId()) {
             //设置权限
@@ -175,6 +174,14 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
                 mEmployeesInfoPresenter.companyDismissEmployee(mEmployeeInfo.getId());
                 break;
             }
+            case R.id.btn_allow: {
+                mEmployeesInfoPresenter.acceptApplication(mEmployeeInfo.getId());
+                break;
+            }
+            case R.id.btn_reject: {
+                mEmployeesInfoPresenter.rejectApplication(mEmployeeInfo.getId());
+                break;
+            }
         }
     }
 
@@ -188,5 +195,24 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
     public void companyDismissEmployeeSuccess() {
         showMessage("解除员工成功");
         finish();
+    }
+
+    @Override
+    public void acceptApplicationSuccess() {
+        showMessage("允许员工加入");
+        mBtnAllow.setVisibility(View.GONE);
+        mBtnReject.setVisibility(View.GONE);
+        mTvStatus.setText("审核通过");
+        mTvStatus.setEnabled(true);
+        mTvStatus.setSelected(true);
+    }
+
+    @Override
+    public void rejectApplicationSuccess() {
+        showMessage("拒绝员工加入");
+        mBtnAllow.setVisibility(View.GONE);
+        mBtnReject.setVisibility(View.GONE);
+        mTvStatus.setText("审核不通过");
+        mTvStatus.setEnabled(false);
     }
 }

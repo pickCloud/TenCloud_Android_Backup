@@ -21,7 +21,7 @@ public class CompanyNewPresenter extends BasePresenter<CompanyNewContract.View>
                 .subscribe(new JesSubscribe<CompanyBean>(mView) {
                     @Override
                     public void _onSuccess(CompanyBean o) {
-                        GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
+                        GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
                         mView.showSuccess(o);
                     }
 

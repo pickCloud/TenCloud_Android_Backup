@@ -23,9 +23,11 @@ import rx.schedulers.Schedulers;
 public class EmployeesModel {
     private static EmployeesModel INSTANCE;
     private final TenUserApi mTenUserApi;
+    private final Map<String, Object> mArgMap;
 
     private EmployeesModel() {
         mTenUserApi = TenApp.getRetrofitClient().getTenUserApi();
+        mArgMap = new HashMap<>();
     }
 
     public static synchronized EmployeesModel getInstance() {
@@ -63,12 +65,11 @@ public class EmployeesModel {
      * @return
      */
     public Observable<List<EmployeeBean>> searchEmployees(String employeeName, int status) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("employee_name", employeeName);
+        mArgMap.clear();
+        mArgMap.put("employee_name", employeeName);
         if (status != STATUS_EMPLOYEE_SEARCH_ALL)
-            map.put("status", status);
-        String json = TenApp.getInstance().getGsonInstance().toJson(map);
-        RequestBody requestBody = RetrofitUtils.stringToJsonBody(json);
+            mArgMap.put("status", status);
+        RequestBody requestBody = RetrofitUtils.objectToJsonBody(mArgMap);
         return mTenUserApi.searchEmployees(requestBody)
                 .map(new HttpResultFunc<List<EmployeeBean>>())
                 .subscribeOn(Schedulers.io())
@@ -79,14 +80,13 @@ public class EmployeesModel {
     /**
      * 解除员工
      *
-     * @param uid
+     * @param id
      * @return
      */
-    public Observable<Object> dismissEmployee(int uid) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", uid);
-        String json = TenApp.getInstance().getGsonInstance().toJson(map);
-        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+    public Observable<Object> dismissEmployee(int id) {
+        mArgMap.clear();
+        mArgMap.put("id", id);
+        RequestBody body = RetrofitUtils.objectToJsonBody(mArgMap);
         return mTenUserApi.dismissEmployee(body)
                 .map(new HttpResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
@@ -100,10 +100,9 @@ public class EmployeesModel {
      * @return
      */
     public Observable<Object> dismissCompany(int cid) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", cid);
-        String json = TenApp.getInstance().getGsonInstance().toJson(map);
-        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        mArgMap.clear();
+        mArgMap.put("id", cid);
+        RequestBody body = RetrofitUtils.objectToJsonBody(mArgMap);
         return mTenUserApi.dismissCompany(body)
                 .map(new HttpResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
@@ -111,6 +110,11 @@ public class EmployeesModel {
     }
 
 
+    /**
+     * 获取加入条件
+     *
+     * @return
+     */
     public Observable<Map<String, String>> getJoinSetting() {
         int cid = AppBaseCache.getInstance().getSelectCompanyWithLogin().getCid();
         return mTenUserApi.getJoinSetting(cid)
@@ -119,11 +123,16 @@ public class EmployeesModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 设置加入条件
+     *
+     * @param setting
+     * @return
+     */
     public Observable<Object> setJoinSetting(String setting) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("setting", setting);
-        String json = TenApp.getInstance().getGsonInstance().toJson(map);
-        RequestBody body = RetrofitUtils.stringToJsonBody(json);
+        mArgMap.clear();
+        mArgMap.put("setting", setting);
+        RequestBody body = RetrofitUtils.objectToJsonBody(mArgMap);
         int cid = AppBaseCache.getInstance().getSelectCompanyWithLogin().getCid();
         return mTenUserApi.setJoinSetting(cid, body)
                 .map(new HttpResultFunc<>())
@@ -144,5 +153,36 @@ public class EmployeesModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 允许加入
+     *
+     * @param id 员工表的ID，不是uid
+     * @return
+     */
+    public Observable<Object> acceptApplication(int id) {
+        mArgMap.clear();
+        mArgMap.put("id", id);
+        RequestBody body = RetrofitUtils.objectToJsonBody(mArgMap);
+        return mTenUserApi.acceptApplication(body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 拒绝加入
+     *
+     * @param id 员工表的ID，不是uid
+     * @return
+     */
+    public Observable<Object> rejectApplication(int id) {
+        mArgMap.clear();
+        mArgMap.put("id", id);
+        RequestBody body = RetrofitUtils.objectToJsonBody(mArgMap);
+        return mTenUserApi.rejectApplication(body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
 }

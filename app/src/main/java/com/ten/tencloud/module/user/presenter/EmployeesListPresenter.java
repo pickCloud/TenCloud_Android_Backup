@@ -2,6 +2,7 @@ package com.ten.tencloud.module.user.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.EmployeeListContract;
 import com.ten.tencloud.module.user.model.EmployeesModel;
@@ -21,6 +22,7 @@ public class EmployeesListPresenter extends BasePresenter<EmployeeListContract.V
                 .subscribe(new JesSubscribe<List<EmployeeBean>>(mView) {
                     @Override
                     public void _onSuccess(List<EmployeeBean> employeeBeans) {
+                        GlobalStatusManager.getInstance().setEmployeeListNeedRefresh(false);
                         if (employeeBeans == null || employeeBeans.size() == 0) {
                             mView.showEmpty();
                         } else {

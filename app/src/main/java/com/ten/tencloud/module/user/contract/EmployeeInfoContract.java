@@ -11,11 +11,19 @@ public class EmployeeInfoContract {
         void employeeDismissCompanySuccess();
 
         void companyDismissEmployeeSuccess();
+
+        void acceptApplicationSuccess();
+
+        void rejectApplicationSuccess();
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
         void employeeDismissCompany(int cid);
 
         void companyDismissEmployee(int uid);
+
+        void acceptApplication(int id);
+
+        void rejectApplication(int id);
     }
 }

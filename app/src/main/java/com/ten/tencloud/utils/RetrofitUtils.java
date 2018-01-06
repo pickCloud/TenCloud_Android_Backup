@@ -1,5 +1,7 @@
 package com.ten.tencloud.utils;
 
+import com.ten.tencloud.TenApp;
+
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -50,5 +52,10 @@ public class RetrofitUtils {
 
     public static RequestBody stringToJsonBody(String jsonStr) {
         return RequestBody.create(JSON, jsonStr);
+    }
+
+    public static RequestBody objectToJsonBody(Object obj) {
+        String json = TenApp.getInstance().getGsonInstance().toJson(obj);
+        return stringToJsonBody(json);
     }
 }

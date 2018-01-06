@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.user.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.EmployeeInfoContract;
 import com.ten.tencloud.module.user.model.EmployeesModel;
@@ -18,6 +19,7 @@ public class EmployeesInfoPresenter extends BasePresenter<EmployeeInfoContract.V
                 .subscribe(new JesSubscribe<Object>(mView) {
                     @Override
                     public void _onSuccess(Object o) {
+                        GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
                         mView.employeeDismissCompanySuccess();
                     }
                 }));
@@ -30,6 +32,30 @@ public class EmployeesInfoPresenter extends BasePresenter<EmployeeInfoContract.V
                     @Override
                     public void _onSuccess(Object o) {
                         mView.companyDismissEmployeeSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public void acceptApplication(int id) {
+        mSubscriptions.add(EmployeesModel.getInstance().acceptApplication(id)
+                .subscribe(new JesSubscribe<Object>(mView) {
+                    @Override
+                    public void _onSuccess(Object o) {
+                        GlobalStatusManager.getInstance().setEmployeeListNeedRefresh(true);
+                        mView.acceptApplicationSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public void rejectApplication(int id) {
+        mSubscriptions.add(EmployeesModel.getInstance().rejectApplication(id)
+                .subscribe(new JesSubscribe<Object>(mView) {
+                    @Override
+                    public void _onSuccess(Object o) {
+                        GlobalStatusManager.getInstance().setEmployeeListNeedRefresh(true);
+                        mView.rejectApplicationSuccess();
                     }
                 }));
     }

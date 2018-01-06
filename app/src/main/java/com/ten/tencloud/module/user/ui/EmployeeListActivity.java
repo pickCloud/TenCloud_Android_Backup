@@ -22,6 +22,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvEmployeeAdapter;
 import com.ten.tencloud.module.user.contract.EmployeeListContract;
@@ -289,6 +290,14 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     @Override
     public void showEmployees(List<EmployeeBean> employees) {
         mAdapter.setDatas(employees);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (GlobalStatusManager.getInstance().isEmployeeListNeedRefresh()) {
+            search();
+        }
     }
 
     @Override

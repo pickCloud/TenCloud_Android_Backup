@@ -43,6 +43,7 @@ public class CompanyInfoPresenter extends BasePresenter<CompanyInfoContract.View
                 .subscribe(new JesSubscribe<Object>(mView) {
                     @Override
                     public void _onSuccess(Object o) {
+                        GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
                         GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
                         mView.updateSuccess();
                     }

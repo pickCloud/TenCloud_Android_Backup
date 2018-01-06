@@ -59,7 +59,7 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
     ImageView mIvArrowAuth;
 
     private int mCid;
-    private boolean isAdmin;
+    private boolean isPermissionChangeCompanyInfo;
 
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
@@ -81,7 +81,7 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
         createView(R.layout.activity_company_info);
         initTitleBar(true, "企业资料");
         mCid = getIntent().getIntExtra("cid", 0);
-        isAdmin = getIntent().getIntExtra("isAdmin", 0) != 0;
+        isPermissionChangeCompanyInfo = Utils.hasPermission("修改企业信息");
         mCompanyInfoPresenter = new CompanyInfoPresenter();
         mCompanyInfoPresenter.attachView(this);
         mQiniuPresenter = new QiniuPresenter();
@@ -98,18 +98,18 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
     }
 
     private void initView() {
-        mIvArrowLogo.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-        mIvArrowName.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-        mIvArrowContacts.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-        mIvArrowCall.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-        mIvArrowAuth.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+        mIvArrowLogo.setVisibility(isPermissionChangeCompanyInfo ? View.VISIBLE : View.GONE);
+        mIvArrowName.setVisibility(isPermissionChangeCompanyInfo ? View.VISIBLE : View.GONE);
+        mIvArrowContacts.setVisibility(isPermissionChangeCompanyInfo ? View.VISIBLE : View.GONE);
+        mIvArrowCall.setVisibility(isPermissionChangeCompanyInfo ? View.VISIBLE : View.GONE);
+        mIvArrowAuth.setVisibility(isPermissionChangeCompanyInfo ? View.VISIBLE : View.GONE);
         mCompanyInfoPresenter.getCompanyByCid(mCid);
     }
 
     @OnClick({R.id.ll_name, R.id.ll_logo, R.id.ll_contacts,
             R.id.ll_contacts_call, R.id.ll_authentication})
     public void onClick(View view) {
-        if (!isAdmin) return;
+        if (!isPermissionChangeCompanyInfo) return;
         switch (view.getId()) {
             case R.id.ll_logo:
                 if (mPhotoSelectDialog == null) {

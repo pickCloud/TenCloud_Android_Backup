@@ -28,7 +28,7 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                 .subscribe(new JesSubscribe<List<CompanyBean>>(mView) {
                     @Override
                     public void _onSuccess(List<CompanyBean> companyBeans) {
-                        GlobalStatusManager.getInstance().setUserInfoNeedRefresh(false);
+                        GlobalStatusManager.getInstance().setCompanyListNeedRefresh(false);
                         if (companyBeans == null || companyBeans.size() == 0) {
                             mView.showMessage("暂无公司信息");
                         }
@@ -63,6 +63,7 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
 
     @Override
     public void getPermission(int cid) {
+        AppBaseCache.getInstance().setUserPermission("");//清空
         int uid = (int) AppBaseCache.getInstance().getUserInfo().getId();
         mSubscriptions.add(UserModel.getInstance().getUserPermission(cid, uid)
                 .subscribe(new JesSubscribe<PermissionTemplate2Bean>(mView) {
@@ -70,6 +71,7 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                     public void _onSuccess(PermissionTemplate2Bean o) {
                         String s = TenApp.getInstance().getGsonInstance().toJson(o);
                         AppBaseCache.getInstance().setUserPermission(s);
+                        mView.showPermissionSuccess();
                     }
                 }));
     }

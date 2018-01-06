@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -41,38 +40,20 @@ import butterknife.OnClick;
  * Created by lxq on 2017/11/23.
  */
 
-public class MineFragment extends BaseFragment implements UserHomeContract.View, UserInfoContract.View {
-
-    @BindView(R.id.ll_company_layout)
-    LinearLayout mLlCompanyLayout;//公司布局
-    @BindView(R.id.ll_user_layout)
-    LinearLayout mLlUserLayout;//个人布局
-
-    //===个人模板
-    @BindView(R.id.iv_user_avatar)
-    ImageView mIvUserAvatar;
-    @BindView(R.id.tv_user_name)
-    TextView mTvUserName;
-    @BindView(R.id.iv_certification)
-    ImageView mIvUserCertification;
-    @BindView(R.id.tv_user_phone)
-    TextView mTvUserPhone;
-
-    //====公司模板
-    @BindView(R.id.iv_company_logo)
-    ImageView mIvCompanyLogo;
-    @BindView(R.id.tv_company_name)
-    TextView mTvCompanyName;
-    @BindView(R.id.iv_company_certification)
-    ImageView mIvCompanyCertification;
-    @BindView(R.id.tv_company_contact)
-    TextView mTvCompanyContact;
-    @BindView(R.id.tv_company_phone)
-    TextView mTvCompanyPhone;
+public class MineFragment1 extends BaseFragment implements UserHomeContract.View, UserInfoContract.View {
 
     @BindView(R.id.tv_switch)
     TextView mTvSwitch;
-
+    @BindView(R.id.tv_name)
+    TextView mTvName;
+    @BindView(R.id.tv_user_name)
+    TextView mTvUserName;
+    @BindView(R.id.iv_certification)
+    ImageView mIvCertification;
+    @BindView(R.id.tv_phone)
+    TextView mTvPhone;
+    @BindView(R.id.iv_avatar)
+    ImageView mIvAvatar;
     @BindView(R.id.tv_company_des)
     TextView mTvCompanyDes;
     @BindView(R.id.tv_user_manger_des)
@@ -94,9 +75,6 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     private PopupWindow mPopupWindow;
     private User mUserInfo;
     private UserInfoPresenter mUserInfoPresenter;
-    private boolean mIsPermissionAddTemplate;
-    private boolean mIsPermissionChangeTemplate;
-    private boolean mIsPermissionDelTemplate;
 
     @Nullable
     @Override
@@ -119,29 +97,20 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     }
 
     private void initView() {
-        if (GlobalStatusManager.getInstance().isCompanyListNeedRefresh()) {
-            mUserHomePresenter.getCompanies();
-        }
         if (cid == 0) {//个人界面
-            mLlUserLayout.setVisibility(View.VISIBLE);
-            mLlCompanyLayout.setVisibility(View.INVISIBLE);
             mViewRoleCompany.setVisibility(View.GONE);
             mViewRoleUser.setVisibility(View.VISIBLE);
+            mIvCertification.setImageResource(R.mipmap.icon_idcard_off);
+            mTvUserName.setVisibility(View.GONE);
             mViewTemplate.setVisibility(View.GONE);
-            if (GlobalStatusManager.getInstance().isUserInfoNeedRefresh()) {
-                mUserInfoPresenter.getUserInfo();
-            } else {
-                showUserInfo(AppBaseCache.getInstance().getUserInfo());
-            }
+            mUserInfoPresenter.getUserInfo();
         } else {
-            mLlUserLayout.setVisibility(View.INVISIBLE);
-            mLlCompanyLayout.setVisibility(View.VISIBLE);
             mViewRoleUser.setVisibility(View.GONE);
             mViewRoleCompany.setVisibility(View.VISIBLE);
-            mViewTemplate.setVisibility(View.GONE);
+            mIvCertification.setImageResource(R.mipmap.icon_comreg_off);
+            mTvUserName.setVisibility(View.VISIBLE);
             mUserHomePresenter.getEmployees(cid);
             mUserHomePresenter.getPermission(cid);
-            mUserHomePresenter.getCompanyByCid(cid);
         }
     }
 
@@ -158,8 +127,10 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
                 mSelectCompany = company;
                 AppBaseCache.getInstance().setCid(cid);
                 AppBaseCache.getInstance().saveSelectCompanyWithLogin(company);
+                mViewTemplate.setVisibility(mSelectCompany.getIs_admin() != 0 ? View.VISIBLE : View.GONE);
                 mPopupWindow.dismiss();
                 initView();
+                showUserInfo(mUserInfo);
             }
         });
         contentView.setAdapter(mAdapter);
@@ -180,41 +151,37 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     @Override
     public void onVisible() {
         if (isFirst) {
+            mUserInfoPresenter.getUserInfo();
             mUserHomePresenter.getCompanies();
-            initView();
             isFirst = false;
         }
     }
 
-    @OnClick({R.id.ll_user_layout, R.id.ll_company_layout, R.id.tv_switch, R.id.ll_setting,
+    @OnClick({R.id.ll_user, R.id.tv_switch, R.id.ll_setting,
             R.id.ll_company, R.id.ll_template, R.id.ll_employee})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_user_layout: {
-                startActivity(new Intent(mActivity, UserInfoActivity.class));
+            case R.id.ll_user:
+                if (cid == 0) {
+                    startActivity(new Intent(mActivity, UserInfoActivity.class));
+                } else {
+                    Intent intent = new Intent(mActivity, CompanyInfoActivity.class);
+                    intent.putExtra("cid", cid);
+                    intent.putExtra("isAdmin", mSelectCompany.getIs_admin());
+                    startActivity(intent);
+                }
                 break;
-            }
-            case R.id.ll_company_layout: {
-                Intent intent = new Intent(mActivity, CompanyInfoActivity.class);
-                intent.putExtra("cid", cid);
-                intent.putExtra("isAdmin", mSelectCompany.getIs_admin());
-                startActivity(intent);
-                break;
-            }
-            case R.id.tv_switch: {
+            case R.id.tv_switch:
                 mTvSwitch.setSelected(true);
                 mPopupWindow.showAsDropDown(mTvSwitch, 0
                         , UiUtils.dip2px(mActivity, 8));
                 break;
-            }
-            case R.id.ll_setting: {
+            case R.id.ll_setting:
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
-            }
-            case R.id.ll_company: {
+            case R.id.ll_company:
                 startActivity(new Intent(mActivity, CompanyListActivity.class));
                 break;
-            }
             case R.id.ll_template: {
                 Intent intent = new Intent(mActivity, PermissionTemplateListActivity.class);
                 intent.putExtra("cid", cid);
@@ -225,6 +192,24 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
                 Intent intent = new Intent(mActivity, EmployeeListActivity.class);
                 startActivity(intent);
                 break;
+            }
+        }
+    }
+
+    @Override
+    public void showUserInfo(User user) {
+        if (user != null) {
+            mTvUserName.setText(user.getName());
+            mTvPhone.setText(Utils.hide4Phone(user.getMobile()));
+            if (cid == 0) {
+                mTvName.setText(user.getName());
+                GlideUtils.getInstance().loadCircleImage(mActivity, mIvAvatar, user.getImage_url(), R.mipmap.icon_userphoto);
+            } else {
+                if (mSelectCompany == null) {
+                    mUserHomePresenter.getCompanyByCid(cid);
+                } else {
+                    mTvName.setText(mSelectCompany.getCompany_name());
+                }
             }
         }
     }
@@ -247,7 +232,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
                 if (cid == company.getCid()) {
                     mSelectCompany = company;
                     AppBaseCache.getInstance().saveSelectCompanyWithLogin(mSelectCompany);
-                    mUserHomePresenter.getPermission(cid);
+                    mViewTemplate.setVisibility(mSelectCompany.getIs_admin() != 0 ? View.VISIBLE : View.GONE);
                 }
             }
         }
@@ -260,20 +245,9 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     public void showCompanyInfo(CompanyBean companyInfo) {
         companyInfo.setCid(companyInfo.getId());
         mSelectCompany = companyInfo;
-        mTvCompanyName.setText(companyInfo.getName());
-        mTvCompanyContact.setText(companyInfo.getContact());
-        mTvCompanyPhone.setText(companyInfo.getMobile());
-        GlideUtils.getInstance().loadCircleImage(mActivity, mIvCompanyLogo,
-                companyInfo.getImage_url(), R.mipmap.icon_com_photo);
-    }
-
-    @Override
-    public void showUserInfo(User user) {
-        user = AppBaseCache.getInstance().getUserInfo();
-        mTvUserName.setText(user.getName());
-        mTvUserPhone.setText(Utils.hide4Phone(user.getMobile()));
-        GlideUtils.getInstance().loadCircleImage(mActivity, mIvUserAvatar,
-                user.getImage_url(), R.mipmap.icon_userphoto);
+        mTvName.setText(companyInfo.getName());
+        mTvUserName.setText(companyInfo.getContact());
+        mTvPhone.setText(companyInfo.getMobile());
     }
 
     @Override
@@ -283,17 +257,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
 
     @Override
     public void showPermissionSuccess() {
-        mIsPermissionAddTemplate = Utils.hasPermission("新增权限模板");
-        mIsPermissionChangeTemplate = Utils.hasPermission("修改权限模板");
-        mIsPermissionDelTemplate = Utils.hasPermission("删除模板");
-        if (!mIsPermissionAddTemplate && !mIsPermissionChangeTemplate && !mIsPermissionDelTemplate) {
-            mViewTemplate.setVisibility(View.GONE);
-        } else {
-            mViewTemplate.setVisibility(View.VISIBLE);
-        }
 
-        // TODO: 2018/1/6  debug del
-        mViewTemplate.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -302,8 +266,11 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         if (GlobalStatusManager.getInstance().isUserInfoNeedRefresh()) {
             mUserInfo = AppBaseCache.getInstance().getUserInfo();
             cid = AppBaseCache.getInstance().getCid();
+            mUserInfoPresenter.getUserInfo();
             mSelectCompany = null;//cid为新创建的公司
+            mUserHomePresenter.getCompanies();
             initView();
+            showUserInfo(mUserInfo);
         }
     }
 }

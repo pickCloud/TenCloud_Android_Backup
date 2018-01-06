@@ -126,4 +126,22 @@ public interface TenUserApi {
 
     @GET("/api/company/{cid}/entry/url")
     Observable<Response<JesResponse<Map<String, String>>>> generateUrl(@Path("cid") int cid);
+
+    /**
+     * 允许加入
+     *
+     * @param body
+     * @return
+     */
+    @POST("/api/company/application/accept")
+    Observable<Response<JesResponse<Object>>> acceptApplication(@Body RequestBody body);
+
+    /**
+     * 拒绝加入
+     *
+     * @param body
+     * @return
+     */
+    @POST("/api/company/application/reject")
+    Observable<Response<JesResponse<Object>>> rejectApplication(@Body RequestBody body);
 }

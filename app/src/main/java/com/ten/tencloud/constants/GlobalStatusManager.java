@@ -24,6 +24,16 @@ public class GlobalStatusManager {
      */
     private boolean templateNeedRefresh;
 
+    /**
+     * 公式列表
+     */
+    private boolean companyListNeedRefresh;
+
+    /**
+     * 员工列表
+     */
+    private boolean employeeListNeedRefresh;
+
     private GlobalStatusManager() {
     }
 
@@ -58,5 +68,21 @@ public class GlobalStatusManager {
 
     public void setTemplateNeedRefresh(boolean templateNeedRefresh) {
         this.templateNeedRefresh = templateNeedRefresh;
+    }
+
+    public boolean isCompanyListNeedRefresh() {
+        return companyListNeedRefresh;
+    }
+
+    public void setCompanyListNeedRefresh(boolean companyListNeedRefresh) {
+        this.companyListNeedRefresh = companyListNeedRefresh;
+    }
+
+    public boolean isEmployeeListNeedRefresh() {
+        return employeeListNeedRefresh;
+    }
+
+    public void setEmployeeListNeedRefresh(boolean employeeListNeedRefresh) {
+        this.employeeListNeedRefresh = employeeListNeedRefresh;
     }
 }
