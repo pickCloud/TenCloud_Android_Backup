@@ -16,8 +16,8 @@ public class EmployeesListPresenter extends BasePresenter<EmployeeListContract.V
         implements EmployeeListContract.Presenter<EmployeeListContract.View> {
 
     @Override
-    public void getEmployees(int cid) {
-        mSubscriptions.add(EmployeesModel.getInstance().getEmployeesList(cid)
+    public void getEmployees(String key, int status) {
+        mSubscriptions.add(EmployeesModel.getInstance().searchEmployees(key, status)
                 .subscribe(new JesSubscribe<List<EmployeeBean>>(mView) {
                     @Override
                     public void _onSuccess(List<EmployeeBean> employeeBeans) {

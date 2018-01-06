@@ -5,12 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.utils.glide.GlideUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,11 +58,13 @@ public class RvEmployeeAdapter extends CJSBaseRecyclerViewAdapter<EmployeeBean, 
             holder.tvStatus.setEnabled(true);
             holder.tvStatus.setSelected(true);
         }
-
+        GlideUtils.getInstance().loadCircleImage(mContext, holder.ivAvatar, employee.getImage_url(), R.mipmap.icon_userphoto);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.iv_avatar)
+        ImageView ivAvatar;
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.tv_phone)

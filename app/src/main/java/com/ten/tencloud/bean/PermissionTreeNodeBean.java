@@ -12,7 +12,7 @@ public class PermissionTreeNodeBean {
     private String filename;
     private int id;
     private int group;
-    private List<PermissionTreeNodeBean> data;
+    public List<PermissionTreeNodeBean> data;
 
     public String getName() {
         return name;

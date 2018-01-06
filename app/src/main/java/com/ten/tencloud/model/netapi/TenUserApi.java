@@ -98,6 +98,11 @@ public interface TenUserApi {
     @GET("/api/company/{cid}/employees")
     Observable<Response<JesResponse<List<EmployeeBean>>>> getEmployeesList(@Path("cid") int cid);
 
+
+    @POST("/api/company/employee/search")
+    Observable<Response<JesResponse<List<EmployeeBean>>>> searchEmployees(@Body RequestBody body);
+
+
     /**
      * 管理员解除员工
      */
@@ -118,4 +123,7 @@ public interface TenUserApi {
 
     @POST("/api/company/{cid}/entry/setting")
     Observable<Response<JesResponse<Object>>> setJoinSetting(@Path("cid") int cid, @Body RequestBody body);
+
+    @GET("/api/company/{cid}/entry/url")
+    Observable<Response<JesResponse<Map<String, String>>>> generateUrl(@Path("cid") int cid);
 }

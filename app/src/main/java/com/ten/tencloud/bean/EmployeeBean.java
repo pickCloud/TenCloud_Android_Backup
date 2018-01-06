@@ -28,6 +28,7 @@ public class EmployeeBean implements Parcelable {
     private int status;
     private int uid;
     private int is_admin; //1 是 0 否
+    private String image_url;
 
     public EmployeeBean() {
     }
@@ -41,6 +42,7 @@ public class EmployeeBean implements Parcelable {
         status = in.readInt();
         uid = in.readInt();
         is_admin = in.readInt();
+        image_url = in.readString();
     }
 
     public static final Creator<EmployeeBean> CREATOR = new Creator<EmployeeBean>() {
@@ -119,6 +121,14 @@ public class EmployeeBean implements Parcelable {
         this.is_admin = is_admin;
     }
 
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -135,5 +145,6 @@ public class EmployeeBean implements Parcelable {
         dest.writeInt(status);
         dest.writeInt(uid);
         dest.writeInt(is_admin);
+        dest.writeString(image_url);
     }
 }

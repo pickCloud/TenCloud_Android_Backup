@@ -62,6 +62,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
     private String companyName;
     private String companyContact;
     private String companyContactCall;
+    private String mImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
         companyName = getIntent().getStringExtra("cName");
         companyContact = getIntent().getStringExtra("cContact");
         companyContactCall = getIntent().getStringExtra("cContactCall");
+        mImageUrl = getIntent().getStringExtra("image_url");
         String title = "修改资料";
         Intent intent = getIntent();
         switch (type) {
@@ -175,7 +177,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                             showMessage("企业名称不能为空");
                             return;
                         }
-                        mUserUpdatePresenter.updateCompanyInfo(cid, companyName, companyContact, companyContactCall);
+                        mUserUpdatePresenter.updateCompanyInfo(cid, companyName, companyContact, companyContactCall, mImageUrl);
                         break;
                     }
                     case TYPE_COMPANY_CONTACT: {
@@ -184,7 +186,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                             showMessage("联系人不能为空");
                             return;
                         }
-                        mUserUpdatePresenter.updateCompanyInfo(cid, companyName, companyContact, companyContactCall);
+                        mUserUpdatePresenter.updateCompanyInfo(cid, companyName, companyContact, companyContactCall, mImageUrl);
                         break;
                     }
                     case TYPE_COMPANY_CONTACT_CALL: {
@@ -196,7 +198,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                             showMessage("联系方式格式不正确");
                             return;
                         }
-                        mUserUpdatePresenter.updateCompanyInfo(cid, companyName, companyContact, companyContactCall);
+                        mUserUpdatePresenter.updateCompanyInfo(cid, companyName, companyContact, companyContactCall, mImageUrl);
                         break;
                     }
                 }

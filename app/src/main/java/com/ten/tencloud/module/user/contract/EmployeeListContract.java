@@ -17,6 +17,6 @@ public class EmployeeListContract {
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
-        void getEmployees(int cid);
+        void getEmployees(String key, int status);
     }
 }

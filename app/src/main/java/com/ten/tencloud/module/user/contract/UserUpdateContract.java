@@ -14,6 +14,6 @@ public class UserUpdateContract {
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
         void updateUserInfo(String key, String value);
 
-        void updateCompanyInfo(int cid, String name, String contact, String mobile);
+        void updateCompanyInfo(int cid, String name, String contact, String mobile, String image);
     }
 }

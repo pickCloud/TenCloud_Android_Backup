@@ -17,7 +17,7 @@
         android:paddingRight="16dp">
 
         <LinearLayout
-            android:id="@+id/ll_cycle"
+            android:id="@+id/ll_status"
             android:layout_width="120dp"
             android:layout_height="32dp"
             android:layout_marginRight="16dp"
@@ -28,7 +28,7 @@
             android:paddingRight="8dp">
 
             <TextView
-                android:id="@+id/tv_cycle"
+                android:id="@+id/tv_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

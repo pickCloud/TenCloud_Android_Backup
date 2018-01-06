@@ -61,10 +61,12 @@ public class RvEmployeeSelectAdminAdapter extends CJSBaseRecyclerViewAdapter<Emp
     }
 
     /**
-     *
      * @return
      */
     public EmployeeBean getSelectObject() {
+        if (selectPos == -1) {
+            return null;
+        }
         return datas.get(selectPos);
     }
 

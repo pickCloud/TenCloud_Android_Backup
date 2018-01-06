@@ -6,18 +6,33 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.app.TakePhotoImpl;
+import com.jph.takephoto.model.InvokeParam;
+import com.jph.takephoto.model.TContextWrap;
+import com.jph.takephoto.model.TResult;
+import com.jph.takephoto.permission.InvokeListener;
+import com.jph.takephoto.permission.PermissionManager;
+import com.jph.takephoto.permission.TakePhotoInvocationHandler;
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.module.other.contract.QiniuContract;
+import com.ten.tencloud.module.other.presenter.QiniuPresenter;
 import com.ten.tencloud.module.user.contract.CompanyInfoContract;
 import com.ten.tencloud.module.user.presenter.CompanyInfoPresenter;
+import com.ten.tencloud.utils.SelectPhotoHelper;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.utils.glide.GlideUtils;
+import com.ten.tencloud.widget.dialog.PhotoSelectDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CompanyInfoActivity extends BaseActivity implements CompanyInfoContract.View {
+public class CompanyInfoActivity extends BaseActivity implements CompanyInfoContract.View
+        , TakePhoto.TakeResultListener, InvokeListener, QiniuContract.View {
 
     @BindView(R.id.iv_logo)
     ImageView mIvLogo;
@@ -46,13 +61,22 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
     private int mCid;
     private boolean isAdmin;
 
+    private TakePhoto takePhoto;
+    private InvokeParam invokeParam;
+    private SelectPhotoHelper mPhotoHelper;
+    private QiniuPresenter mQiniuPresenter;
+
     private CompanyInfoPresenter mCompanyInfoPresenter;
     private String mMobile;
     private String mName;
     private String mContact;
+    private String mImageUrl;
+
+    private PhotoSelectDialog mPhotoSelectDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getTakePhoto().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_company_info);
         initTitleBar(true, "企业资料");
@@ -60,6 +84,16 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
         isAdmin = getIntent().getIntExtra("isAdmin", 0) != 0;
         mCompanyInfoPresenter = new CompanyInfoPresenter();
         mCompanyInfoPresenter.attachView(this);
+        mQiniuPresenter = new QiniuPresenter();
+        mQiniuPresenter.attachView(this);
+
+        SelectPhotoHelper.Options options = new SelectPhotoHelper.Options();
+        options.isCrop = true;
+        options.isCompress = true;
+        options.cropHeight = 400;
+        options.cropWidth = 400;
+        mPhotoHelper = new SelectPhotoHelper(options);
+
         initView();
     }
 
@@ -78,13 +112,28 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
         if (!isAdmin) return;
         switch (view.getId()) {
             case R.id.ll_logo:
-                // TODO: 2017/12/20 选择logo上传
+                if (mPhotoSelectDialog == null) {
+                    mPhotoSelectDialog = new PhotoSelectDialog(this);
+                    mPhotoSelectDialog.setOnBtnClickListener(new PhotoSelectDialog.OnBtnClickListener() {
+                        @Override
+                        public void onTake() {
+                            mPhotoHelper.onClick(true, getTakePhoto());
+                        }
+
+                        @Override
+                        public void onGallery() {
+                            mPhotoHelper.onClick(false, getTakePhoto());
+                        }
+                    });
+                }
+                mPhotoSelectDialog.show();
                 break;
             case R.id.ll_name: {
                 Intent intent = new Intent(this, UserUpdateActivity.class);
                 intent.putExtra("cid", mCid);
                 intent.putExtra("type", UserUpdateActivity.TYPE_COMPANY_NAME);
                 intent.putExtra("cName", mName);
+                intent.putExtra("image_url", mImageUrl);
                 intent.putExtra("cContact", mContact);
                 intent.putExtra("cContactCall", mMobile);
                 startActivityForResult(intent, 0);
@@ -94,6 +143,7 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
                 Intent intent = new Intent(this, UserUpdateActivity.class);
                 intent.putExtra("cid", mCid);
                 intent.putExtra("type", UserUpdateActivity.TYPE_COMPANY_CONTACT);
+                intent.putExtra("image_url", mImageUrl);
                 intent.putExtra("cContact", mContact);
                 intent.putExtra("cContactCall", mMobile);
                 intent.putExtra("cName", mName);
@@ -104,6 +154,7 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
                 Intent intent = new Intent(this, UserUpdateActivity.class);
                 intent.putExtra("cid", mCid);
                 intent.putExtra("type", UserUpdateActivity.TYPE_COMPANY_CONTACT_CALL);
+                intent.putExtra("image_url", mImageUrl);
                 intent.putExtra("cContact", mContact);
                 intent.putExtra("cContactCall", mMobile);
                 intent.putExtra("cName", mName);
@@ -125,12 +176,85 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
         mMobile = companyInfo.getMobile();
         mTvContactsCall.setText(Utils.hide4Phone(mMobile));
         mTvTime.setText(companyInfo.getCreate_time());
+        mImageUrl = companyInfo.getImage_url();
+        GlideUtils.getInstance().loadCircleImage(this, mIvLogo, mImageUrl, R.mipmap.icon_com_photo);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        getTakePhoto().onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
             mCompanyInfoPresenter.getCompanyByCid(mCid);
         }
+    }
+
+    /**
+     * 图片选择
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        getTakePhoto().onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
+    }
+
+    /**
+     * 获取TakePhoto实例
+     *
+     * @return
+     */
+    public TakePhoto getTakePhoto() {
+        if (takePhoto == null) {
+            takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
+        }
+        return takePhoto;
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        KLog.i("takeSuccess：" + result.getImage().getCompressPath());
+        String path = result.getImage().getCompressPath();//压缩后的路径
+        mQiniuPresenter.uploadFile(path);
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        KLog.i("takeFail:" + msg);
+    }
+
+    @Override
+    public void takeCancel() {
+        KLog.i(getResources().getString(com.jph.takephoto.R.string.msg_operation_canceled));
+    }
+
+    @Override
+    public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
+        PermissionManager.TPermissionType type = PermissionManager.checkPermission(TContextWrap.of(this), invokeParam.getMethod());
+        if (PermissionManager.TPermissionType.WAIT.equals(type)) {
+            this.invokeParam = invokeParam;
+        }
+        return type;
+    }
+
+    @Override
+    public void uploadSuccess(String path) {
+        mCompanyInfoPresenter.updateCompanyInfo(mCid, mName, mContact, mMobile, path);
+    }
+
+    @Override
+    public void updateSuccess() {
+        showMessage("头像上传成功");
+        mCompanyInfoPresenter.getCompanyByCid(mCid);
+    }
+
+    @Override
+    public void uploadFiled() {
+        showMessage("头像上传失败");
     }
 }

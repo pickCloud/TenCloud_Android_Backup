@@ -17,6 +17,7 @@ import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.module.user.contract.EmployeeInfoContract;
 import com.ten.tencloud.module.user.presenter.EmployeesInfoPresenter;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.utils.glide.GlideUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -79,6 +80,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mTvAdmin.setVisibility(mEmployeeInfo.getIs_admin() != 0 ? View.VISIBLE : View.INVISIBLE);
         mTvName.setText(mEmployeeInfo.getName());
         mTvPhone.setText(mEmployeeInfo.getMobile());
+        GlideUtils.getInstance().loadCircleImage(mContext, mIvAvatar, mEmployeeInfo.getImage_url(), R.mipmap.icon_userphoto);
         mTvApplyTime.setText(mEmployeeInfo.getCreate_time());
         mTvJoinTime.setText(mEmployeeInfo.getStatus() > 0 ? mEmployeeInfo.getUpdate_time() : "-");
         int status = mEmployeeInfo.getStatus();
@@ -94,8 +96,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             mTvStatus.setEnabled(true);
             mTvStatus.setSelected(true);
         }
-        // TODO: 2018/1/3 头像 身份证
-
+        // TODO: 2018/1/3 身份证
         setButtonStatusForPermission();
     }
 

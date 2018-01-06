@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_232730"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_round_3f4656_bottom"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_all"
+                style="@style/ServerMonitorCycleText"
+                android:drawableRight="@drawable/selector_select_tag"
+                android:text="全部" />
+
+            <ImageView
+                android:id="@+id/iv_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_select" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_checking"
+                style="@style/ServerMonitorCycleText"
+                android:drawableRight="@drawable/selector_select_tag"
+                android:text="待审核" />
+
+            <ImageView
+                android:id="@+id/iv_checking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_select"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_pass"
+                style="@style/ServerMonitorCycleText"
+                android:drawableRight="@drawable/selector_select_tag"
+                android:text="审核通过" />
+
+            <ImageView
+                android:id="@+id/iv_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_select"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_no_pass"
+                style="@style/ServerMonitorCycleText"
+                android:drawableRight="@drawable/selector_select_tag"
+                android:text="审核不通过" />
+
+            <ImageView
+                android:id="@+id/iv_no_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_select"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

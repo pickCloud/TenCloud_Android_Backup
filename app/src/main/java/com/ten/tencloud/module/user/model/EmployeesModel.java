@@ -50,6 +50,32 @@ public class EmployeesModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public static final int STATUS_EMPLOYEE_SEARCH_ALL = -2;
+    public static final int STATUS_EMPLOYEE_SEARCH_PASS = 1;
+    public static final int STATUS_EMPLOYEE_SEARCH_NO_PASS = -1;
+    public static final int STATUS_EMPLOYEE_SEARCH_CHECKING = 0;
+
+    /**
+     * 搜索员工
+     * employeeName 员工名字，
+     * status 审核状态 -2 全部 1 通过 -1 不通过 0 待审核
+     *
+     * @return
+     */
+    public Observable<List<EmployeeBean>> searchEmployees(String employeeName, int status) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("employee_name", employeeName);
+        if (status != STATUS_EMPLOYEE_SEARCH_ALL)
+            map.put("status", status);
+        String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        RequestBody requestBody = RetrofitUtils.stringToJsonBody(json);
+        return mTenUserApi.searchEmployees(requestBody)
+                .map(new HttpResultFunc<List<EmployeeBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
     /**
      * 解除员工
      *
@@ -101,6 +127,19 @@ public class EmployeesModel {
         int cid = AppBaseCache.getInstance().getSelectCompanyWithLogin().getCid();
         return mTenUserApi.setJoinSetting(cid, body)
                 .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 生成邀请链接
+     *
+     * @return
+     */
+    public Observable<Map<String, String>> generateUrl() {
+        int cid = AppBaseCache.getInstance().getSelectCompanyWithLogin().getCid();
+        return mTenUserApi.generateUrl(cid)
+                .map(new HttpResultFunc<Map<String, String>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

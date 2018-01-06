@@ -23,6 +23,7 @@ public class CompanyBean {
     private String mobile;
     private String update_time;
     private String create_time;
+    private String image_url;
 
     //===========
     private String company_name;
@@ -112,6 +113,14 @@ public class CompanyBean {
 
     public String getCreate_time() {
         return create_time;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public void setCreate_time(String create_time) {
