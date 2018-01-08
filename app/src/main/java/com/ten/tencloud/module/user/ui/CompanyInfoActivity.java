@@ -23,6 +23,7 @@ import com.ten.tencloud.module.other.contract.QiniuContract;
 import com.ten.tencloud.module.other.presenter.QiniuPresenter;
 import com.ten.tencloud.module.user.contract.CompanyInfoContract;
 import com.ten.tencloud.module.user.presenter.CompanyInfoPresenter;
+import com.ten.tencloud.utils.DateUtils;
 import com.ten.tencloud.utils.SelectPhotoHelper;
 import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.utils.glide.GlideUtils;
@@ -175,9 +176,12 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
         mTvContacts.setText(mContact);
         mMobile = companyInfo.getMobile();
         mTvContactsCall.setText(Utils.hide4Phone(mMobile));
-        mTvTime.setText(companyInfo.getCreate_time());
+        mTvTime.setText(DateUtils.dateToDefault(companyInfo.getCreate_time()));
         mImageUrl = companyInfo.getImage_url();
         GlideUtils.getInstance().loadCircleImage(this, mIvLogo, mImageUrl, R.mipmap.icon_com_photo);
+        if (mImageUrl.contains("com/")) {
+            mImageUrl = mImageUrl.split("com/")[1];
+        }
     }
 
     @Override

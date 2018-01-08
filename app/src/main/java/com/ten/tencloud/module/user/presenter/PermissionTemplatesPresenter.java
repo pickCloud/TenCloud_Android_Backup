@@ -31,4 +31,15 @@ public class PermissionTemplatesPresenter extends BasePresenter<PermissionTempla
                     }
                 }));
     }
+
+    @Override
+    public void delTemplate(int ptId) {
+        mSubscriptions.add(UserModel.getInstance().delTemplate(ptId)
+                .subscribe(new JesSubscribe<Object>(mView) {
+                    @Override
+                    public void _onSuccess(Object o) {
+                        mView.delSuccess();
+                    }
+                }));
+    }
 }

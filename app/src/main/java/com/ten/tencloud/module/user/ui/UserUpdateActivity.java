@@ -152,7 +152,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                             showMessage("姓名不能为空");
                             return;
                         }
-                        mUserUpdatePresenter.updateUserInfo("userName", userName);
+                        mUserUpdatePresenter.updateUserInfo("name", userName);
                         break;
                     }
                     case TYPE_USER_EMAIL: {

@@ -178,6 +178,23 @@ public class UserModel {
     }
 
     /**
+     * 删除模板
+     *
+     * @param ptId
+     * @return
+     */
+    public Observable<Object> delTemplate(int ptId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", AppBaseCache.getInstance().getCid());
+        RequestBody requestBody = RetrofitUtils.objectToJsonBody(map);
+        return TenApp.getRetrofitClient().getTenUserApi()
+                .delTemplate(ptId, requestBody)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
      * 获取所有权限的模板，不区分是否有权限
      *
      * @param cid

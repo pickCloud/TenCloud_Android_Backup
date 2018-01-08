@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.CompanyBean;
@@ -37,9 +36,17 @@ public class RvSwitchAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, RvS
 
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, final int position) {
-
+        CompanyBean companyBean = datas.get(position);
+        holder.tvRole.setSelected(selectPos == position);
         holder.ivSelect.setVisibility(selectPos == position ? View.VISIBLE : View.INVISIBLE);
-        holder.tvName.setText(datas.get(position).getCompany_name());
+        holder.tvName.setText(companyBean.getCompany_name());
+        if (companyBean.getCid() == 0) {
+            holder.tvRole.setText("个人");
+        } else if (companyBean.getIs_admin() != 0) {
+            holder.tvRole.setText("管理员");
+        } else {
+            holder.tvRole.setText("员工");
+        }
         holder.tvName.setSelected(selectPos == position);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +83,8 @@ public class RvSwitchAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, RvS
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_role)
+        TextView tvRole;
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.iv_select)

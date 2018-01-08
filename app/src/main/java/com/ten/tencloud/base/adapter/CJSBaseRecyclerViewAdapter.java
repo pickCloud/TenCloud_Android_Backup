@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * Created by lxq on 2017/11/20.
  */
 
@@ -19,6 +18,7 @@ public abstract class CJSBaseRecyclerViewAdapter<T, VH extends RecyclerView.View
 
     protected List<T> datas;
     protected OnItemClickListener<T> onItemClickListener;
+    protected OnItemLongClickListener<T> onItemLongClickListener;
     protected final Context mContext;
     protected final LayoutInflater mLayoutInflater;
 
@@ -32,8 +32,16 @@ public abstract class CJSBaseRecyclerViewAdapter<T, VH extends RecyclerView.View
         this.onItemClickListener = onItemClickListener;
     }
 
+    public void setOnItemLongClickListener(OnItemLongClickListener<T> onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
     public interface OnItemClickListener<T> {
         void onObjectItemClicked(T t, int position);
+    }
+
+    public interface OnItemLongClickListener<T> {
+        void onObjectItemLongClicked(T t, View view, int position);
     }
 
     public List<T> getDatas() {
@@ -85,6 +93,15 @@ public abstract class CJSBaseRecyclerViewAdapter<T, VH extends RecyclerView.View
                 if (onItemClickListener != null) {
                     onItemClickListener.onObjectItemClicked(t, position);
                 }
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (onItemLongClickListener != null) {
+                    onItemLongClickListener.onObjectItemLongClicked(t, v, position);
+                }
+                return false;
             }
         });
     }

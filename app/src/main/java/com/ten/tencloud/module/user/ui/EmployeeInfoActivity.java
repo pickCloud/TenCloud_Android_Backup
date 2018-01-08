@@ -143,7 +143,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             case R.id.btn_setting_permission: {
                 Intent intent = new Intent(this, PermissionTreeActivity.class);
                 intent.putExtra("type", PermissionTreeActivity.TYPE_USER_SETTING);
-                intent.putExtra("uid", mEmployeeInfo.getUid());
+                intent.putExtra("uid", mEmployeeInfo.getId());
                 intent.putExtra("name", mEmployeeInfo.getName());
                 startActivity(intent);
                 break;
@@ -152,7 +152,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             case R.id.btn_view_permission: {
                 Intent intent = new Intent(this, PermissionTreeActivity.class);
                 intent.putExtra("type", PermissionTreeActivity.TYPE_USER_VIEW);
-                intent.putExtra("uid", mEmployeeInfo.getUid());
+                intent.putExtra("uid", mEmployeeInfo.getId());
                 intent.putExtra("name", mEmployeeInfo.getName());
                 startActivity(intent);
                 break;

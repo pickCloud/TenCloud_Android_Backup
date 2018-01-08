@@ -84,6 +84,7 @@ public class PermissionChangeActivity extends BaseActivity {
                 mTemplateBean = data.getParcelableExtra("obj");
                 initView();
             }
+            setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH);
         }
     }
 }

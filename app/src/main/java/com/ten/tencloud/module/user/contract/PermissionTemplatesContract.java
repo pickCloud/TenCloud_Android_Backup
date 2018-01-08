@@ -15,11 +15,15 @@ public class PermissionTemplatesContract {
         void showEmptyView();
 
         void showTemplates(List<PermissionTemplateBean> data);
+
+        void delSuccess();
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
 
         void getTemplatesByCid(int cid);
+
+        void delTemplate(int ptId);
 
     }
 }

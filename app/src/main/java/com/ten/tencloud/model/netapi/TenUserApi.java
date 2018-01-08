@@ -76,6 +76,9 @@ public interface TenUserApi {
     @GET("/api/permission/template/list/{cid}")
     Observable<Response<JesResponse<List<PermissionTemplateBean>>>> getTemplatesByCid(@Path("cid") int cid);
 
+    @POST("/api/permission/template/{ptId}/del")
+    Observable<Response<JesResponse<Object>>> delTemplate(@Path("ptId") int ptId, @Body RequestBody body);
+
     @GET("/api/permission/resource/{cid}")
     Observable<Response<JesResponse<List<PermissionTreeNodeBean>>>> getTemplateResource(@Path("cid") int cid);
 

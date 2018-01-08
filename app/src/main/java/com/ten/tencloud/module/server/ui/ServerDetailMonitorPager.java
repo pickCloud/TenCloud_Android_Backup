@@ -262,7 +262,7 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
                 public void onDismiss() {
                     mIvOption.animate().rotation(0);
                     mTvCycle.setTextColor(getResources().getColor(R.color.text_color_556278));
-                    mLLCycle.setBackgroundResource(R.drawable.shape_round_3f4656);
+                    mLLCycle.setBackgroundResource(R.drawable.shape_round_3f4656_30);
                 }
             });
         }

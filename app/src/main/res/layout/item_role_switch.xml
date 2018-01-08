@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="170dp"
+    android:layout_width="match_parent"
     android:layout_height="48.5dp"
     android:orientation="vertical">
 
@@ -9,6 +9,18 @@
         android:id="@+id/ll_layout"
         style="@style/SettingItemLayout"
         android:background="@drawable/shape_switch_bg">
+
+        <TextView
+            android:id="@+id/tv_role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_switch_role"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="员工"
+            android:textColor="@color/text_color_232730"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_name"

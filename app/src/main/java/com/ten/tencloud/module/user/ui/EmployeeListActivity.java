@@ -214,7 +214,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
                 public void onDismiss() {
                     mIvOption.animate().rotation(0);
                     mTvStatus.setTextColor(getResources().getColor(R.color.text_color_556278));
-                    mLlStatus.setBackgroundResource(R.drawable.shape_round_3f4656);
+                    mLlStatus.setBackgroundResource(R.drawable.shape_round_3f4656_30);
                 }
             });
         }
