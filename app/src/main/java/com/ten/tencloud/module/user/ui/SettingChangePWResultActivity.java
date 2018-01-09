@@ -22,7 +22,7 @@ public class SettingChangePWResultActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_setting_change_pwresult);
-        initTitleBar(true, "提交结果");
+        initTitleBar(true, "修改密码");
         mIsSuccess = getIntent().getBooleanExtra("isSuccess", false);
         mLlSuccess.setVisibility(mIsSuccess ? View.VISIBLE : View.GONE);
         mLlFailed.setVisibility(!mIsSuccess ? View.VISIBLE : View.GONE);

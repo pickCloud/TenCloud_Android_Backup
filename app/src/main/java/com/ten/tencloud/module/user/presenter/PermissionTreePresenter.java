@@ -6,6 +6,7 @@ import com.ten.tencloud.bean.PermissionTemplate2Bean;
 import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.bean.UserPermissionAndAll;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.PermissionTreeContract;
@@ -23,6 +24,27 @@ import rx.functions.Func2;
 
 public class PermissionTreePresenter extends BasePresenter<PermissionTreeContract.View>
         implements PermissionTreeContract.Presenter<PermissionTreeContract.View> {
+
+    /**
+     * 模板列表
+     *
+     * @param cid
+     */
+    @Override
+    public void getTemplatesByCid(int cid) {
+        mSubscriptions.add(UserModel.getInstance().getTemplatesByCid(cid)
+                .subscribe(new JesSubscribe<List<PermissionTemplateBean>>(mView) {
+                    @Override
+                    public void _onSuccess(List<PermissionTemplateBean> permissionTemplateBeans) {
+                        GlobalStatusManager.getInstance().setTemplateNeedRefresh(false);
+                        if (permissionTemplateBeans == null || permissionTemplateBeans.size() == 0) {
+                            mView.showMessage("暂无模板");
+                        } else {
+                            mView.showTemplateList(permissionTemplateBeans);
+                        }
+                    }
+                }));
+    }
 
     @Override
     public void getTemplateResource(int cid) {

@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
@@ -15,6 +18,7 @@ import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.module.user.adapter.RvTreeComTemplateAdapter;
 import com.ten.tencloud.module.user.adapter.VpPermissionAdapter;
 import com.ten.tencloud.module.user.contract.PermissionTreeContract;
 import com.ten.tencloud.module.user.presenter.PermissionTreePresenter;
@@ -42,6 +46,11 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
     @BindView(R.id.vp_content)
     ViewPager mVpContent;
 
+    @BindView(R.id.ll_template)
+    LinearLayout mLlTemplate;
+    @BindView(R.id.rv_template)
+    RecyclerView mRvTemplate;
+
     String[] titles = {"功能", "数据"};
 
     private PermissionTemplateBean mTemplateBean;
@@ -50,7 +59,10 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
     private PermissionTreePager mFuncPager;
     private PermissionTreePager mDataPager;
 
+    private List<PermissionTreeNodeBean> resource;
+
     private int type;
+    private RvTreeComTemplateAdapter mTreeComTemplateAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +138,18 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             //查看具体模板的权限
             mTreePresenter.getTemplate(AppBaseCache.getInstance().getCid());
         } else if (type == TYPE_USER_SETTING) {
+            mLlTemplate.setVisibility(View.VISIBLE);
+            mRvTemplate.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+            mTreeComTemplateAdapter = new RvTreeComTemplateAdapter(mContext);
+            mTreeComTemplateAdapter.setOnSelectListener(new RvTreeComTemplateAdapter.OnSelectListener() {
+                @Override
+                public void onSelect(PermissionTemplateBean bean) {
+                    mTemplateBean = bean;
+                    showTemplatesAll(resource);
+                }
+            });
+            mRvTemplate.setAdapter(mTreeComTemplateAdapter);
+            mTreePresenter.getTemplatesByCid(AppBaseCache.getInstance().getCid());
             int uid = getIntent().getIntExtra("uid", -1);
             mTreePresenter.getUserPermission(uid);
         } else if (type == TYPE_USER_VIEW) {
@@ -138,7 +162,13 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
     }
 
     @Override
+    public void showTemplateList(List<PermissionTemplateBean> data) {
+        mTreeComTemplateAdapter.setDatas(data);
+    }
+
+    @Override
     public void showTemplatesAll(List<PermissionTreeNodeBean> data) {
+        resource = data;
         ArrayList<BasePager> pagers = new ArrayList<>();
         mFuncPager = new PermissionTreePager(this);
         mFuncPager.putArgument("resource", data.get(0).getData());

@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class PermissionTreeContract {
     public interface View extends IBaseView {
+        void showTemplateList(List<PermissionTemplateBean> data);
+
         void showTemplatesAll(List<PermissionTreeNodeBean> data);
 
         void showTemplates(PermissionTreeNodeBean data);
@@ -25,6 +27,8 @@ public class PermissionTreeContract {
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
+
+        void getTemplatesByCid(int cid);
 
         void getTemplateResource(int cid);
 
