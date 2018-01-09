@@ -42,14 +42,13 @@
                     android:id="@+id/tv_admin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_border_admin"
+                    android:background="@drawable/selector_admin_employee"
                     android:paddingBottom="1dp"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:paddingTop="1dp"
-                    android:text="管理员"
-                    android:visibility="invisible"
-                    android:textColor="@color/colorPrimary"
+                    android:text="员工"
+                    android:textColor="@color/select_role_switch"
                     android:textSize="10sp" />
 
                 <TextView

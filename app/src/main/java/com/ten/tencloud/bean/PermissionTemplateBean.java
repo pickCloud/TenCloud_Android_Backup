@@ -30,8 +30,9 @@ public class PermissionTemplateBean implements Parcelable {
     private String name;
     private int cid;
     private String access_servers;
-
     private int uid;
+
+    private int type;
 
     public PermissionTemplateBean() {
     }
@@ -47,6 +48,7 @@ public class PermissionTemplateBean implements Parcelable {
         dest.writeString(name);
         dest.writeInt(cid);
         dest.writeString(access_servers);
+        dest.writeInt(type);
     }
 
     protected PermissionTemplateBean(Parcel in) {
@@ -59,6 +61,7 @@ public class PermissionTemplateBean implements Parcelable {
         name = in.readString();
         cid = in.readInt();
         access_servers = in.readString();
+        type = in.readInt();
     }
 
     public static final Creator<PermissionTemplateBean> CREATOR = new Creator<PermissionTemplateBean>() {
@@ -151,6 +154,14 @@ public class PermissionTemplateBean implements Parcelable {
 
     public void setUid(int uid) {
         this.uid = uid;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     @Override

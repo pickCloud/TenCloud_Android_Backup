@@ -75,7 +75,8 @@
         <activity android:name=".module.user.ui.EmployeeInfoActivity" />
         <activity android:name=".module.user.ui.EmployeeSelectAdminActivity" />
         <activity android:name=".module.user.ui.EmployeeJoinConditionActivity" />
-        <activity android:name=".module.user.ui.EmployeeInviteActivity"></activity>
+        <activity android:name=".module.user.ui.EmployeeInviteActivity" />
+        <activity android:name=".module.user.ui.EmployeeJoinActivity"></activity>
     </application>
 
 </manifest>

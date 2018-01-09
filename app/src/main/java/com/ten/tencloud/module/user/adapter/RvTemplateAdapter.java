@@ -42,7 +42,9 @@ public class RvTemplateAdapter extends CJSBaseRecyclerViewAdapter<PermissionTemp
                 handCount(templateBean.getAccess_projects()) +
                 handCount(templateBean.getAccess_servers());
         holder.tvDataCount.setText(dataCount + "");
-        if ("管理员".equals(templateBean.getName())) {
+        holder.tvStatus.setText(templateBean.getType() == 0 ? "预设" : "新增");
+        if (templateBean.getType() == 0) {
+            holder.tvStatus.setSelected(true);
             holder.temp1.setSelected(true);
             holder.temp2.setSelected(true);
             holder.temp3.setSelected(true);
@@ -51,6 +53,7 @@ public class RvTemplateAdapter extends CJSBaseRecyclerViewAdapter<PermissionTemp
             holder.tvDataCount.setSelected(true);
             holder.tvFuncCount.setSelected(true);
         } else {
+            holder.tvStatus.setSelected(false);
             holder.temp1.setSelected(false);
             holder.temp2.setSelected(false);
             holder.temp3.setSelected(false);
@@ -63,6 +66,8 @@ public class RvTemplateAdapter extends CJSBaseRecyclerViewAdapter<PermissionTemp
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tv_status)
+        TextView tvStatus;
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.tv_func_count)

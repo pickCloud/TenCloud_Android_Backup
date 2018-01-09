@@ -36,7 +36,8 @@ public class RvCompanyAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, Rv
     protected void doOnBindViewHolder(ViewHolder holder, final int position) {
         CompanyBean companyBean = datas.get(position);
         holder.tvName.setText(companyBean.getCompany_name());
-        holder.tvAdmin.setVisibility(companyBean.getIs_admin() == 1 ? View.VISIBLE : View.INVISIBLE);
+        holder.tvAdmin.setText(companyBean.getIs_admin() == 1 ? "管理员" : "员工");
+        holder.tvAdmin.setSelected(companyBean.getIs_admin() == 1);
         holder.tvApplyTime.setText(DateUtils.dateToDefault(companyBean.getCreate_time()));
         holder.tvCheckTime.setText(DateUtils.dateToDefault(companyBean.getUpdate_time()));
         int status = companyBean.getStatus();

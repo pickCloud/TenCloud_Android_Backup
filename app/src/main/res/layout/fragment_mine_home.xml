@@ -309,8 +309,7 @@
             android:background="@color/bg_232730"
             android:clickable="true"
             android:focusable="true"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <LinearLayout style="@style/SettingItemLayout">
 

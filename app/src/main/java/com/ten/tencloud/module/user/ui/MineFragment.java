@@ -138,7 +138,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
             mLlCompanyLayout.setVisibility(View.VISIBLE);
             mViewRoleUser.setVisibility(View.GONE);
             mViewRoleCompany.setVisibility(View.VISIBLE);
-            mViewTemplate.setVisibility(View.GONE);
+            mViewTemplate.setVisibility(View.VISIBLE);
             mUserHomePresenter.getEmployees(cid);
             mUserHomePresenter.getPermission(cid);
             mUserHomePresenter.getCompanyByCid(cid);
@@ -283,17 +283,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
 
     @Override
     public void showPermissionSuccess() {
-        mIsPermissionAddTemplate = Utils.hasPermission("新增权限模板");
-        mIsPermissionChangeTemplate = Utils.hasPermission("修改权限模板");
-        mIsPermissionDelTemplate = Utils.hasPermission("删除模板");
-        if (!mIsPermissionAddTemplate && !mIsPermissionChangeTemplate && !mIsPermissionDelTemplate) {
-            mViewTemplate.setVisibility(View.GONE);
-        } else {
-            mViewTemplate.setVisibility(View.VISIBLE);
-        }
 
-        // TODO: 2018/1/6  debug del
-        mViewTemplate.setVisibility(View.VISIBLE);
     }
 
     @Override
