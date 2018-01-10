@@ -87,6 +87,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     private EditText et_search;
     private TextView mTvRight;
     private ImageView mIvLeft;
+    private FrameLayout mFlRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         et_search = (EditText) findViewById(R.id.et_search);
         mTvRight = (TextView) findViewById(R.id.tv_right);
         mIvLeft = (ImageView) findViewById(R.id.iv_left);
+        mFlRight = (FrameLayout) findViewById(R.id.fl_right);
         et_search.setOnEditorActionListener(this);
         mToolBar.setNavigationIcon(R.mipmap.icon_back);
         setSupportActionBar(mToolBar);
@@ -213,6 +215,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         mTvRight.setVisibility(View.VISIBLE);
         mTvRight.setText(rightText);
         mTvRight.setOnClickListener(rightClickListener);
+    }
+
+    public void initTitleBar(boolean isBack, String title, View rightView, View.OnClickListener rightClickListener) {
+        initTitleBar(isBack, title);
+        mFlRight.addView(rightView);
+        mFlRight.setOnClickListener(rightClickListener);
     }
 
     public void initTitleBar(String title, @DrawableRes int leftResId, View.OnClickListener leftClickListener,

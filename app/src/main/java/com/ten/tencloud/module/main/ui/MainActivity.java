@@ -2,11 +2,15 @@ package com.ten.tencloud.module.main.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSFragmentPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.TempFragment;
+import com.ten.tencloud.module.main.contract.MainContract;
+import com.ten.tencloud.module.main.presenter.MainPresenter;
 import com.ten.tencloud.module.server.ui.ServerHomeFragment;
 import com.ten.tencloud.module.user.ui.MineFragment;
 import com.ten.tencloud.utils.UiUtils;
@@ -14,7 +18,7 @@ import com.ten.tencloud.widget.navlayout.NavLayout;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MainContract.View {
 
     private String[] titles;
     private int[] iconRes = {R.mipmap.icon_nav01_normal, R.mipmap.icon_nav02_normal
@@ -26,20 +30,36 @@ public class MainActivity extends BaseActivity {
     NavLayout mNavLayout;
     @BindView(R.id.vp_content)
     ViewPager mVpContent;
+    private TextView mTvMsgCount;
+    private MainPresenter mMainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_main);
-        initTitleBar(false, R.string.server);
+        View msgView = View.inflate(this, R.layout.include_message, null);
+        mTvMsgCount = msgView.findViewById(R.id.tv_msg_count);
+        initTitleBar(false, getResources().getString(R.string.server), msgView, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityNoValue(mContext, MsgActivity.class);
+            }
+        });
         init();
         initView();
+        initMsg();
+    }
+
+    private void initMsg() {
+        mMainPresenter.getMsgCount();
     }
 
     private void init() {
         titles = new String[]{getResources().getString(R.string.server), getResources().getString(R.string.project)
                 , getResources().getString(R.string.resource), getResources().getString(R.string.discover)
                 , getResources().getString(R.string.mine)};
+        mMainPresenter = new MainPresenter();
+        mMainPresenter.attachView(this);
     }
 
     private void initView() {
@@ -72,5 +92,17 @@ public class MainActivity extends BaseActivity {
                 mVpContent.setCurrentItem(position);
             }
         });
+    }
+
+    @Override
+    public void showMsgCount(String count) {
+        mTvMsgCount.setVisibility("0".equals(count) ? View.INVISIBLE : View.VISIBLE);
+        mTvMsgCount.setText(count);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMainPresenter.detachView();
     }
 }

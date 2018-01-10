@@ -70,6 +70,13 @@
                     android:textSize="15sp"
                     android:visibility="invisible" />
 
+                <FrameLayout
+                    android:id="@+id/fl_right"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="16dp" />
+
             </android.support.v7.widget.Toolbar>
 
             <LinearLayout

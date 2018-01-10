@@ -7,6 +7,7 @@ import com.ten.tencloud.BuildConfig;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.Url;
 import com.ten.tencloud.model.netapi.TenLoginApi;
+import com.ten.tencloud.model.netapi.TenMsgApi;
 import com.ten.tencloud.model.netapi.TenServerApi;
 import com.ten.tencloud.model.netapi.TenTestApi;
 import com.ten.tencloud.model.netapi.TenUserApi;
@@ -70,6 +71,10 @@ public class InitRetrofit {
 
     public TenUserApi getTenUserApi() {
         return client.create(TenUserApi.class);
+    }
+
+    public TenMsgApi getTenMsgApi() {
+        return client.create(TenMsgApi.class);
     }
 
     public TenTestApi getTestApi(){
