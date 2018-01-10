@@ -1,15 +1,18 @@
 package com.ten.tencloud.module.user.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.module.user.contract.EmployeeInviteContract;
 import com.ten.tencloud.module.user.contract.EmployeeJoinSettingContract;
 import com.ten.tencloud.module.user.presenter.EmployeesInvitePresenter;
 import com.ten.tencloud.module.user.presenter.EmployeesJoinSettingPresenter;
+import com.ten.tencloud.widget.dialog.ShareDialog;
 
 import butterknife.BindView;
 
@@ -21,6 +24,7 @@ public class EmployeeInviteActivity extends BaseActivity
 
     private EmployeesJoinSettingPresenter mJoinSettingPresenter;
     private EmployeesInvitePresenter mEmployeesInvitePresenter;
+    private ShareDialog mShareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +55,15 @@ public class EmployeeInviteActivity extends BaseActivity
     }
 
     public void setting(View view) {
-        startActivityNoValue(this, EmployeeJoinConditionActivity.class);
+        Intent intent = new Intent(this, EmployeeJoinConditionActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mJoinSettingPresenter.getJoinSetting();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
+            mJoinSettingPresenter.getJoinSetting();
+        }
     }
 
     public void generateUrl(View view) {
@@ -66,6 +72,10 @@ public class EmployeeInviteActivity extends BaseActivity
 
     @Override
     public void showUrl(String url) {
-        showMessage("邀请链接：" + url);
+        if (mShareDialog == null) {
+            mShareDialog = new ShareDialog(mContext);
+        }
+        mShareDialog.setContent(url);
+        mShareDialog.show();
     }
 }

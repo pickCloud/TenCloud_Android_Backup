@@ -18,7 +18,7 @@ import com.ten.tencloud.module.user.adapter.RvTemplateAdapter;
 import com.ten.tencloud.module.user.contract.PermissionTemplatesContract;
 import com.ten.tencloud.module.user.presenter.PermissionTemplatesPresenter;
 import com.ten.tencloud.utils.Utils;
-import com.ten.tencloud.widget.DelPopupWindow;
+import com.ten.tencloud.widget.popup.DelPopupWindow;
 
 import java.util.List;
 

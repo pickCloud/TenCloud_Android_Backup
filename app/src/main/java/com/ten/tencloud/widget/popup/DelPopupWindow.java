@@ -1,4 +1,4 @@
-package com.ten.tencloud.widget;
+package com.ten.tencloud.widget.popup;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;

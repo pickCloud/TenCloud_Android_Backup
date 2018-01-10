@@ -6,6 +6,7 @@ import android.widget.CheckBox;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.module.user.contract.EmployeeJoinSettingContract;
 import com.ten.tencloud.module.user.presenter.EmployeesJoinSettingPresenter;
 
@@ -39,6 +40,7 @@ public class EmployeeJoinConditionActivity extends BaseActivity implements Emplo
     @Override
     public void setJoinSettingSuccess() {
         showMessage("设置成功");
+        setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH);
         finish();
     }
 

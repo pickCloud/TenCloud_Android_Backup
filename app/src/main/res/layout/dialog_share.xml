@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_232730"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="分享链接给你的同事"
+            android:textColor="@color/text_color_556278"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="26dp"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/tv_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:drawablePadding="8dp"
+                android:drawableTop="@mipmap/icon_share_weixin"
+                android:gravity="center"
+                android:text="微信"
+                android:textColor="@color/text_color_556278"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24dp"
+                android:drawablePadding="8dp"
+                android:drawableTop="@mipmap/icon_share_qq"
+                android:gravity="center"
+                android:text="QQ"
+                android:textColor="@color/text_color_556278"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:drawableTop="@mipmap/icon_share_message"
+                android:gravity="center"
+                android:text="短信"
+                android:textColor="@color/text_color_556278"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/bg_2f3543"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</LinearLayout>

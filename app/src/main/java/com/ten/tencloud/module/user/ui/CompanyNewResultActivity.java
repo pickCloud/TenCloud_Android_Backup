@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.main.ui.MainActivity;
 
@@ -38,6 +39,7 @@ public class CompanyNewResultActivity extends BaseActivity {
     public void btnOk(View view) {
         mCid = getIntent().getIntExtra("cid", 0);
         AppBaseCache.getInstance().setCid(mCid);
+        GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
         startActivityNoValue(this, MainActivity.class);
     }
 }

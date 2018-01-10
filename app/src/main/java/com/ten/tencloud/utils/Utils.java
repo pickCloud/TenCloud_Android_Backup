@@ -1,8 +1,12 @@
 package com.ten.tencloud.utils;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.ten.tencloud.TenApp;
+import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.ContentInfoBean;
 import com.ten.tencloud.bean.NetSpeedBean;
 import com.ten.tencloud.model.AppBaseCache;
@@ -139,7 +143,27 @@ public class Utils {
      * @return
      */
     public static boolean hasPermission(String permission) {
+        CompanyBean companyWithLogin = AppBaseCache.getInstance().getSelectCompanyWithLogin();
+        if (companyWithLogin != null) {
+            int isAdmin = companyWithLogin.getIs_admin();
+            if (isAdmin != 0) {
+                return true;
+            }
+        }
         String userPermission = AppBaseCache.getInstance().getUserPermission();
         return userPermission.contains(permission);
+    }
+
+    /**
+     * 发短信
+     */
+    public static void sendMsg(Context context, String content) {
+        String smsBody = content;
+        Uri smsToUri = Uri.parse("smsto:");
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW, smsToUri);
+        //短信内容
+        sendIntent.putExtra("sms_body", smsBody);
+        sendIntent.setType("vnd.android-dir/mms-sms");
+        context.startActivity(sendIntent);
     }
 }
