@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.utils.DateUtils;
 
 import butterknife.BindView;
@@ -41,16 +42,16 @@ public class RvCompanyAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, Rv
         holder.tvApplyTime.setText(DateUtils.dateToDefault(companyBean.getCreate_time()));
         holder.tvCheckTime.setText(DateUtils.dateToDefault(companyBean.getUpdate_time()));
         int status = companyBean.getStatus();
-        if (status == -1) {
+        if (status == Constants.EMPLOYEE_STATUS_CODE_NO_PASS) {
             holder.tvStatus.setText("审核不通过");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_f15532));
-        } else if (status == 0) {
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CHECKING) {
             holder.tvStatus.setText("待审核");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-        } else if (status == 1) {
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_PASS) {
             holder.tvStatus.setText("审核通过");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_09bb07));
-        } else if (status == 2) {
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CREATEER) {
             holder.tvStatus.setText("创建人");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_09bb07));
         }

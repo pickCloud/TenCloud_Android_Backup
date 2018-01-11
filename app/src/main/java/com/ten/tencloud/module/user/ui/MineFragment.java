@@ -19,6 +19,7 @@ import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvSwitchAdapter;
@@ -240,8 +241,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         if (companies != null) {
             count = companies.size();
             for (CompanyBean company : companies) {
-                if (company.getStatus() == 1
-                        || company.getStatus() == 2) {
+                if (company.getStatus() == Constants.EMPLOYEE_STATUS_CODE_PASS
+                        || company.getStatus() == Constants.EMPLOYEE_STATUS_CODE_CREATEER) {
                     data.add(company);
                 }
                 if (cid == company.getCid()) {
