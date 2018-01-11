@@ -31,7 +31,7 @@ import butterknife.BindView;
 
 public class PermissionTreeActivity extends BaseActivity implements PermissionTreeContract.View {
 
-    //模板权限
+    //模版权限
     public static final int TYPE_UPDATE = 0;
     public static final int TYPE_VIEW = 1;
     public static final int TYPE_NEW = 3;
@@ -98,7 +98,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
                 }
             });
         } else {
-            initTitleBar("模板权限项选择", R.mipmap.icon_close, new View.OnClickListener() {
+            initTitleBar("模版权限项选择", R.mipmap.icon_close, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
@@ -135,8 +135,12 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         mTreePresenter = new PermissionTreePresenter();
         mTreePresenter.attachView(this);
         if (type == TYPE_VIEW) {
-            //查看具体模板的权限
-            mTreePresenter.getTemplate(AppBaseCache.getInstance().getCid());
+            //查看具体模版的权限
+            if (mTemplateBean.getId() == 0) {
+                mTreePresenter.getTemplateResource(AppBaseCache.getInstance().getCid());
+            } else {
+                mTreePresenter.getTemplate(mTemplateBean.getId());
+            }
         } else if (type == TYPE_USER_SETTING) {
             mLlTemplate.setVisibility(View.VISIBLE);
             mRvTemplate.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
@@ -171,17 +175,27 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         resource = data;
         ArrayList<BasePager> pagers = new ArrayList<>();
         mFuncPager = new PermissionTreePager(this);
+        mDataPager = new PermissionTreePager(this);
+
+        if (type == TYPE_VIEW && mTemplateBean.getId() == 0) {
+            mTemplateBean.setAccess_servers("");
+            mTemplateBean.setPermissions("");
+            mTemplateBean.setAccess_projects("");
+            mTemplateBean.setAccess_filehub("");
+            mFuncPager.putArgument("isView", true);
+            mDataPager.putArgument("isView", true);
+        }
+
         mFuncPager.putArgument("resource", data.get(0).getData());
         mFuncPager.putArgument("select", mTemplateBean);
         mFuncPager.putArgument("type", PermissionTreePager.TYPE_FUNC);
-        mFuncPager.initView();
         pagers.add(mFuncPager);
-        mDataPager = new PermissionTreePager(this);
         mDataPager.putArgument("resource", data.get(1).getData());
         mDataPager.putArgument("select", mTemplateBean);
         mDataPager.putArgument("type", PermissionTreePager.TYPE_DATA);
-        mDataPager.initView();
         pagers.add(mDataPager);
+        mFuncPager.initView();
+        mDataPager.initView();
         mAdapter = new VpPermissionAdapter(titles, pagers);
         mVpContent.setOffscreenPageLimit(pagers.size());
         mVpContent.setAdapter(mAdapter);
@@ -225,7 +239,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
 
     @Override
     public void updateSuccess() {
-        showMessage("模板权限更新成功");
+        showMessage("模版权限更新成功");
         Intent data = new Intent();
         data.putExtra("obj", mTemplateBean);
         setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH, data);

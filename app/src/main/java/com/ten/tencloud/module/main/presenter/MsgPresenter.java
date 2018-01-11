@@ -15,7 +15,7 @@ import java.util.List;
 public class MsgPresenter extends BasePresenter<MsgContract.View> implements MsgContract.Presenter<MsgContract.View> {
 
     @Override
-    public void getMsgList(final boolean isLoadMore, String status, int mode) {
+    public void getMsgList(final boolean isLoadMore, String status, String mode) {
         handleLoadMore(isLoadMore);
         mSubscriptions.add(MsgModel.getInstance().getMsgList(status, mode, page)
                 .subscribe(new JesSubscribe<List<MessageBean>>(mView) {
@@ -27,6 +27,21 @@ public class MsgPresenter extends BasePresenter<MsgContract.View> implements Msg
                         }
                         page++;
                         mView.showMsgList(data, isLoadMore);
+                    }
+                }));
+    }
+
+    @Override
+    public void search(String status, String mode, String key) {
+        mSubscriptions.add(MsgModel.getInstance().search(status, mode, key)
+                .subscribe(new JesSubscribe<List<MessageBean>>(mView) {
+                    @Override
+                    public void _onSuccess(List<MessageBean> data) {
+                        if (data == null || data.size() == 0) {
+                            mView.showEmpty(false);
+                            return;
+                        }
+                        mView.showMsgList(data, false);
                     }
                 }));
     }

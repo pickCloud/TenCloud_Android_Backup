@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.module.user.adapter.RvEmployeeSelectAdminAdapter;
 import com.ten.tencloud.module.user.contract.EmployeeListContract;
 import com.ten.tencloud.module.user.contract.EmployeeTransferAdminContract;
@@ -52,7 +53,7 @@ public class EmployeeSelectAdminActivity extends BaseActivity
                     showMessage("请选择员工");
                     return;
                 }
-                mEmployeesTransferAdminPresenter.transferAdmin(selectObject.getUid());
+                mEmployeesTransferAdminPresenter.transferAdmin(selectObject.getId());
             }
         });
         initView();
@@ -88,6 +89,7 @@ public class EmployeeSelectAdminActivity extends BaseActivity
     @Override
     public void showEmployees(List<EmployeeBean> employees) {
         mAdapter.setDatas(employees);
+        mAdapter.setSelectPos();
     }
 
     @Override
@@ -99,6 +101,8 @@ public class EmployeeSelectAdminActivity extends BaseActivity
     @Override
     public void transferSuccess() {
         showMessage("更换成功");
+        GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
+        GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
         finish();
     }
 }

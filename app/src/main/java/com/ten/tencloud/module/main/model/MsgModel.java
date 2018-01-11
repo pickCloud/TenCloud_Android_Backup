@@ -52,9 +52,23 @@ public class MsgModel {
      * @param page   分页
      * @return
      */
-    public Observable<List<MessageBean>> getMsgList(String status, int mode, int page) {
+
+    public static final String MODE_ALL = "";
+    public static final String MODE_JOIN = "1";
+    public static final String MODE_CHANGE = "2";
+    public static final String MODE_LEAVE = "3";
+
+    public Observable<List<MessageBean>> getMsgList(String status, String mode, int page) {
         return TenApp.getRetrofitClient().getTenMsgApi()
                 .getMsgListByStatus(status, mode, page)
+                .map(new HttpResultFunc<List<MessageBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<MessageBean>> search(String status, String mode, String key) {
+        return TenApp.getRetrofitClient().getTenMsgApi()
+                .search(status, mode, key)
                 .map(new HttpResultFunc<List<MessageBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

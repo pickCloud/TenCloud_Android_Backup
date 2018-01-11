@@ -2,6 +2,7 @@ package com.ten.tencloud.module.user.model;
 
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.model.netapi.TenUserApi;
@@ -53,9 +54,9 @@ public class EmployeesModel {
     }
 
     public static final int STATUS_EMPLOYEE_SEARCH_ALL = -2;
-    public static final int STATUS_EMPLOYEE_SEARCH_PASS = 1;
-    public static final int STATUS_EMPLOYEE_SEARCH_NO_PASS = -1;
-    public static final int STATUS_EMPLOYEE_SEARCH_CHECKING = 0;
+    public static final int STATUS_EMPLOYEE_SEARCH_PASS = Constants.EMPLOYEE_STATUS_CODE_PASS;
+    public static final int STATUS_EMPLOYEE_SEARCH_NO_PASS = Constants.EMPLOYEE_STATUS_CODE_NO_PASS;
+    public static final int STATUS_EMPLOYEE_SEARCH_CHECKING = Constants.EMPLOYEE_STATUS_CODE_CHECKING;
 
     /**
      * 搜索员工

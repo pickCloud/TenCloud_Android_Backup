@@ -9,7 +9,7 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@color/default_bg"
@@ -22,17 +22,27 @@
         app:srlEnablePreviewInEditMode="true"
         app:srlHeaderMaxDragRate="1.3">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_msg"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_msg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+
+            <TextView
+                android:id="@+id/tv_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="暂无消息"
+                android:textColor="@color/text_color_899ab6"
+                android:textSize="14sp"
+                android:visibility="gone" />
+        </FrameLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/line_color_3f4656" />
 
 </LinearLayout>

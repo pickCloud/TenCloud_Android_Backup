@@ -15,9 +15,12 @@ public class MsgContract {
         void showEmpty(boolean isLoadMore);
 
         void showMsgList(List<MessageBean> msg, boolean isLoadMore);
+
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
-        void getMsgList(boolean isLoadMore, String status, int mode);
+        void getMsgList(boolean isLoadMore, String status, String mode);
+
+        void search(String status,String mode,String key);
     }
 }

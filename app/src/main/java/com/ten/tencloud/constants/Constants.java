@@ -84,4 +84,13 @@ public class Constants {
     public static final int ACTIVITY_RESULT_CODE_REFRESH = 20086;
 
 
+    /**
+     * 员工状态码
+     */
+    public static final int EMPLOYEE_STATUS_CODE_NO_PASS = 1;
+    public static final int EMPLOYEE_STATUS_CODE_CHECKING = 2;
+    public static final int EMPLOYEE_STATUS_CODE_PASS = 3;
+    public static final int EMPLOYEE_STATUS_CODE_CREATEER = 4;
+    public static final int EMPLOYEE_STATUS_CODE_WAITING = 5;
+
 }

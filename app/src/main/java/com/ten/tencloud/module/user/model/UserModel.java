@@ -164,7 +164,7 @@ public class UserModel {
     }
 
     /**
-     * 权限模板列表
+     * 权限模版列表
      *
      * @param cid
      * @return
@@ -178,7 +178,7 @@ public class UserModel {
     }
 
     /**
-     * 删除模板
+     * 删除模版
      *
      * @param ptId
      * @return
@@ -195,7 +195,7 @@ public class UserModel {
     }
 
     /**
-     * 获取所有权限的模板，不区分是否有权限
+     * 获取所有权限的模版，不区分是否有权限
      *
      * @param cid
      * @return
@@ -209,7 +209,7 @@ public class UserModel {
     }
 
     /**
-     * 获取具体的某个模板拥有的权限
+     * 获取具体的某个模版拥有的权限
      *
      * @param ptId
      * @return
@@ -223,7 +223,7 @@ public class UserModel {
     }
 
     /**
-     * 根据权限模板
+     * 根据权限模版
      *
      * @param ptId
      * @return
@@ -260,7 +260,7 @@ public class UserModel {
     }
 
     /**
-     * 新增模板
+     * 新增模版
      *
      * @param map
      * @return

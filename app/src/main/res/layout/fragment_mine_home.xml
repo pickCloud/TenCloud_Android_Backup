@@ -319,7 +319,7 @@
 
                 <TextView
                     style="@style/SettingItemLabel"
-                    android:text="权限模板管理" />
+                    android:text="权限模版管理" />
 
                 <TextView style="@style/SettingItemDes" />
 

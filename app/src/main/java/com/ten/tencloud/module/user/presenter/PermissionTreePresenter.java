@@ -26,7 +26,7 @@ public class PermissionTreePresenter extends BasePresenter<PermissionTreeContrac
         implements PermissionTreeContract.Presenter<PermissionTreeContract.View> {
 
     /**
-     * 模板列表
+     * 模版列表
      *
      * @param cid
      */
@@ -38,7 +38,7 @@ public class PermissionTreePresenter extends BasePresenter<PermissionTreeContrac
                     public void _onSuccess(List<PermissionTemplateBean> permissionTemplateBeans) {
                         GlobalStatusManager.getInstance().setTemplateNeedRefresh(false);
                         if (permissionTemplateBeans == null || permissionTemplateBeans.size() == 0) {
-                            mView.showMessage("暂无模板");
+                            mView.showMessage("暂无模版");
                         } else {
                             mView.showTemplateList(permissionTemplateBeans);
                         }

@@ -32,7 +32,7 @@ public class PermissionChangeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_permission_change);
-        initTitleBar(true, "修改权限模板");
+        initTitleBar(true, "修改权限模版");
         mTemplateBean = getIntent().getParcelableExtra("obj");
         initView();
     }

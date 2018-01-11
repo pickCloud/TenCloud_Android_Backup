@@ -48,7 +48,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     @BindView(R.id.ll_user_layout)
     LinearLayout mLlUserLayout;//个人布局
 
-    //===个人模板
+    //===个人模版
     @BindView(R.id.iv_user_avatar)
     ImageView mIvUserAvatar;
     @BindView(R.id.tv_user_name)
@@ -58,7 +58,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     @BindView(R.id.tv_user_phone)
     TextView mTvUserPhone;
 
-    //====公司模板
+    //====公司模版
     @BindView(R.id.iv_company_logo)
     ImageView mIvCompanyLogo;
     @BindView(R.id.tv_company_name)

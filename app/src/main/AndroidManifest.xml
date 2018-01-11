@@ -77,7 +77,10 @@
         <activity android:name=".module.user.ui.EmployeeJoinConditionActivity" />
         <activity android:name=".module.user.ui.EmployeeInviteActivity" />
         <activity android:name=".module.user.ui.EmployeeJoinActivity" />
-        <activity android:name=".module.main.ui.MsgActivity"></activity>
+        <activity android:name=".module.main.ui.MsgActivity" />
+        <activity android:name=".module.login.ui.JoinComStep1Activity" />
+        <activity android:name=".module.login.ui.JoinComStep2Activity" />
+        <activity android:name=".module.login.ui.JoinComStep3Activity"></activity>
     </application>
 
 </manifest>

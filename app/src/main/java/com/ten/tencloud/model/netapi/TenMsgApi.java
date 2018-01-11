@@ -24,5 +24,8 @@ public interface TenMsgApi {
     Observable<Response<JesResponse<Map<String, Integer>>>> getMsgCount(@Query("status") int status);
 
     @GET("/api/messages/{status}")
-    Observable<Response<JesResponse<List<MessageBean>>>> getMsgListByStatus(@Path("status") String status, @Query("mode") int mode, @Query("page") int page);
+    Observable<Response<JesResponse<List<MessageBean>>>> getMsgListByStatus(@Path("status") String status, @Query("mode") String mode, @Query("page") int page);
+
+    @GET("/api/messages/search")
+    Observable<Response<JesResponse<List<MessageBean>>>> search(@Query("status") String status, @Query("mode") String mode, @Query("keywords") String key);
 }

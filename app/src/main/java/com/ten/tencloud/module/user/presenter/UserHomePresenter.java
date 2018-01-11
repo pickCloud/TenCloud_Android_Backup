@@ -5,6 +5,7 @@ import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.PermissionTemplate2Bean;
+import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
@@ -64,7 +65,8 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
     @Override
     public void getPermission(int cid) {
         AppBaseCache.getInstance().setUserPermission("");//清空
-        int uid = (int) AppBaseCache.getInstance().getUserInfo().getId();
+        User userInfo = AppBaseCache.getInstance().getUserInfo();
+        int uid = (int) userInfo.getId();
         mSubscriptions.add(UserModel.getInstance().getUserPermission(cid, uid)
                 .subscribe(new JesSubscribe<PermissionTemplate2Bean>(mView) {
                     @Override

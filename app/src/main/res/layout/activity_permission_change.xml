@@ -24,7 +24,7 @@
 
                 <TextView
                     style="@style/SettingItemLabel"
-                    android:text="模板名称" />
+                    android:text="模版名称" />
 
                 <TextView
                     android:id="@+id/tv_template_name"
@@ -63,7 +63,7 @@
 
                 <TextView
                     style="@style/SettingItemLabel"
-                    android:text="权限模板管理" />
+                    android:text="权限模版管理" />
 
                 <TextView style="@style/SettingItemDes" />
 
@@ -91,7 +91,7 @@
             android:id="@+id/tv_label"
             style="@style/SettingItemLabel"
             android:layout_weight="1"
-            android:text="模板权限项" />
+            android:text="模版权限项" />
 
         <TextView
             android:id="@+id/temp1"

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.utils.Utils;
 
 import butterknife.BindView;
@@ -68,6 +69,19 @@ public class RvEmployeeSelectAdminAdapter extends CJSBaseRecyclerViewAdapter<Emp
             return null;
         }
         return datas.get(selectPos);
+    }
+
+    public void setSelectPos() {
+        int id = (int) AppBaseCache.getInstance().getUserInfo().getId();
+        for (int i = 0; i < datas.size(); i++) {
+            EmployeeBean employeeBean = datas.get(i);
+            if (employeeBean.getId() == id) {
+                selectPos = i;
+                notifyDataSetChanged();
+                return;
+            }
+        }
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

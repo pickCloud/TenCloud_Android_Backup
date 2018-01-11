@@ -35,6 +35,7 @@ public class EmployeeInviteActivity extends BaseActivity
         mJoinSettingPresenter.attachView(this);
         mEmployeesInvitePresenter = new EmployeesInvitePresenter();
         mEmployeesInvitePresenter.attachView(this);
+        mJoinSettingPresenter.getJoinSetting();
     }
 
     @Override

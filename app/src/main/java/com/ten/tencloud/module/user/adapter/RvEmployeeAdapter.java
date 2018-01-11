@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 
@@ -46,11 +47,15 @@ public class RvEmployeeAdapter extends CJSBaseRecyclerViewAdapter<EmployeeBean, 
         holder.tvPhone.setText(Utils.hide4Phone(employee.getMobile()));
         holder.tvAdmin.setVisibility(employee.getIs_admin() != 0 ? View.VISIBLE : View.INVISIBLE);
         int status = employee.getStatus();
-        if (status == -1) {
+        if (status == Constants.EMPLOYEE_STATUS_CODE_NO_PASS) {
             holder.tvStatus.setText("审核不通过");
             holder.tvStatus.setEnabled(false);
-        } else if (status == 0) {
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CHECKING) {
             holder.tvStatus.setText("待审核");
+            holder.tvStatus.setEnabled(true);
+            holder.tvStatus.setSelected(false);
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_WAITING) {
+            holder.tvStatus.setText("待加入");
             holder.tvStatus.setEnabled(true);
             holder.tvStatus.setSelected(false);
         } else {

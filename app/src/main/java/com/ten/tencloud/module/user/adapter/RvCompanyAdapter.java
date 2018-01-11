@@ -51,7 +51,7 @@ public class RvCompanyAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, Rv
             holder.tvStatus.setText("审核通过");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_09bb07));
         } else if (status == 2) {
-            holder.tvStatus.setText("初创建");
+            holder.tvStatus.setText("创建人");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_09bb07));
         }
     }

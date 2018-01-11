@@ -44,7 +44,7 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
         createView(R.layout.activity_permission_template_list);
         initPermission();
         if (mIsPermissionAdd) {
-            initTitleBar(true, "权限模板管理", R.menu.menu_add_template, new OnMenuItemClickListener() {
+            initTitleBar(true, "权限模版管理", R.menu.menu_add_template, new OnMenuItemClickListener() {
                 @Override
                 public void onItemClick(MenuItem item) {
                     if (item.getItemId() == R.id.menu_add_template) {
@@ -54,7 +54,7 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
                 }
             });
         } else {
-            initTitleBar(true, "权限模板管理");
+            initTitleBar(true, "权限模版管理");
         }
         mCid = getIntent().getIntExtra("cid", 0);
         mTemplatesPresenter = new PermissionTemplatesPresenter();
@@ -63,9 +63,9 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
     }
 
     private void initPermission() {
-        mIsPermissionAdd = Utils.hasPermission("新增权限模板");
-        mIsPermissionChange = Utils.hasPermission("修改权限模板");
-        mIsPermissionDel = Utils.hasPermission("删除模板");
+        mIsPermissionAdd = Utils.hasPermission("新增权限模版");
+        mIsPermissionChange = Utils.hasPermission("修改权限模版");
+        mIsPermissionDel = Utils.hasPermission("删除模版");
     }
 
     private void initView() {
@@ -75,29 +75,32 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
         mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<PermissionTemplateBean>() {
             @Override
             public void onObjectItemClicked(PermissionTemplateBean permissionTemplateBean, int position) {
-                Intent intent = new Intent(mContext, PermissionChangeActivity.class);
-                intent.putExtra("obj", permissionTemplateBean);
-                if (!mIsPermissionChange) {
+                if (mIsPermissionChange && permissionTemplateBean.getId() != 0) {
+                    Intent intent = new Intent(mContext, PermissionChangeActivity.class);
+                    intent.putExtra("obj", permissionTemplateBean);
+                    startActivityForResult(intent, 0);
+                } else {
+                    Intent intent = new Intent(mContext, PermissionTreeActivity.class);
+                    intent.putExtra("obj", permissionTemplateBean);
                     intent.putExtra("type", PermissionTreeActivity.TYPE_VIEW);
+                    startActivityForResult(intent, 0);
                 }
-                startActivityForResult(intent, 0);
+
             }
         });
         mAdapter.setOnItemLongClickListener(new CJSBaseRecyclerViewAdapter.OnItemLongClickListener<PermissionTemplateBean>() {
             @Override
             public void onObjectItemLongClicked(final PermissionTemplateBean bean, View view, int position) {
                 //删除
-                if (mIsPermissionDel) {
-                    if (mDelPopupWindow == null) {
-                        mDelPopupWindow = new DelPopupWindow(mContext);
-                        mDelPopupWindow.setOnButtonClickListener(new DelPopupWindow.OnButtonClickListener() {
-                            @Override
-                            public void onDelClick() {
-                                delTempBean = bean;
-                                mTemplatesPresenter.delTemplate(bean.getId());
-                            }
-                        });
-                    }
+                if (mIsPermissionDel && bean.getId() != 0) {
+                    mDelPopupWindow = new DelPopupWindow(mContext);
+                    mDelPopupWindow.setOnButtonClickListener(new DelPopupWindow.OnButtonClickListener() {
+                        @Override
+                        public void onDelClick() {
+                            mTemplatesPresenter.delTemplate(bean.getId());
+                        }
+                    });
+
                     int[] location = new int[2];
                     view.getLocationOnScreen(location);
                     int x = (view.getWidth() / 2) - (mDelPopupWindow.getWidth() / 2);
@@ -122,8 +125,7 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
 
     @Override
     public void delSuccess() {
-        mAdapter.getDatas().remove(delTempBean);
-        mAdapter.notifyDataSetChanged();
+        mTemplatesPresenter.getTemplatesByCid(mCid);
     }
 
     @Override

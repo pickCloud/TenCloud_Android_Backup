@@ -34,7 +34,7 @@ public class PermissionTemplateNewActivity extends BaseActivity implements Permi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_permission_template_new);
-        initTitleBar(true, "新增权限模板");
+        initTitleBar(true, "新增权限模版");
         mTemplateBean = new PermissionTemplateBean();
         mTemplateBean.setCid(AppBaseCache.getInstance().getCid());
         mPresenter = new PermissionNewPresenter();
@@ -85,7 +85,7 @@ public class PermissionTemplateNewActivity extends BaseActivity implements Permi
     public void submit(View view) {
         String name = mEtTemplateName.getText().toString().trim();
         if (TextUtils.isEmpty(name)) {
-            showMessage("模板名称不能为空");
+            showMessage("模版名称不能为空");
             return;
         }
         String funcCount = mTvFuncCount.getText().toString().trim();

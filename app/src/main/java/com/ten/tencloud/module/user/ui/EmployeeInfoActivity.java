@@ -12,6 +12,7 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.module.user.contract.EmployeeInfoContract;
@@ -81,13 +82,18 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mTvPhone.setText(mEmployeeInfo.getMobile());
         GlideUtils.getInstance().loadCircleImage(mContext, mIvAvatar, mEmployeeInfo.getImage_url(), R.mipmap.icon_userphoto);
         mTvApplyTime.setText(mEmployeeInfo.getCreate_time());
-        mTvJoinTime.setText(mEmployeeInfo.getStatus() > 0 ? mEmployeeInfo.getUpdate_time() : "-");
+        mTvJoinTime.setText(((mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_NO_PASS) || (mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_WAITING))
+                ? mEmployeeInfo.getUpdate_time() : "-");
         int status = mEmployeeInfo.getStatus();
-        if (status == -1) {
+        if (status == Constants.EMPLOYEE_STATUS_CODE_NO_PASS) {
             mTvStatus.setText("审核不通过");
             mTvStatus.setEnabled(false);
-        } else if (status == 0) {
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CHECKING) {
             mTvStatus.setText("待审核");
+            mTvStatus.setEnabled(true);
+            mTvStatus.setSelected(false);
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_WAITING) {
+            mTvStatus.setText("待加入");
             mTvStatus.setEnabled(true);
             mTvStatus.setSelected(false);
         } else {
@@ -107,12 +113,12 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         CompanyBean selectCompanyWithLogin = AppBaseCache.getInstance().getSelectCompanyWithLogin();
         boolean isAdmin = selectCompanyWithLogin.getIs_admin() != 0;
         int status = mEmployeeInfo.getStatus();
-        if (status == 0) {
+        if (status == Constants.EMPLOYEE_STATUS_CODE_CHECKING) {
             if (Utils.hasPermission("审核员工")) {
                 mBtnAllow.setVisibility(View.VISIBLE);
                 mBtnReject.setVisibility(View.VISIBLE);
             }
-        } else if (status > 0) {
+        } else if (status != Constants.EMPLOYEE_STATUS_CODE_WAITING) {
             if (userInfo.getId() == mEmployeeInfo.getUid()) {
                 mBtnLeaveNoAdmin.setVisibility(View.VISIBLE);
                 if (isAdmin) {
@@ -143,7 +149,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             case R.id.btn_setting_permission: {
                 Intent intent = new Intent(this, PermissionTreeActivity.class);
                 intent.putExtra("type", PermissionTreeActivity.TYPE_USER_SETTING);
-                intent.putExtra("uid", mEmployeeInfo.getId());
+                intent.putExtra("uid", mEmployeeInfo.getUid());
                 intent.putExtra("name", mEmployeeInfo.getName());
                 startActivity(intent);
                 break;
@@ -152,7 +158,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             case R.id.btn_view_permission: {
                 Intent intent = new Intent(this, PermissionTreeActivity.class);
                 intent.putExtra("type", PermissionTreeActivity.TYPE_USER_VIEW);
-                intent.putExtra("uid", mEmployeeInfo.getId());
+                intent.putExtra("uid", mEmployeeInfo.getUid());
                 intent.putExtra("name", mEmployeeInfo.getName());
                 startActivity(intent);
                 break;
@@ -194,6 +200,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
     @Override
     public void companyDismissEmployeeSuccess() {
         showMessage("解除员工成功");
+        setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH);
         finish();
     }
 

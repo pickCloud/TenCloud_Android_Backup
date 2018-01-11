@@ -72,7 +72,16 @@ public class AppBaseCache {
 
     public User getUserInfo() {
         Box<User> userBox = TenApp.getInstance().getBoxStore().boxFor(User.class);
-        return userBox.query().build().findFirst();
+        User user = userBox.query().build().findFirst();
+        if (user == null) {
+            try {
+                TenApp.getInstance().jumpLoginActivity();
+                throw new Exception("用户信息丢失，跳转至登录页");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return user;
     }
 
     public void setUserInfo(User user) {

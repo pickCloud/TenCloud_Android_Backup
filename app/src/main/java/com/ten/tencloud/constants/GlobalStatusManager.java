@@ -20,7 +20,7 @@ public class GlobalStatusManager {
     private boolean userInfoNeedRefresh;
 
     /**
-     * 模板信息
+     * 模版信息
      */
     private boolean templateNeedRefresh;
 

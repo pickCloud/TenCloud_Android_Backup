@@ -24,7 +24,7 @@
 
                 <TextView
                     style="@style/SettingItemLabel"
-                    android:text="模板名称" />
+                    android:text="模版名称" />
 
                 <EditText
                     android:id="@+id/et_template_name"
@@ -32,7 +32,7 @@
                     android:layout_width="0dp"
                     android:layout_marginLeft="24dp"
                     android:layout_weight="1"
-                    android:hint="请输入新增模板的名称" />
+                    android:hint="请输入新增模版的名称" />
 
             </LinearLayout>
 
@@ -62,7 +62,7 @@
 
                 <TextView
                     style="@style/SettingItemLabel"
-                    android:text="权限模板管理" />
+                    android:text="权限模版管理" />
 
                 <TextView style="@style/SettingItemDes" />
 

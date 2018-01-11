@@ -22,6 +22,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvEmployeeAdapter;
@@ -275,7 +276,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
             public void onObjectItemClicked(EmployeeBean employeeBean, int position) {
                 Intent intent = new Intent(mContext, EmployeeInfoActivity.class);
                 intent.putExtra("obj", employeeBean);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
         mRvEmployee.setAdapter(mAdapter);
@@ -296,6 +297,13 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     protected void onResume() {
         super.onResume();
         if (GlobalStatusManager.getInstance().isEmployeeListNeedRefresh()) {
+            search();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH){
             search();
         }
     }
