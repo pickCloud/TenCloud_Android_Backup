@@ -54,12 +54,13 @@ public class UserModel {
     /**
      * 获取公司列表TYPE
      */
-    public static final int COMPANIES_TYPE_REJECT = -1;
-    public static final int COMPANIES_TYPE_INREVIEW = 0;
-    public static final int COMPANIES_TYPE_PASS = 1;
-    public static final int COMPANIES_TYPE_CREATE = 2;
-    public static final int COMPANIES_TYPE_PASS_AND_CREATE = 3;
-    public static final int COMPANIES_TYPE_ALL = 4;
+    public static final int COMPANIES_TYPE_REJECT = 1;
+    public static final int COMPANIES_TYPE_INREVIEW = 2;
+    public static final int COMPANIES_TYPE_PASS = 3;
+    public static final int COMPANIES_TYPE_CREATE = 4;
+    public static final int COMPANIES_TYPE_waiting = 5;
+    public static final int COMPANIES_TYPE_PASS_AND_CREATE = 6;
+    public static final int COMPANIES_TYPE_ALL = 7;
 
     /**
      * 获取公司列表

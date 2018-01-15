@@ -58,6 +58,10 @@ public class RvEmployeeAdapter extends CJSBaseRecyclerViewAdapter<EmployeeBean, 
             holder.tvStatus.setText("待加入");
             holder.tvStatus.setEnabled(true);
             holder.tvStatus.setSelected(false);
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
+            holder.tvStatus.setText("创始人");
+            holder.tvStatus.setEnabled(true);
+            holder.tvStatus.setSelected(true);
         } else {
             holder.tvStatus.setText("审核通过");
             holder.tvStatus.setEnabled(true);

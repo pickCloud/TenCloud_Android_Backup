@@ -13,6 +13,7 @@ import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.module.user.contract.EmployeeInfoContract;
@@ -74,6 +75,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mEmployeesInfoPresenter = new EmployeesInfoPresenter();
         mEmployeesInfoPresenter.attachView(this);
         initView();
+        // TODO: 2018/1/12  切换管理员后需要刷新员工信息
     }
 
     private void initView() {
@@ -131,10 +133,10 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
                     mBtnRelive.setVisibility(View.VISIBLE);
                 }
             }
-            if (Utils.hasPermission("查看员工信息")) {
+            if (Utils.hasPermission("查看员工信息") && mEmployeeInfo.getIs_admin() == 0) {
                 mBtnViewPermission.setVisibility(View.VISIBLE);
             }
-            if (Utils.hasPermission("设置员工权限")) {
+            if (Utils.hasPermission("设置员工权限") && mEmployeeInfo.getIs_admin() == 0) {
                 mBtnSettingPermission.setVisibility(View.VISIBLE);
             }
         }
@@ -166,7 +168,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             //更换管理员
             case R.id.btn_replace_admin: {
                 Intent intent = new Intent(this, EmployeeSelectAdminActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 break;
             }
             //离开公司
@@ -192,8 +194,18 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
+
+        }
+    }
+
+    @Override
     public void employeeDismissCompanySuccess() {
         showMessage("离开公司成功");
+        AppBaseCache.getInstance().setCid(0);
+        GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
+        GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
         startActivity(new Intent(this, MainActivity.class));
     }
 

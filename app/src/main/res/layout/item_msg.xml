@@ -47,7 +47,7 @@
         android:layout_marginBottom="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:lineSpacingExtra="20dp"
+        android:lineSpacingExtra="8dp"
         android:textColor="@color/text_color_899ab6"
         android:textSize="12sp" />
 

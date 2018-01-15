@@ -7,7 +7,9 @@ import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.contract.EmployeeInviteContract;
 import com.ten.tencloud.module.user.contract.EmployeeJoinSettingContract;
 import com.ten.tencloud.module.user.presenter.EmployeesInvitePresenter;
@@ -21,6 +23,8 @@ public class EmployeeInviteActivity extends BaseActivity
 
     @BindView(R.id.tv_setting)
     TextView mTvSetting;
+    @BindView(R.id.tv_name)
+    TextView mTvName;
 
     private EmployeesJoinSettingPresenter mJoinSettingPresenter;
     private EmployeesInvitePresenter mEmployeesInvitePresenter;
@@ -31,6 +35,10 @@ public class EmployeeInviteActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_employee_invite);
         initTitleBar(true, "邀请员工");
+        CompanyBean companyBean = AppBaseCache.getInstance().getSelectCompanyWithLogin();
+        if (companyBean != null) {
+            mTvName.setText(companyBean.getCompany_name());
+        }
         mJoinSettingPresenter = new EmployeesJoinSettingPresenter();
         mJoinSettingPresenter.attachView(this);
         mEmployeesInvitePresenter = new EmployeesInvitePresenter();

@@ -75,7 +75,7 @@ public class RvEmployeeSelectAdminAdapter extends CJSBaseRecyclerViewAdapter<Emp
         int id = (int) AppBaseCache.getInstance().getUserInfo().getId();
         for (int i = 0; i < datas.size(); i++) {
             EmployeeBean employeeBean = datas.get(i);
-            if (employeeBean.getId() == id) {
+            if (employeeBean.getUid() == id) {
                 selectPos = i;
                 notifyDataSetChanged();
                 return;

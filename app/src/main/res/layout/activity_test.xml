@@ -35,4 +35,15 @@
         android:onClick="delUser"
         android:text="删除用户" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="joinCom"
+        android:text="跳转到邀请流程" />
+
+    <com.ten.tencloud.widget.StatusSelectPopView
+        android:id="@+id/spv"
+        android:layout_width="120dp"
+        android:layout_height="32dp" />
+
 </LinearLayout>

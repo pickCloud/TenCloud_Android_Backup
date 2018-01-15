@@ -8,37 +8,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="96dp"
-        android:background="@color/bg_232730"
+        android:background="@mipmap/share_top_bg"
         android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:src="@mipmap/icon_warning01" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:orientation="vertical">
+            android:text="对不起，你的手机还未注册！"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="对不起，你的手机还未注册！"
-                android:textColor="@color/text_color_899ab6"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="请先完善您的资料。"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请先完善您的资料。"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
 
     </LinearLayout>
 

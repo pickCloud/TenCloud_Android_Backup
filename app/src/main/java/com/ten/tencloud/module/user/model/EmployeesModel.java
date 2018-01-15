@@ -57,6 +57,7 @@ public class EmployeesModel {
     public static final int STATUS_EMPLOYEE_SEARCH_PASS = Constants.EMPLOYEE_STATUS_CODE_PASS;
     public static final int STATUS_EMPLOYEE_SEARCH_NO_PASS = Constants.EMPLOYEE_STATUS_CODE_NO_PASS;
     public static final int STATUS_EMPLOYEE_SEARCH_CHECKING = Constants.EMPLOYEE_STATUS_CODE_CHECKING;
+    public static final int STATUS_EMPLOYEE_SEARCH_CREATE = Constants.EMPLOYEE_STATUS_CODE_CREATE;
 
     /**
      * 搜索员工

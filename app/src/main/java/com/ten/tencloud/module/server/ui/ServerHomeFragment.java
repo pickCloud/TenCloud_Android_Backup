@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ten.tencloud.R;
-import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.ServerBean;
@@ -61,7 +60,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         header.findViewById(R.id.rl_temp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TenApp.getInstance().jumpLoginActivity();
+
             }
         });
         mXrvServer.addHeaderView(header);

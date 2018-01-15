@@ -34,7 +34,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:text="学习学习公司"
                     android:textColor="@color/text_color_899ab6"
                     android:textSize="14sp" />
 
@@ -57,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="审核中"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 

@@ -1,8 +1,10 @@
 package com.ten.tencloud.module.user.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -13,9 +15,13 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.TenApp;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvCompanyAdapter;
 import com.ten.tencloud.module.user.contract.CompanyListContract;
 import com.ten.tencloud.module.user.presenter.CompanyListPresenter;
@@ -86,6 +92,28 @@ public class CompanyListActivity extends BaseActivity implements CompanyListCont
     private void initView() {
         mRvCompany.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvCompanyAdapter(this);
+        mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<CompanyBean>() {
+            @Override
+            public void onObjectItemClicked(final CompanyBean companyBean, int position) {
+                int status = companyBean.getStatus();
+                if (status == Constants.EMPLOYEE_STATUS_CODE_PASS || status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                            .setMessage("你确认要切换企业账号吗？")
+                            .setNegativeButton("取消", null)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    AppBaseCache.getInstance().setCid(companyBean.getCid());
+                                    GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
+                                    dialog.dismiss();
+                                    TenApp.getInstance().jumpMainActivity();
+                                }
+                            })
+                            .create();
+                    alertDialog.show();
+                }
+            }
+        });
         mRvCompany.setAdapter(mAdapter);
         mCompanyListPresenter.getCompanies();
     }

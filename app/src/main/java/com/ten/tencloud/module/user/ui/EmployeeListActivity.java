@@ -141,18 +141,23 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     private String statusText = "全部";
 
     private void showStatusPopup() {
+
+
+
         if (mStatusPopupWindow == null) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.pop_employee_status, null);
             TextView tvStatusALl = view.findViewById(R.id.tv_all);
             TextView tvStatusPass = view.findViewById(R.id.tv_pass);
             TextView tvStatusNoPass = view.findViewById(R.id.tv_no_pass);
             TextView tvStatusChecking = view.findViewById(R.id.tv_checking);
+            TextView tvStatusCreate = view.findViewById(R.id.tv_create);
             ImageView ivStatusALl = view.findViewById(R.id.iv_all);
             ImageView ivStatusPass = view.findViewById(R.id.iv_pass);
             ImageView ivStatusNoPass = view.findViewById(R.id.iv_no_pass);
             ImageView ivStatusChecking = view.findViewById(R.id.iv_checking);
-            mTvStatusArray = new TextView[]{tvStatusALl, tvStatusChecking, tvStatusPass, tvStatusNoPass};
-            mIvStatusArray = new ImageView[]{ivStatusALl, ivStatusChecking, ivStatusPass, ivStatusNoPass};
+            ImageView ivStatusCreate = view.findViewById(R.id.iv_create);
+            mTvStatusArray = new TextView[]{tvStatusALl, tvStatusChecking, tvStatusPass, tvStatusNoPass, tvStatusCreate};
+            mIvStatusArray = new ImageView[]{ivStatusALl, ivStatusChecking, ivStatusPass, ivStatusNoPass, ivStatusCreate};
             tvStatusALl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -205,6 +210,19 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
                     mStatusPopupWindow.dismiss();
                 }
             });
+            tvStatusCreate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if ("创建人".equals(statusText)) {
+                        return;
+                    }
+                    statusText = "创建人";
+                    mTvStatus.setText(statusText);
+                    status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_CREATE;
+                    search();
+                    mStatusPopupWindow.dismiss();
+                }
+            });
             mStatusPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             mStatusPopupWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -231,6 +249,8 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
                 setPopSelect(2);
             } else if ("审核不通过".equals(statusText)) {
                 setPopSelect(3);
+            }else if ("创建人".equals(statusText)){
+                setPopSelect(4);
             }
             mStatusPopupWindow.showAsDropDown(mLlStatus);
         }
@@ -303,7 +323,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH){
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
             search();
         }
     }

@@ -78,7 +78,18 @@
         <activity android:name=".module.user.ui.EmployeeInviteActivity" />
         <activity android:name=".module.user.ui.EmployeeJoinActivity" />
         <activity android:name=".module.main.ui.MsgActivity" />
-        <activity android:name=".module.login.ui.JoinComStep1Activity" />
+        <activity android:name=".module.login.ui.JoinComStep1Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="invite"
+                    android:scheme="tencloud" />
+            </intent-filter>
+        </activity>
         <activity android:name=".module.login.ui.JoinComStep2Activity" />
         <activity android:name=".module.login.ui.JoinComStep3Activity"></activity>
     </application>

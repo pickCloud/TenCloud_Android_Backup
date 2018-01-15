@@ -66,6 +66,10 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
     public void getPermission(int cid) {
         AppBaseCache.getInstance().setUserPermission("");//清空
         User userInfo = AppBaseCache.getInstance().getUserInfo();
+        if (userInfo == null) {
+            TenApp.getInstance().jumpLoginActivity();
+            return;
+        }
         int uid = (int) userInfo.getId();
         mSubscriptions.add(UserModel.getInstance().getUserPermission(cid, uid)
                 .subscribe(new JesSubscribe<PermissionTemplate2Bean>(mView) {

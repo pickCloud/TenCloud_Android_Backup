@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.module.user.adapter.RvEmployeeSelectAdminAdapter;
 import com.ten.tencloud.module.user.contract.EmployeeListContract;
@@ -101,8 +102,10 @@ public class EmployeeSelectAdminActivity extends BaseActivity
     @Override
     public void transferSuccess() {
         showMessage("更换成功");
+        GlobalStatusManager.getInstance().setEmployeeListNeedRefresh(true);
         GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
         GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
+        setResult(Constants.ACTIVITY_RESULT_CODE_REFRESH);
         finish();
     }
 }

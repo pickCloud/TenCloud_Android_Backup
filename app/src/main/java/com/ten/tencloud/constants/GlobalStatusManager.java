@@ -1,5 +1,10 @@
 package com.ten.tencloud.constants;
 
+import android.app.Activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 全局状态管理器
  * Created by lxq on 2017/12/22.
@@ -8,6 +13,40 @@ package com.ten.tencloud.constants;
 public class GlobalStatusManager {
 
     private static GlobalStatusManager instance;
+
+    private List<Activity> tasks;
+
+    /**
+     * 注册任务栈
+     *
+     * @param activity
+     */
+    public void registerTask(Activity activity) {
+        if (!tasks.contains(activity)) {
+            tasks.add(activity);
+        }
+    }
+
+    /**
+     * 注销
+     *
+     * @param activity
+     */
+    public void unRegisterTask(Activity activity) {
+        if (tasks.contains(activity)) {
+            tasks.remove(activity);
+        }
+    }
+
+    /**
+     * 清空
+     */
+    public void clearTask() {
+        for (Activity task : tasks) {
+            task.finish();
+        }
+        tasks.clear();
+    }
 
     /**
      * 服务器列表需要刷新
@@ -35,6 +74,7 @@ public class GlobalStatusManager {
     private boolean employeeListNeedRefresh;
 
     private GlobalStatusManager() {
+        tasks = new ArrayList<>();
     }
 
     public synchronized static GlobalStatusManager getInstance() {

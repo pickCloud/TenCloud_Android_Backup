@@ -84,6 +84,17 @@ public class AppBaseCache {
         return user;
     }
 
+    /**
+     * 不包含异常处理
+     *
+     * @return
+     */
+    public User getUserInfoNoException() {
+        Box<User> userBox = TenApp.getInstance().getBoxStore().boxFor(User.class);
+        User user = userBox.query().build().findFirst();
+        return user;
+    }
+
     public void setUserInfo(User user) {
         Box<User> userBox = TenApp.getInstance().getBoxStore().boxFor(User.class);
         User first = userBox.query().build().findFirst();

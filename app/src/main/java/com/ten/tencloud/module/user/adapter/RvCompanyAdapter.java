@@ -51,9 +51,11 @@ public class RvCompanyAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, Rv
         } else if (status == Constants.EMPLOYEE_STATUS_CODE_PASS) {
             holder.tvStatus.setText("审核通过");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_09bb07));
-        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CREATEER) {
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
             holder.tvStatus.setText("创建人");
             holder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.text_color_09bb07));
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_WAITING) {
+            holder.tvStatus.setText("待加入");
         }
     }
 

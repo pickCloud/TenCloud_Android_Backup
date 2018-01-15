@@ -242,7 +242,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
             count = companies.size();
             for (CompanyBean company : companies) {
                 if (company.getStatus() == Constants.EMPLOYEE_STATUS_CODE_PASS
-                        || company.getStatus() == Constants.EMPLOYEE_STATUS_CODE_CREATEER) {
+                        || company.getStatus() == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
                     data.add(company);
                 }
                 if (cid == company.getCid()) {
@@ -290,7 +290,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     @Override
     public void onResume() {
         super.onResume();
-        if (GlobalStatusManager.getInstance().isUserInfoNeedRefresh()) {
+        if (GlobalStatusManager.getInstance().isUserInfoNeedRefresh() || GlobalStatusManager.getInstance().isCompanyListNeedRefresh()) {
             mUserInfo = AppBaseCache.getInstance().getUserInfo();
             cid = AppBaseCache.getInstance().getCid();
             mSelectCompany = null;//cid为新创建的公司

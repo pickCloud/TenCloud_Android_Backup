@@ -1,13 +1,16 @@
 package com.ten.tencloud.model.netapi;
 
 import com.ten.tencloud.base.bean.JesResponse;
+import com.ten.tencloud.bean.JoinComBean;
 import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.bean.User;
 
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -34,6 +37,24 @@ public interface TenLoginApi {
 
     @POST("/api/user/password/set")
     Observable<Response<JesResponse<User>>> setPassword(@Body RequestBody body);
+
+    /**
+     * 员工加入企业
+     */
+    @GET("/api/company/application")
+    Observable<Response<JesResponse<JoinComBean>>> getJoinInitialize(@Query("code") String code);
+
+    /**
+     * 提交申请
+     *
+     * @param body
+     * @return
+     */
+    @POST("/api/company/application")
+    Observable<Response<JesResponse<Object>>> joinCompany(@Body RequestBody body);
+
+    @POST("/api/company/application/waiting")
+    Observable<Response<JesResponse<Object>>> joinWaiting(@Body RequestBody body);
 
 
 }

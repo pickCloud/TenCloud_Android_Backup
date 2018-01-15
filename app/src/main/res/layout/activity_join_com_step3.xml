@@ -52,12 +52,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:text="你也可以到"
+                android:textColor="@color/text_color_556278"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  我的企业  "
+                android:textColor="@color/text_color_287db6"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="页查看审核进度"
+                android:textColor="@color/text_color_556278"
+                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>
