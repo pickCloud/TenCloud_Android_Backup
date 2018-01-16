@@ -84,7 +84,7 @@ public class StatusSelectPopView extends FrameLayout {
     private void showStatusPopup() {
         if (mStatusPopupWindow == null) {
             RecyclerView rvStatus = new RecyclerView(mContext);
-            rvStatus.setBackground(getResources().getDrawable(R.drawable.shape_round_3f4656_bottom));
+            rvStatus.setBackground(getResources().getDrawable(R.drawable.shape_round_status_select_bottom));
             rvStatus.setLayoutManager(new LinearLayoutManager(mContext));
             final StatusSelectPopAdapter adapter = new StatusSelectPopAdapter(mContext);
             adapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<String>() {
@@ -110,13 +110,13 @@ public class StatusSelectPopView extends FrameLayout {
                 public void onDismiss() {
                     mIvOption.animate().rotation(0);
                     mTvStatus.setTextColor(getResources().getColor(R.color.text_color_556278));
-                    mLlStatus.setBackgroundResource(R.drawable.shape_round_3f4656_30);
+                    mLlStatus.setBackgroundResource(R.drawable.shape_round_status_select);
                 }
             });
         }
         mIvOption.animate().rotation(180);
         mTvStatus.setTextColor(getResources().getColor(R.color.text_color_899ab6));
-        mLlStatus.setBackgroundResource(R.drawable.shape_round_3f4656_top);
+        mLlStatus.setBackgroundResource(R.drawable.shape_round_status_select_top);
         mStatusPopupWindow.showAsDropDown(this);
     }
 

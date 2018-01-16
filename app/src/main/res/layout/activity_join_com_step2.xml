@@ -34,6 +34,27 @@
 
     </LinearLayout>
 
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="手机号" />
+
+            <EditText
+                android:id="@+id/et_phone"
+                style="@style/ListItemEditValue"
+                android:enabled="false"
+                android:hint="请输入手机号"
+                android:inputType="phone" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_password"
         android:layout_width="match_parent"
@@ -52,7 +73,7 @@
                     android:id="@+id/et_password"
                     style="@style/ListItemEditValue"
                     android:hint="请输入密码"
-                    android:inputType="phone" />
+                    android:inputType="textPassword" />
 
             </LinearLayout>
 
@@ -72,7 +93,7 @@
                     android:id="@+id/et_password_verify"
                     style="@style/ListItemEditValue"
                     android:hint="请再输入一遍"
-                    android:inputType="phone" />
+                    android:inputType="textPassword" />
 
             </LinearLayout>
 

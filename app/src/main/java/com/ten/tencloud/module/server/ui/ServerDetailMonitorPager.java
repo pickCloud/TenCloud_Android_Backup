@@ -3,18 +3,11 @@ package com.ten.tencloud.module.server.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -36,6 +29,7 @@ import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.module.server.contract.ServerMonitorContract;
 import com.ten.tencloud.module.server.presenter.ServerMonitorPresenter;
 import com.ten.tencloud.utils.DateUtils;
+import com.ten.tencloud.widget.StatusSelectPopView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +43,14 @@ import butterknife.OnClick;
 
 public class ServerDetailMonitorPager extends BasePager implements ServerMonitorContract.View {
 
-    @BindView(R.id.ll_cycle)
-    LinearLayout mLLCycle;
-    @BindView(R.id.iv_option)
-    ImageView mIvOption;
-    @BindView(R.id.tv_cycle)
-    TextView mTvCycle;
+    //    @BindView(R.id.ll_cycle)
+//    LinearLayout mLLCycle;
+//    @BindView(R.id.iv_option)
+//    ImageView mIvOption;
+//    @BindView(R.id.tv_cycle)
+//    TextView mTvCycle;
+    @BindView(R.id.spv_cycle)
+    StatusSelectPopView mSpvCycle;
     @BindView(R.id.lc_cpu)
     LineChart mLcCpu;
     @BindView(R.id.lc_memory)
@@ -69,17 +65,20 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
     private final static int STATE_WEEK = 3;
     private final static int STATE_MONTH = 4;
 
-    private PopupWindow mPopupWindow;
-    private TextView mTvOneDay;
-    private ImageView mIvDay;
-    private ImageView mIvHour;
-    private ImageView mIvWeek;
-    private ImageView mIvMonth;
-    private TextView mTvOneHour;
-    private TextView mTvOneWeek;
-    private TextView mTvOneMonth;
-    private TextView[] mTvCycleArray;
-    private ImageView[] mIvCycleArray;
+    private Integer[] mCycleData = {STATE_HOUR, STATE_DAY, STATE_WEEK, STATE_MONTH};
+
+
+    //    private PopupWindow mPopupWindow;
+//    private TextView mTvOneDay;
+//    private ImageView mIvDay;
+//    private ImageView mIvHour;
+//    private ImageView mIvWeek;
+//    private ImageView mIvMonth;
+//    private TextView mTvOneHour;
+//    private TextView mTvOneWeek;
+//    private TextView mTvOneMonth;
+//    private TextView[] mTvCycleArray;
+//    private ImageView[] mIvCycleArray;
     private ServerMonitorPresenter mServerMonitorPresenter;
     private String mId;
     private String mServerName;
@@ -101,6 +100,23 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
     }
 
     private void initView() {
+
+        //周期选择器
+        List<String> cycleTitles = new ArrayList<>();
+        cycleTitles.add("一个小时");
+        cycleTitles.add("24个小时");
+        cycleTitles.add("1周");
+        cycleTitles.add("1个月");
+        mSpvCycle.initData(cycleTitles);
+        mSpvCycle.setOnSelectListener(new StatusSelectPopView.OnSelectListener() {
+            @Override
+            public void onSelect(int pos) {
+                String[] cycle = handCycle(mCycleData[pos]);
+                mServerMonitorPresenter.getServerMonitorInfo(mId, cycle[0], cycle[1]);
+            }
+        });
+
+
         mLcCpu.setNoDataText("暂无数据");
         mLcMemory.setNoDataText("暂无数据");
         mLcDisk.setNoDataText("暂无数据");
@@ -167,136 +183,15 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
         lineChart.getAxisRight().setEnabled(false);
     }
 
-    @OnClick({R.id.ll_cycle, R.id.tv_history})
+    @OnClick({R.id.tv_history})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_cycle:
-                showCycleWindow();
-                break;
             case R.id.tv_history:
                 Intent intent = new Intent(mContext, ServerPerformanceHistoryActivity.class);
                 intent.putExtra("id", mId);
                 intent.putExtra("name", mServerName);
                 mContext.startActivity(intent);
                 break;
-        }
-    }
-
-    private String mSelectCycle = "1个小时";//默认选择的周期
-
-    /**
-     * 弹出周期pop
-     */
-    private void showCycleWindow() {
-        if (mPopupWindow == null) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.pop_server_monitor_cycle, null);
-            mTvOneHour = view.findViewById(R.id.tv_one_hour);
-            mTvOneDay = view.findViewById(R.id.tv_one_day);
-            mTvOneWeek = view.findViewById(R.id.tv_one_week);
-            mTvOneMonth = view.findViewById(R.id.tv_one_month);
-            mIvHour = view.findViewById(R.id.iv_hour);
-            mIvDay = view.findViewById(R.id.iv_day);
-            mIvWeek = view.findViewById(R.id.iv_week);
-            mIvMonth = view.findViewById(R.id.iv_month);
-            mTvCycleArray = new TextView[]{mTvOneHour, mTvOneDay, mTvOneWeek, mTvOneMonth};
-            mIvCycleArray = new ImageView[]{mIvHour, mIvDay, mIvWeek, mIvMonth};
-            mTvOneDay.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("24个小时".equals(mSelectCycle)) {
-                        return;
-                    }
-                    mSelectCycle = "24个小时";
-                    String[] cycle = handCycle(STATE_DAY);
-                    mServerMonitorPresenter.getServerMonitorInfo(mId, cycle[0], cycle[1]);
-                    mTvCycle.setText(mSelectCycle);
-                    mPopupWindow.dismiss();
-                }
-            });
-            mTvOneHour.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("1个小时".equals(mSelectCycle)) {
-                        return;
-                    }
-                    mSelectCycle = "1个小时";
-                    mTvCycle.setText(mSelectCycle);
-                    String[] cycle = handCycle(STATE_HOUR);
-                    mServerMonitorPresenter.getServerMonitorInfo(mId, cycle[0], cycle[1]);
-                    mPopupWindow.dismiss();
-                }
-            });
-            mTvOneWeek.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("1周".equals(mSelectCycle)) {
-                        return;
-                    }
-                    mSelectCycle = "1周";
-                    mTvCycle.setText(mSelectCycle);
-                    String[] cycle = handCycle(STATE_WEEK);
-                    mServerMonitorPresenter.getServerMonitorInfo(mId, cycle[0], cycle[1]);
-                    mPopupWindow.dismiss();
-                }
-            });
-            mTvOneMonth.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("1个月".equals(mSelectCycle)) {
-                        return;
-                    }
-                    mSelectCycle = "1个月";
-                    mTvCycle.setText(mSelectCycle);
-                    String[] cycle = handCycle(STATE_MONTH);
-                    mServerMonitorPresenter.getServerMonitorInfo(mId, cycle[0], cycle[1]);
-                    mPopupWindow.dismiss();
-                }
-            });
-            mPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-            mPopupWindow.setFocusable(true);
-            mPopupWindow.setOutsideTouchable(true);
-            mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    mIvOption.animate().rotation(0);
-                    mTvCycle.setTextColor(getResources().getColor(R.color.text_color_556278));
-                    mLLCycle.setBackgroundResource(R.drawable.shape_round_3f4656_30);
-                }
-            });
-        }
-        if (!mPopupWindow.isShowing()) {
-            mIvOption.animate().rotation(180);
-            mTvCycle.setTextColor(getResources().getColor(R.color.text_color_899ab6));
-            mLLCycle.setBackgroundResource(R.drawable.shape_round_3f4656_top);
-            if ("1个小时".equals(mSelectCycle)) {
-                setPopSelect(0);
-            } else if ("24个小时".equals(mSelectCycle)) {
-                setPopSelect(1);
-            } else if ("1周".equals(mSelectCycle)) {
-                setPopSelect(2);
-            } else if ("1个月".equals(mSelectCycle)) {
-                setPopSelect(3);
-            }
-            mPopupWindow.showAsDropDown(mLLCycle);
-        }
-    }
-
-    /**
-     * 循环设置pop被选中的状态
-     *
-     * @param pos
-     */
-    private void setPopSelect(int pos) {
-        for (int i = 0; i < mIvCycleArray.length; i++) {
-            if (i == pos) {
-                mIvCycleArray[i].setVisibility(VISIBLE);
-                mTvCycleArray[i].setSelected(true);
-            } else {
-                mIvCycleArray[i].setVisibility(INVISIBLE);
-                mTvCycleArray[i].setSelected(false);
-            }
         }
     }
 

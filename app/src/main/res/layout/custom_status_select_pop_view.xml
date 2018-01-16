@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_bg"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_status"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:background="@drawable/selector_monitor_cycle"
+        android:background="@drawable/selector_status_select_view"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="8dp"

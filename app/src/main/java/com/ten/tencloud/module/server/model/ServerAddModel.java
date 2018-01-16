@@ -16,7 +16,7 @@ import okhttp3.WebSocketListener;
 
 public class ServerAddModel {
 
-    public final static String addUrl = "/api/server/new";
+    public final static String addUrl = "api/server/new";
 
     private WebSocketListener mWebSocketListener;
     private OkHttpClient mClient;

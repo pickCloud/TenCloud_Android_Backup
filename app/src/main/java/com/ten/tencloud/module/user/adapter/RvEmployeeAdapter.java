@@ -59,7 +59,7 @@ public class RvEmployeeAdapter extends CJSBaseRecyclerViewAdapter<EmployeeBean, 
             holder.tvStatus.setEnabled(true);
             holder.tvStatus.setSelected(false);
         } else if (status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
-            holder.tvStatus.setText("创始人");
+            holder.tvStatus.setText("创建人");
             holder.tvStatus.setEnabled(true);
             holder.tvStatus.setSelected(true);
         } else {

@@ -120,7 +120,8 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
                 mBtnAllow.setVisibility(View.VISIBLE);
                 mBtnReject.setVisibility(View.VISIBLE);
             }
-        } else if (status != Constants.EMPLOYEE_STATUS_CODE_WAITING) {
+        } else if (status != Constants.EMPLOYEE_STATUS_CODE_WAITING
+                && status != Constants.EMPLOYEE_STATUS_CODE_NO_PASS) {
             if (userInfo.getId() == mEmployeeInfo.getUid()) {
                 mBtnLeaveNoAdmin.setVisibility(View.VISIBLE);
                 if (isAdmin) {
@@ -129,14 +130,17 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
                     mBtnLeave.setVisibility(View.VISIBLE);
                 }
             } else {
-                if (Utils.hasPermission("解除和员工关系")) {
+                //解除员工关系
+                if (isAdmin && mEmployeeInfo.getIs_admin() == 0) {
                     mBtnRelive.setVisibility(View.VISIBLE);
                 }
             }
-            if (Utils.hasPermission("查看员工信息") && mEmployeeInfo.getIs_admin() == 0) {
+            //查看员工权限
+            if (mEmployeeInfo.getIs_admin() == 0) {
                 mBtnViewPermission.setVisibility(View.VISIBLE);
             }
-            if (Utils.hasPermission("设置员工权限") && mEmployeeInfo.getIs_admin() == 0) {
+            //设置权限
+            if (isAdmin && mEmployeeInfo.getIs_admin() == 0) {
                 mBtnSettingPermission.setVisibility(View.VISIBLE);
             }
         }

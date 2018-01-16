@@ -63,7 +63,7 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
     }
 
     @Override
-    public void getPermission(int cid) {
+    public void getPermission(final int cid) {
         AppBaseCache.getInstance().setUserPermission("");//清空
         User userInfo = AppBaseCache.getInstance().getUserInfo();
         if (userInfo == null) {
@@ -78,6 +78,12 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                         String s = TenApp.getInstance().getGsonInstance().toJson(o);
                         AppBaseCache.getInstance().setUserPermission(s);
                         mView.showPermissionSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        getPermission(cid);
                     }
                 }));
     }

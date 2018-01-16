@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -31,7 +29,9 @@ import com.ten.tencloud.module.user.model.EmployeesModel;
 import com.ten.tencloud.module.user.presenter.EmployeesListPresenter;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.widget.StatusSelectPopView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,30 +42,30 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     RecyclerView mRvEmployee;
     @BindView(R.id.et_search)
     EditText mEtSearch;
-    @BindView(R.id.tv_status)
-    TextView mTvStatus;
-    @BindView(R.id.ll_status)
-    LinearLayout mLlStatus;
-    @BindView(R.id.iv_option)
-    ImageView mIvOption;
+    @BindView(R.id.spv_status)
+    StatusSelectPopView mSpvStatus;
     @BindView(R.id.layout)
     View layout;
     private EmployeesListPresenter mEmployeesListPresenter;
     private RvEmployeeAdapter mAdapter;
-    private PopupWindow mMenuPopupWindow;
-    private TextView[] mTvStatusArray;
-    private ImageView[] mIvStatusArray;
-    private PopupWindow mStatusPopupWindow;
     private boolean mIsPermissionSettingJoin;
-    private boolean mIsPermissionnvite;
+    private boolean mIsPermissionInvite;
     private boolean mIsAdmin;
+
+    private int[] mStatusData = {EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL,
+            EmployeesModel.STATUS_EMPLOYEE_SEARCH_CHECKING,
+            EmployeesModel.STATUS_EMPLOYEE_SEARCH_PASS,
+            EmployeesModel.STATUS_EMPLOYEE_SEARCH_NO_PASS,
+            EmployeesModel.STATUS_EMPLOYEE_SEARCH_CREATE};
+    private PopupWindow mMenuPopupWindow;
+    private int status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_employee_list);
         initPermission();
-        if (!mIsPermissionSettingJoin && !mIsPermissionnvite && !mIsAdmin) {
+        if (!mIsPermissionSettingJoin && !mIsPermissionInvite && !mIsAdmin) {
             initTitleBar(true, "员工列表");
         } else {
             initTitleBar(true, "员工列表", R.menu.menu_add, new OnMenuItemClickListener() {
@@ -85,7 +85,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
      */
     private void initPermission() {
         mIsPermissionSettingJoin = Utils.hasPermission("设置员工加入条件");
-        mIsPermissionnvite = Utils.hasPermission("邀请员工");
+        mIsPermissionInvite = Utils.hasPermission("邀请员工");
         mIsAdmin = AppBaseCache.getInstance().getSelectCompanyWithLogin().getIs_admin() != 0;
     }
 
@@ -106,7 +106,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
                 }
             });
             View inviteView = view.findViewById(R.id.tv_invite);
-            inviteView.setVisibility(mIsPermissionnvite ? View.VISIBLE : View.GONE);
+            inviteView.setVisibility(mIsPermissionInvite ? View.VISIBLE : View.GONE);
             inviteView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,140 +135,24 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
         mMenuPopupWindow.showAtLocation(layout, Gravity.RIGHT | Gravity.TOP, dx, dy);
     }
 
-
-    private int status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL;
-
-    private String statusText = "全部";
-
-    private void showStatusPopup() {
-
-
-
-        if (mStatusPopupWindow == null) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.pop_employee_status, null);
-            TextView tvStatusALl = view.findViewById(R.id.tv_all);
-            TextView tvStatusPass = view.findViewById(R.id.tv_pass);
-            TextView tvStatusNoPass = view.findViewById(R.id.tv_no_pass);
-            TextView tvStatusChecking = view.findViewById(R.id.tv_checking);
-            TextView tvStatusCreate = view.findViewById(R.id.tv_create);
-            ImageView ivStatusALl = view.findViewById(R.id.iv_all);
-            ImageView ivStatusPass = view.findViewById(R.id.iv_pass);
-            ImageView ivStatusNoPass = view.findViewById(R.id.iv_no_pass);
-            ImageView ivStatusChecking = view.findViewById(R.id.iv_checking);
-            ImageView ivStatusCreate = view.findViewById(R.id.iv_create);
-            mTvStatusArray = new TextView[]{tvStatusALl, tvStatusChecking, tvStatusPass, tvStatusNoPass, tvStatusCreate};
-            mIvStatusArray = new ImageView[]{ivStatusALl, ivStatusChecking, ivStatusPass, ivStatusNoPass, ivStatusCreate};
-            tvStatusALl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("全部".equals(statusText)) {
-                        return;
-                    }
-                    statusText = "全部";
-                    mTvStatus.setText(statusText);
-                    status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL;
-                    search();
-                    mStatusPopupWindow.dismiss();
-                }
-            });
-            tvStatusPass.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("审核通过".equals(statusText)) {
-                        return;
-                    }
-                    statusText = "审核通过";
-                    mTvStatus.setText(statusText);
-                    status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_PASS;
-                    search();
-                    mStatusPopupWindow.dismiss();
-                }
-            });
-            tvStatusChecking.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("待审核".equals(statusText)) {
-                        return;
-                    }
-                    statusText = "待审核";
-                    mTvStatus.setText(statusText);
-                    status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_CHECKING;
-                    search();
-                    mStatusPopupWindow.dismiss();
-                }
-            });
-            tvStatusNoPass.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("审核不通过".equals(statusText)) {
-                        return;
-                    }
-                    statusText = "审核不通过";
-                    mTvStatus.setText(statusText);
-                    status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_NO_PASS;
-                    search();
-                    mStatusPopupWindow.dismiss();
-                }
-            });
-            tvStatusCreate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ("创建人".equals(statusText)) {
-                        return;
-                    }
-                    statusText = "创建人";
-                    mTvStatus.setText(statusText);
-                    status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_CREATE;
-                    search();
-                    mStatusPopupWindow.dismiss();
-                }
-            });
-            mStatusPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            mStatusPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-            mStatusPopupWindow.setFocusable(true);
-            mStatusPopupWindow.setOutsideTouchable(true);
-            mStatusPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    mIvOption.animate().rotation(0);
-                    mTvStatus.setTextColor(getResources().getColor(R.color.text_color_556278));
-                    mLlStatus.setBackgroundResource(R.drawable.shape_round_3f4656_30);
-                }
-            });
-        }
-        if (!mStatusPopupWindow.isShowing()) {
-            mIvOption.animate().rotation(180);
-            mTvStatus.setTextColor(getResources().getColor(R.color.text_color_899ab6));
-            mLlStatus.setBackgroundResource(R.drawable.shape_round_3f4656_top);
-            if ("全部".equals(statusText)) {
-                setPopSelect(0);
-            } else if ("待审核".equals(statusText)) {
-                setPopSelect(1);
-            } else if ("审核通过".equals(statusText)) {
-                setPopSelect(2);
-            } else if ("审核不通过".equals(statusText)) {
-                setPopSelect(3);
-            }else if ("创建人".equals(statusText)){
-                setPopSelect(4);
-            }
-            mStatusPopupWindow.showAsDropDown(mLlStatus);
-        }
-    }
-
-    private void setPopSelect(int pos) {
-        for (int i = 0; i < mIvStatusArray.length; i++) {
-            if (i == pos) {
-                mIvStatusArray[i].setVisibility(View.VISIBLE);
-                mTvStatusArray[i].setSelected(true);
-            } else {
-                mIvStatusArray[i].setVisibility(View.INVISIBLE);
-                mTvStatusArray[i].setSelected(false);
-            }
-        }
-    }
-
     private void initView() {
+
+        List<String> statusTitles = new ArrayList<>();
+        statusTitles.add("全部");
+        statusTitles.add("待审核");
+        statusTitles.add("审核通过");
+        statusTitles.add("审核不通过");
+        statusTitles.add("创建人");
+
+        mSpvStatus.initData(statusTitles);
+        mSpvStatus.setOnSelectListener(new StatusSelectPopView.OnSelectListener() {
+            @Override
+            public void onSelect(int pos) {
+                status = mStatusData[pos];
+                search();
+            }
+        });
+
         mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -280,14 +164,6 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
         });
         mEmployeesListPresenter = new EmployeesListPresenter();
         mEmployeesListPresenter.attachView(this);
-
-        mTvStatus.setText(statusText);
-        mLlStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showStatusPopup();
-            }
-        });
 
         mRvEmployee.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvEmployeeAdapter(this);

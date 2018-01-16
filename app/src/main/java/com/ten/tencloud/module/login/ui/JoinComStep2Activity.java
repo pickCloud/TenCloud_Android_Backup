@@ -32,6 +32,8 @@ public class JoinComStep2Activity extends BaseActivity implements JoinCom2Contra
     EditText mEtName;
     @BindView(R.id.et_id_card)
     EditText mEtIdCard;
+    @BindView(R.id.et_phone)
+    EditText mEtPhone;
 
     private boolean mIsNeedPW;
     private String mSetting;
@@ -64,8 +66,9 @@ public class JoinComStep2Activity extends BaseActivity implements JoinCom2Contra
         mLlPasssword.setVisibility(mIsNeedPW ? View.VISIBLE : View.GONE);
         User userInfo = AppBaseCache.getInstance().getUserInfo();
         mEtName.setText(userInfo.getName());
-//        mLlName.setVisibility(mIsName ? View.VISIBLE : View.GONE);
-//        mLlIdCard.setVisibility(mIsIdCard ? View.VISIBLE : View.GONE);
+        mEtPhone.setText(userInfo.getMobile());
+        mLlName.setVisibility(mIsName ? View.VISIBLE : View.GONE);
+        mLlIdCard.setVisibility(mIsIdCard ? View.VISIBLE : View.GONE);
     }
 
     public void btnOk(View view) {
@@ -86,7 +89,7 @@ public class JoinComStep2Activity extends BaseActivity implements JoinCom2Contra
             return;
         }
         if (mIsName && TextUtils.isEmpty(name)) {
-            showMessage(R.string.tips_verify_user_empty);
+            showMessage(R.string.tips_verify_name_empty);
             return;
         }
         if (mIsIdCard && TextUtils.isEmpty(idCard)) {

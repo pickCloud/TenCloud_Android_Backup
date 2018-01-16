@@ -1,16 +1,9 @@
 package com.ten.tencloud.module.server.ui;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -21,8 +14,10 @@ import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.module.server.adapter.RvServerHistoryAdapter;
 import com.ten.tencloud.module.server.contract.ServerHistoryContract;
 import com.ten.tencloud.module.server.presenter.ServerHistoryPresenter;
+import com.ten.tencloud.widget.StatusSelectPopView;
 import com.ten.tencloud.widget.dialog.ServerHistoryTimeDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,12 +29,10 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
     private final static int TYPE_HOUR = 2;
     private final static int TYPE_DAY = 3;
 
-    @BindView(R.id.ll_cycle)
-    LinearLayout mLLCycle;
-    @BindView(R.id.iv_option)
-    ImageView mIvOption;
-    @BindView(R.id.tv_cycle)
-    TextView mTvCycle;
+    private Integer[] mCycleData = {TYPE_DEFAULT, TYPE_HOUR, TYPE_DAY};
+
+    @BindView(R.id.spv_cycle)
+    StatusSelectPopView mSpvCycle;
     @BindView(R.id.rv_history)
     RecyclerView mRvHistory;
     @BindView(R.id.refresh)
@@ -53,15 +46,15 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
     private long endTime;
 
 
-    private PopupWindow mPopupWindow;
-    private TextView mTvCycleDefault;
-    private TextView mTvCycleHour;
-    private TextView mTvCycleDay;
-    private ImageView mIvCycleDefault;
-    private ImageView mIvCycleHour;
-    private ImageView mIvCycleDay;
-    private TextView[] mTvCycleArray;
-    private ImageView[] mIvCycleArray;
+    //    private PopupWindow mPopupWindow;
+//    private TextView mTvCycleDefault;
+//    private TextView mTvCycleHour;
+//    private TextView mTvCycleDay;
+//    private ImageView mIvCycleDefault;
+//    private ImageView mIvCycleHour;
+//    private ImageView mIvCycleDay;
+//    private TextView[] mTvCycleArray;
+//    private ImageView[] mIvCycleArray;
     private ServerHistoryPresenter mServerHistoryPresenter;
     private RvServerHistoryAdapter mAdapter;
     private ServerHistoryTimeDialog mHistoryTimeDialog;
@@ -82,6 +75,19 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
 
     private void initView() {
 
+        List<String> cycleTitles = new ArrayList<>();
+        cycleTitles.add("正常");
+        cycleTitles.add("按时平均");
+        cycleTitles.add("按天平均");
+        mSpvCycle.initData(cycleTitles);
+        mSpvCycle.setOnSelectListener(new StatusSelectPopView.OnSelectListener() {
+            @Override
+            public void onSelect(int pos) {
+                mTypeId = mCycleData[pos];
+                mRefresh.autoRefresh();
+            }
+        });
+
         mRefresh.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -100,12 +106,9 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
         mRefresh.autoRefresh();
     }
 
-    @OnClick({R.id.ll_cycle, R.id.tv_time_select})
+    @OnClick({R.id.tv_time_select})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_cycle:
-                showCycleWindow();
-                break;
             case R.id.tv_time_select:
                 showSelectTimeDialog();
                 break;
@@ -127,102 +130,6 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
         if (!mHistoryTimeDialog.isShowing()) {
             mHistoryTimeDialog.setTime(startTime, endTime);
             mHistoryTimeDialog.show();
-        }
-    }
-
-    private String mSelectCycle = "正常";//默认选择的周期
-
-    private void showCycleWindow() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.pop_server_history_cycle, null);
-        mTvCycleDefault = view.findViewById(R.id.tv_cycle_default);
-        mTvCycleHour = view.findViewById(R.id.tv_cycle_hour);
-        mTvCycleDay = view.findViewById(R.id.tv_cycle_day);
-        mIvCycleDefault = view.findViewById(R.id.iv_cycle_default);
-        mIvCycleHour = view.findViewById(R.id.iv_cycle_hour);
-        mIvCycleDay = view.findViewById(R.id.iv_cycle_day);
-        mTvCycleArray = new TextView[]{mTvCycleDefault, mTvCycleHour, mTvCycleDay};
-        mIvCycleArray = new ImageView[]{mIvCycleDefault, mIvCycleHour, mIvCycleDay};
-
-        mTvCycleDefault.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ("正常".equals(mSelectCycle)) {
-                    return;
-                }
-                mSelectCycle = "正常";
-                mTypeId = TYPE_DEFAULT;
-                mTvCycle.setText(mSelectCycle);
-                mRefresh.autoRefresh();
-                mPopupWindow.dismiss();
-            }
-        });
-        mTvCycleHour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ("按时平均".equals(mSelectCycle)) {
-                    return;
-                }
-                mSelectCycle = "按时平均";
-                mTypeId = TYPE_HOUR;
-                mTvCycle.setText(mSelectCycle);
-                mRefresh.autoRefresh();
-                mPopupWindow.dismiss();
-            }
-        });
-
-        mTvCycleDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ("按天平均".equals(mSelectCycle)) {
-                    return;
-                }
-                mSelectCycle = "按天平均";
-                mTypeId = TYPE_DAY;
-                mTvCycle.setText(mSelectCycle);
-                mRefresh.autoRefresh();
-                mPopupWindow.dismiss();
-            }
-        });
-
-        mPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        mPopupWindow.setFocusable(true);
-        mPopupWindow.setOutsideTouchable(true);
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mIvOption.animate().rotation(0);
-                mTvCycle.setTextColor(getResources().getColor(R.color.text_color_556278));
-                mLLCycle.setBackgroundResource(R.drawable.shape_round_3f4656_30);
-            }
-        });
-
-        if (!mPopupWindow.isShowing()) {
-            //界面显示
-            mIvOption.animate().rotation(180);
-            mTvCycle.setTextColor(getResources().getColor(R.color.text_color_899ab6));
-            mLLCycle.setBackgroundResource(R.drawable.shape_round_3f4656_top);
-            if ("正常".equals(mSelectCycle)) {
-                setPopSelect(0);
-            } else if ("按时平均".equals(mSelectCycle)) {
-                setPopSelect(1);
-            } else if ("按天平均".equals(mSelectCycle)) {
-                setPopSelect(2);
-            }
-            mPopupWindow.showAsDropDown(mLLCycle);
-        }
-    }
-
-    private void setPopSelect(int pos) {
-        for (int i = 0; i < mIvCycleArray.length; i++) {
-            if (i == pos) {
-                mIvCycleArray[i].setVisibility(View.VISIBLE);
-                mTvCycleArray[i].setSelected(true);
-            } else {
-                mIvCycleArray[i].setVisibility(View.INVISIBLE);
-                mTvCycleArray[i].setSelected(false);
-            }
         }
     }
 

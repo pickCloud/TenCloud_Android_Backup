@@ -2,6 +2,7 @@ package com.ten.tencloud.module.server.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +38,13 @@ public class RvServerHistoryAdapter extends CJSBaseRecyclerViewAdapter<ServerHis
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         ServerHistoryBean serverBean = datas.get(position);
         holder.tvTime.setText(DateUtils.timestampToString(serverBean.getCreated_time(), "yyyy-MM-dd HH:mm:ss"));
-        float cpuPercent = Float.valueOf(serverBean.getCpu().getPercent() == null ? "0" : serverBean.getCpu().getPercent());
+        float cpuPercent = Float.valueOf(TextUtils.isEmpty(serverBean.getCpu().getPercent()) ? "0" : serverBean.getCpu().getPercent());
         holder.tvCPU.setText(cpuPercent + "");
         setProgress(cpuPercent, holder.pbCPU);
-        float diskPercent = Float.valueOf(serverBean.getDisk().getPercent() == null ? "0" : serverBean.getDisk().getPercent());
+        float diskPercent = Float.valueOf(TextUtils.isEmpty(serverBean.getDisk().getPercent()) ? "0" : serverBean.getDisk().getPercent());
         holder.tvDisk.setText(diskPercent + "");
         setProgress(diskPercent, holder.pbDisk);
-        float memoryPercent = Float.valueOf(serverBean.getMemory().getPercent() == null ? "0" : serverBean.getMemory().getPercent());
+        float memoryPercent = Float.valueOf(TextUtils.isEmpty(serverBean.getMemory().getPercent()) ? "0" : serverBean.getMemory().getPercent());
         holder.tvMemory.setText(memoryPercent + "");
         setProgress(memoryPercent, holder.pbMemory);
         //net

@@ -36,6 +36,7 @@ public class StatusSelectPopAdapter extends CJSBaseRecyclerViewAdapter<String, S
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         holder.tvStatus.setText(datas.get(position));
+        holder.tvStatus.setSelected(selectPos == position);
         holder.ivStatus.setVisibility(selectPos == position ? View.VISIBLE : View.INVISIBLE);
     }
 

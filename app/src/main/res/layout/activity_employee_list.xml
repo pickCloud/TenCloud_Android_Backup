@@ -10,39 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/bg_232730"
+        android:background="@color/bg_1d202a"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <LinearLayout
-            android:id="@+id/ll_status"
+        <com.ten.tencloud.widget.StatusSelectPopView
+            android:id="@+id/spv_status"
             android:layout_width="120dp"
             android:layout_height="32dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/selector_monitor_cycle"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
-
-            <TextView
-                android:id="@+id/tv_status"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="全部"
-                android:textColor="@color/text_color_556278"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/iv_option"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_option" />
-
-        </LinearLayout>
+            android:layout_marginRight="16dp" />
 
         <LinearLayout
             android:layout_width="0dp"
