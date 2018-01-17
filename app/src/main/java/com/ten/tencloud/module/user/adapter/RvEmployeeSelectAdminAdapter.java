@@ -52,13 +52,13 @@ public class RvEmployeeSelectAdminAdapter extends CJSBaseRecyclerViewAdapter<Emp
         }
         holder.tvName.setText(employee.getName());
         holder.tvPhone.setText(Utils.hide4Phone(employee.getMobile()));
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectPos = position;
-                notifyDataSetChanged();
-            }
-        });
+//        holder.layout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                selectPos = position;
+//                notifyDataSetChanged();
+//            }
+//        });
     }
 
     /**
@@ -81,7 +81,11 @@ public class RvEmployeeSelectAdminAdapter extends CJSBaseRecyclerViewAdapter<Emp
                 return;
             }
         }
+    }
 
+    public void setSelectPos(int pos){
+        selectPos = pos;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

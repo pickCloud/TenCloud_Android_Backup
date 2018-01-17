@@ -127,7 +127,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
                 if (isAdmin) {
                     mBtnReplaceAdmin.setVisibility(View.VISIBLE);
                     mBtnLeaveNoAdmin.setVisibility(View.GONE);
-                    mBtnLeave.setVisibility(View.VISIBLE);
+                    mBtnLeave.setVisibility(View.GONE);
                 }
             } else {
                 //解除员工关系

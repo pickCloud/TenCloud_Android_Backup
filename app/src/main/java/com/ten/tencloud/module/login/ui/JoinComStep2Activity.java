@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.JoinComBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
@@ -53,16 +54,22 @@ public class JoinComStep2Activity extends BaseActivity implements JoinCom2Contra
         mCode = getIntent().getStringExtra("code");
         mSetting = getIntent().getStringExtra("setting");
         mIsNeedPW = getIntent().getBooleanExtra("isNeedInfo", false);
-        mIsName = mSetting.contains("name");
-        mIsIdCard = mSetting.contains("id_card");
 
         mJoinCom2Presenter = new JoinCom2Presenter();
         mJoinCom2Presenter.attachView(this);
 
-        initView();
+        if (TextUtils.isEmpty(mSetting)) {
+            mJoinCom2Presenter.getJoinInitialize(mCode);
+        } else {
+            initView();
+        }
     }
 
     private void initView() {
+
+        mIsName = mSetting.contains("name");
+        mIsIdCard = mSetting.contains("id_card");
+
         mLlPasssword.setVisibility(mIsNeedPW ? View.VISIBLE : View.GONE);
         User userInfo = AppBaseCache.getInstance().getUserInfo();
         mEtName.setText(userInfo.getName());
@@ -104,6 +111,12 @@ public class JoinComStep2Activity extends BaseActivity implements JoinCom2Contra
     public void success() {
         Intent intent = new Intent(this, JoinComStep3Activity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void showInitialize(JoinComBean bean) {
+        mSetting = bean.getSetting();
+        initView();
     }
 
     @Override

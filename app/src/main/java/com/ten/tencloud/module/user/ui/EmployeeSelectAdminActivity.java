@@ -1,6 +1,8 @@
 package com.ten.tencloud.module.user.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -10,10 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvEmployeeSelectAdminAdapter;
 import com.ten.tencloud.module.user.contract.EmployeeListContract;
 import com.ten.tencloud.module.user.contract.EmployeeTransferAdminContract;
@@ -46,16 +50,6 @@ public class EmployeeSelectAdminActivity extends BaseActivity
             public void onClick(View v) {
                 finish();
             }
-        }, "确认", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EmployeeBean selectObject = mAdapter.getSelectObject();
-                if (selectObject == null) {
-                    showMessage("请选择员工");
-                    return;
-                }
-                mEmployeesTransferAdminPresenter.transferAdmin(selectObject.getId());
-            }
         });
         initView();
     }
@@ -78,6 +72,29 @@ public class EmployeeSelectAdminActivity extends BaseActivity
 
         mRvEmployee.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvEmployeeSelectAdminAdapter(this);
+        mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<EmployeeBean>() {
+            @Override
+            public void onObjectItemClicked(EmployeeBean employeeBean, int position) {
+                mAdapter.setSelectPos(position);
+                if (employeeBean.getUid() != AppBaseCache.getInstance().getUserInfo().getId()) {
+                    new AlertDialog.Builder(mContext)
+                            .setMessage("确认更换 " + employeeBean.getName() + " 为管理员?")
+                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    EmployeeBean selectObject = mAdapter.getSelectObject();
+                                    if (selectObject == null) {
+                                        showMessage("请选择员工");
+                                        return;
+                                    }
+                                    mEmployeesTransferAdminPresenter.transferAdmin(selectObject.getUid());
+                                }
+                            })
+                            .setNegativeButton("取消", null)
+                            .create().show();
+                }
+            }
+        });
         mRvEmployee.setAdapter(mAdapter);
         mEmployeesListPresenter.getEmployees("", EmployeesModel.STATUS_EMPLOYEE_SEARCH_PASS);
     }

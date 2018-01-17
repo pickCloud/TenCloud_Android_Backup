@@ -52,6 +52,8 @@ public class MsgFragment extends BaseFragment implements MsgContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         status = getArguments().getString("status");
+        mMsgPresenter = new MsgPresenter();
+        mMsgPresenter.attachView(this);
         if ("0".equals(status)) {
             initView();
         }
@@ -65,8 +67,6 @@ public class MsgFragment extends BaseFragment implements MsgContract.View {
     }
 
     private void initView() {
-        mMsgPresenter = new MsgPresenter();
-        mMsgPresenter.attachView(this);
         mRefresh.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {

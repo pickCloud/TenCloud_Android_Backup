@@ -19,6 +19,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.other.contract.QiniuContract;
 import com.ten.tencloud.module.other.presenter.QiniuPresenter;
 import com.ten.tencloud.module.user.contract.CompanyInfoContract;
@@ -81,7 +82,8 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_company_info);
         initTitleBar(true, "企业资料");
-        mCid = getIntent().getIntExtra("cid", 0);
+//        mCid = getIntent().getIntExtra("cid", 0);
+        mCid = AppBaseCache.getInstance().getCid();
         isPermissionChangeCompanyInfo = Utils.hasPermission("修改企业信息");
         mCompanyInfoPresenter = new CompanyInfoPresenter();
         mCompanyInfoPresenter.attachView(this);
@@ -180,7 +182,10 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
         mImageUrl = companyInfo.getImage_url();
         GlideUtils.getInstance().loadCircleImage(this, mIvLogo, mImageUrl, R.mipmap.icon_com_photo);
         if (mImageUrl.contains("com/")) {
-            mImageUrl = mImageUrl.split("com/")[1];
+            String[] path = mImageUrl.split("com/");
+            if (path.length > 1) {
+                mImageUrl = path[1];
+            }
         }
     }
 
@@ -253,12 +258,12 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
 
     @Override
     public void updateSuccess() {
-        showMessage("头像上传成功");
+        showMessage("LOGO上传成功");
         mCompanyInfoPresenter.getCompanyByCid(mCid);
     }
 
     @Override
     public void uploadFiled() {
-        showMessage("头像上传失败");
+        showMessage("LOGO上传失败");
     }
 }

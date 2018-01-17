@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.login.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
+import com.ten.tencloud.bean.JoinComBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.login.contract.JoinCom2Contract;
@@ -44,4 +45,16 @@ public class JoinCom2Presenter extends BasePresenter<JoinCom2Contract.View>
                     }));
         }
     }
+
+    @Override
+    public void getJoinInitialize(String code) {
+        mSubscriptions.add(JoinModel.getInstance().getJoinInitialize(code)
+                .subscribe(new JesSubscribe<JoinComBean>(mView) {
+                    @Override
+                    public void _onSuccess(JoinComBean joinComBean) {
+                        mView.showInitialize(joinComBean);
+                    }
+                }));
+    }
+
 }

@@ -30,6 +30,7 @@ public class CompanyBean {
     private int is_admin;
     private int cid;
     private int status;
+    private String code;//公司邀请码
 
     public String getName() {
         return name;
@@ -125,5 +126,13 @@ public class CompanyBean {
 
     public void setCreate_time(String create_time) {
         this.create_time = create_time;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

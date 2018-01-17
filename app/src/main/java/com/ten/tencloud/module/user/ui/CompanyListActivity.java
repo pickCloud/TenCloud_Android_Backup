@@ -22,6 +22,7 @@ import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.module.login.ui.JoinComStep2Activity;
 import com.ten.tencloud.module.user.adapter.RvCompanyAdapter;
 import com.ten.tencloud.module.user.contract.CompanyListContract;
 import com.ten.tencloud.module.user.presenter.CompanyListPresenter;
@@ -98,7 +99,7 @@ public class CompanyListActivity extends BaseActivity implements CompanyListCont
                 int status = companyBean.getStatus();
                 if (status == Constants.EMPLOYEE_STATUS_CODE_PASS || status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
                     AlertDialog alertDialog = new AlertDialog.Builder(mContext)
-                            .setMessage("你确认要切换企业账号吗？")
+                            .setMessage("确定切换企业身份？")
                             .setNegativeButton("取消", null)
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
@@ -107,6 +108,21 @@ public class CompanyListActivity extends BaseActivity implements CompanyListCont
                                     GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
                                     dialog.dismiss();
                                     TenApp.getInstance().jumpMainActivity();
+                                }
+                            })
+                            .create();
+                    alertDialog.show();
+                } else if (status == Constants.EMPLOYEE_STATUS_CODE_NO_PASS || status == Constants.EMPLOYEE_STATUS_CODE_WAITING) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                            .setMessage("重新提交申请？")
+                            .setNegativeButton("取消", null)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(mContext, JoinComStep2Activity.class);
+                                    intent.putExtra("code", companyBean.getCode());
+                                    startActivity(intent);
+                                    dialog.dismiss();
                                 }
                             })
                             .create();

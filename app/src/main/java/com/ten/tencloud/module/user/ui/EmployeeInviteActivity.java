@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.contract.EmployeeInviteContract;
@@ -84,7 +85,10 @@ public class EmployeeInviteActivity extends BaseActivity
         if (mShareDialog == null) {
             mShareDialog = new ShareDialog(mContext);
         }
-        mShareDialog.setContent(url);
+        User userInfo = AppBaseCache.getInstance().getUserInfo();
+        CompanyBean selectCompanyWithLogin = AppBaseCache.getInstance().getSelectCompanyWithLogin();
+        String msg = userInfo.getName() + " 邀请你加入 " + selectCompanyWithLogin.getCompany_name() + " " + url;
+        mShareDialog.setContent(msg);
         mShareDialog.show();
     }
 }

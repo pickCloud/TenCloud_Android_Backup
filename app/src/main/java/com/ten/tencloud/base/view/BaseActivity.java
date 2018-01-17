@@ -223,6 +223,14 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         mFlRight.setOnClickListener(rightClickListener);
     }
 
+
+    public void initTitleBar(String title, @DrawableRes int leftResId, View.OnClickListener leftClickListener) {
+        initTitleBar(false, title);
+        mIvLeft.setVisibility(View.VISIBLE);
+        mIvLeft.setImageResource(leftResId);
+        mIvLeft.setOnClickListener(leftClickListener);
+    }
+
     public void initTitleBar(String title, @DrawableRes int leftResId, View.OnClickListener leftClickListener,
                              String rightText, View.OnClickListener rightClickListener) {
         initTitleBar(false, title);
