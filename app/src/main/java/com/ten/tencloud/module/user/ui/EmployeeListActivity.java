@@ -85,7 +85,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
      */
     private void initPermission() {
         mIsPermissionSettingJoin = Utils.hasPermission("设置员工加入条件");
-        mIsPermissionInvite = Utils.hasPermission("邀请员工");
+        mIsPermissionInvite = Utils.hasPermission("邀请新员工");
         mIsAdmin = AppBaseCache.getInstance().getSelectCompanyWithLogin().getIs_admin() != 0;
     }
 
