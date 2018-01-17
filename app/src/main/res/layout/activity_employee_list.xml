@@ -48,7 +48,7 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:background="@null"
-                android:hint="请输入名字搜索"
+                android:hint="请输入名字或者手机号搜索"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:singleLine="true"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/default_bg"
     android:orientation="vertical"
-    tools:context="com.ten.tencloud.module.user.ui.EmployeeInviteActivity">
+    tools:activity="com.ten.tencloud.module.user.ui.EmployeeInviteActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

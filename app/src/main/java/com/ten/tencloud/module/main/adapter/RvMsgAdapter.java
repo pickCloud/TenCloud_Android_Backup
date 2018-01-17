@@ -88,7 +88,7 @@ public class RvMsgAdapter extends CJSBaseRecyclerViewAdapter<MessageBean, RvMsgA
         switch (subMode) {
             //马上审核
             case 0:
-                Observable.just("").delay(1000, TimeUnit.MILLISECONDS)
+                Observable.just("").delay(50, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<String>() {
                             @Override
@@ -110,7 +110,7 @@ public class RvMsgAdapter extends CJSBaseRecyclerViewAdapter<MessageBean, RvMsgA
                 break;
             //马上查看
             case 3:
-                Observable.just("").delay(1000, TimeUnit.MILLISECONDS)
+                Observable.just("").delay(50, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<String>() {
                             @Override
@@ -118,6 +118,7 @@ public class RvMsgAdapter extends CJSBaseRecyclerViewAdapter<MessageBean, RvMsgA
                                 mContext.startActivity(new Intent(mContext, CompanyInfoActivity.class));
                             }
                         });
+
                 TenApp.getInstance().jumpMainActivity();
                 break;
         }

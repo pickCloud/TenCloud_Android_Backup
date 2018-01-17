@@ -1,5 +1,6 @@
 package com.ten.tencloud.widget.dialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -10,8 +11,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
+import com.ten.tencloud.utils.ToastUtils;
 import com.ten.tencloud.utils.Utils;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 /**
  * 分享弹窗
@@ -21,12 +29,35 @@ import com.ten.tencloud.utils.Utils;
 
 public class ShareDialog extends BottomSheetDialog {
 
-    private Context mContext;
+    private Activity mActivity;
     private String mContent;
+    private final UMShareListener mUmShareListener;
 
-    public ShareDialog(@NonNull Context context) {
-        super(context);
-        mContext = context;
+    public ShareDialog(@NonNull Activity activity) {
+        super(activity);
+        mActivity = activity;
+        mUmShareListener = new UMShareListener() {
+
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+
+            }
+
+            @Override
+            public void onResult(SHARE_MEDIA share_media) {
+                ToastUtils.showShortToast("分享成功");
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                throwable.printStackTrace();
+                ToastUtils.showShortToast("分享失败");
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media) {
+            }
+        };
     }
 
     public void setContent(String content) {
@@ -35,7 +66,7 @@ public class ShareDialog extends BottomSheetDialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.dialog_share, null);
         View tvCancel = view.findViewById(R.id.tv_cancel);
         View tvWeixin = view.findViewById(R.id.tv_weixin);
@@ -50,19 +81,35 @@ public class ShareDialog extends BottomSheetDialog {
         tvWeixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new ShareAction(mActivity)
+                        .setPlatform(SHARE_MEDIA.WEIXIN)
+                        .withText(mContent)//分享内容
+                        .setCallback(mUmShareListener)//回调监听器
+                        .share();
                 dismiss();
             }
         });
         tvQQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String url = "http" + mContent.split("http")[1];
+                KLog.e(url);
+                UMWeb umWeb = new UMWeb(url);
+                umWeb.setTitle("拾云");
+                umWeb.setDescription(mContent);
+                umWeb.setThumb(new UMImage(mActivity, R.mipmap.ic_launcher));
+                new ShareAction(mActivity)
+                        .setPlatform(SHARE_MEDIA.QQ)
+                        .withMedia(umWeb)
+                        .setCallback(mUmShareListener)//回调监听器
+                        .share();
                 dismiss();
             }
         });
         tvMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.sendMsg(mContext, mContent);
+                Utils.sendMsg(mActivity, mContent);
                 dismiss();
             }
         });

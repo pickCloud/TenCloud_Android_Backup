@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/default_bg"
     android:orientation="vertical"
-    tools:context="com.ten.tencloud.module.user.ui.PermissionTemplateNewActivity">
+    tools:activity="com.ten.tencloud.module.user.ui.PermissionTemplateNewActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

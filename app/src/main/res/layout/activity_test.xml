@@ -6,7 +6,7 @@
     android:background="@color/default_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.ten.tencloud.module.other.ui.TestActivity">
+    tools:activity="com.ten.tencloud.module.other.ui.TestActivity">
 
     <EditText
         android:id="@+id/et_info"

@@ -16,6 +16,7 @@ import com.ten.tencloud.module.user.contract.EmployeeJoinSettingContract;
 import com.ten.tencloud.module.user.presenter.EmployeesInvitePresenter;
 import com.ten.tencloud.module.user.presenter.EmployeesJoinSettingPresenter;
 import com.ten.tencloud.widget.dialog.ShareDialog;
+import com.umeng.socialize.UMShareAPI;
 
 import butterknife.BindView;
 
@@ -71,6 +72,8 @@ public class EmployeeInviteActivity extends BaseActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
             mJoinSettingPresenter.getJoinSetting();
         }
@@ -83,7 +86,7 @@ public class EmployeeInviteActivity extends BaseActivity
     @Override
     public void showUrl(String url) {
         if (mShareDialog == null) {
-            mShareDialog = new ShareDialog(mContext);
+            mShareDialog = new ShareDialog(this);
         }
         User userInfo = AppBaseCache.getInstance().getUserInfo();
         CompanyBean selectCompanyWithLogin = AppBaseCache.getInstance().getSelectCompanyWithLogin();
