@@ -97,6 +97,9 @@ public class PermissionTreePager extends BasePager {
      */
     private int addTree(List<PermissionTreeNodeBean> data, TreeNode parentNode, int level) {
         int maxLevel = 0;
+        if (data == null) {
+            return level;
+        }
         for (PermissionTreeNodeBean treeNodeBean : data) {
             TreeNode treeNode = new TreeNode(treeNodeBean);
             treeNode.setLevel(level);

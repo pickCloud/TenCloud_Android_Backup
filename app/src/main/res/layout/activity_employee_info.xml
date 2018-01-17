@@ -208,7 +208,7 @@
             android:id="@+id/btn_relieve"
             style="@style/ButtonFullWidth"
             android:background="@drawable/shape_round_ef9a9a"
-            android:text="解除关系"
+            android:text="踢出企业"
             android:textColor="@color/text_color_502016"
             android:visibility="gone" />
 
