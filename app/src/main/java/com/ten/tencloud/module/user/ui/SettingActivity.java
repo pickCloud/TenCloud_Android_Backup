@@ -8,18 +8,23 @@ import android.view.View;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.module.login.contract.LogoutContract;
+import com.ten.tencloud.module.login.presenter.LogoutPresenter;
 
 import butterknife.OnClick;
 
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements LogoutContract.View {
 
     private AlertDialog mDialog;
+    private LogoutPresenter mLogoutPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_setting);
         initTitleBar(true, "设置");
+        mLogoutPresenter = new LogoutPresenter();
+        mLogoutPresenter.attachView(this);
     }
 
     @OnClick({R.id.ll_logout, R.id.ll_account})
@@ -31,7 +36,7 @@ public class SettingActivity extends BaseActivity {
                             .setPositiveButton("退出", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    TenApp.getInstance().jumpLoginActivity();
+                                    mLogoutPresenter.logout();
                                     dialog.dismiss();
                                 }
                             })
@@ -44,5 +49,10 @@ public class SettingActivity extends BaseActivity {
                 startActivityNoValue(this, SettingAccountActivity.class);
                 break;
         }
+    }
+
+    @Override
+    public void logoutSuccess() {
+        TenApp.getInstance().jumpLoginActivity();
     }
 }

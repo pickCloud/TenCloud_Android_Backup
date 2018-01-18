@@ -67,7 +67,7 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
     private void initPermission() {
         mIsPermissionAdd = Utils.hasPermission("新增权限模版");
         mIsPermissionChange = Utils.hasPermission("修改权限模版");
-        mIsPermissionDel = Utils.hasPermission("删除模版");
+        mIsPermissionDel = Utils.hasPermission("删除权限模版");
     }
 
     private void initView() {

@@ -8,6 +8,7 @@ import com.ten.tencloud.bean.PermissionTemplate2Bean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.UserHomeContract;
 import com.ten.tencloud.module.user.model.EmployeesModel;
@@ -45,15 +46,20 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                     @Override
                     public void _onSuccess(List<CompanyBean> companyBean) {
                         if (companyBean != null && companyBean.size() > 0) {
-                            mView.showCompanyInfo(companyBean.get(0));
+                            mView. showCompanyInfo(companyBean.get(0));
                         }
+                    }
+
+                    @Override
+                    public void _onError(JesException e) {
+                        mView.showOwnerInfo();
                     }
                 }));
     }
 
     @Override
     public void getEmployees(int cid) {
-        mSubscriptions.add(EmployeesModel.getInstance().getEmployeesList(cid)
+        mSubscriptions.add(EmployeesModel.getInstance().searchEmployees("", EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL)
                 .subscribe(new JesSubscribe<List<EmployeeBean>>(mView) {
                     @Override
                     public void _onSuccess(List<EmployeeBean> employeeBeans) {

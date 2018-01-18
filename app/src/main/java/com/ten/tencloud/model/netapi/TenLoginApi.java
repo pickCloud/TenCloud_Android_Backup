@@ -26,6 +26,9 @@ public interface TenLoginApi {
     @POST("/api/user/login")
     Observable<Response<JesResponse<LoginInfoBean>>> loginByCode(@Body RequestBody body);
 
+    @POST("/api/user/logout")
+    Observable<Response<JesResponse<Object>>> logout(@Body RequestBody body);
+
     @POST("/api/user/sms")
     Observable<Response<JesResponse<Object>>> sendSms(@Body RequestBody body);
 

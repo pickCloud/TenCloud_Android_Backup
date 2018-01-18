@@ -7,6 +7,7 @@ import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.bean.SendSMSBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
@@ -68,6 +69,22 @@ public class LoginModel {
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
         return TenApp.getRetrofitClient().getTenLoginApi().loginByCode(body)
                 .map(new HttpResultFunc<LoginInfoBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 退出登入
+     *
+     * @return
+     */
+    public Observable<Object> logout() {
+        int cid = AppBaseCache.getInstance().getCid();
+        Map<String, Integer> map = new HashMap<>();
+        map.put("cid", cid);
+        RequestBody requestBody = RetrofitUtils.objectToJsonBody(map);
+        return TenApp.getRetrofitClient().getTenLoginApi().logout(requestBody)
+                .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

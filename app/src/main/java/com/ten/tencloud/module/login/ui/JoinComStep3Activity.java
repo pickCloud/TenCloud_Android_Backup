@@ -36,7 +36,7 @@ public class JoinComStep3Activity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_company:
-                Observable.just("").delay(1000, TimeUnit.MILLISECONDS)
+                Observable.just("").delay(50, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Action1<String>() {
                             @Override

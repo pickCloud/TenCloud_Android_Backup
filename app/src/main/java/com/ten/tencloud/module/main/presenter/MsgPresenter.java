@@ -1,10 +1,13 @@
 package com.ten.tencloud.module.main.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
+import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.MessageBean;
+import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.main.contract.MsgContract;
 import com.ten.tencloud.module.main.model.MsgModel;
+import com.ten.tencloud.module.user.model.UserModel;
 
 import java.util.List;
 
@@ -13,6 +16,25 @@ import java.util.List;
  */
 
 public class MsgPresenter extends BasePresenter<MsgContract.View> implements MsgContract.Presenter<MsgContract.View> {
+    @Override
+    public void getCompanyByCid(int cid) {
+        mSubscriptions.add(UserModel.getInstance().getCompanyInfoByCid(cid)
+                .subscribe(new JesSubscribe<List<CompanyBean>>(mView) {
+                    @Override
+                    public void _onSuccess(List<CompanyBean> companyBean) {
+                        if (companyBean != null && companyBean.size() > 0) {
+                            mView.jumpPage(true);
+                        } else {
+                            mView.jumpPage(false);
+                        }
+                    }
+
+                    @Override
+                    public void _onError(JesException e) {
+                        mView.jumpPage(false);
+                    }
+                }));
+    }
 
     @Override
     public void getMsgList(final boolean isLoadMore, String status, String mode) {
@@ -28,6 +50,11 @@ public class MsgPresenter extends BasePresenter<MsgContract.View> implements Msg
                         page++;
                         mView.showMsgList(data, isLoadMore);
                     }
+
+                    @Override
+                    public void onStart() {
+
+                    }
                 }));
     }
 
@@ -42,6 +69,11 @@ public class MsgPresenter extends BasePresenter<MsgContract.View> implements Msg
                             return;
                         }
                         mView.showMsgList(data, false);
+                    }
+
+                    @Override
+                    public void onStart() {
+
                     }
                 }));
     }

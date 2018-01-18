@@ -120,9 +120,10 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     }
 
     private void initView() {
-        if (GlobalStatusManager.getInstance().isCompanyListNeedRefresh()) {
-            mUserHomePresenter.getCompanies();
-        }
+//        if (GlobalStatusManager.getInstance().isCompanyListNeedRefresh()) {
+//
+//        }
+        mUserHomePresenter.getCompanies();
         if (cid == 0) {//个人界面
             mLlUserLayout.setVisibility(View.VISIBLE);
             mLlCompanyLayout.setVisibility(View.INVISIBLE);
@@ -280,6 +281,16 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     @Override
     public void showEmployees(List<EmployeeBean> employees) {
         mTvEmployees.setText(employees.size() + "个员工");
+    }
+
+    /**
+     * 切回个人账户
+     */
+    @Override
+    public void showOwnerInfo() {
+        cid = 0;
+        AppBaseCache.getInstance().setCid(cid);
+        initView();
     }
 
     @Override

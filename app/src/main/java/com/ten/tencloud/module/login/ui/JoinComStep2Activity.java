@@ -91,7 +91,7 @@ public class JoinComStep2Activity extends BaseActivity implements JoinCom2Contra
             showMessage(R.string.tips_verify_password_length);
             return;
         }
-        if (mIsNeedPW && passwordVerify.equals(password)) {
+        if (mIsNeedPW && !passwordVerify.equals(password)) {
             showMessage(R.string.tips_verify_password_unmatched);
             return;
         }

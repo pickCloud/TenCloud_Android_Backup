@@ -34,6 +34,8 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
     TextView mTvAdmin;
     @BindView(R.id.tv_phone)
     TextView mTvPhone;
+    @BindView(R.id.ll_id_card)
+    View mLlIdCard;
     @BindView(R.id.tv_id_num)
     TextView mTvIdNum;
     @BindView(R.id.tv_apply_time)
@@ -104,6 +106,9 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             mTvStatus.setSelected(true);
         }
         // TODO: 2018/1/3 身份证
+        boolean hasPermissionViewIdCard = Utils.hasPermission("查看员工身份证信息");
+        mLlIdCard.setVisibility(hasPermissionViewIdCard ? View.VISIBLE : View.GONE);
+        mTvIdNum.setText(Utils.isEmptyDefaultForString(mEmployeeInfo.getId_card(), "-"));
         setButtonStatusForPermission();
     }
 

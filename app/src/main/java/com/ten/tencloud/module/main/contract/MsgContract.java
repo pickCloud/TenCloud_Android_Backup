@@ -16,11 +16,15 @@ public class MsgContract {
 
         void showMsgList(List<MessageBean> msg, boolean isLoadMore);
 
+        void jumpPage(boolean isEmployee);
+
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
         void getMsgList(boolean isLoadMore, String status, String mode);
 
-        void search(String status,String mode,String key);
+        void search(String status, String mode, String key);
+
+        void getCompanyByCid(int cid);
     }
 }

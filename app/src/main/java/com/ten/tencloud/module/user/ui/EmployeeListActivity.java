@@ -48,7 +48,6 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     View layout;
     private EmployeesListPresenter mEmployeesListPresenter;
     private RvEmployeeAdapter mAdapter;
-    private boolean mIsPermissionSettingJoin;
     private boolean mIsPermissionInvite;
     private boolean mIsAdmin;
 
@@ -65,7 +64,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_employee_list);
         initPermission();
-        if (!mIsPermissionSettingJoin && !mIsPermissionInvite && !mIsAdmin) {
+        if (!mIsPermissionInvite && !mIsAdmin) {
             initTitleBar(true, "员工列表");
         } else {
             initTitleBar(true, "员工列表", R.menu.menu_add, new OnMenuItemClickListener() {
@@ -84,7 +83,6 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
      * 初始化权限控制
      */
     private void initPermission() {
-        mIsPermissionSettingJoin = Utils.hasPermission("设置员工加入条件");
         mIsPermissionInvite = Utils.hasPermission("邀请新员工");
         mIsAdmin = AppBaseCache.getInstance().getSelectCompanyWithLogin().getIs_admin() != 0;
     }
@@ -96,7 +94,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
         if (mMenuPopupWindow == null) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.pop_employee, null);
             View joinConditionView = view.findViewById(R.id.tv_join_condition);
-            joinConditionView.setVisibility(mIsPermissionSettingJoin ? View.VISIBLE : View.GONE);
+            joinConditionView.setVisibility(mIsPermissionInvite ? View.VISIBLE : View.GONE);
             joinConditionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

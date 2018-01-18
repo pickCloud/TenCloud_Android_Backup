@@ -51,7 +51,11 @@ public class ShareDialog extends BottomSheetDialog {
             @Override
             public void onError(SHARE_MEDIA share_media, Throwable throwable) {
                 throwable.printStackTrace();
-                ToastUtils.showShortToast("分享失败");
+                if (throwable.getMessage().contains("没有安装应用")) {
+                    ToastUtils.showLongToast("分享失败，没有安装该应用");
+                } else {
+                    ToastUtils.showShortToast("分享失败");
+                }
             }
 
             @Override

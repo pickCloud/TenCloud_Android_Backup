@@ -29,7 +29,7 @@ public class EmployeeBean implements Parcelable {
     private int uid;
     private int is_admin; //1 是 0 否
     private String image_url;
-    private String code;//邀请码
+    private String id_card;//身份证
 
     public EmployeeBean() {
     }
@@ -44,7 +44,7 @@ public class EmployeeBean implements Parcelable {
         uid = in.readInt();
         is_admin = in.readInt();
         image_url = in.readString();
-        code = in.readString();
+        id_card = in.readString();
     }
 
     public static final Creator<EmployeeBean> CREATOR = new Creator<EmployeeBean>() {
@@ -131,12 +131,12 @@ public class EmployeeBean implements Parcelable {
         this.image_url = image_url;
     }
 
-    public String getCode() {
-        return code;
+    public String getId_card() {
+        return id_card;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setId_card(String id_card) {
+        this.id_card = id_card;
     }
 
     @Override
@@ -156,6 +156,6 @@ public class EmployeeBean implements Parcelable {
         dest.writeInt(uid);
         dest.writeInt(is_admin);
         dest.writeString(image_url);
-        dest.writeString(code);
+        dest.writeString(id_card);
     }
 }

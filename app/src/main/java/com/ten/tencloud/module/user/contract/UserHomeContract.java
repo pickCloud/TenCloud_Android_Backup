@@ -19,6 +19,8 @@ public class UserHomeContract {
 
         void showEmployees(List<EmployeeBean> employees);
 
+        void showOwnerInfo();
+
         void showPermissionSuccess();
 
     }
