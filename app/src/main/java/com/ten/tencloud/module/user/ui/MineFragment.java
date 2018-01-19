@@ -264,7 +264,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         mSelectCompany = companyInfo;
         mTvCompanyName.setText(companyInfo.getName());
         mTvCompanyContact.setText(companyInfo.getContact());
-        mTvCompanyPhone.setText(companyInfo.getMobile());
+        mTvCompanyPhone.setText(Utils.hide4Phone(companyInfo.getMobile()));
         GlideUtils.getInstance().loadCircleImage(mActivity, mIvCompanyLogo,
                 companyInfo.getImage_url(), R.mipmap.icon_com_photo);
     }

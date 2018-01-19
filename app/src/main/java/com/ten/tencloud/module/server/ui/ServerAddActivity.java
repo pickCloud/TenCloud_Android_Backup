@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
-import okhttp3.WebSocket;
 
 public class ServerAddActivity extends BaseActivity {
 
@@ -40,10 +39,6 @@ public class ServerAddActivity extends BaseActivity {
         initTitleBar(true, "添加主机");
         // TODO: 2017/12/19 Service
         mServerAddModel = new ServerAddModel(new ServerAddModel.onServerAddListener() {
-            @Override
-            public void setData(WebSocket webSocket) {
-                sendData(webSocket);
-            }
 
             @Override
             public void onSuccess() {
@@ -56,9 +51,10 @@ public class ServerAddActivity extends BaseActivity {
                 showMessage(message);
             }
         });
+        mServerAddModel.connect();
     }
 
-    private void sendData(WebSocket webSocket) {
+    private void sendData() {
         Map<String, String> map = new HashMap<>();
         map.put("cluster_id", "1");
         map.put("name", mName);
@@ -66,7 +62,7 @@ public class ServerAddActivity extends BaseActivity {
         map.put("username", mUser);
         map.put("passwd", mPasswd);
         String json = TenApp.getInstance().getGsonInstance().toJson(map);
-        webSocket.send(json);
+        mServerAddModel.send(json);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -101,6 +97,13 @@ public class ServerAddActivity extends BaseActivity {
             showMessage(R.string.tips_verify_password_empty);
             return;
         }
-        mServerAddModel.connect();
+        sendData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mServerAddModel.close();
+        mServerAddModel = null;
     }
 }

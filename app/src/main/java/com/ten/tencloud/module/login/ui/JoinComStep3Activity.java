@@ -41,11 +41,11 @@ public class JoinComStep3Activity extends BaseActivity {
                         .subscribe(new Action1<String>() {
                             @Override
                             public void call(String s) {
+                                GlobalStatusManager.getInstance().clearTask();
                                 startActivity(new Intent(JoinComStep3Activity.this, CompanyListActivity.class));
                             }
                         });
                 TenApp.getInstance().jumpMainActivity();
-                GlobalStatusManager.getInstance().clearTask();
                 break;
         }
     }

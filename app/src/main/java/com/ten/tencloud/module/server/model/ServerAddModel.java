@@ -3,6 +3,7 @@ package com.ten.tencloud.module.server.model;
 import com.socks.library.KLog;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.constants.Url;
+import com.ten.tencloud.model.AppBaseCache;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,6 +21,7 @@ public class ServerAddModel {
 
     private WebSocketListener mWebSocketListener;
     private OkHttpClient mClient;
+    private WebSocket mWebSocket;
 
     public ServerAddModel(ServerAddModel.onServerAddListener onServerAddListener) {
         this.onServerAddListener = onServerAddListener;
@@ -34,7 +36,6 @@ public class ServerAddModel {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
                 KLog.d("连接成功");
-                onServerAddListener.setData(webSocket);
             }
 
             @Override
@@ -67,14 +68,27 @@ public class ServerAddModel {
      * 设置ip地址和端口号，请求连接
      */
     public void connect() {
+        int cid = AppBaseCache.getInstance().getCid();
+        String token = AppBaseCache.getInstance().getToken();
+        String url = Url.BASE_WEBSOCTET_URL + addUrl + "?Cid=" + cid + "&Authorization=" + token;
         Request request = new Request.Builder()
-                .url(Url.WEBSOCKET_UEL_DEBUG + addUrl)
+                .url(url)
                 .build();
-        mClient.newWebSocket(request, mWebSocketListener);
+        mWebSocket = mClient.newWebSocket(request, mWebSocketListener);
+    }
+
+    public void send(String data) {
+        if (mWebSocket == null) {
+            connect();
+        }
+        mWebSocket.send(data);
+    }
+
+    public void close() {
+        mWebSocket.close(0, "");
     }
 
     public interface onServerAddListener {
-        void setData(WebSocket webSocket);
 
         void onSuccess();
 

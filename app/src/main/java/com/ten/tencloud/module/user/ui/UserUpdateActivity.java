@@ -2,8 +2,10 @@ package com.ten.tencloud.module.user.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
@@ -64,6 +66,9 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
     private String companyContactCall;
     private String mImageUrl;
 
+
+    private String mStartText = "";//记录初始值
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +89,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                 mEtInfo.setHint("输入姓名");
                 userName = intent.getStringExtra("name");
                 mEtInfo.setText(userName);
+                mStartText = userName;
                 mEtInfo.setSelection(Utils.isEmptyDefaultForString(userName, "").length());
                 break;
             }
@@ -94,6 +100,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                 mEtInfo.setHint("输入邮箱");
                 userEmail = intent.getStringExtra("email");
                 mEtInfo.setText(userEmail);
+                mStartText = userEmail;
                 mEtInfo.setSelection(Utils.isEmptyDefaultForString(userEmail, "").length());
                 mEtInfo.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                 break;
@@ -119,6 +126,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                 mLlGender.setVisibility(View.GONE);
                 mEtInfo.setHint("输入企业名称");
                 mEtInfo.setText(companyName);
+                mStartText = companyName;
                 mEtInfo.setSelection(Utils.isEmptyDefaultForString(companyName, "").length());
                 break;
             }
@@ -128,6 +136,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                 mLlGender.setVisibility(View.GONE);
                 mEtInfo.setHint("输入联系人");
                 mEtInfo.setText(companyContact);
+                mStartText = companyContact;
                 mEtInfo.setSelection(Utils.isEmptyDefaultForString(companyContact, "").length());
                 break;
             }
@@ -138,6 +147,7 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                 mEtInfo.setHint("输入手机号");
                 mEtInfo.setInputType(InputType.TYPE_CLASS_PHONE);
                 mEtInfo.setText(companyContactCall);
+                mStartText = companyContactCall;
                 mEtInfo.setSelection(Utils.isEmptyDefaultForString(companyContactCall, "").length());
                 break;
             }
@@ -204,6 +214,31 @@ public class UserUpdateActivity extends BaseActivity implements UserUpdateContra
                 }
             }
         });
+        mEtInfo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (type != TYPE_USER_GENDER) {
+                    if (TextUtils.isEmpty(s.toString())) {
+                        setTvRightEnable(false);
+                    } else {
+                        setTvRightEnable(!mStartText.equals(s.toString()));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        if (type != TYPE_USER_GENDER) {
+            setTvRightEnable(false);
+        }
         mUserUpdatePresenter = new UserUpdatePresenter();
         mUserUpdatePresenter.attachView(this);
     }

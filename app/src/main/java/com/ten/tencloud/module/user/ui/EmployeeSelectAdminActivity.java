@@ -45,7 +45,7 @@ public class EmployeeSelectAdminActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_employee_select_admin);
-        initTitleBar("选择", R.mipmap.icon_close, new View.OnClickListener() {
+        initTitleBar("更换管理员", R.mipmap.icon_close, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

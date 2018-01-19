@@ -10,21 +10,23 @@ import com.ten.tencloud.BuildConfig;
  */
 
 public class Url {
-//    public static final String BASE_URL_DEBUG = "http://47.94.18.22:18010";
     public static final String BASE_URL_DEBUG = "http://47.94.18.22/";
+    public static final String BASE_URL_RELEASE = "https://c.10.com";
 
-    public final static String WEBSOCKET_UEL_DEBUG = "ws://47.94.18.22/";
+    public final static String WEBSOCKET_URL_DEBUG = "ws://47.94.18.22/";
+    public final static String WEBSOCKET_URL_RELEASE = "ws://47.94.18.22/";
 
-    public static final String BASE_URL_PUBLIC = "https://c.10.com";
-//    public static final String BASE_URL_PUBLIC = "https://c.10.com";
 
     public static String BASE_URL;
+    public static String BASE_WEBSOCTET_URL;
 
     static {
         if (BuildConfig.DEBUG) {
             BASE_URL = BASE_URL_DEBUG;
+            BASE_WEBSOCTET_URL = WEBSOCKET_URL_DEBUG;
         } else {
-            BASE_URL = BASE_URL_PUBLIC;
+            BASE_URL = BASE_URL_RELEASE;
+            BASE_WEBSOCTET_URL = WEBSOCKET_URL_RELEASE;
         }
     }
 

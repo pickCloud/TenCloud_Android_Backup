@@ -14,10 +14,12 @@ import android.view.WindowManager;
 import com.ten.tencloud.BuildConfig;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.constants.Url;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.login.ui.LoginActivity;
 import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.utils.StatusBarUtils;
+import com.ten.tencloud.utils.ToastUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +46,7 @@ public class SplashActivity extends BaseActivity {
         }
 
         if (BuildConfig.DEBUG) {
-            showMessage("测试版...");
+            ToastUtils.showLongToast("测试版，当前服务器地址:" + Url.BASE_URL);
         }
         init();
     }

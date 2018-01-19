@@ -242,6 +242,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         mTvRight.setOnClickListener(rightClickListener);
     }
 
+    public void setTvRightEnable(boolean isEnable) {
+        mTvRight.setEnabled(isEnable);
+    }
+
     /**
      * 带菜单
      *

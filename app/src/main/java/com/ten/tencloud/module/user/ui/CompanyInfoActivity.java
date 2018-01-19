@@ -177,7 +177,7 @@ public class CompanyInfoActivity extends BaseActivity implements CompanyInfoCont
         mContact = companyInfo.getContact();
         mTvContacts.setText(mContact);
         mMobile = companyInfo.getMobile();
-        mTvContactsCall.setText(Utils.hide4Phone(mMobile));
+        mTvContactsCall.setText(mMobile);
         mTvTime.setText(DateUtils.dateToDefault(companyInfo.getCreate_time()));
         mImageUrl = companyInfo.getImage_url();
         GlideUtils.getInstance().loadCircleImage(this, mIvLogo, mImageUrl, R.mipmap.icon_com_photo);
