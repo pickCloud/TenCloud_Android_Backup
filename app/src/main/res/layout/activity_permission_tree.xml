@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:text="快速模版选择"
+            android:text="快速选择模版"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp" />
 

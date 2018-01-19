@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
+import com.ten.tencloud.BuildConfig;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.model.AppBaseCache;
@@ -42,6 +43,9 @@ public class SplashActivity extends BaseActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
+        if (BuildConfig.DEBUG) {
+            showMessage("测试版...");
+        }
         init();
     }
 
@@ -97,7 +101,7 @@ public class SplashActivity extends BaseActivity {
     void showNeverAsk() {
         showMessage("请开启权限再使用");
         Uri packageURI = Uri.parse("package:" + getPackageName());
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
         startActivity(intent);
     }
 }

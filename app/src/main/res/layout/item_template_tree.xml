@@ -6,11 +6,11 @@
     <FrameLayout
         android:id="@+id/fl_item"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/selector_select_filter">
+        android:background="@drawable/selector_select_template_filter">
 
         <TextView
             android:id="@+id/tv_name"
@@ -18,12 +18,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingBottom="11dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:paddingTop="11dp"
             android:text="管理员"
-            android:textColor="@color/select_server_filter"
+            android:textColor="@color/colorPrimary"
             android:textSize="12sp" />
 
         <ImageView

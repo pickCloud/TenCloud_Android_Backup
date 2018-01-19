@@ -48,7 +48,7 @@
 
             <TextView
                 style="@style/SettingItemLabel"
-                android:text="创建时间" />
+                android:text="添加时间" />
 
             <TextView
                 android:id="@+id/tv_register_time"

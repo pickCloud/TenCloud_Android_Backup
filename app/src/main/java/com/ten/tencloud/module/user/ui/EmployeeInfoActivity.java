@@ -86,7 +86,9 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mTvPhone.setText(mEmployeeInfo.getMobile());
         GlideUtils.getInstance().loadCircleImage(mContext, mIvAvatar, mEmployeeInfo.getImage_url(), R.mipmap.icon_userphoto);
         mTvApplyTime.setText(mEmployeeInfo.getCreate_time());
-        mTvJoinTime.setText(((mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_NO_PASS) || (mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_WAITING))
+        mTvJoinTime.setText(((mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_NO_PASS)
+                && (mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_WAITING)
+                && (mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_CHECKING))
                 ? mEmployeeInfo.getUpdate_time() : "-");
         int status = mEmployeeInfo.getStatus();
         if (status == Constants.EMPLOYEE_STATUS_CODE_NO_PASS) {
