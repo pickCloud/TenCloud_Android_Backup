@@ -98,7 +98,8 @@ public class MsgFragment extends BaseFragment implements MsgContract.View {
                 mTip = tip;
                 String[] tips = tip.split(":");
                 String cid = tips[0];
-                mMsgPresenter.getCompanyByCid(Integer.parseInt(cid));
+                //判断是否还在改公司里
+                mMsgPresenter.checkCompany(Integer.parseInt(cid));
             }
         });
         mRvMsg.setAdapter(mMsgAdapter);

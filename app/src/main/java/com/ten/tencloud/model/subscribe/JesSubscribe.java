@@ -21,15 +21,9 @@ import rx.Subscriber;
 public abstract class JesSubscribe<T> extends Subscriber<T> {
 
     private IBaseView mView;
-    private boolean showLoading = true;//显示loading框
 
     public JesSubscribe(IBaseView view) {
         this.mView = view;
-    }
-
-    public JesSubscribe setShowLoading(boolean showLoading) {
-        this.showLoading = showLoading;
-        return this;
     }
 
     @Override
@@ -41,17 +35,16 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
             unsubscribe();
             return;
         }
+        _onStart();
+    }
 
-        if (showLoading) {
-            mView.showLoading();
-        }
+    public void _onStart() {
+        mView.showLoading();
     }
 
     @Override
     public void onCompleted() {
-        if (showLoading) {
-            mView.hideLoading();
-        }
+        mView.hideLoading();
     }
 
     @Override

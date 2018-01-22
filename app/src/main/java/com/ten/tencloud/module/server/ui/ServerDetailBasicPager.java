@@ -249,6 +249,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     public void delSuccess() {
         showMessage("删除成功");
         GlobalStatusManager.getInstance().setServerListNeedRefresh(true);
+        ((Activity) mContext).finish();
 //        queryState();
     }
 

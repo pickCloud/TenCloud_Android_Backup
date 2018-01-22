@@ -236,7 +236,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         int count = 0;
         List<CompanyBean> data = new ArrayList<>();
         CompanyBean personal = new CompanyBean();
-        personal.setCompany_name(mUserInfo.getName());
+        //姓名为空显示手机号
+        personal.setCompany_name(Utils.strIsEmptyForDefault(mUserInfo.getName(), mUserInfo.getMobile()));
         personal.setCid(0);
         data.add(personal);
         if (companies != null) {
@@ -254,6 +255,15 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
             }
         }
         mTvCompanyDes.setText(count + "家公司");
+
+        int px = UiUtils.dip2px(mActivity, 48.5f);
+        if (data.size() > 7) {
+            int temp = UiUtils.dip2px(mActivity, 20f);
+            mPopupWindow.setHeight(px * 7 + temp);
+        } else {
+            mPopupWindow.setHeight(px * data.size());
+        }
+
         mAdapter.setDatas(data);
         mAdapter.setSelectCid(cid);
     }

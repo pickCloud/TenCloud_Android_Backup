@@ -25,6 +25,6 @@ public class MsgContract {
 
         void search(String status, String mode, String key);
 
-        void getCompanyByCid(int cid);
+        void checkCompany(int cid);
     }
 }
