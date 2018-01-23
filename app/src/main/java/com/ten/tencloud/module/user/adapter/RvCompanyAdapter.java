@@ -40,6 +40,23 @@ public class RvCompanyAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, Rv
         holder.tvAdmin.setText(companyBean.getIs_admin() == 1 ? "管理员" : "员工");
         holder.tvAdmin.setSelected(companyBean.getIs_admin() == 1);
         int status = companyBean.getStatus();
+        holder.llApply.setVisibility(View.VISIBLE);
+        holder.llCheck.setVisibility(View.VISIBLE);
+        holder.tvApplyTimeText.setText("申请时间");
+        //创建人和审核中的不需要审核时间
+        if (status == Constants.EMPLOYEE_STATUS_CODE_CHECKING || status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
+            holder.llCheck.setVisibility(View.INVISIBLE);
+        }
+        //创建人
+        if (status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
+            holder.tvApplyTimeText.setText("创建时间");
+        }
+        //待加入状态
+        if (status == Constants.EMPLOYEE_STATUS_CODE_WAITING) {
+            holder.llApply.setVisibility(View.INVISIBLE);
+            holder.llCheck.setVisibility(View.INVISIBLE);
+        }
+
         holder.tvApplyTime.setText(status == Constants.EMPLOYEE_STATUS_CODE_WAITING ? "-" : DateUtils.dateToDefault(companyBean.getCreate_time()));
         holder.tvCheckTime.setText(status == Constants.EMPLOYEE_STATUS_CODE_WAITING ? "-" : DateUtils.dateToDefault(companyBean.getUpdate_time()));
         if (status == Constants.EMPLOYEE_STATUS_CODE_NO_PASS) {
@@ -61,6 +78,11 @@ public class RvCompanyAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, Rv
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.ll_apply)
+        View llApply;
+        @BindView(R.id.ll_check)
+        View llCheck;
+
         @BindView(R.id.tv_company_name)
         TextView tvName;
         @BindView(R.id.tv_admin)
@@ -69,6 +91,8 @@ public class RvCompanyAdapter extends CJSBaseRecyclerViewAdapter<CompanyBean, Rv
         TextView tvStatus;
         @BindView(R.id.tv_apply_time)
         TextView tvApplyTime;
+        @BindView(R.id.tv_apply_time_text)
+        TextView tvApplyTimeText;
         @BindView(R.id.tv_check_time)
         TextView tvCheckTime;
 

@@ -153,7 +153,7 @@
         <item name="android:layout_marginTop">32dp</item>
         <item name="android:background">@drawable/shape_round_default</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/text_color_232730</item>
+        <item name="android:textColor">@color/select_button_default</item>
         <item name="android:textSize">16sp</item>
     </style>
 

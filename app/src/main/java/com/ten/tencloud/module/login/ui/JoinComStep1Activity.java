@@ -35,6 +35,8 @@ public class JoinComStep1Activity extends BaseActivity
     TextView mTvCompanyName;
     @BindView(R.id.ll_info)
     View mLlInfo;
+    @BindView(R.id.tv_tip)
+    TextView mTvTip;
 
     @BindView(R.id.et_phone)
     EditText mEtPhone;
@@ -42,6 +44,8 @@ public class JoinComStep1Activity extends BaseActivity
     EditText mEtCode;
     @BindView(R.id.btn_send_code)
     Button mBtnSendCode;
+    @BindView(R.id.btn_ok)
+    Button mBtnOk;
 
     private boolean mIsLogin;
     private LoginCaptchaPresenter mLoginCaptchaPresenter;
@@ -98,7 +102,9 @@ public class JoinComStep1Activity extends BaseActivity
     @Override
     public void showInitialize(JoinComBean bean) {
         if (bean == null) {
-            showMessage("邀请链接已过期,请联系管理员重新邀请");
+            mTvTip.setText("邀请链接已过期,请联系管理员重新邀请");
+            mLlInfo.setVisibility(View.GONE);
+            mBtnOk.setEnabled(false);
             return;
         }
         mTvCompanyContact.setText(bean.getContact());

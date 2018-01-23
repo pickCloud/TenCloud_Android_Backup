@@ -120,9 +120,6 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     }
 
     private void initView() {
-//        if (GlobalStatusManager.getInstance().isCompanyListNeedRefresh()) {
-//
-//        }
         mUserHomePresenter.getCompanies();
         if (cid == 0) {//个人界面
             mLlUserLayout.setVisibility(View.VISIBLE);
@@ -237,6 +234,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         List<CompanyBean> data = new ArrayList<>();
         CompanyBean personal = new CompanyBean();
         //姓名为空显示手机号
+        mUserInfo = AppBaseCache.getInstance().getUserInfo();
         personal.setCompany_name(Utils.strIsEmptyForDefault(mUserInfo.getName(), mUserInfo.getMobile()));
         personal.setCid(0);
         data.add(personal);

@@ -1,39 +1,60 @@
 package com.ten.tencloud.module.main.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.ten.tencloud.R;
-import com.ten.tencloud.base.adapter.CJSFragmentPagerAdapter;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.MessageBean;
+import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.module.login.ui.JoinComStep2Activity;
+import com.ten.tencloud.module.main.adapter.RvMsgAdapter;
+import com.ten.tencloud.module.main.contract.MsgContract;
 import com.ten.tencloud.module.main.model.MsgModel;
+import com.ten.tencloud.module.main.presenter.MsgPresenter;
+import com.ten.tencloud.module.user.ui.CompanyInfoActivity;
+import com.ten.tencloud.module.user.ui.EmployeeListActivity;
 import com.ten.tencloud.widget.StatusSelectPopView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
-public class MsgActivity extends BaseActivity {
+public class MsgActivity extends BaseActivity implements MsgContract.View {
 
-    @BindView(R.id.tab)
-    TabLayout mTab;
-    @BindView(R.id.vp_msg)
-    ViewPager mVpMsg;
     @BindView(R.id.et_search)
     EditText mEtSearch;
     @BindView(R.id.spv_mode)
     StatusSelectPopView mSpvMode;
 
-    String[] titles = {"最新消息", "历史消息"};
-    private CJSFragmentPagerAdapter mPagerAdapter;
-    private MsgFragment mNewFragment;
-    private MsgFragment mHistoryFragment;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout mRefresh;
+    @BindView(R.id.rv_msg)
+    RecyclerView mRvMsg;
+    @BindView(R.id.tv_empty)
+    TextView mTvEmpty;
+    private RvMsgAdapter mMsgAdapter;
+    private MsgPresenter mMsgPresenter;
+
+    private int mSubMode;
+    private String mTip;
 
     private String mode = MsgModel.MODE_ALL;
 
@@ -47,6 +68,8 @@ public class MsgActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_msg);
         initTitleBar(true, "消息盒子");
+        mMsgPresenter = new MsgPresenter();
+        mMsgPresenter.attachView(this);
         initView();
     }
 
@@ -67,16 +90,6 @@ public class MsgActivity extends BaseActivity {
             }
         });
 
-        mVpMsg.setOffscreenPageLimit(2);
-        mPagerAdapter = new CJSFragmentPagerAdapter(getFragmentManager(), titles);
-        mNewFragment = new MsgFragment();
-        mNewFragment.putArgument("status", "0");
-        mPagerAdapter.addFragment(mNewFragment);
-        mHistoryFragment = new MsgFragment();
-        mHistoryFragment.putArgument("status", "1");
-        mPagerAdapter.addFragment(mHistoryFragment);
-        mVpMsg.setAdapter(mPagerAdapter);
-        mTab.setupWithViewPager(mVpMsg);
         mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -86,15 +99,125 @@ public class MsgActivity extends BaseActivity {
                 return false;
             }
         });
+
+        mRefresh.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mMsgPresenter.getMsgList(false, "", mode);
+            }
+
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                mMsgPresenter.getMsgList(true, "", mode);
+            }
+        });
+        mRvMsg.setLayoutManager(new LinearLayoutManager(this));
+        mMsgAdapter = new RvMsgAdapter(this);
+        mMsgAdapter.setOnBtnClickListener(new RvMsgAdapter.OnBtnClickListener() {
+            @Override
+            public void onClick(int subMode, String tip) {
+                mSubMode = subMode;
+                mTip = tip;
+                String[] tips = tip.split(":");
+                String cid = tips[0];
+                //判断是否还在改公司里
+                mMsgPresenter.checkCompany(Integer.parseInt(cid));
+            }
+        });
+        mRvMsg.setAdapter(mMsgAdapter);
+        mRefresh.autoRefresh();
     }
+
+    private void handClickByMode(int subMode, String tip) {
+        String[] tips = tip.split(":");
+        String cid = tips[0];
+        AppBaseCache.getInstance().setCid(Integer.parseInt(cid));
+        GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
+        switch (subMode) {
+            //马上审核
+            case 0:
+                Observable.just("").delay(50, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<String>() {
+                            @Override
+                            public void call(String s) {
+                                startActivity(new Intent(mContext, EmployeeListActivity.class));
+                            }
+                        });
+                TenApp.getInstance().jumpMainActivity();
+                break;
+            //重新提交
+            case 1:
+                Intent intent = new Intent(mContext, JoinComStep2Activity.class);
+                intent.putExtra("code", tips[1]);
+                startActivity(intent);
+                break;
+            //进入企业
+            case 2:
+                TenApp.getInstance().jumpMainActivity();
+                break;
+            //马上查看
+            case 3:
+                Observable.just("").delay(50, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<String>() {
+                            @Override
+                            public void call(String s) {
+                                startActivity(new Intent(mContext, CompanyInfoActivity.class));
+                            }
+                        });
+
+                TenApp.getInstance().jumpMainActivity();
+                break;
+        }
+    }
+
 
     private void search() {
         String key = mEtSearch.getText().toString().trim();
-        int currentItem = mVpMsg.getCurrentItem();
-        if (currentItem == 0) {
-            mNewFragment.search(key, mode);
+        mMsgPresenter.search("", this.mode, key);
+    }
+
+    @Override
+    public void showEmpty(boolean isLoadMore) {
+        if (isLoadMore) {
+            showMessage("暂无更多数据");
+            mRefresh.finishLoadmore();
         } else {
-            mHistoryFragment.search(key, mode);
+            mMsgAdapter.clear();
+            mRefresh.finishRefresh();
+            mTvEmpty.setVisibility(View.VISIBLE);
+            mRvMsg.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showMsgList(List<MessageBean> msg, boolean isLoadMore) {
+        mTvEmpty.setVisibility(View.GONE);
+        mRvMsg.setVisibility(View.VISIBLE);
+        if (isLoadMore) {
+            mMsgAdapter.addData(msg);
+            mRefresh.finishLoadmore();
+        } else {
+            mMsgAdapter.setDatas(msg);
+            mRefresh.finishRefresh();
+        }
+    }
+
+    @Override
+    public void jumpPage(boolean isEmployee) {
+        if (isEmployee) {
+            handClickByMode(mSubMode, mTip);
+        } else {
+            showMessage("消息已过期");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mMsgPresenter != null) {
+            mMsgPresenter.detachView();
         }
     }
 }

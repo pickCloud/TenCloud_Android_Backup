@@ -60,7 +60,7 @@ public class MsgModel {
 
     public Observable<List<MessageBean>> getMsgList(String status, String mode, int page) {
         return TenApp.getRetrofitClient().getTenMsgApi()
-                .getMsgListByStatus(status, mode, page)
+                .getMsgListByStatus(mode, page)
                 .map(new HttpResultFunc<List<MessageBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -68,7 +68,7 @@ public class MsgModel {
 
     public Observable<List<MessageBean>> search(String status, String mode, String key) {
         return TenApp.getRetrofitClient().getTenMsgApi()
-                .search(status, mode, key)
+                .search(mode, key)
                 .map(new HttpResultFunc<List<MessageBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

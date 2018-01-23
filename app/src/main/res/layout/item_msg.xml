@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/default_bg"
+    android:background="@color/bg_232730"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,12 +10,20 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:layout_marginTop="28dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="24dp">
+        android:paddingLeft="12dp">
+
+        <View
+            android:id="@+id/view_status"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:background="@drawable/shape_circle_msg" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
             android:layout_marginRight="4dp"
             android:src="@mipmap/icon_mes_1" />
 
@@ -25,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="加入企业"
             android:textColor="@color/text_color_556278"
             android:textSize="10sp" />
 
@@ -34,7 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="2018-01-01"
             android:textColor="@color/text_color_556278"
             android:textSize="10sp" />
 
@@ -59,7 +64,6 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:lineSpacingExtra="20dp"
-        android:text="重新提交  >"
         android:textColor="@color/text_color_287db6"
         android:textSize="12sp" />
 

@@ -39,7 +39,7 @@ public class RvMsgAdapter extends CJSBaseRecyclerViewAdapter<MessageBean, RvMsgA
         int count = content.split("【").length - 1;
         int startTemp = 0;
         int endTemp = 0;
-        String text = content.replaceAll("【"," ").replaceAll("】"," ");
+        String text = content.replaceAll("【", " ").replaceAll("】", " ");
         style.append(text);
         for (int i = 0; i < count; i++) {
             int start = content.indexOf("【", startTemp);
@@ -66,7 +66,12 @@ public class RvMsgAdapter extends CJSBaseRecyclerViewAdapter<MessageBean, RvMsgA
             holder.tvMode.setText("企业变更");
         } else if (messageBean.getMode() == 3) {
             holder.tvMode.setText("离开企业");
+        } else if (messageBean.getMode() == 4) {
+            holder.tvMode.setText("添加主机");
+        } else if (messageBean.getMode() == 5) {
+            holder.tvMode.setText("构建镜像");
         }
+
         final int subMode = messageBean.getSub_mode();
         if (subMode == 0) {
             holder.tvSubMode.setText("马上审核  >");
@@ -76,7 +81,13 @@ public class RvMsgAdapter extends CJSBaseRecyclerViewAdapter<MessageBean, RvMsgA
             holder.tvSubMode.setText("进入企业  >");
         } else if (subMode == 3) {
             holder.tvSubMode.setText("马上查看  >");
+        } else if (subMode == 4) {
+            holder.tvSubMode.setText("查看主机  >");
+        } else if (subMode == 5) {
+            holder.tvSubMode.setText("添加主机  >");
         }
+
+
         if (messageBean.getMode() == 3) {
             holder.tvSubMode.setVisibility(View.GONE);
         } else {
@@ -92,6 +103,7 @@ public class RvMsgAdapter extends CJSBaseRecyclerViewAdapter<MessageBean, RvMsgA
                 }
             }
         });
+        holder.viewStatus.setVisibility(messageBean.getStatus() == 0 ? View.VISIBLE : View.INVISIBLE);
     }
 
     public interface OnBtnClickListener {
@@ -114,6 +126,8 @@ public class RvMsgAdapter extends CJSBaseRecyclerViewAdapter<MessageBean, RvMsgA
         TextView tvTime;
         @BindView(R.id.tv_content)
         TextView tvContent;
+        @BindView(R.id.view_status)
+        View viewStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
