@@ -39,17 +39,17 @@ public class RvServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBean, RvSe
         holder.tvName.setText(serverBean.getName());
         holder.tvStatus.setText(serverBean.getMachine_status());
         holder.tvIp.setText(serverBean.getPublic_ip());
-        float cpuPercent = Float.valueOf(serverBean.getCpu_content().getPercent() == null ? "0" : serverBean.getCpu_content().getPercent());
+        float cpuPercent = Float.valueOf(serverBean.getCpu().getPercent() == null ? "0" : serverBean.getCpu().getPercent());
         holder.tvCPU.setText(cpuPercent + "");
         setProgress(cpuPercent, holder.pbCPU);
-        float diskPercent = Float.valueOf(serverBean.getDisk_content().getPercent() == null ? "0" : serverBean.getDisk_content().getPercent());
+        float diskPercent = Float.valueOf(serverBean.getDisk().getPercent() == null ? "0" : serverBean.getDisk().getPercent());
         holder.tvDisk.setText(diskPercent + "");
         setProgress(diskPercent, holder.pbDisk);
-        float memoryPercent = Float.valueOf(serverBean.getMemory_content().getPercent() == null ? "0" : serverBean.getMemory_content().getPercent());
+        float memoryPercent = Float.valueOf(serverBean.getMemory().getPercent() == null ? "0" : serverBean.getMemory().getPercent());
         holder.tvMemory.setText(memoryPercent + "");
         setProgress(memoryPercent, holder.pbMemory);
         //net
-        holder.tvNet.setText(Utils.handNetSpeed(serverBean.getNet_content()));
+        holder.tvNet.setText(Utils.handNetSpeed(serverBean.getNet()));
         String provider = serverBean.getProvider();
         if ("阿里云".equals(provider)) {
             holder.ivProviderIcon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_aliyun));

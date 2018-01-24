@@ -19,7 +19,7 @@ import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvTreeComTemplateAdapter;
-import com.ten.tencloud.module.user.adapter.VpPermissionAdapter;
+import com.ten.tencloud.base.adapter.CJSVpPagerAdapter;
 import com.ten.tencloud.module.user.contract.PermissionTreeContract;
 import com.ten.tencloud.module.user.presenter.PermissionTreePresenter;
 
@@ -54,11 +54,11 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
     String[] titles = {"功能", "数据"};
 
     private PermissionTemplateBean mTemplateBean;
-    private VpPermissionAdapter mAdapter;
+    private CJSVpPagerAdapter mAdapter;
     private PermissionTreePresenter mTreePresenter;
     private PermissionTreePager mFuncPager;
-    private PermissionTreePager mDataPager;
-
+//    private PermissionTreePager mDataPager;
+    private PermissionTreeFilterPager mDataPager;
     private List<PermissionTreeNodeBean> resource;
 
     private int type;
@@ -175,7 +175,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         resource = data;
         ArrayList<BasePager> pagers = new ArrayList<>();
         mFuncPager = new PermissionTreePager(this);
-        mDataPager = new PermissionTreePager(this);
+        mDataPager = new PermissionTreeFilterPager(this);
 
         if (type == TYPE_VIEW && mTemplateBean.getId() == 0) {
             mTemplateBean.setAccess_servers("");
@@ -196,7 +196,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         pagers.add(mDataPager);
         mFuncPager.initView();
         mDataPager.initView();
-        mAdapter = new VpPermissionAdapter(titles, pagers);
+        mAdapter = new CJSVpPagerAdapter(titles, pagers);
         mVpContent.setOffscreenPageLimit(pagers.size());
         mVpContent.setAdapter(mAdapter);
         mTab.setupWithViewPager(mVpContent);
@@ -214,7 +214,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         }
         mFuncPager.initView();
         pagers.add(mFuncPager);
-        mDataPager = new PermissionTreePager(this);
+        mDataPager = new PermissionTreeFilterPager(this);
         mDataPager.putArgument("resource", data.getData().get(1).getData());
         mDataPager.putArgument("type", PermissionTreePager.TYPE_DATA);
         mDataPager.putArgument("isNew", true);
@@ -231,7 +231,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             titles[0] = "功能(" + funcCount + ")";
             titles[1] = "数据(" + dataCount + ")";
         }
-        mAdapter = new VpPermissionAdapter(titles, pagers);
+        mAdapter = new CJSVpPagerAdapter(titles, pagers);
         mVpContent.setOffscreenPageLimit(pagers.size());
         mVpContent.setAdapter(mAdapter);
         mTab.setupWithViewPager(mVpContent);

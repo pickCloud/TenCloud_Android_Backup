@@ -1,4 +1,4 @@
-package com.ten.tencloud.module.user.adapter;
+package com.ten.tencloud.base.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -12,12 +12,12 @@ import java.util.List;
  * Created by lxq on 2017/12/26.
  */
 
-public class VpPermissionAdapter extends PagerAdapter {
+public class CJSVpPagerAdapter extends PagerAdapter {
 
     private String[] mTitles;
     private List<BasePager> mPagers;
 
-    public VpPermissionAdapter(String[] titles, List<BasePager> pagers) {
+    public CJSVpPagerAdapter(String[] titles, List<BasePager> pagers) {
         mTitles = titles;
         mPagers = pagers;
     }

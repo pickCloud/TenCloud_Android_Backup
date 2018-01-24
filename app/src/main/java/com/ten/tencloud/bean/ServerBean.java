@@ -11,10 +11,10 @@ public class ServerBean {
      * public_ip : str
      * machine_status : int
      * business_status : int
-     * disk_content : str
-     * memory_content : str
-     * cpu_content : str
-     * net_content : str
+     * disk : str
+     * memory : str
+     * cpu : str
+     * net : str
      */
 
     private String id;
@@ -23,10 +23,10 @@ public class ServerBean {
     private String public_ip;
     private String machine_status;
     private String business_status;
-    private ContentInfoBean disk_content;
-    private ContentInfoBean memory_content;
-    private ContentInfoBean cpu_content;
-    private NetSpeedBean net_content;
+    private ContentInfoBean disk;
+    private ContentInfoBean memory;
+    private ContentInfoBean cpu;
+    private NetSpeedBean net;
     private String provider;
 
 
@@ -78,36 +78,36 @@ public class ServerBean {
         this.business_status = business_status;
     }
 
-    public ContentInfoBean getDisk_content() {
-        return disk_content;
+    public ContentInfoBean getDisk() {
+        return disk;
     }
 
-    public void setDisk_content(ContentInfoBean disk_content) {
-        this.disk_content = disk_content;
+    public void setDisk(ContentInfoBean disk) {
+        this.disk = disk;
     }
 
-    public ContentInfoBean getMemory_content() {
-        return memory_content;
+    public ContentInfoBean getMemory() {
+        return memory;
     }
 
-    public void setMemory_content(ContentInfoBean memory_content) {
-        this.memory_content = memory_content;
+    public void setMemory(ContentInfoBean memory) {
+        this.memory = memory;
     }
 
-    public ContentInfoBean getCpu_content() {
-        return cpu_content;
+    public ContentInfoBean getCpu() {
+        return cpu;
     }
 
-    public void setCpu_content(ContentInfoBean cpu_content) {
-        this.cpu_content = cpu_content;
+    public void setCpu(ContentInfoBean cpu) {
+        this.cpu = cpu;
     }
 
-    public NetSpeedBean getNet_content() {
-        return net_content;
+    public NetSpeedBean getNet() {
+        return net;
     }
 
-    public void setNet_content(NetSpeedBean net_content) {
-        this.net_content = net_content;
+    public void setNet(NetSpeedBean net) {
+        this.net = net;
     }
 
     public String getProvider() {
