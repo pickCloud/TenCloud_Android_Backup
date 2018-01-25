@@ -60,7 +60,7 @@ public class EmployeeInviteActivity extends BaseActivity
             text += "、姓名";
         }
         if (setting.contains("id_card")) {
-            text += "、身份证";
+            text += "、身份证号";
         }
         mTvSetting.setText(text);
     }

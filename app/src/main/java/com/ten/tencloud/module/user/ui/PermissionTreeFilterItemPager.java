@@ -84,7 +84,9 @@ public class PermissionTreeFilterItemPager extends BasePager {
             if (isView && mSelectData != null && mSelectData.getId() != 0) {
                 datas = filterDataForSelect(mType, datas);
             }
-
+            if (!isView && mSelectData != null) {
+                mPermissionOtherAdapter.setSelectPos(setSelectData(mType, datas));
+            }
             mPermissionOtherAdapter.setDatas(datas);
         } else if ("云服务器".equals(mType)) {
             mPermissionServerAdapter = new RvTreeFilterItemServerAdapter(mContext, isView);
@@ -104,6 +106,9 @@ public class PermissionTreeFilterItemPager extends BasePager {
             if (isView && mSelectData != null && mSelectData.getId() != 0) {
                 servers = filterDataForSelect(mType, servers);
             }
+            if (!isView && mSelectData != null) {
+                mPermissionServerAdapter.setSelectPos(setSelectData(mType, servers));
+            }
             mPermissionServerAdapter.setDatas(servers);
         }
     }
@@ -113,6 +118,38 @@ public class PermissionTreeFilterItemPager extends BasePager {
         mRvData.setVisibility(isShow ? INVISIBLE : VISIBLE);
     }
 
+    private List<Integer> setSelectData(String type, List<PermissionTreeNodeBean> originalData) {
+        List<Integer> newData = new ArrayList<>();
+        if ("文件仓库".equals(type)) {
+            String accessFilehub = mSelectData.getAccess_filehub();
+            String[] split = accessFilehub.split(",");
+            List<String> selects = Arrays.asList(split);
+            for (PermissionTreeNodeBean originalDatum : originalData) {
+                if (selects.contains(originalDatum.getId() + "")) {
+                    newData.add(originalDatum.getId());
+                }
+            }
+        } else if ("项目管理".equals(type)) {
+            String accessFilehub = mSelectData.getAccess_projects();
+            String[] split = accessFilehub.split(",");
+            List<String> selects = Arrays.asList(split);
+            for (PermissionTreeNodeBean originalDatum : originalData) {
+                if (selects.contains(originalDatum.getId() + "")) {
+                    newData.add(originalDatum.getId());
+                }
+            }
+        } else if ("云服务器".equals(type)) {
+            String accessFilehub = mSelectData.getAccess_servers();
+            String[] split = accessFilehub.split(",");
+            List<String> selects = Arrays.asList(split);
+            for (PermissionTreeNodeBean originalDatum : originalData) {
+                if (selects.contains(originalDatum.getSid() + "")) {
+                    newData.add(originalDatum.getSid());
+                }
+            }
+        }
+        return newData;
+    }
 
     /**
      * 根据查看时过滤数据
@@ -171,6 +208,9 @@ public class PermissionTreeFilterItemPager extends BasePager {
                                 if (isView && mSelectData != null && mSelectData.getId() != 0) {
                                     select = filterDataForSelect(mType, select);
                                 }
+                                if (!isView && mSelectData != null) {
+                                    mPermissionOtherAdapter.setSelectPos(setSelectData(mType, select));
+                                }
                                 if (select == null || select.size() == 0) {
                                     showEmptyView(true);
                                     return;
@@ -195,6 +235,9 @@ public class PermissionTreeFilterItemPager extends BasePager {
                             public void onOkClick(List<PermissionTreeNodeBean> select) {
                                 if (isView && mSelectData != null && mSelectData.getId() != 0) {
                                     select = filterDataForSelect(mType, select);
+                                }
+                                if (!isView && mSelectData != null) {
+                                    mPermissionServerAdapter.setSelectPos(setSelectData(mType, select));
                                 }
                                 if (select == null || select.size() == 0) {
                                     showEmptyView(true);

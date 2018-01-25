@@ -63,6 +63,25 @@ public class ServerModel {
     }
 
     /**
+     * 获取提醒的机器
+     *
+     * @param id
+     * @return
+     */
+    public Observable<List<ServerBean>> getWarnServerList(int id) {
+        return TenApp.getRetrofitClient().getTenServerApi().getWarnServerList(id)
+                .map(new HttpResultFunc<ClusterInfoBean>())
+                .map(new Func1<ClusterInfoBean, List<ServerBean>>() {
+                    @Override
+                    public List<ServerBean> call(ClusterInfoBean clusterInfoBean) {
+                        return clusterInfoBean.getServer_list();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
      * 搜索
      *
      * @param clusterId

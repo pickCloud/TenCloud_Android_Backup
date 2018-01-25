@@ -78,6 +78,10 @@ public class RvTreeFilterItemServerAdapter extends CJSBaseRecyclerViewAdapter<Pe
         return selectPos;
     }
 
+    public void setSelectPos(List<Integer> selectPos) {
+        this.selectPos = selectPos;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.cb_select)
