@@ -42,7 +42,7 @@ public class TenApp extends Application {
     }
 
     {
-        PlatformConfig.setWeixin("wxc01464912319f82e", "a899820621ce623d835c4caf9381762d");
+        PlatformConfig.setWeixin("wxc1fa4f1bfc738872", "a899820621ce623d835c4caf9381762d");
         PlatformConfig.setQQZone("1106665152", "slhcMjf52PvQoMnO");
     }
 

@@ -39,6 +39,7 @@ public class PermissionTreeFilterPager extends BasePager {
     private PermissionTemplateBean mSelectData;
 
     private String[] mTabTitles;
+    private List<BasePager> mPagers;
 
     public PermissionTreeFilterPager(Context context) {
         super(context);
@@ -54,18 +55,20 @@ public class PermissionTreeFilterPager extends BasePager {
         //文件 项目 服务器 级别
         List<PermissionTreeNodeBean> types = mResourceData;
         mTabTitles = new String[types.size()];
-        List<BasePager> pagers = new ArrayList<>();
+        mPagers = new ArrayList<>();
         //组装各类别数据
         for (int i = 0; i < types.size(); i++) {
             mTabTitles[i] = types.get(i).getName();
             PermissionTreeFilterItemPager itemPager = new PermissionTreeFilterItemPager(mContext);
             List<PermissionTreeNodeBean> data = types.get(i).getData();
             itemPager.putArgument("data", data);
+            itemPager.putArgument("isView",isView);
+            itemPager.putArgument("select",mSelectData);
             itemPager.putArgument("type", types.get(i).getName());
             itemPager.initView();
-            pagers.add(itemPager);
+            mPagers.add(itemPager);
         }
-        mVpData.setAdapter(new CJSVpPagerAdapter(mTabTitles, pagers));
+        mVpData.setAdapter(new CJSVpPagerAdapter(mTabTitles, mPagers));
         mTab.setupWithViewPager(mVpData);
     }
 
@@ -83,10 +86,9 @@ public class PermissionTreeFilterPager extends BasePager {
      */
     public Map<String, String> getSelectNode() {
         Map<String, String> map = new HashMap<>();
-
-//        map.put("access_filehub", StringUtils.join(selectsFile, ","));
-//        map.put("access_projects", StringUtils.join(selectsProject, ","));
-//        map.put("access_servers", StringUtils.join(selectsServer, ","));
+        for (BasePager pager : mPagers) {
+            map.putAll(((PermissionTreeFilterItemPager) pager).getSelectNode());
+        }
         return map;
     }
 }

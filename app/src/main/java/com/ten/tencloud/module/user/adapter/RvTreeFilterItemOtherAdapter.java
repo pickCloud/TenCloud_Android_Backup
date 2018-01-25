@@ -26,9 +26,12 @@ import butterknife.ButterKnife;
 public class RvTreeFilterItemOtherAdapter extends CJSBaseRecyclerViewAdapter<PermissionTreeNodeBean, RvTreeFilterItemOtherAdapter.ViewHolder> {
 
     private List<Integer> selectPos = new ArrayList<>();
+    //查看状态
+    private boolean isView;
 
-    public RvTreeFilterItemOtherAdapter(Context context) {
+    public RvTreeFilterItemOtherAdapter(Context context, boolean isView) {
         super(context);
+        this.isView = isView;
     }
 
     @Override
@@ -44,17 +47,26 @@ public class RvTreeFilterItemOtherAdapter extends CJSBaseRecyclerViewAdapter<Per
         holder.tvName.setText(Utils.strIsEmptyForDefault(bean.getName(), bean.getFilename()));
         holder.cbSelect.setChecked(selectPos.contains(bean.getId()));
         holder.tvName.setSelected(selectPos.contains(bean.getId()));
+        if (isView) {
+            holder.cbSelect.setVisibility(View.INVISIBLE);
+        }
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectPos.contains(bean.getId())) {
-                    selectPos.remove((Integer) bean.getId());
-                } else {
-                    selectPos.add(bean.getId());
+                if (!isView) {
+                    if (selectPos.contains(bean.getId())) {
+                        selectPos.remove((Integer) bean.getId());
+                    } else {
+                        selectPos.add(bean.getId());
+                    }
+                    notifyItemChanged(position);
                 }
-                notifyItemChanged(position);
             }
         });
+    }
+
+    public List<Integer> getSelectPos() {
+        return selectPos;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -40,6 +40,8 @@ public class PermissionTreePager extends BasePager {
 
     @BindView(R.id.ll_content)
     LinearLayout mLlContent;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
 
     private TreeNode mTreeRootNode;
     private TreeView mTreeView;
@@ -67,6 +69,9 @@ public class PermissionTreePager extends BasePager {
         if (mSelectData == null) {
             mIsNew = true;
         }
+        if (mResourceData == null || mResourceData.size() == 0) {
+            showEmptyView(true);
+        }
         mType = getArgument("type");
         addTree(mResourceData, mTreeRootNode, 0);
         mTreeView = new TreeView(mTreeRootNode, mContext, new BaseNodeViewFactory() {
@@ -85,6 +90,11 @@ public class PermissionTreePager extends BasePager {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mLlContent.addView(view);
         mTreeView.expandAll();
+    }
+
+    private void showEmptyView(boolean isShow) {
+        mEmptyView.setVisibility(isShow ? VISIBLE : INVISIBLE);
+        mLlContent.setVisibility(isShow ? INVISIBLE : VISIBLE);
     }
 
     /**

@@ -22,10 +22,21 @@
         android:textColor="@color/text_color_556278"
         android:textSize="12sp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_data"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never" />
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/empty_view"
+            layout="@layout/layout_empty_view_default"
+            android:visibility="invisible" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+    </FrameLayout>
 
 </LinearLayout>

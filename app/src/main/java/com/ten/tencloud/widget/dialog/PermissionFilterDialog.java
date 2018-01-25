@@ -2,7 +2,6 @@ package com.ten.tencloud.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,12 +19,10 @@ import android.widget.TextView;
 import com.google.android.flexbox.FlexboxLayout;
 import com.ten.tencloud.R;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
-import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.utils.UiUtils;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lxq on 2017/11/24.
@@ -63,7 +60,7 @@ public class PermissionFilterDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (mFilterListener != null) {
-                    mFilterListener.onOkClick(selects);
+                    mFilterListener.onOkClick(select);
                 }
                 cancel();
             }
@@ -73,20 +70,15 @@ public class PermissionFilterDialog extends Dialog {
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = UiUtils.getScreenMetrics(context).x / 4 * 3;
         params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        setOnShowListener(new OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                if (mFilterListener != null) {
-                    mFilterListener.getFilterData();
-                }
-            }
-        });
+        if (mFilterListener != null) {
+            mFilterListener.setFilterData();
+        }
     }
 
     public interface FilterListener {
-        void getFilterData();
+        void setFilterData();
 
-        void onOkClick(Map<String, Map<String, Boolean>> select);
+        void onOkClick(List<PermissionTreeNodeBean> select);
     }
 
     private FilterListener mFilterListener;
@@ -110,6 +102,9 @@ public class PermissionFilterDialog extends Dialog {
         }
         mTvType.setText(type + "-筛选");
         mLlTagArea.setVisibility(isShowArea ? View.VISIBLE : View.GONE);
+        if (datas == null) {
+            return;
+        }
         for (PermissionTreeNodeBean data : datas) {
             createTagView(data);
         }
@@ -132,11 +127,17 @@ public class PermissionFilterDialog extends Dialog {
                 tvName.setSelected(node.isSelect());
                 flItem.setSelected(node.isSelect());
                 ivStatus.setVisibility(node.isSelect() ? View.VISIBLE : View.INVISIBLE);
-                if (isShowArea){
+                if (isShowArea) {
                     if (node.isSelect()) {
-//                        createAreaView(node.getData());
+                        createAreaView(node);
                     } else {
-//                        removeAreaView(node.getData());
+                        removeAreaView(node);
+                    }
+                } else {
+                    if (node.isSelect()) {
+                        select.addAll(node.getData());
+                    } else {
+                        select.removeAll(node.getData());
                     }
                 }
             }
@@ -144,45 +145,46 @@ public class PermissionFilterDialog extends Dialog {
         mFblTag.addView(view);
     }
 
-    private void removeAreaView(ProviderBean provider) {
-        View view = mLlArea.findViewWithTag(provider.getProvider());
-        mLlArea.removeView(view);
-        selects.remove(provider.getProvider());
-    }
+    private List<PermissionTreeNodeBean> select = new ArrayList<>();
 
-    Map<String, Map<String, Boolean>> selects = new HashMap<>();
+    private void removeAreaView(PermissionTreeNodeBean provider) {
+        View view = mLlArea.findViewWithTag(provider.getName());
+        mLlArea.removeView(view);
+    }
 
     /**
      * 创建区域视图
      *
      * @param provider
      */
-    private void createAreaView(ProviderBean provider) {
-        final Map<String, Boolean> areaSelect = new HashMap<>();//记录当前选中的区域
+    private void createAreaView(PermissionTreeNodeBean provider) {
         final View view = LayoutInflater.from(context).inflate(R.layout.include_server_filter_area, null);
-        view.setTag(provider.getProvider());
+        view.setTag(provider.getName());
         TextView tvProvider = view.findViewById(R.id.tv_provider);
-        tvProvider.setText(provider.getProvider());
+        tvProvider.setText(provider.getName());
         FlexboxLayout fblArea = view.findViewById(R.id.fbl_area);
-        for (final String area : provider.getRegions()) {
-            areaSelect.put(area, false);//默认为未选中
+        for (final PermissionTreeNodeBean area : provider.getData()) {
             final View itemArea = LayoutInflater.from(context).inflate(R.layout.item_server_filter, null);
             final TextView tvName = itemArea.findViewById(R.id.tv_name);
             final ImageView ivStatus = itemArea.findViewById(R.id.iv_status);
             final FrameLayout flItem = itemArea.findViewById(R.id.fl_item);
-            tvName.setText(area);
+            tvName.setText(area.getName());
             fblArea.addView(itemArea);
             itemArea.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    areaSelect.put(area, !areaSelect.get(area));
-                    tvName.setSelected(areaSelect.get(area));
-                    flItem.setSelected(areaSelect.get(area));
-                    ivStatus.setVisibility(areaSelect.get(area) ? View.VISIBLE : View.INVISIBLE);
+                    area.setSelect(!area.isSelect());
+                    tvName.setSelected(area.isSelect());
+                    flItem.setSelected(area.isSelect());
+                    ivStatus.setVisibility(area.isSelect() ? View.VISIBLE : View.INVISIBLE);
+                    if (area.isSelect()) {
+                        select.addAll(area.getData());
+                    } else {
+                        select.removeAll(area.getData());
+                    }
                 }
             });
         }
-        selects.put(provider.getProvider(), areaSelect);
         mLlArea.addView(view);
     }
 }

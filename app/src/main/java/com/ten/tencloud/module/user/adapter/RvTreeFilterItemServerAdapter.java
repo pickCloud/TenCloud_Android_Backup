@@ -26,9 +26,11 @@ import butterknife.ButterKnife;
 public class RvTreeFilterItemServerAdapter extends CJSBaseRecyclerViewAdapter<PermissionTreeNodeBean, RvTreeFilterItemServerAdapter.ViewHolder> {
 
     private List<Integer> selectPos = new ArrayList<>();
+    private boolean isView;
 
-    public RvTreeFilterItemServerAdapter(Context context) {
+    public RvTreeFilterItemServerAdapter(Context context, boolean isView) {
         super(context);
+        this.isView = isView;
     }
 
     @Override
@@ -43,6 +45,9 @@ public class RvTreeFilterItemServerAdapter extends CJSBaseRecyclerViewAdapter<Pe
         final PermissionTreeNodeBean bean = datas.get(position);
         holder.tvName.setText(bean.getName());
         holder.cbSelect.setChecked(selectPos.contains(bean.getSid()));
+        if (isView) {
+            holder.cbSelect.setVisibility(View.INVISIBLE);
+        }
         holder.tvName.setSelected(selectPos.contains(bean.getSid()));
         holder.tvStatus.setText(bean.getStatus());
         holder.tvIp.setText(bean.getPublic_ip());
@@ -57,14 +62,20 @@ public class RvTreeFilterItemServerAdapter extends CJSBaseRecyclerViewAdapter<Pe
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectPos.contains(bean.getSid())) {
-                    selectPos.remove((Integer) bean.getSid());
-                } else {
-                    selectPos.add(bean.getSid());
+                if (!isView) {
+                    if (selectPos.contains(bean.getSid())) {
+                        selectPos.remove((Integer) bean.getSid());
+                    } else {
+                        selectPos.add(bean.getSid());
+                    }
+                    notifyItemChanged(position);
                 }
-                notifyItemChanged(position);
             }
         });
+    }
+
+    public List<Integer> getSelectPos() {
+        return selectPos;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
