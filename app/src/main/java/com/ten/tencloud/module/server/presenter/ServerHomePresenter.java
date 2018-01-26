@@ -6,7 +6,6 @@ import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
 import com.ten.tencloud.module.server.model.ServerModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,20 +16,16 @@ public class ServerHomePresenter extends BasePresenter<ServerHomeContract.View>
         implements ServerHomeContract.Presenter<ServerHomeContract.View> {
 
     @Override
-    public void getServerList(int id) {
-        mSubscriptions.add(ServerModel.getInstance().getServerList(id)
+    public void getWarnServerList(int id) {
+        mSubscriptions.add(ServerModel.getInstance().getWarnServerList(id)
                 .subscribe(new JesSubscribe<List<ServerBean>>(mView) {
                     @Override
                     public void _onSuccess(List<ServerBean> serverBeans) {
-                        List<ServerBean> result = new ArrayList<>();
-                        if (serverBeans.size() < 3) {
-                            mView.showServerList(serverBeans);
-                            return;
+                        if (serverBeans == null || serverBeans.size() == 0) {
+                            mView.showEmptyView();
+                        } else {
+                            mView.showWarnServerList(serverBeans);
                         }
-                        for (int i = 0; i < 3; i++) {
-                            result.add(serverBeans.get(i));
-                        }
-                        mView.showServerList(result);
                     }
                 }));
     }

@@ -126,6 +126,8 @@ dependencies {
      */
     compile "com.scwang.smartrefresh:SmartRefreshLayout:${libs.SmartRefreshLayout}"
 
+    compile "com.songhang:smart-headerfooter-recyclerview:${libs.RecycleViewHeaderView}"
+
     /**
      *   选择器
      */

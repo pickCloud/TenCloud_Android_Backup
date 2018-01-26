@@ -35,6 +35,8 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
     RecyclerView mRvServer;
     @BindView(R.id.et_search)
     EditText mEtSearch;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
 
     private ServerListPresenter mPresenter;
     private RvServerAdapter mServerAdapter;
@@ -139,12 +141,15 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
     @Override
     public void showServerList(List<ServerBean> servers) {
         mServerAdapter.setDatas(servers);
+        mEmptyView.setVisibility(View.GONE);
+        mRvServer.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showEmpty() {
-        showMessage("搜索结果为空");
         mServerAdapter.clear();
+        mRvServer.setVisibility(View.INVISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override

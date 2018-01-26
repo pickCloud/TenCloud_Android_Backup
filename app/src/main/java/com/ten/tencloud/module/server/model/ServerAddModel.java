@@ -85,7 +85,7 @@ public class ServerAddModel {
     }
 
     public void close() {
-        mWebSocket.close(0, "");
+        mWebSocket.close(1000, "");
     }
 
     public interface onServerAddListener {

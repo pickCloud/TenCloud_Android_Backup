@@ -12,10 +12,12 @@ import java.util.List;
 
 public class ServerHomeContract {
     public interface View extends IBaseView {
-        void showServerList(List<ServerBean> servers);
+        void showWarnServerList(List<ServerBean> servers);
+
+        void showEmptyView();
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
-        void getServerList(int id);
+        void getWarnServerList(int id);
     }
 }

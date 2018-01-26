@@ -36,6 +36,7 @@ ext {
             objectbox                : "1.3.4",
             treeview                 : "1.0.3",
             qiniu                    : "7.3.10",
-            takephoto                : "4.0.3"
+            takephoto                : "4.0.3",
+            RecycleViewHeaderView    : "1.0.1"
     ]
 }

@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.headerfooter.songhang.library.SmartRecyclerAdapter;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
@@ -22,6 +22,7 @@ import com.ten.tencloud.module.server.presenter.ServerHomePresenter;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by lxq on 2017/11/22.
@@ -30,7 +31,9 @@ import butterknife.BindView;
 public class ServerHomeFragment extends BaseFragment implements ServerHomeContract.View {
 
     @BindView(R.id.xrv_servers)
-    XRecyclerView mXrvServer;
+    RecyclerView mXrvServer;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
 
     private RvServerAdapter mAdapter;
     private ServerHomePresenter mPresenter;
@@ -63,12 +66,10 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
             }
         });
-        mXrvServer.addHeaderView(header);
-        mXrvServer.setLoadingMoreEnabled(false);
-        mXrvServer.setPullRefreshEnabled(false);
         mXrvServer.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
-        mXrvServer.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         mAdapter = new RvServerAdapter(mActivity);
+        SmartRecyclerAdapter smartRecyclerAdapter = new SmartRecyclerAdapter(mAdapter);
+        smartRecyclerAdapter.setHeaderView(header);
         mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerBean>() {
             @Override
             public void onObjectItemClicked(ServerBean serverBean, int position) {
@@ -78,14 +79,29 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
                 startActivity(intent);
             }
         });
-        mXrvServer.setAdapter(mAdapter);
+        mXrvServer.setAdapter(smartRecyclerAdapter);
         mPresenter = new ServerHomePresenter();
         mPresenter.attachView(this);
-        mPresenter.getServerList(1);
+        mPresenter.getWarnServerList(1);
+    }
+
+    @OnClick({R.id.tv_add_server})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_add_server:
+                startActivity(new Intent(mActivity, ServerAddActivity.class));
+                break;
+        }
     }
 
     @Override
-    public void showServerList(List<ServerBean> servers) {
-        mAdapter.addData(servers);
+    public void showWarnServerList(List<ServerBean> servers) {
+        mAdapter.setDatas(servers);
+        mEmptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyView() {
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 }

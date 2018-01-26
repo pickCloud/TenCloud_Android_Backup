@@ -30,7 +30,7 @@ public interface TenServerApi {
     Observable<Response<JesResponse<ClusterInfoBean>>> getServerList(@Path("id") int id);
 
     @GET("/api/cluster/warn/{id}")
-    Observable<Response<JesResponse<ClusterInfoBean>>> getWarnServerList(@Path("id") int id);
+    Observable<Response<JesResponse<List<ServerBean>>>> getWarnServerList(@Path("id") int id);
 
     @POST("/api/cluster/search")
     Observable<Response<JesResponse<List<ServerBean>>>> searchServer(@Body RequestBody body);

@@ -70,13 +70,7 @@ public class ServerModel {
      */
     public Observable<List<ServerBean>> getWarnServerList(int id) {
         return TenApp.getRetrofitClient().getTenServerApi().getWarnServerList(id)
-                .map(new HttpResultFunc<ClusterInfoBean>())
-                .map(new Func1<ClusterInfoBean, List<ServerBean>>() {
-                    @Override
-                    public List<ServerBean> call(ClusterInfoBean clusterInfoBean) {
-                        return clusterInfoBean.getServer_list();
-                    }
-                })
+                .map(new HttpResultFunc<List<ServerBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

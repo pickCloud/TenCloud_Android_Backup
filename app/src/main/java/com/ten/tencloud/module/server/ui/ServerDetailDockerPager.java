@@ -2,9 +2,9 @@ package com.ten.tencloud.module.server.ui;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.module.server.adapter.RvServerDetailDockerAdapter;
@@ -22,7 +22,7 @@ import butterknife.BindView;
 public class ServerDetailDockerPager extends BasePager implements ServerDockerContract.View {
 
     @BindView(R.id.xrv_docker)
-    XRecyclerView mXrvDocker;
+    RecyclerView mXrvDocker;
     @BindView(R.id.tv_empty)
     TextView mTvEmpty;
 
@@ -42,8 +42,6 @@ public class ServerDetailDockerPager extends BasePager implements ServerDockerCo
         if (isFirst) {
             mId = getArgument("id");
             createView(R.layout.pager_server_detail_docker);
-            mXrvDocker.setPullRefreshEnabled(false);
-            mXrvDocker.setLoadingMoreEnabled(false);
             mXrvDocker.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
             mAdapter = new RvServerDetailDockerAdapter(mContext);
             mXrvDocker.setAdapter(mAdapter);
