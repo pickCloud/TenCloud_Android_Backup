@@ -91,13 +91,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.login.ui.JoinComStep2Activity" />
-        <activity android:name=".module.login.ui.JoinComStep3Activity"></activity>
+        <activity android:name=".module.login.ui.JoinComStep3Activity" />
         <activity android:name=".wxapi.WXEntryActivity" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -106,9 +105,7 @@
 
                 <data android:scheme="tencent100424468" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -117,8 +114,9 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5a5f057d8f4a9d6ff4000042" >
-        </meta-data>
+            android:value="5a5f057d8f4a9d6ff4000042"></meta-data>
+
+        <activity android:name=".module.user.ui.CompanyObjectionActivity"></activity>
     </application>
 
 </manifest>

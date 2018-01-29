@@ -44,6 +44,8 @@ public class ServerAddModel {
                 if ("success".equals(text)) {
                     webSocket.cancel();
                     onServerAddListener.onSuccess();
+                } else if (!"open".equals(text)) {
+                    onServerAddListener.onMessage(text);
                 }
             }
 
@@ -93,6 +95,8 @@ public class ServerAddModel {
         void onSuccess();
 
         void onFailure(String message);
+
+        void onMessage(String text);
     }
 
     private onServerAddListener onServerAddListener;

@@ -31,9 +31,12 @@ public class CompanyNewResultActivity extends BaseActivity {
         mLlFailed.setVisibility(!mIsSuccess ? View.VISIBLE : View.GONE);
     }
 
-
+    /**
+     * 提交企业异议
+     * @param view
+     */
     public void submitObjection(View view) {
-        // TODO: 2017/12/22 提交企业异议
+        startActivityNoValue(this, CompanyObjectionActivity.class);
     }
 
     public void btnOk(View view) {

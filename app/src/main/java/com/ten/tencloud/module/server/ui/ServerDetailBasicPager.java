@@ -18,6 +18,7 @@ import com.ten.tencloud.module.server.contract.ServerDetailContract;
 import com.ten.tencloud.module.server.contract.ServerOperationContract;
 import com.ten.tencloud.module.server.presenter.ServerDetailPresenter;
 import com.ten.tencloud.module.server.presenter.ServerOperationPresenter;
+import com.ten.tencloud.utils.Utils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -78,6 +79,9 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     private boolean isQuerying = false;
     private String mInstanceId;
     private Subscription mAnimSubscribe;
+    private final boolean mPermissionDelServer;
+    private final boolean mPermissionStartServer;
+    private final boolean mPermissionChangeServer;
 
     public ServerDetailBasicPager(Context context) {
         super(context);
@@ -85,6 +89,11 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         mServerOperationPresenter = new ServerOperationPresenter();
         mServerDetailPresenter.attachView(this);
         mServerOperationPresenter.attachView(this);
+
+        mPermissionDelServer = Utils.hasPermission("删除主机");
+        mPermissionStartServer = Utils.hasPermission("开机关机");
+        mPermissionChangeServer = Utils.hasPermission("修改主机信息");
+
         mDialog = new AlertDialog.Builder(mContext)
                 .setNegativeButton("取消", null)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -164,15 +173,14 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     public void showServerDetail(ServerDetailBean serverDetailBean) {
         isFirst = false;
         mInstanceId = serverDetailBean.getBasic_info().getInstance_id();
-        mBtnDel.setVisibility(VISIBLE);
         mName = serverDetailBean.getBasic_info().getName();
         mTvName.setText(mName);
         mTvProvider.setText(serverDetailBean.getBusiness_info().getProvider());
         mTvAddress.setText(serverDetailBean.getBasic_info().getAddress());
         mTvIP.setText(serverDetailBean.getBasic_info().getPublic_ip());
         String machine_status = serverDetailBean.getBasic_info().getMachine_status();
-        setState(machine_status);
         mTvAddTime.setText(serverDetailBean.getBasic_info().getCreated_time());
+        setState(machine_status);
     }
 
     /**
@@ -187,20 +195,22 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         if ("异常".equals(state)) {
             mTvStatus.setSelected(false);
         }
-        if ("已停止".equals(state)) {
-            mBtnStop.setVisibility(GONE);
-            mBtnRestart.setVisibility(GONE);
-            mBtnStart.setVisibility(VISIBLE);
-        } else if ("运行中".equals(state) || "异常".equals(state)) {
-            mBtnStop.setVisibility(VISIBLE);
-            mBtnRestart.setVisibility(VISIBLE);
-            mBtnStart.setVisibility(GONE);
-        } else {
-            mBtnStop.setVisibility(GONE);
-            mBtnRestart.setVisibility(GONE);
-            mBtnStart.setVisibility(GONE);
+        if (mPermissionStartServer) {
+            if ("已停止".equals(state)) {
+                mBtnStop.setVisibility(GONE);
+                mBtnRestart.setVisibility(GONE);
+                mBtnStart.setVisibility(VISIBLE);
+            } else if ("运行中".equals(state) || "异常".equals(state)) {
+                mBtnStop.setVisibility(VISIBLE);
+                mBtnRestart.setVisibility(VISIBLE);
+                mBtnStart.setVisibility(GONE);
+            } else {
+                mBtnStop.setVisibility(GONE);
+                mBtnRestart.setVisibility(GONE);
+                mBtnStart.setVisibility(GONE);
+            }
         }
-
+        mBtnDel.setVisibility(mPermissionDelServer ? VISIBLE : GONE);
         //开启打点动画
         i = 0;
         if (mAnimSubscribe != null && !mAnimSubscribe.isUnsubscribed()) {
@@ -228,6 +238,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                         }
                     });
         }
+
     }
 
     int i = 0;

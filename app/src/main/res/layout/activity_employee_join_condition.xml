@@ -90,7 +90,7 @@
 
             <TextView
                 style="@style/SettingItemLabel"
-                android:text="身份证" />
+                android:text="身份证号" />
 
         </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.ten.tencloud.module.user.ui;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -61,55 +62,41 @@ public class PermissionTreeFilterItemPager extends BasePager {
         isView = getArgument("isView", false);
         mSelectData = getArgument("select");
         mRvData.setLayoutManager(new LinearLayoutManager(mContext));
-        mTvFilter.setVisibility("文件仓库".equals(mType) ? GONE : VISIBLE);
+        //查看状态下不显示
+        mTvFilter.setVisibility(!"文件仓库".equals(mType) && !isView ? VISIBLE : GONE);
         handData();
     }
 
     private void handData() {
-
+        List<PermissionTreeNodeBean> datas = new ArrayList<>();
+        if (mData == null || mData.size() == 0
+                || mData.get(0).getData() == null
+                || mData.get(0).getData().size() == 0) {
+            showEmptyView(true);
+            return;
+        }
+        for (PermissionTreeNodeBean tags : mData) {
+            if ("云服务器".equals(mType)) {
+                //两级
+                for (PermissionTreeNodeBean areas : tags.getData()) {
+                    datas.addAll(areas.getData());
+                }
+            } else {
+                datas.addAll(tags.getData());
+            }
+        }
+        //过滤数据
+        if (isView && mSelectData != null && mSelectData.getId() != 0) {
+            datas = filterDataForSelect(mType, datas);
+        }
         if ("文件仓库".equals(mType) || "项目管理".equals(mType)) {
             mPermissionOtherAdapter = new RvTreeFilterItemOtherAdapter(mContext, isView);
             mRvData.setAdapter(mPermissionOtherAdapter);
-            List<PermissionTreeNodeBean> datas = new ArrayList<>();
-            if (mData == null || mData.size() == 0
-                    || mData.get(0).getData() == null
-                    || mData.get(0).getData().size() == 0) {
-                showEmptyView(true);
-                return;
-            }
-            for (PermissionTreeNodeBean tags : mData) {
-                datas.addAll(tags.getData());
-            }
-
-            if (isView && mSelectData != null && mSelectData.getId() != 0) {
-                datas = filterDataForSelect(mType, datas);
-            }
-            if (!isView && mSelectData != null) {
-                mPermissionOtherAdapter.setSelectPos(setSelectData(mType, datas));
-            }
             mPermissionOtherAdapter.setDatas(datas);
-        } else if ("云服务器".equals(mType)) {
+        } else if (("云服务器".equals(mType))) {
             mPermissionServerAdapter = new RvTreeFilterItemServerAdapter(mContext, isView);
             mRvData.setAdapter(mPermissionServerAdapter);
-            List<PermissionTreeNodeBean> servers = new ArrayList<>();
-            if (mData == null || mData.size() == 0
-                    || mData.get(0).getData() == null
-                    || mData.get(0).getData().size() == 0) {
-                showEmptyView(true);
-                return;
-            }
-            for (PermissionTreeNodeBean providers : mData) {
-                for (PermissionTreeNodeBean areas : providers.getData()) {
-                    servers.addAll(areas.getData());
-                }
-            }
-            if (isView && mSelectData != null && mSelectData.getId() != 0) {
-                servers = filterDataForSelect(mType, servers);
-            }
-            if (!isView && mSelectData != null) {
-                mPermissionServerAdapter.setSelectPos(setSelectData(mType, servers));
-            }
-            mPermissionServerAdapter.setDatas(servers);
+            mPermissionServerAdapter.setDatas(datas);
         }
     }
 
@@ -120,32 +107,23 @@ public class PermissionTreeFilterItemPager extends BasePager {
 
     private List<Integer> setSelectData(String type, List<PermissionTreeNodeBean> originalData) {
         List<Integer> newData = new ArrayList<>();
+        String selectStr = "";
         if ("文件仓库".equals(type)) {
-            String accessFilehub = mSelectData.getAccess_filehub();
-            String[] split = accessFilehub.split(",");
-            List<String> selects = Arrays.asList(split);
-            for (PermissionTreeNodeBean originalDatum : originalData) {
-                if (selects.contains(originalDatum.getId() + "")) {
-                    newData.add(originalDatum.getId());
-                }
-            }
+            selectStr = mSelectData.getAccess_filehub();
         } else if ("项目管理".equals(type)) {
-            String accessFilehub = mSelectData.getAccess_projects();
-            String[] split = accessFilehub.split(",");
-            List<String> selects = Arrays.asList(split);
-            for (PermissionTreeNodeBean originalDatum : originalData) {
-                if (selects.contains(originalDatum.getId() + "")) {
-                    newData.add(originalDatum.getId());
-                }
-            }
+            selectStr = mSelectData.getAccess_projects();
         } else if ("云服务器".equals(type)) {
-            String accessFilehub = mSelectData.getAccess_servers();
-            String[] split = accessFilehub.split(",");
-            List<String> selects = Arrays.asList(split);
-            for (PermissionTreeNodeBean originalDatum : originalData) {
-                if (selects.contains(originalDatum.getSid() + "")) {
-                    newData.add(originalDatum.getSid());
-                }
+            selectStr = mSelectData.getAccess_servers();
+        }
+        if (TextUtils.isEmpty(selectStr)) {
+            return newData;
+        }
+        String[] split = selectStr.split(",");
+        List<String> selects = Arrays.asList(split);
+        for (PermissionTreeNodeBean originalDatum : originalData) {
+            int id = ("云服务器".equals(type) ? originalDatum.getSid() : originalDatum.getId());
+            if (selects.contains(id + "")) {
+                newData.add(id);
             }
         }
         return newData;
@@ -158,32 +136,23 @@ public class PermissionTreeFilterItemPager extends BasePager {
      */
     private List<PermissionTreeNodeBean> filterDataForSelect(String type, List<PermissionTreeNodeBean> originalData) {
         List<PermissionTreeNodeBean> newData = new ArrayList<>();
+        String selectStr = "";
         if ("文件仓库".equals(type)) {
-            String accessFilehub = mSelectData.getAccess_filehub();
-            String[] split = accessFilehub.split(",");
-            List<String> selects = Arrays.asList(split);
-            for (PermissionTreeNodeBean originalDatum : originalData) {
-                if (selects.contains(originalDatum.getId() + "")) {
-                    newData.add(originalDatum);
-                }
-            }
+            selectStr = mSelectData.getAccess_filehub();
         } else if ("项目管理".equals(type)) {
-            String accessFilehub = mSelectData.getAccess_projects();
-            String[] split = accessFilehub.split(",");
-            List<String> selects = Arrays.asList(split);
-            for (PermissionTreeNodeBean originalDatum : originalData) {
-                if (selects.contains(originalDatum.getId() + "")) {
-                    newData.add(originalDatum);
-                }
-            }
+            selectStr = mSelectData.getAccess_projects();
         } else if ("云服务器".equals(type)) {
-            String accessFilehub = mSelectData.getAccess_servers();
-            String[] split = accessFilehub.split(",");
-            List<String> selects = Arrays.asList(split);
-            for (PermissionTreeNodeBean originalDatum : originalData) {
-                if (selects.contains(originalDatum.getSid() + "")) {
-                    newData.add(originalDatum);
-                }
+            selectStr = mSelectData.getAccess_servers();
+        }
+        if (TextUtils.isEmpty(selectStr)) {
+            return newData;
+        }
+        String[] split = selectStr.split(",");
+        List<String> selects = Arrays.asList(split);
+        for (PermissionTreeNodeBean originalDatum : originalData) {
+            int id = ("云服务器".equals(type) ? originalDatum.getSid() : originalDatum.getId());
+            if (selects.contains(id + "")) {
+                newData.add(originalDatum);
             }
         }
         return newData;
@@ -261,22 +230,23 @@ public class PermissionTreeFilterItemPager extends BasePager {
      */
     public Map<String, String> getSelectNode() {
         Map<String, String> map = new HashMap<>();
+        List<Integer> selectPos;
         if ("文件仓库".equals(mType)) {
-            List<Integer> selectPos = mPermissionOtherAdapter.getSelectPos();
+            selectPos = mPermissionOtherAdapter.getSelectPos();
             String[] selects = new String[selectPos.size()];
             for (int i = 0; i < selectPos.size(); i++) {
                 selects[i] = selectPos.get(i) + "";
             }
             map.put("access_filehub", StringUtils.join(selects, ","));
         } else if ("项目管理".equals(mType)) {
-            List<Integer> selectPos = mPermissionOtherAdapter.getSelectPos();
+            selectPos = mPermissionOtherAdapter.getSelectPos();
             String[] selects = new String[selectPos.size()];
             for (int i = 0; i < selectPos.size(); i++) {
                 selects[i] = selectPos.get(i) + "";
             }
             map.put("access_projects", StringUtils.join(selects, ","));
         } else if ("云服务器".equals(mType)) {
-            List<Integer> selectPos = mPermissionServerAdapter.getSelectPos();
+            selectPos = mPermissionServerAdapter.getSelectPos();
             String[] selects = new String[selectPos.size()];
             for (int i = 0; i < selectPos.size(); i++) {
                 selects[i] = selectPos.get(i) + "";

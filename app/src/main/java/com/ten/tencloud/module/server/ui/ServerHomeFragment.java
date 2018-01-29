@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.headerfooter.songhang.library.SmartRecyclerAdapter;
 import com.ten.tencloud.R;
@@ -18,6 +19,7 @@ import com.ten.tencloud.bean.ServerBean;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
 import com.ten.tencloud.module.server.presenter.ServerHomePresenter;
+import com.ten.tencloud.utils.Utils;
 
 import java.util.List;
 
@@ -34,9 +36,12 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     RecyclerView mXrvServer;
     @BindView(R.id.empty_view)
     View mEmptyView;
+    @BindView(R.id.tv_add_server)
+    TextView mTvAddServer;
 
     private RvServerAdapter mAdapter;
     private ServerHomePresenter mPresenter;
+    private boolean mPermissionAddServer;
 
     @Nullable
     @Override
@@ -83,6 +88,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mPresenter = new ServerHomePresenter();
         mPresenter.attachView(this);
         mPresenter.getWarnServerList(1);
+        mPermissionAddServer = Utils.hasPermission("添加主机");
+        mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
     }
 
     @OnClick({R.id.tv_add_server})

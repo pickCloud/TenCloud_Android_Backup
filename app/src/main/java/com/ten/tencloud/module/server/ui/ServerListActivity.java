@@ -20,6 +20,7 @@ import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.contract.ServerListContract;
 import com.ten.tencloud.module.server.presenter.ServerListPresenter;
+import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.widget.dialog.ServerFilterDialog;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
     EditText mEtSearch;
     @BindView(R.id.empty_view)
     View mEmptyView;
+    @BindView(R.id.tv_add_server)
+    TextView mTvAddServer;
 
     private ServerListPresenter mPresenter;
     private RvServerAdapter mServerAdapter;
@@ -44,21 +47,29 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
 
     private List<ProviderBean> providers;
     private Map<String, Map<String, Boolean>> select;
+    private boolean mPermissionAddServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_list);
-        initTitleBar(true, "服务器列表", R.menu.menu_add_server, new OnMenuItemClickListener() {
-            @Override
-            public void onItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_add_server:
-                        startActivityNoValue(mContext, ServerAddActivity.class);
-                        break;
+
+        mPermissionAddServer = Utils.hasPermission("添加主机");
+
+        if (mPermissionAddServer) {
+            initTitleBar(true, "服务器列表", R.menu.menu_add_server, new OnMenuItemClickListener() {
+                @Override
+                public void onItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu_add_server:
+                            startActivityNoValue(mContext, ServerAddActivity.class);
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            initTitleBar(true, "服务器列表");
+        }
         initView();
         mPresenter = new ServerListPresenter();
         mPresenter.attachView(this);
@@ -66,7 +77,7 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
         mPresenter.getServerList(1);
     }
 
-    @OnClick({R.id.tv_refresh, R.id.tv_filter})
+    @OnClick({R.id.tv_refresh, R.id.tv_filter, R.id.tv_add_server})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_refresh:
@@ -75,10 +86,15 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
             case R.id.tv_filter:
                 mServerFilterDialog.show();
                 break;
+            case R.id.tv_add_server:
+                startActivityNoValue(this, ServerAddActivity.class);
+                break;
         }
     }
 
     private void initView() {
+
+        mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
         mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

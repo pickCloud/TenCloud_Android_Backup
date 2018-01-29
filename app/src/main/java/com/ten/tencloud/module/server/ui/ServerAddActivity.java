@@ -50,6 +50,11 @@ public class ServerAddActivity extends BaseActivity {
             public void onFailure(String message) {
                 showMessage(message);
             }
+
+            @Override
+            public void onMessage(String text) {
+                showMessage(text);
+            }
         });
         mServerAddModel.connect();
     }

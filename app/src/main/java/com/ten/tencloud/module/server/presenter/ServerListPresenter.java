@@ -24,7 +24,11 @@ public class ServerListPresenter extends BasePresenter<ServerListContract.View>
             @Override
             public void _onSuccess(List<ServerBean> serverBeans) {
                 GlobalStatusManager.getInstance().setServerListNeedRefresh(false);
-                mView.showServerList(serverBeans);
+                if (serverBeans == null || serverBeans.size() == 0) {
+                    mView.showEmpty();
+                } else {
+                    mView.showServerList(serverBeans);
+                }
             }
         }));
     }

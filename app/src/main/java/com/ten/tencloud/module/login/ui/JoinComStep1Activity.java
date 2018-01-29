@@ -29,8 +29,6 @@ import butterknife.OnClick;
 public class JoinComStep1Activity extends BaseActivity
         implements JoinCom1Contract.View, LoginCaptchaContract.View, LoginContract.View {
 
-    @BindView(R.id.tv_company_contact)
-    TextView mTvCompanyContact;
     @BindView(R.id.tv_company_name)
     TextView mTvCompanyName;
     @BindView(R.id.ll_info)
@@ -60,7 +58,7 @@ public class JoinComStep1Activity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_join_com_step1);
-        initTitleBar(false, "邀请加入");
+        initTitleBar(false, "邀请员工");
 
         GlobalStatusManager.getInstance().registerTask(this);
 
@@ -107,7 +105,6 @@ public class JoinComStep1Activity extends BaseActivity
             mBtnOk.setEnabled(false);
             return;
         }
-        mTvCompanyContact.setText(bean.getContact());
         mTvCompanyName.setText(bean.getCompany_name());
         mSetting = bean.getSetting();
     }

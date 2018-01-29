@@ -43,12 +43,6 @@ import butterknife.OnClick;
 
 public class ServerDetailMonitorPager extends BasePager implements ServerMonitorContract.View {
 
-    //    @BindView(R.id.ll_cycle)
-//    LinearLayout mLLCycle;
-//    @BindView(R.id.iv_option)
-//    ImageView mIvOption;
-//    @BindView(R.id.tv_cycle)
-//    TextView mTvCycle;
     @BindView(R.id.spv_cycle)
     StatusSelectPopView mSpvCycle;
     @BindView(R.id.lc_cpu)
@@ -67,18 +61,6 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
 
     private Integer[] mCycleData = {STATE_HOUR, STATE_DAY, STATE_WEEK, STATE_MONTH};
 
-
-    //    private PopupWindow mPopupWindow;
-//    private TextView mTvOneDay;
-//    private ImageView mIvDay;
-//    private ImageView mIvHour;
-//    private ImageView mIvWeek;
-//    private ImageView mIvMonth;
-//    private TextView mTvOneHour;
-//    private TextView mTvOneWeek;
-//    private TextView mTvOneMonth;
-//    private TextView[] mTvCycleArray;
-//    private ImageView[] mIvCycleArray;
     private ServerMonitorPresenter mServerMonitorPresenter;
     private String mId;
     private String mServerName;
@@ -131,11 +113,6 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
         mLcMemory.setScaleEnabled(false);
         mLcDisk.setScaleEnabled(false);
         mLcNet.setScaleEnabled(false);
-
-//        mLcCpu.setDrawMarkers(false);
-//        mLcMemory.setDrawMarkers(false);
-//        mLcDisk.setDrawMarkers(false);
-//        mLcNet.setDrawMarkers(false);
 
         Description description = new Description();
         description.setText("");
@@ -315,54 +292,40 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
         for (int i = 0; i < infoBeans.size(); i++) {
             values.add(new Entry(i, Float.valueOf(infoBeans.get(i).getPercent())));
             xValues.add(DateUtils.timestampToString(Long.valueOf(infoBeans.get(i).getCreated_time()), format));
-            if (i > 6) {
-                break;
-            }
         }
-        lineChart.getXAxis().setLabelCount(7, true);
         lineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 return xValues.get((int) value);
             }
         });
-        LineDataSet set1;
-
-        if (lineChart.getData() != null &&
-                lineChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            lineChart.getData().notifyDataChanged();
-            lineChart.notifyDataSetChanged();
+        LineDataSet set1 = new LineDataSet(values, "");
+        set1.setDrawIcons(false);
+        set1.setColor(getResources().getColor(color));
+        set1.setHighlightEnabled(false);
+        set1.setLineWidth(1f);
+        set1.setCircleColor(getResources().getColor(color));
+        set1.setCircleRadius(3f);
+        set1.setDrawCircleHole(true);//空心
+        set1.setCircleHoleRadius(1f);
+        set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        set1.setCubicIntensity(0.6f);
+        set1.setValueTextSize(9f);
+        set1.setDrawValues(false);
+        set1.setDrawFilled(true);
+        set1.setFormLineWidth(5f);
+        set1.setFormSize(15.f);
+        //填充色
+        if (Utils.getSDKInt() >= 18) {
+            Drawable drawable = ContextCompat.getDrawable(mContext, fillDrawable);
+            set1.setFillDrawable(drawable);
         } else {
-            set1 = new LineDataSet(values, "");
-            set1.setDrawIcons(false);
-            set1.setColor(getResources().getColor(color));
-            set1.setHighlightEnabled(false);
-            set1.setLineWidth(1f);
-            set1.setCircleColor(getResources().getColor(color));
-            set1.setCircleRadius(3f);
-            set1.setDrawCircleHole(true);//空心
-            set1.setCircleHoleRadius(1f);
-            set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-            set1.setCubicIntensity(0.6f);
-            set1.setValueTextSize(9f);
-            set1.setDrawValues(false);
-            set1.setDrawFilled(true);
-            set1.setFormLineWidth(5f);
-            set1.setFormSize(15.f);
-            //填充色
-            if (Utils.getSDKInt() >= 18) {
-                Drawable drawable = ContextCompat.getDrawable(mContext, fillDrawable);
-                set1.setFillDrawable(drawable);
-            } else {
-                set1.setFillColor(Color.TRANSPARENT);
-            }
-            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1);
-            LineData data = new LineData(dataSets);
-            lineChart.setData(data);
+            set1.setFillColor(Color.TRANSPARENT);
         }
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+        LineData data = new LineData(dataSets);
+        lineChart.setData(data);
         lineChart.invalidate();
     }
 
