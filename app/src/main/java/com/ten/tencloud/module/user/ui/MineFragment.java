@@ -19,8 +19,10 @@ import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.broadcast.RefreshBroadCastHander;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvSwitchAdapter;
 import com.ten.tencloud.module.user.contract.UserHomeContract;
@@ -98,6 +100,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     private boolean mIsPermissionAddTemplate;
     private boolean mIsPermissionChangeTemplate;
     private boolean mIsPermissionDelTemplate;
+    private RefreshBroadCastHander mPermissionRefreshBroadCastHander;
+    private RefreshBroadCastHander mSwitchCompanyRefreshBroadCastHander;
 
     @Nullable
     @Override
@@ -112,6 +116,14 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         mUserInfoPresenter = new UserInfoPresenter();
         mUserInfoPresenter.attachView(this);
 
+        mPermissionRefreshBroadCastHander = new RefreshBroadCastHander(mActivity, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
+        mPermissionRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initView();
+            }
+        });
+        mSwitchCompanyRefreshBroadCastHander = new RefreshBroadCastHander(mActivity, RefreshBroadCastHander.SWITCH_COMPANY_REFRESH_ACTION);
         mUserInfo = AppBaseCache.getInstance().getUserInfo();
         cid = AppBaseCache.getInstance().getCid();
         mSelectCompany = AppBaseCache.getInstance().getSelectCompanyWithLogin();
@@ -156,6 +168,10 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
                 cid = company.getCid();
                 mSelectCompany = company;
                 AppBaseCache.getInstance().setCid(cid);
+                if (cid == 0) {
+                    AppBaseCache.getInstance().setUserPermission("");
+                    mPermissionRefreshBroadCastHander.sendBroadCast();
+                }
                 AppBaseCache.getInstance().saveSelectCompanyWithLogin(company);
                 mPopupWindow.dismiss();
                 initView();
@@ -303,7 +319,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
 
     @Override
     public void showPermissionSuccess() {
-
+        mSwitchCompanyRefreshBroadCastHander.sendBroadCast();
     }
 
     @Override
@@ -315,5 +331,15 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
             mSelectCompany = null;//cid为新创建的公司
             initView();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPermissionRefreshBroadCastHander.unregisterReceiver();
+        mPermissionRefreshBroadCastHander = null;
+        mSwitchCompanyRefreshBroadCastHander = null;
+        mUserHomePresenter.detachView();
+        mUserInfoPresenter.detachView();
     }
 }

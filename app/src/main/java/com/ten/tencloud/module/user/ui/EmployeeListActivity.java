@@ -20,8 +20,10 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHander;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvEmployeeAdapter;
 import com.ten.tencloud.module.user.contract.EmployeeListContract;
@@ -58,12 +60,29 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
             EmployeesModel.STATUS_EMPLOYEE_SEARCH_CREATE};
     private PopupWindow mMenuPopupWindow;
     private int status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL;
+    private RefreshBroadCastHander mRefreshBroadCastHander;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_employee_list);
+        mRefreshBroadCastHander = new RefreshBroadCastHander(this, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initPermission();
+            }
+        });
         initPermission();
+        initView();
+    }
+
+    /**
+     * 初始化权限控制
+     */
+    private void initPermission() {
+        mIsPermissionInvite = Utils.hasPermission("邀请新员工");
+        mIsAdmin = AppBaseCache.getInstance().getSelectCompanyWithLogin().getIs_admin() != 0;
         if (!mIsPermissionInvite && !mIsAdmin) {
             initTitleBar(true, "员工列表");
         } else {
@@ -76,15 +95,6 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
                 }
             });
         }
-        initView();
-    }
-
-    /**
-     * 初始化权限控制
-     */
-    private void initPermission() {
-        mIsPermissionInvite = Utils.hasPermission("邀请新员工");
-        mIsAdmin = AppBaseCache.getInstance().getSelectCompanyWithLogin().getIs_admin() != 0;
     }
 
     /**
@@ -206,5 +216,13 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     public void showEmpty() {
         mAdapter.clear();
         showMessage("暂无数据");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRefreshBroadCastHander.unregisterReceiver();
+        mRefreshBroadCastHander = null;
+        mEmployeesListPresenter.detachView();
     }
 }

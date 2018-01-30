@@ -12,8 +12,10 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.broadcast.RefreshBroadCastHander;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.module.user.contract.EmployeeInfoContract;
@@ -67,6 +69,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
 
     private EmployeeBean mEmployeeInfo;
     private EmployeesInfoPresenter mEmployeesInfoPresenter;
+    private RefreshBroadCastHander mRefreshBroadCastHander;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,13 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mEmployeeInfo = getIntent().getParcelableExtra("obj");
         mEmployeesInfoPresenter = new EmployeesInfoPresenter();
         mEmployeesInfoPresenter.attachView(this);
+        mRefreshBroadCastHander = new RefreshBroadCastHander(this, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initView();
+            }
+        });
         initView();
         // TODO: 2018/1/12  切换管理员后需要刷新员工信息
     }
@@ -244,5 +254,13 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mBtnReject.setVisibility(View.GONE);
         mTvStatus.setText("审核不通过");
         mTvStatus.setEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRefreshBroadCastHander.unregisterReceiver();
+        mRefreshBroadCastHander = null;
+        mEmployeesInfoPresenter.detachView();
     }
 }

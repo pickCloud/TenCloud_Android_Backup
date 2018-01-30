@@ -92,10 +92,16 @@ public class PermissionTreeFilterItemPager extends BasePager {
         if ("文件仓库".equals(mType) || "项目管理".equals(mType)) {
             mPermissionOtherAdapter = new RvTreeFilterItemOtherAdapter(mContext, isView);
             mRvData.setAdapter(mPermissionOtherAdapter);
+            if (!isView && mSelectData != null) {
+                mPermissionOtherAdapter.setSelectPos(setSelectData(mType, datas));
+            }
             mPermissionOtherAdapter.setDatas(datas);
         } else if (("云服务器".equals(mType))) {
             mPermissionServerAdapter = new RvTreeFilterItemServerAdapter(mContext, isView);
             mRvData.setAdapter(mPermissionServerAdapter);
+            if (!isView && mSelectData != null) {
+                mPermissionServerAdapter.setSelectPos(setSelectData(mType, datas));
+            }
             mPermissionServerAdapter.setDatas(datas);
         }
     }

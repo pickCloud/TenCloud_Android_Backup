@@ -143,6 +143,10 @@ public class Utils {
      * @return
      */
     public static boolean hasPermission(String permission) {
+        //个人状态默认拥有所有权限
+        if (AppBaseCache.getInstance().getCid() == 0) {
+            return true;
+        }
         CompanyBean companyWithLogin = AppBaseCache.getInstance().getSelectCompanyWithLogin();
         if (companyWithLogin != null) {
             int isAdmin = companyWithLogin.getIs_admin();
@@ -170,8 +174,8 @@ public class Utils {
     /**
      * 打电话
      */
-    public static void callPhone(Context context,String phone){
-        Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+phone));
+    public static void callPhone(Context context, String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

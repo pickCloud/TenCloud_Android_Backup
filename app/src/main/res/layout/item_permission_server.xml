@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:button="@null"
+                    android:clickable="false"
                     android:drawableLeft="@drawable/selector_check_permission" />
 
                 <TextView

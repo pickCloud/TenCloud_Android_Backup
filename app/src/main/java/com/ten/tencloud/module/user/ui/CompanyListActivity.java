@@ -44,7 +44,7 @@ public class CompanyListActivity extends BaseActivity implements CompanyListCont
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_company_list);
-        initTitleBar(true, "我的企业", R.menu.menu_add, new OnMenuItemClickListener() {
+        initTitleBar(true, "我的公司", R.menu.menu_add, new OnMenuItemClickListener() {
             @Override
             public void onItemClick(MenuItem item) {
                 switch (item.getItemId()) {

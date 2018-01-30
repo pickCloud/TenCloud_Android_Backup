@@ -10,9 +10,15 @@ import com.ten.tencloud.base.view.IBaseView;
 public class MainContract {
     public interface View extends IBaseView {
         void showMsgCount(String count);
+
+        void updatePermission();
+
+        void updatePermissionSuccess();
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
         void getMsgCount();
+
+        void getPermission(final int cid);
     }
 }

@@ -194,14 +194,13 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
             recvValues.add(new Entry(i, Float.valueOf(netInfo.get(i).getInput())));
             sendValues.add(new Entry(i, Float.valueOf(netInfo.get(i).getOutput())));
             xValues.add(DateUtils.timestampToString(Long.valueOf(netInfo.get(i).getCreated_time()), format));
-            if (i > 6) {
-                break;
-            }
         }
-        mLcNet.getXAxis().setLabelCount(7, true);
         mLcNet.getXAxis().setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
+                if (((int) value) > xValues.size() - 1) {
+                    return "";
+                }
                 return xValues.get((int) value);
             }
         });
@@ -296,36 +295,48 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
         lineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
+                if (((int) value) > xValues.size() - 1) {
+                    return "";
+                }
                 return xValues.get((int) value);
             }
         });
-        LineDataSet set1 = new LineDataSet(values, "");
-        set1.setDrawIcons(false);
-        set1.setColor(getResources().getColor(color));
-        set1.setHighlightEnabled(false);
-        set1.setLineWidth(1f);
-        set1.setCircleColor(getResources().getColor(color));
-        set1.setCircleRadius(3f);
-        set1.setDrawCircleHole(true);//空心
-        set1.setCircleHoleRadius(1f);
-        set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-        set1.setCubicIntensity(0.6f);
-        set1.setValueTextSize(9f);
-        set1.setDrawValues(false);
-        set1.setDrawFilled(true);
-        set1.setFormLineWidth(5f);
-        set1.setFormSize(15.f);
-        //填充色
-        if (Utils.getSDKInt() >= 18) {
-            Drawable drawable = ContextCompat.getDrawable(mContext, fillDrawable);
-            set1.setFillDrawable(drawable);
-        } else {
-            set1.setFillColor(Color.TRANSPARENT);
+        LineDataSet set1;
+        if (lineChart.getData() != null &&
+                lineChart.getData().getDataSetCount() > 1) {
+            set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
+            set1.setValues(values);
+            lineChart.getData().notifyDataChanged();
+            lineChart.notifyDataSetChanged();
+        }else {
+            set1 = new LineDataSet(values, "");
+            set1.setDrawIcons(false);
+            set1.setColor(getResources().getColor(color));
+            set1.setHighlightEnabled(false);
+            set1.setLineWidth(1f);
+            set1.setCircleColor(getResources().getColor(color));
+            set1.setCircleRadius(3f);
+            set1.setDrawCircleHole(true);//空心
+            set1.setCircleHoleRadius(1f);
+            set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+            set1.setCubicIntensity(0.6f);
+            set1.setValueTextSize(9f);
+            set1.setDrawValues(false);
+            set1.setDrawFilled(true);
+            set1.setFormLineWidth(5f);
+            set1.setFormSize(15.f);
+            //填充色
+            if (Utils.getSDKInt() >= 18) {
+                Drawable drawable = ContextCompat.getDrawable(mContext, fillDrawable);
+                set1.setFillDrawable(drawable);
+            } else {
+                set1.setFillColor(Color.TRANSPARENT);
+            }
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+            LineData data = new LineData(dataSets);
+            lineChart.setData(data);
         }
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-        LineData data = new LineData(dataSets);
-        lineChart.setData(data);
         lineChart.invalidate();
     }
 

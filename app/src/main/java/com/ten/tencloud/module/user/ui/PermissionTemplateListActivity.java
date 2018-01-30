@@ -14,8 +14,10 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.PermissionTemplateBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHander;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.user.adapter.RvTemplateAdapter;
 import com.ten.tencloud.module.user.contract.PermissionTemplatesContract;
 import com.ten.tencloud.module.user.presenter.PermissionTemplatesPresenter;
@@ -39,12 +41,31 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
     private DelPopupWindow mDelPopupWindow;
 
     private PermissionTemplateBean delTempBean;
+    private RefreshBroadCastHander mRefreshBroadCastHander;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_permission_template_list);
+        mCid = getIntent().getIntExtra("cid", 0);
+        mTemplatesPresenter = new PermissionTemplatesPresenter();
+        mTemplatesPresenter.attachView(this);
+        mRefreshBroadCastHander = new RefreshBroadCastHander(this, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initPermission();
+            }
+        });
         initPermission();
+
+        initView();
+    }
+
+    private void initPermission() {
+        mIsPermissionAdd = Utils.hasPermission("新增权限模版");
+        mIsPermissionChange = Utils.hasPermission("修改权限模版");
+        mIsPermissionDel = Utils.hasPermission("删除权限模版");
         if (mIsPermissionAdd) {
             initTitleBar(true, "权限模版管理", R.menu.menu_add_template, new OnMenuItemClickListener() {
                 @Override
@@ -58,16 +79,6 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
         } else {
             initTitleBar(true, "权限模版管理");
         }
-        mCid = getIntent().getIntExtra("cid", 0);
-        mTemplatesPresenter = new PermissionTemplatesPresenter();
-        mTemplatesPresenter.attachView(this);
-        initView();
-    }
-
-    private void initPermission() {
-        mIsPermissionAdd = Utils.hasPermission("新增权限模版");
-        mIsPermissionChange = Utils.hasPermission("修改权限模版");
-        mIsPermissionDel = Utils.hasPermission("删除权限模版");
     }
 
     private void initView() {
@@ -152,5 +163,13 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
         if (GlobalStatusManager.getInstance().isTemplateNeedRefresh()) {
             mTemplatesPresenter.getTemplatesByCid(mCid);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRefreshBroadCastHander.unregisterReceiver();
+        mRefreshBroadCastHander = null;
+        mTemplatesPresenter.detachView();
     }
 }

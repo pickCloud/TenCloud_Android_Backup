@@ -16,6 +16,8 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.ServerBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHander;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
 import com.ten.tencloud.module.server.presenter.ServerHomePresenter;
@@ -43,6 +45,9 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     private ServerHomePresenter mPresenter;
     private boolean mPermissionAddServer;
 
+    private RefreshBroadCastHander mPermissionRefreshBroadCastHander;
+    private RefreshBroadCastHander mSwitchCompanyRefreshBroadCastHander;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +56,18 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        OnRefreshListener onRefreshListener = new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initView();
+            }
+        };
+        mPermissionRefreshBroadCastHander = new RefreshBroadCastHander(mActivity, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
+        mPermissionRefreshBroadCastHander.registerReceiver(onRefreshListener);
+        mSwitchCompanyRefreshBroadCastHander = new RefreshBroadCastHander(mActivity, RefreshBroadCastHander.SWITCH_COMPANY_REFRESH_ACTION);
+        mSwitchCompanyRefreshBroadCastHander.registerReceiver(onRefreshListener);
+
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View header = inflater.inflate(R.layout.header_server_main, null);
         header.findViewById(R.id.tv_more).setOnClickListener(new View.OnClickListener() {
@@ -87,6 +104,10 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mXrvServer.setAdapter(smartRecyclerAdapter);
         mPresenter = new ServerHomePresenter();
         mPresenter.attachView(this);
+        initView();
+    }
+
+    private void initView() {
         mPresenter.getWarnServerList(1);
         mPermissionAddServer = Utils.hasPermission("添加主机");
         mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
@@ -110,5 +131,16 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @Override
     public void showEmptyView() {
         mEmptyView.setVisibility(View.VISIBLE);
+        mAdapter.clear();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPermissionRefreshBroadCastHander.unregisterReceiver();
+        mPermissionRefreshBroadCastHander = null;
+        mSwitchCompanyRefreshBroadCastHander.unregisterReceiver();
+        mSwitchCompanyRefreshBroadCastHander = null;
+        mPresenter.detachView();
     }
 }

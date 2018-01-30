@@ -121,7 +121,11 @@ public class MsgActivity extends BaseActivity implements MsgContract.View {
                 String[] tips = tip.split(":");
                 String cid = tips[0];
                 //判断是否还在改公司里
-                mMsgPresenter.checkCompany(Integer.parseInt(cid));
+                if (subMode != 1) {
+                    mMsgPresenter.checkCompany(Integer.parseInt(cid));
+                } else {
+                    handClickByMode(subMode, tip);
+                }
             }
         });
         mRvMsg.setAdapter(mMsgAdapter);

@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.ServerDetailBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHander;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.contract.ServerDetailContract;
 import com.ten.tencloud.module.server.contract.ServerOperationContract;
 import com.ten.tencloud.module.server.presenter.ServerDetailPresenter;
@@ -79,9 +81,10 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     private boolean isQuerying = false;
     private String mInstanceId;
     private Subscription mAnimSubscribe;
-    private final boolean mPermissionDelServer;
-    private final boolean mPermissionStartServer;
-    private final boolean mPermissionChangeServer;
+    private  boolean mPermissionDelServer;
+    private  boolean mPermissionStartServer;
+    private  boolean mPermissionChangeServer;
+    private final RefreshBroadCastHander mRefreshBroadCastHander;
 
     public ServerDetailBasicPager(Context context) {
         super(context);
@@ -89,10 +92,6 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         mServerOperationPresenter = new ServerOperationPresenter();
         mServerDetailPresenter.attachView(this);
         mServerOperationPresenter.attachView(this);
-
-        mPermissionDelServer = Utils.hasPermission("删除主机");
-        mPermissionStartServer = Utils.hasPermission("开机关机");
-        mPermissionChangeServer = Utils.hasPermission("修改主机信息");
 
         mDialog = new AlertDialog.Builder(mContext)
                 .setNegativeButton("取消", null)
@@ -115,6 +114,23 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                         }
                     }
                 }).create();
+
+        mRefreshBroadCastHander = new RefreshBroadCastHander(mContext, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initPermission();
+                mServerDetailPresenter.getServerDetail(mId);
+            }
+        });
+
+        initPermission();
+    }
+
+    private void initPermission(){
+        mPermissionDelServer = Utils.hasPermission("删除主机");
+        mPermissionStartServer = Utils.hasPermission("开机关机");
+        mPermissionChangeServer = Utils.hasPermission("修改主机信息");
     }
 
 

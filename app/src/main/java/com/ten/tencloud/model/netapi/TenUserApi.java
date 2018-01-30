@@ -147,4 +147,7 @@ public interface TenUserApi {
      */
     @POST("/api/company/application/reject")
     Observable<Response<JesResponse<Object>>> rejectApplication(@Body RequestBody body);
+
+    @GET("/api/company/employee/status")
+    Observable<Response<JesResponse<Map<String, Integer>>>> getEmployeeStatus();
 }
