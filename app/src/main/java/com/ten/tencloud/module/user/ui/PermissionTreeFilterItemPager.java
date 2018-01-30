@@ -232,26 +232,39 @@ public class PermissionTreeFilterItemPager extends BasePager {
         Map<String, String> map = new HashMap<>();
         List<Integer> selectPos;
         if ("文件仓库".equals(mType)) {
-            selectPos = mPermissionOtherAdapter.getSelectPos();
-            String[] selects = new String[selectPos.size()];
-            for (int i = 0; i < selectPos.size(); i++) {
-                selects[i] = selectPos.get(i) + "";
+            if (mPermissionOtherAdapter == null) {
+                map.put("access_filehub", "");
+            } else {
+                selectPos = mPermissionOtherAdapter.getSelectPos();
+                String[] selects = new String[selectPos.size()];
+                for (int i = 0; i < selectPos.size(); i++) {
+                    selects[i] = selectPos.get(i) + "";
+                }
+                map.put("access_filehub", StringUtils.join(selects, ","));
             }
-            map.put("access_filehub", StringUtils.join(selects, ","));
+
         } else if ("项目管理".equals(mType)) {
-            selectPos = mPermissionOtherAdapter.getSelectPos();
-            String[] selects = new String[selectPos.size()];
-            for (int i = 0; i < selectPos.size(); i++) {
-                selects[i] = selectPos.get(i) + "";
+            if (mPermissionOtherAdapter == null) {
+                map.put("access_projects", "");
+            } else {
+                selectPos = mPermissionOtherAdapter.getSelectPos();
+                String[] selects = new String[selectPos.size()];
+                for (int i = 0; i < selectPos.size(); i++) {
+                    selects[i] = selectPos.get(i) + "";
+                }
+                map.put("access_projects", StringUtils.join(selects, ","));
             }
-            map.put("access_projects", StringUtils.join(selects, ","));
         } else if ("云服务器".equals(mType)) {
-            selectPos = mPermissionServerAdapter.getSelectPos();
-            String[] selects = new String[selectPos.size()];
-            for (int i = 0; i < selectPos.size(); i++) {
-                selects[i] = selectPos.get(i) + "";
+            if (mPermissionServerAdapter == null) {
+                map.put("access_servers", "");
+            } else {
+                selectPos = mPermissionServerAdapter.getSelectPos();
+                String[] selects = new String[selectPos.size()];
+                for (int i = 0; i < selectPos.size(); i++) {
+                    selects[i] = selectPos.get(i) + "";
+                }
+                map.put("access_servers", StringUtils.join(selects, ","));
             }
-            map.put("access_servers", StringUtils.join(selects, ","));
         }
         return map;
     }
