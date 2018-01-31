@@ -191,8 +191,8 @@ public class ServerModel {
      */
     public Observable<Object> delServer(String id) {
         Map<String, Object> map = new HashMap<>();
-        List<String> ids = new ArrayList<>();
-        ids.add(id);
+        List<Integer> ids = new ArrayList<>();
+        ids.add(Integer.parseInt(id));
         map.put("id", ids);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
         return TenApp.getRetrofitClient().getTenServerApi()

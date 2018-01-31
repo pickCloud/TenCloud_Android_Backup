@@ -16,6 +16,8 @@ public class JoinCom1Contract {
         void loginSuccess();
 
         void joinWaiting();
+
+        void showEmployeeStatus(int status);
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
@@ -23,6 +25,8 @@ public class JoinCom1Contract {
         void getJoinInitialize(String code);
 
         void joinWaiting(String code);
+
+        void getEmployeeStatus();
 
     }
 }

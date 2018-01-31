@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:background="@mipmap/share_top_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_company_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_warning01"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邀请你加入企业"
+                android:textColor="@color/text_color_899ab6"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="4dp"
+            android:text="请你先完善以下资料"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="12sp"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="手机" />
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    style="@style/ListItemEditValue"
+                    android:hint="请输入手机号码"
+                    android:inputType="phone" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="验证码" />
+
+                <EditText
+                    android:id="@+id/et_code"
+                    style="@style/ListItemEditValue"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:hint="验证码"
+                    android:inputType="number"
+                    android:maxLength="6" />
+
+                <Button
+                    android:id="@+id/btn_send_code"
+                    android:layout_width="73dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/selector_login_code"
+                    android:text="发送验证码"
+                    android:textColor="@color/select_login_code"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/BtnLoginStepNext"
+        android:onClick="btnOk"
+        android:text="接受邀请" />
+
+    <TextView
+        style="@style/BottomCompanyText"
+        android:text="@string/sqsm" />
+
+</LinearLayout>

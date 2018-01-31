@@ -46,7 +46,7 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                     @Override
                     public void _onSuccess(List<CompanyBean> companyBean) {
                         if (companyBean != null && companyBean.size() > 0) {
-                            mView. showCompanyInfo(companyBean.get(0));
+                            mView.showCompanyInfo(companyBean.get(0));
                         }
                     }
 
@@ -71,6 +71,9 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
     @Override
     public void getPermission(final int cid) {
         AppBaseCache.getInstance().setUserPermission("");//清空
+        if (cid == 0) {
+            return;
+        }
         User userInfo = AppBaseCache.getInstance().getUserInfo();
         if (userInfo == null) {
             TenApp.getInstance().jumpLoginActivity();
@@ -87,9 +90,11 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        getPermission(cid);
+                    public void _onError(JesException e) {
+                        super._onError(e);
+                        if (e.getCode() != 10003) {//非公司员工
+                            getPermission(cid);
+                        }
                     }
                 }));
     }

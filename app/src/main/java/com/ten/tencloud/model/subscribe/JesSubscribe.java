@@ -39,17 +39,23 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
     }
 
     public void _onStart() {
-        mView.showLoading();
+        if (mView != null) {
+            mView.showLoading();
+        }
     }
 
     @Override
     public void onCompleted() {
-        mView.hideLoading();
+        if (mView != null) {
+            mView.hideLoading();
+        }
     }
 
     @Override
     public void onError(Throwable e) {
-        mView.hideLoading();
+        if (mView != null) {
+            mView.hideLoading();
+        }
         e.printStackTrace();
         JesException exception;
         if (e instanceof SocketTimeoutException) {
@@ -68,7 +74,9 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
     private void handleJesException(JesException exception) {
         switch (exception.getCode()) {
             case Constants.NET_CODE_RE_LOGIN:
-                mView.showMessage("登录过期，请重新登录");
+                if (mView != null) {
+                    mView.showMessage("登录过期，请重新登录");
+                }
                 TenApp.getInstance().jumpLoginActivity();
                 break;
         }
@@ -82,7 +90,9 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
     public abstract void _onSuccess(T t);
 
     public void _onError(JesException e) {
-        mView.showError(e);
+        if (mView != null) {
+            mView.showError(e);
+        }
     }
 
 }

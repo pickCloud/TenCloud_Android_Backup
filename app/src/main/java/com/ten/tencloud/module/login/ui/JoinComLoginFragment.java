@@ -1,19 +1,20 @@
 package com.ten.tencloud.module.login.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
-import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.JoinComBean;
 import com.ten.tencloud.bean.SendSMSBean;
-import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.login.contract.JoinCom1Contract;
 import com.ten.tencloud.module.login.contract.LoginCaptchaContract;
@@ -26,7 +27,11 @@ import com.ten.tencloud.utils.Utils;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class JoinComStep1Activity extends BaseActivity
+/**
+ * Created by lxq on 2018/1/31.
+ */
+
+public class JoinComLoginFragment extends BaseFragment
         implements JoinCom1Contract.View, LoginCaptchaContract.View, LoginContract.View {
 
     @BindView(R.id.tv_company_name)
@@ -54,20 +59,20 @@ public class JoinComStep1Activity extends BaseActivity
     private String mCode;
     private boolean mIsNeedInfo;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        createView(R.layout.activity_join_com_step1);
-        initTitleBar(false, "邀请员工");
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        return createView(inflater, container, R.layout.fragment_join_com_login);
+    }
 
-        GlobalStatusManager.getInstance().registerTask(this);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        Uri data = getIntent().getData();
-        mCode = data.getQueryParameter("code");
+        mCode = getArguments().getString("code");
         //验证码
         mLoginCaptchaPresenter = new LoginCaptchaPresenter();
         mLoginCaptchaPresenter.attachView(this);
-        mLoginCaptchaPresenter.geeInit(this);//初始化
+        mLoginCaptchaPresenter.geeInit(mActivity);//初始化
         //邀请信息
         mJoinCom1Presenter = new JoinCom1Presenter();
         mJoinCom1Presenter.attachView(this);
@@ -127,7 +132,7 @@ public class JoinComStep1Activity extends BaseActivity
 
     @Override
     public void showSmsCodeTimeOut() {
-        mLoginCaptchaPresenter.geeStart(this);
+        mLoginCaptchaPresenter.geeStart(mActivity);
     }
 
     @Override
@@ -184,14 +189,13 @@ public class JoinComStep1Activity extends BaseActivity
     public void loginSuccess() {
         //不需要填写密码完善信息
         mIsNeedInfo = false;
-        mJoinCom1Presenter.getEmployeeStatus();
         //触发待加入状态
         mJoinCom1Presenter.joinWaiting(mCode);
     }
 
     @Override
     public void joinWaiting() {
-        Intent intent = new Intent(this, JoinComStep2Activity.class);
+        Intent intent = new Intent(mActivity, JoinComStep2Activity.class);
         intent.putExtra("code", mCode);
         intent.putExtra("setting", mSetting);
         intent.putExtra("isNeedInfo", mIsNeedInfo);
@@ -211,12 +215,11 @@ public class JoinComStep1Activity extends BaseActivity
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         mLoginPresenter.detachView();
         mJoinCom1Presenter.detachView();
         mLoginCaptchaPresenter.cancelUtils();
         mLoginCaptchaPresenter.detachView();
-        GlobalStatusManager.getInstance().unRegisterTask(this);
     }
 }

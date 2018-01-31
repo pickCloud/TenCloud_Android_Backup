@@ -78,6 +78,18 @@ public class EmployeesModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 查询员工状态
+     *
+     * @return
+     */
+    public Observable<Map<String, Integer>> getEmployeeStatus() {
+        return mTenUserApi.getEmployeeStatus()
+                .map(new HttpResultFunc<Map<String, Integer>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
     /**
      * 解除员工

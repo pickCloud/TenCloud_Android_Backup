@@ -83,6 +83,7 @@
     <View style="@style/LineHorizontal2f3543" />
 
     <Button
+        android:id="@+id/btn_add"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="16dp"
@@ -92,7 +93,19 @@
         android:gravity="center"
         android:onClick="addServer"
         android:text="确定添加"
-        android:textColor="@color/text_color_232730"
+        android:textColor="@color/select_button_default"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="查看日志"
+        android:onClick="viewLog"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp" />
 
 </LinearLayout>

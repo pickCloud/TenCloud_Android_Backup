@@ -17,11 +17,13 @@ import okhttp3.WebSocketListener;
 
 public class ServerAddModel {
 
-    public final static String addUrl = "api/server/new";
+    public final static String addUrl = "/api/server/new";
 
     private WebSocketListener mWebSocketListener;
     private OkHttpClient mClient;
     private WebSocket mWebSocket;
+
+    private boolean isSuccess = false;
 
     public ServerAddModel(ServerAddModel.onServerAddListener onServerAddListener) {
         this.onServerAddListener = onServerAddListener;
@@ -43,6 +45,7 @@ public class ServerAddModel {
                 KLog.d("接收==>" + text);
                 if ("success".equals(text)) {
                     webSocket.cancel();
+                    isSuccess = true;
                     onServerAddListener.onSuccess();
                 } else if (!"open".equals(text)) {
                     onServerAddListener.onMessage(text);
@@ -58,7 +61,9 @@ public class ServerAddModel {
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 t.printStackTrace();
                 KLog.e(t.getMessage());
-                onServerAddListener.onFailure(t.getMessage());
+                if (!isSuccess) {
+                    onServerAddListener.onFailure(t.getMessage());
+                }
             }
         };
 //        mClient = new OkHttpClient();
@@ -80,6 +85,7 @@ public class ServerAddModel {
     }
 
     public void send(String data) {
+        isSuccess = false;
         if (mWebSocket == null) {
             connect();
         }

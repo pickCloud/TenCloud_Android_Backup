@@ -4,17 +4,16 @@ package com.ten.tencloud.constants;
 import com.ten.tencloud.BuildConfig;
 
 /**
- *
  * 统一接口目录地址
  * Created by lxq on 2017/11/20.
  */
 
 public class Url {
-    public static final String BASE_URL_DEBUG = "http://47.94.18.22/";
+    public static final String BASE_URL_DEBUG = "http://cd.10.com";
     public static final String BASE_URL_RELEASE = "https://c.10.com";
 
-    public final static String WEBSOCKET_URL_DEBUG = "ws://47.94.18.22/";
-    public final static String WEBSOCKET_URL_RELEASE = "ws://47.94.18.22/";
+    public final static String WEBSOCKET_URL_DEBUG = "ws://cd.10.com";
+    public final static String WEBSOCKET_URL_RELEASE = "ws://c.10.com";
 
 
     public static String BASE_URL;

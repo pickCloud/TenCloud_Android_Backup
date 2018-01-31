@@ -3,12 +3,14 @@ package com.ten.tencloud.module.server.ui;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.module.server.model.ServerAddModel;
+import com.ten.tencloud.widget.dialog.ServerAddLogDialog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,35 +27,50 @@ public class ServerAddActivity extends BaseActivity {
     EditText mEtUser;
     @BindView(R.id.et_password)
     EditText mEtPassword;
+    @BindView(R.id.btn_add)
+    Button mBtnAdd;
 
     private String mName;
     private String mIp;
     private String mUser;
     private String mPasswd;
     private ServerAddModel mServerAddModel;
+    private ServerAddLogDialog mServerAddLogDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_add);
         initTitleBar(true, "添加主机");
-        // TODO: 2017/12/19 Service
         mServerAddModel = new ServerAddModel(new ServerAddModel.onServerAddListener() {
 
             @Override
             public void onSuccess() {
-                showMessage("主机添加成功");
-                finish();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBtnAdd.setText("确认添加");
+                        mBtnAdd.setEnabled(true);
+                    }
+                });
+                showLogDialog("主机添加成功", true);
             }
 
             @Override
             public void onFailure(String message) {
-                showMessage(message);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBtnAdd.setText("确认添加");
+                        mBtnAdd.setEnabled(true);
+                    }
+                });
+                showLogDialog(message, true);
             }
 
             @Override
             public void onMessage(String text) {
-                showMessage(text);
+                showLogDialog(text, true);
             }
         });
         mServerAddModel.connect();
@@ -71,9 +88,11 @@ public class ServerAddActivity extends BaseActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showMessage("等待连接，大约需要一分钟");
+                mBtnAdd.setText("正在添加主机...请稍候...");
+                mBtnAdd.setEnabled(false);
             }
         });
+        showLogDialog("正在添加主机...请稍候...", true);
     }
 
     /**
@@ -105,10 +124,35 @@ public class ServerAddActivity extends BaseActivity {
         sendData();
     }
 
+    /**
+     * 查看日志信息
+     *
+     * @param view
+     */
+    public void viewLog(View view) {
+        showLogDialog("", false);
+    }
+
+    private void showLogDialog(final String msg, final boolean isAdd) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mServerAddLogDialog == null) {
+                    mServerAddLogDialog = new ServerAddLogDialog(mContext);
+                }
+                if (!mServerAddLogDialog.isShowing()) {
+                    mServerAddLogDialog.show();
+                }
+                mServerAddLogDialog.setLog(msg, isAdd);
+            }
+        });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mServerAddModel.close();
         mServerAddModel = null;
     }
+
 }

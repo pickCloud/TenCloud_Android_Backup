@@ -5,7 +5,9 @@ import com.ten.tencloud.bean.JoinComBean;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.login.contract.JoinCom1Contract;
 import com.ten.tencloud.module.login.model.JoinModel;
+import com.ten.tencloud.module.user.model.EmployeesModel;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,6 +36,7 @@ public class JoinCom1Presenter extends BasePresenter<JoinCom1Contract.View> impl
                 }));
     }
 
+
     @Override
     public void joinWaiting(String code) {
         mSubscriptions.add(mModel.joinWaiting(code)
@@ -41,6 +44,18 @@ public class JoinCom1Presenter extends BasePresenter<JoinCom1Contract.View> impl
                     @Override
                     public void _onSuccess(Object o) {
                         mView.joinWaiting();
+                    }
+                }));
+    }
+
+    @Override
+    public void getEmployeeStatus() {
+        mSubscriptions.add(EmployeesModel.getInstance().getEmployeeStatus()
+                .subscribe(new JesSubscribe<Map<String, Integer>>(mView) {
+                    @Override
+                    public void _onSuccess(Map<String, Integer> stringIntegerMap) {
+                        Integer status = stringIntegerMap.get("status");
+                        mView.showEmployeeStatus(status);
                     }
                 }));
     }
