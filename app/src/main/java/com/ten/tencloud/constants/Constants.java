@@ -65,6 +65,9 @@ public class Constants {
     //重新登录
     public static final int NET_CODE_RE_LOGIN = 403;
 
+    //被踢出
+    public static final int NET_CODE_RE_LOGIN_KICK = 10415;
+
     public static final int NET_CODE_NO_MOTHED = 405;
 
     public static final int NET_CODE_NOT_FOUND = 404;

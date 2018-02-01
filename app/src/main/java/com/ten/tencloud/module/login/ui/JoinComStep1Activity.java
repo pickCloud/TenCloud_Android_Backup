@@ -13,6 +13,7 @@ import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.JoinComBean;
 import com.ten.tencloud.bean.SendSMSBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.login.contract.JoinCom1Contract;
@@ -53,6 +54,7 @@ public class JoinComStep1Activity extends BaseActivity
     private String mSetting;
     private String mCode;
     private boolean mIsNeedInfo;
+    private JoinComBean mInitalizeBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class JoinComStep1Activity extends BaseActivity
         mIsLogin = AppBaseCache.getInstance().getToken() != null
                 && AppBaseCache.getInstance().getUserInfoNoException() != null;
         mLlInfo.setVisibility(mIsLogin ? View.GONE : View.VISIBLE);
+
         //获取邀请信息
         mJoinCom1Presenter.getJoinInitialize(mCode);
     }
@@ -99,6 +102,7 @@ public class JoinComStep1Activity extends BaseActivity
 
     @Override
     public void showInitialize(JoinComBean bean) {
+        mInitalizeBean = bean;
         if (bean == null) {
             mTvTip.setText("邀请链接已过期,请联系管理员重新邀请");
             mLlInfo.setVisibility(View.GONE);
@@ -107,6 +111,9 @@ public class JoinComStep1Activity extends BaseActivity
         }
         mTvCompanyName.setText(bean.getCompany_name());
         mSetting = bean.getSetting();
+        if (mIsLogin) {
+            mJoinCom1Presenter.getEmployeeStatus(bean.getCid());
+        }
     }
 
     @OnClick({R.id.btn_send_code})
@@ -184,9 +191,8 @@ public class JoinComStep1Activity extends BaseActivity
     public void loginSuccess() {
         //不需要填写密码完善信息
         mIsNeedInfo = false;
-        mJoinCom1Presenter.getEmployeeStatus();
+        mJoinCom1Presenter.getEmployeeStatus(mInitalizeBean.getCid());
         //触发待加入状态
-        mJoinCom1Presenter.joinWaiting(mCode);
     }
 
     @Override
@@ -199,8 +205,25 @@ public class JoinComStep1Activity extends BaseActivity
     }
 
     @Override
-    public void showEmployeeStatus(int status) {
-
+    public void showEmployeeStatus(Integer status) {
+        if (status == null) {
+            if (!mIsLogin) {
+                mJoinCom1Presenter.joinWaiting(mCode);
+            }
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CREATE ||
+                status == Constants.EMPLOYEE_STATUS_CODE_PASS) {
+            Intent intent = new Intent(this, JoinComTipsActivity.class);
+            intent.putExtra("type", JoinComTipsActivity.TYPE_PASS);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+            finish();
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CHECKING) {
+            Intent intent = new Intent(this, JoinComTipsActivity.class);
+            intent.putExtra("type", JoinComTipsActivity.TYPE_SUBMIT);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+            finish();
+        }
     }
 
     @Override

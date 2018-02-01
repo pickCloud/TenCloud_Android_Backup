@@ -71,6 +71,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
             }
             if (Constants.LOGON_ACTION.equals(intent.getAction())) {
                 Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                int type = intent.getIntExtra("type", 0);
+                String msg = intent.getStringExtra("msg");
+                loginIntent.putExtra("type", type);//0 正常 1 被踢
+                loginIntent.putExtra("msg", msg);//0 正常 1 被踢
                 loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);//清空堆栈
                 startActivity(loginIntent);
             } else if (Constants.MAIN_ACTION.equals(intent.getAction())) {

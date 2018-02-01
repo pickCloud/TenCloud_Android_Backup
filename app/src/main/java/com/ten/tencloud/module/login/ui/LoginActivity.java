@@ -20,6 +20,7 @@ import com.ten.tencloud.module.login.presenter.LoginPresenter;
 import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.utils.StatusBarUtils;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.widget.dialog.LoginTipsDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,6 +65,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, L
      */
     private String mMobile;
     private LoginCaptchaPresenter mLoginCaptchaPresenter;
+    private LoginTipsDialog mLoginTipsDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,21 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, L
     private void initView() {
         changeLoginTab(true);
         mLoginCaptchaPresenter.geeInit(this);
+        int type = getIntent().getIntExtra("type", 0);
+        String msg = getIntent().getStringExtra("msg");
+        if (type == 1) {//被踢
+            showMsgDialog(msg);
+        }
+    }
+
+    private void showMsgDialog(String msg) {
+        if (mLoginTipsDialog == null) {
+            mLoginTipsDialog = new LoginTipsDialog(this);
+        }
+        if (!mLoginTipsDialog.isShowing()) {
+            mLoginTipsDialog.show();
+        }
+        mLoginTipsDialog.setMsg(msg);
     }
 
     /**

@@ -83,8 +83,8 @@ public class EmployeesModel {
      *
      * @return
      */
-    public Observable<Map<String, Integer>> getEmployeeStatus() {
-        return mTenUserApi.getEmployeeStatus()
+    public Observable<Map<String, Integer>> getEmployeeStatus(int cid) {
+        return mTenUserApi.getEmployeeStatus(cid)
                 .map(new HttpResultFunc<Map<String, Integer>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

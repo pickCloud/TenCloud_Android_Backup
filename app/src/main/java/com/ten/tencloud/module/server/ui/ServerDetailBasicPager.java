@@ -81,9 +81,9 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     private boolean isQuerying = false;
     private String mInstanceId;
     private Subscription mAnimSubscribe;
-    private  boolean mPermissionDelServer;
-    private  boolean mPermissionStartServer;
-    private  boolean mPermissionChangeServer;
+    private boolean mPermissionDelServer;
+    private boolean mPermissionStartServer;
+    private boolean mPermissionChangeServer;
     private final RefreshBroadCastHander mRefreshBroadCastHander;
 
     public ServerDetailBasicPager(Context context) {
@@ -101,12 +101,15 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                         switch (clickState) {
                             case CLICK_STATE_REBOOT:
                                 mServerOperationPresenter.rebootServer(mId);
+                                setState("停止中");
                                 break;
                             case CLICK_STATE_START:
                                 mServerOperationPresenter.startServer(mId);
+                                setState("启动中");
                                 break;
                             case CLICK_STATE_STOP:
                                 mServerOperationPresenter.stopServer(mId);
+                                setState("停止中");
                                 break;
                             case CLICK_STATE_DEL:
                                 mServerOperationPresenter.delServer(mId);
@@ -127,7 +130,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         initPermission();
     }
 
-    private void initPermission(){
+    private void initPermission() {
         mPermissionDelServer = Utils.hasPermission("删除主机");
         mPermissionStartServer = Utils.hasPermission("开机关机");
         mPermissionChangeServer = Utils.hasPermission("修改主机信息");

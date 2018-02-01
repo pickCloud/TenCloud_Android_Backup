@@ -19,6 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -149,5 +150,5 @@ public interface TenUserApi {
     Observable<Response<JesResponse<Object>>> rejectApplication(@Body RequestBody body);
 
     @GET("/api/company/employee/status")
-    Observable<Response<JesResponse<Map<String, Integer>>>> getEmployeeStatus();
+    Observable<Response<JesResponse<Map<String, Integer>>>> getEmployeeStatus(@Query("id") int cid);
 }

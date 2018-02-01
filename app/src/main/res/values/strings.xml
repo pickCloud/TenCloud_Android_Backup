@@ -31,5 +31,6 @@
     <string name="tips_verify_id_card_empty">身份证号不能为空</string>
     <string name="tips_verify_ip_empty">IP不能为空</string>
     <string name="tips_verify_server_empty">主机名称不能为空</string>
+    <string name="title_activity_join_com_tips">JoinComTipsActivity</string>
 
 </resources>

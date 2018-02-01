@@ -116,6 +116,17 @@ public class TenApp extends Application {
     }
 
     /**
+     * 跳转登录页被踢出模式
+     */
+    public void jumpLoginForKickActivity(String msg) {
+        AppBaseCache.getInstance().resetAppBaseCache();
+        Intent intent = new Intent(Constants.LOGON_ACTION);
+        intent.putExtra("type", 1);
+        intent.putExtra("msg", msg);
+        sendBroadcast(intent);
+    }
+
+    /**
      * 跳转到主页
      */
     public void jumpMainActivity() {

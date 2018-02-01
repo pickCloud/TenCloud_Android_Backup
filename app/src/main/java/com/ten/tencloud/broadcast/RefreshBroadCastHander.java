@@ -23,6 +23,11 @@ public class RefreshBroadCastHander {
      */
     public final static String SWITCH_COMPANY_REFRESH_ACTION = "SWITCH_COMPANY_REFRESH_ACTION";
 
+    /**
+     * 服务器列表变化
+     */
+    public final static String SERVER_LIST_CHANGE_ACTION = "SERVER_LIST_CHANGE_ACTION";
+
     private LocalBroadcastManager mLocalBroadcastManager;
     private BroadcastReceiver mReceiver;
 

@@ -49,8 +49,8 @@ public class JoinCom1Presenter extends BasePresenter<JoinCom1Contract.View> impl
     }
 
     @Override
-    public void getEmployeeStatus() {
-        mSubscriptions.add(EmployeesModel.getInstance().getEmployeeStatus()
+    public void getEmployeeStatus(int cid) {
+        mSubscriptions.add(EmployeesModel.getInstance().getEmployeeStatus(cid)
                 .subscribe(new JesSubscribe<Map<String, Integer>>(mView) {
                     @Override
                     public void _onSuccess(Map<String, Integer> stringIntegerMap) {

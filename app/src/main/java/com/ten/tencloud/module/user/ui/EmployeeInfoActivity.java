@@ -242,6 +242,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         showMessage("允许员工加入");
         mBtnAllow.setVisibility(View.GONE);
         mBtnReject.setVisibility(View.GONE);
+        mTvJoinTime.setText(mEmployeeInfo.getUpdate_time());
         mTvStatus.setText("审核通过");
         mTvStatus.setEnabled(true);
         mTvStatus.setSelected(true);

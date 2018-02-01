@@ -64,22 +64,21 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
             exception = new JesException("网络中断，请检查您的网络状态", Constants.NET_CODE_NO_NETWORK);
         } else if (e instanceof JesException) {
             exception = (JesException) e;
-            handleJesException(exception);
+            switch (exception.getCode()) {
+                case Constants.NET_CODE_RE_LOGIN:
+                    if (mView != null) {
+                        mView.showMessage("登录过期，请重新登录");
+                    }
+                    TenApp.getInstance().jumpLoginActivity();
+                    return;//不走_onError()
+                case Constants.NET_CODE_RE_LOGIN_KICK:
+                    TenApp.getInstance().jumpLoginForKickActivity(exception.getMessage());
+                    return;
+            }
         } else {
             exception = new JesException(e.getMessage(), 100050);
         }
         _onError(exception);
-    }
-
-    private void handleJesException(JesException exception) {
-        switch (exception.getCode()) {
-            case Constants.NET_CODE_RE_LOGIN:
-                if (mView != null) {
-                    mView.showMessage("登录过期，请重新登录");
-                }
-                TenApp.getInstance().jumpLoginActivity();
-                break;
-        }
     }
 
     @Override

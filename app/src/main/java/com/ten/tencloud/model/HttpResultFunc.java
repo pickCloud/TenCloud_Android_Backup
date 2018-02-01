@@ -7,6 +7,8 @@ import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.LoginInfoBean;
 import com.ten.tencloud.constants.Constants;
 
+import java.io.IOException;
+
 import retrofit2.Response;
 import rx.functions.Func1;
 
@@ -19,6 +21,15 @@ public class HttpResultFunc<T> implements Func1<Response<JesResponse<T>>, T> {
     public T call(Response<JesResponse<T>> response) {
 
         if (response.code() == Constants.NET_CODE_RE_LOGIN) {
+            try {
+                String body = response.errorBody().string();
+                JesResponse jesResponse = TenApp.getInstance().getGsonInstance().fromJson(body, JesResponse.class);
+                if (jesResponse != null) {
+                    throw new JesException(jesResponse.getMessage(), jesResponse.getStatus());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             throw new JesException("登录过期，请重新登录", Constants.NET_CODE_RE_LOGIN);
         }
         if (response.isSuccessful()) {
