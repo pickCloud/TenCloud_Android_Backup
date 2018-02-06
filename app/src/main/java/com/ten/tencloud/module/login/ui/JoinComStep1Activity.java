@@ -55,6 +55,7 @@ public class JoinComStep1Activity extends BaseActivity
     private String mCode;
     private boolean mIsNeedInfo;
     private JoinComBean mInitalizeBean;
+    private boolean mIsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,6 +192,7 @@ public class JoinComStep1Activity extends BaseActivity
     public void loginSuccess() {
         //不需要填写密码完善信息
         mIsNeedInfo = false;
+        mIsButton = true;
         mJoinCom1Presenter.getEmployeeStatus(mInitalizeBean.getCid());
         //触发待加入状态
     }
@@ -207,7 +209,7 @@ public class JoinComStep1Activity extends BaseActivity
     @Override
     public void showEmployeeStatus(Integer status) {
         if (status == null) {
-            if (!mIsLogin) {
+            if (mIsButton) {
                 mJoinCom1Presenter.joinWaiting(mCode);
             }
         } else if (status == Constants.EMPLOYEE_STATUS_CODE_CREATE ||
@@ -223,6 +225,10 @@ public class JoinComStep1Activity extends BaseActivity
             startActivity(intent);
             overridePendingTransition(0, 0);
             finish();
+        } else {
+            if (mIsButton) {
+                mJoinCom1Presenter.joinWaiting(mCode);
+            }
         }
     }
 
@@ -230,7 +236,8 @@ public class JoinComStep1Activity extends BaseActivity
     public void unregistered() {
         //需要填写密码
         mIsNeedInfo = true;
-        mJoinCom1Presenter.joinWaiting(mCode);
+        mIsButton = true;
+        mJoinCom1Presenter.getEmployeeStatus(mInitalizeBean.getCid());
     }
 
     @Override

@@ -23,7 +23,7 @@ public class CompanyListPresenter extends BasePresenter<CompanyListContract.View
                     @Override
                     public void _onSuccess(List<CompanyBean> companyBeans) {
                         if (companyBeans == null || companyBeans.size() == 0) {
-                            mView.showMessage("暂无公司信息");
+                            mView.showEmptyView();
                             return;
                         }
                         mView.showCompanies(companyBeans);

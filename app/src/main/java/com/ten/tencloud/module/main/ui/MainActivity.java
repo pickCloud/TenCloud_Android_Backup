@@ -9,7 +9,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSFragmentPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.TempFragment;
-import com.ten.tencloud.broadcast.RefreshBroadCastHander;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.main.contract.MainContract;
 import com.ten.tencloud.module.main.presenter.MainPresenter;
@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     ViewPager mVpContent;
     private TextView mTvMsgCount;
     private MainPresenter mMainPresenter;
-    private RefreshBroadCastHander mRefreshBroadCastHander;
+    private RefreshBroadCastHandler mRefreshBroadCastHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 , getResources().getString(R.string.mine)};
         mMainPresenter = new MainPresenter();
         mMainPresenter.attachView(this);
-        mRefreshBroadCastHander = new RefreshBroadCastHander(this, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
     }
 
     private void initView() {
@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void updatePermissionSuccess() {
-        mRefreshBroadCastHander.sendBroadCast();
+        mRefreshBroadCastHandler.sendBroadCast();
     }
 
     @Override

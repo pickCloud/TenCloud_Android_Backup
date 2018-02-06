@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.ServerDetailBean;
-import com.ten.tencloud.broadcast.RefreshBroadCastHander;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.contract.ServerDetailContract;
@@ -84,10 +84,12 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     private boolean mPermissionDelServer;
     private boolean mPermissionStartServer;
     private boolean mPermissionChangeServer;
-    private final RefreshBroadCastHander mRefreshBroadCastHander;
+    private final RefreshBroadCastHandler mRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mServerHandler;
 
     public ServerDetailBasicPager(Context context) {
         super(context);
+        mServerHandler = new RefreshBroadCastHandler(mContext, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerDetailPresenter = new ServerDetailPresenter();
         mServerOperationPresenter = new ServerOperationPresenter();
         mServerDetailPresenter.attachView(this);
@@ -118,8 +120,8 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                     }
                 }).create();
 
-        mRefreshBroadCastHander = new RefreshBroadCastHander(mContext, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
-        mRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(mContext, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initPermission();
@@ -278,9 +280,9 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     @Override
     public void delSuccess() {
         showMessage("删除成功");
+        mServerHandler.sendBroadCast();
         GlobalStatusManager.getInstance().setServerListNeedRefresh(true);
         ((Activity) mContext).finish();
-//        queryState();
     }
 
     @Override

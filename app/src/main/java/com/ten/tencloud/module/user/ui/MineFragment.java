@@ -19,7 +19,7 @@ import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
-import com.ten.tencloud.broadcast.RefreshBroadCastHander;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.listener.OnRefreshListener;
@@ -100,8 +100,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     private boolean mIsPermissionAddTemplate;
     private boolean mIsPermissionChangeTemplate;
     private boolean mIsPermissionDelTemplate;
-    private RefreshBroadCastHander mPermissionRefreshBroadCastHander;
-    private RefreshBroadCastHander mSwitchCompanyRefreshBroadCastHander;
+    private RefreshBroadCastHandler mPermissionRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
 
     @Nullable
     @Override
@@ -116,22 +116,22 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         mUserInfoPresenter = new UserInfoPresenter();
         mUserInfoPresenter.attachView(this);
 
-        mPermissionRefreshBroadCastHander = new RefreshBroadCastHander(mActivity, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
-        mPermissionRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+        mPermissionRefreshBroadCastHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mPermissionRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initView();
             }
         });
-        mSwitchCompanyRefreshBroadCastHander = new RefreshBroadCastHander(mActivity, RefreshBroadCastHander.SWITCH_COMPANY_REFRESH_ACTION);
-        mUserInfo = AppBaseCache.getInstance().getUserInfo();
-        cid = AppBaseCache.getInstance().getCid();
-        mSelectCompany = AppBaseCache.getInstance().getSelectCompanyWithLogin();
+        mSwitchCompanyRefreshBroadCastHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
         initPopupWindow();
         initView();
     }
 
     private void initView() {
+        mUserInfo = AppBaseCache.getInstance().getUserInfo();
+        cid = AppBaseCache.getInstance().getCid();
+        mSelectCompany = AppBaseCache.getInstance().getSelectCompanyWithLogin();
         mUserHomePresenter.getCompanies();
         if (cid == 0) {//个人界面
             mLlUserLayout.setVisibility(View.VISIBLE);
@@ -170,7 +170,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
                 AppBaseCache.getInstance().setCid(cid);
                 if (cid == 0) {
                     AppBaseCache.getInstance().setUserPermission("");
-                    mPermissionRefreshBroadCastHander.sendBroadCast();
+                    mPermissionRefreshBroadCastHandler.sendBroadCast();
                 }
                 AppBaseCache.getInstance().saveSelectCompanyWithLogin(company);
                 mPopupWindow.dismiss();
@@ -319,7 +319,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
 
     @Override
     public void showPermissionSuccess() {
-        mSwitchCompanyRefreshBroadCastHander.sendBroadCast();
+        mSwitchCompanyRefreshBroadCastHandler.sendBroadCast();
     }
 
     @Override
@@ -336,9 +336,10 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mPermissionRefreshBroadCastHander.unregisterReceiver();
-        mPermissionRefreshBroadCastHander = null;
-        mSwitchCompanyRefreshBroadCastHander = null;
+        mPermissionRefreshBroadCastHandler.unregisterReceiver();
+        mPermissionRefreshBroadCastHandler = null;
+        mSwitchCompanyRefreshBroadCastHandler.unregisterReceiver();
+        mSwitchCompanyRefreshBroadCastHandler = null;
         mUserHomePresenter.detachView();
         mUserInfoPresenter.detachView();
     }

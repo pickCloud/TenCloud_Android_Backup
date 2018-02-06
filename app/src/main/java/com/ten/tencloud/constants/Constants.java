@@ -79,6 +79,8 @@ public class Constants {
     public static final int NET_CODE_NO_NETWORK = 100021;
     //短信验证码超过次数
     public static final int SMS_TIME_OUT = 10405;
+    //非公司员工
+    public static final int NET_CODE_NOT_EMPLOYEE = 10003;
 
 
     /**

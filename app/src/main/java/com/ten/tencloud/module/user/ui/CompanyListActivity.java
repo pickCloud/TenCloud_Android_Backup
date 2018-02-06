@@ -31,11 +31,14 @@ import com.ten.tencloud.utils.UiUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class CompanyListActivity extends BaseActivity implements CompanyListContract.View {
 
     @BindView(R.id.rv_company)
     RecyclerView mRvCompany;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
     private CompanyListPresenter mCompanyListPresenter;
     private RvCompanyAdapter mAdapter;
     private PopupWindow mMenuPopupWindow;
@@ -134,9 +137,26 @@ public class CompanyListActivity extends BaseActivity implements CompanyListCont
         mCompanyListPresenter.getCompanies();
     }
 
+    @OnClick({R.id.tv_add})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_add:
+                startActivityNoValue(this, CompanyNewActivity.class);
+                break;
+        }
+    }
+
     @Override
     public void showCompanies(List<CompanyBean> companies) {
         mAdapter.setDatas(companies);
+        mRvCompany.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showEmptyView() {
+        mRvCompany.setVisibility(View.INVISIBLE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override

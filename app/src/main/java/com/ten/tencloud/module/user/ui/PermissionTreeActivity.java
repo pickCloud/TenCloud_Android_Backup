@@ -77,7 +77,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             initTitleBar(true, "查看权限", name);
         } else if (type == TYPE_USER_SETTING) {
             String name = getIntent().getStringExtra("name");
-            initTitleBar(true, "权限设置", name, "确认", new View.OnClickListener() {
+            initTitleBar(true, "设置权限", name, "确认", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int uid = getIntent().getIntExtra("uid", -1);

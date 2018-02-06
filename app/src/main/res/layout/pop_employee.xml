@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
-            android:text="设置个人加入条件"
+            android:paddingLeft="8dp"
+            android:text="设置加入条件"
             android:textColor="@color/text_color_899ab6"
             android:textSize="14sp" />
 
@@ -26,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
+            android:paddingLeft="8dp"
             android:text="邀请员工"
             android:textColor="@color/text_color_899ab6"
             android:textSize="14sp" />
@@ -35,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
+            android:paddingLeft="8dp"
             android:text="更换管理员"
             android:textColor="@color/text_color_899ab6"
             android:textSize="14sp" />

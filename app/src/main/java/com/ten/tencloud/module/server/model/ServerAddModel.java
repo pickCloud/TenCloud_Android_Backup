@@ -44,11 +44,15 @@ public class ServerAddModel {
             public void onMessage(WebSocket webSocket, String text) {
                 KLog.d("接收==>" + text);
                 if ("success".equals(text)) {
-                    webSocket.cancel();
                     isSuccess = true;
-                    onServerAddListener.onSuccess();
+                    if (onServerAddListener != null)
+                        onServerAddListener.onSuccess();
+                } else if ("failure".equals(text)) {
+                    if (onServerAddListener != null)
+                        onServerAddListener.onFailure("主机添加失败");
                 } else if (!"open".equals(text)) {
-                    onServerAddListener.onMessage(text);
+                    if (onServerAddListener != null)
+                        onServerAddListener.onMessage(text);
                 }
             }
 
@@ -62,7 +66,8 @@ public class ServerAddModel {
                 t.printStackTrace();
                 KLog.e(t.getMessage());
                 if (!isSuccess) {
-                    onServerAddListener.onFailure(t.getMessage());
+                    if (onServerAddListener != null)
+                        onServerAddListener.onFailure(t.getMessage());
                 }
             }
         };
@@ -94,6 +99,11 @@ public class ServerAddModel {
 
     public void close() {
         mWebSocket.close(1000, "");
+    }
+
+    public void onDestroy() {
+        onServerAddListener = null;
+        mWebSocket = null;
     }
 
     public interface onServerAddListener {

@@ -16,7 +16,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.ServerBean;
-import com.ten.tencloud.broadcast.RefreshBroadCastHander;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
@@ -45,8 +45,12 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     private ServerHomePresenter mPresenter;
     private boolean mPermissionAddServer;
 
-    private RefreshBroadCastHander mPermissionRefreshBroadCastHander;
-    private RefreshBroadCastHander mSwitchCompanyRefreshBroadCastHander;
+    private RefreshBroadCastHandler mPermissionRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
+    private TextView mTvServerTotal;
+    private TextView mTvServerAlarm;
+    private TextView mTvServerCash;
+    private RefreshBroadCastHandler mServerRefreshHandler;
 
     @Nullable
     @Override
@@ -63,10 +67,13 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
                 initView();
             }
         };
-        mPermissionRefreshBroadCastHander = new RefreshBroadCastHander(mActivity, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
-        mPermissionRefreshBroadCastHander.registerReceiver(onRefreshListener);
-        mSwitchCompanyRefreshBroadCastHander = new RefreshBroadCastHander(mActivity, RefreshBroadCastHander.SWITCH_COMPANY_REFRESH_ACTION);
-        mSwitchCompanyRefreshBroadCastHander.registerReceiver(onRefreshListener);
+
+        mPermissionRefreshBroadCastHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mPermissionRefreshBroadCastHandler.registerReceiver(onRefreshListener);
+        mSwitchCompanyRefreshBroadCastHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
+        mSwitchCompanyRefreshBroadCastHandler.registerReceiver(onRefreshListener);
+        mServerRefreshHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mServerRefreshHandler.registerReceiver(onRefreshListener);
 
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View header = inflater.inflate(R.layout.header_server_main, null);
@@ -88,6 +95,9 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
             }
         });
+        mTvServerTotal = header.findViewById(R.id.tv_total);
+        mTvServerAlarm = header.findViewById(R.id.tv_alarm);
+        mTvServerCash = header.findViewById(R.id.tv_cash);
         mXrvServer.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mAdapter = new RvServerAdapter(mActivity);
         SmartRecyclerAdapter smartRecyclerAdapter = new SmartRecyclerAdapter(mAdapter);
@@ -111,6 +121,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mPresenter.getWarnServerList(1);
         mPermissionAddServer = Utils.hasPermission("添加主机");
         mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
+        mPresenter.summary();
     }
 
     @OnClick({R.id.tv_add_server})
@@ -135,12 +146,22 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     }
 
     @Override
+    public void showSummary(int server_num, int warn_num, int payment_num) {
+        mTvServerTotal.setText(server_num + "");
+        mTvServerAlarm.setText(warn_num + "");
+        mTvServerCash.setText(payment_num + "");
+        mTvServerTotal.setSelected(server_num != 0);
+        mTvServerAlarm.setSelected(server_num != 0);
+        mTvServerCash.setSelected(server_num != 0);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mPermissionRefreshBroadCastHander.unregisterReceiver();
-        mPermissionRefreshBroadCastHander = null;
-        mSwitchCompanyRefreshBroadCastHander.unregisterReceiver();
-        mSwitchCompanyRefreshBroadCastHander = null;
+        mPermissionRefreshBroadCastHandler.unregisterReceiver();
+        mPermissionRefreshBroadCastHandler = null;
+        mSwitchCompanyRefreshBroadCastHandler.unregisterReceiver();
+        mSwitchCompanyRefreshBroadCastHandler = null;
         mPresenter.detachView();
     }
 }

@@ -20,7 +20,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EmployeeBean;
-import com.ten.tencloud.broadcast.RefreshBroadCastHander;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.listener.OnRefreshListener;
@@ -60,14 +60,15 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
             EmployeesModel.STATUS_EMPLOYEE_SEARCH_CREATE};
     private PopupWindow mMenuPopupWindow;
     private int status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL;
-    private RefreshBroadCastHander mRefreshBroadCastHander;
+    private RefreshBroadCastHandler mRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_employee_list);
-        mRefreshBroadCastHander = new RefreshBroadCastHander(this, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
-        mRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initPermission();
@@ -219,10 +220,21 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     }
 
     @Override
+    public void onFailure() {
+        AppBaseCache.getInstance().setCid(0);
+        GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
+        finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        mRefreshBroadCastHander.unregisterReceiver();
-        mRefreshBroadCastHander = null;
+        mRefreshBroadCastHandler.unregisterReceiver();
+        mRefreshBroadCastHandler = null;
         mEmployeesListPresenter.detachView();
+        if (mSwitchCompanyRefreshBroadCastHandler != null) {
+            mSwitchCompanyRefreshBroadCastHandler.unregisterReceiver();
+            mSwitchCompanyRefreshBroadCastHandler = null;
+        }
     }
 }

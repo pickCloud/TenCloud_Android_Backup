@@ -41,10 +41,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/iv_total"
-                android:background="@drawable/shape_circular_48bbc0"
+                android:background="@drawable/selector_server_summary"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="10"
+                android:text="0"
                 android:textColor="@color/text_color_373e4c"
                 android:textSize="11sp" />
 
@@ -83,10 +83,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/iv_alarm"
-                android:background="@drawable/shape_circular_48bbc0"
+                android:background="@drawable/selector_server_summary"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="36"
+                android:text="0"
                 android:textColor="@color/text_color_373e4c"
                 android:textSize="11sp" />
 
@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/iv_cash"
-                android:background="@drawable/shape_circular_899ab6"
+                android:background="@drawable/selector_server_summary"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:text="0"

@@ -1,8 +1,7 @@
 package com.ten.tencloud.module.user.ui;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -24,6 +23,7 @@ import com.ten.tencloud.module.user.contract.EmployeeTransferAdminContract;
 import com.ten.tencloud.module.user.model.EmployeesModel;
 import com.ten.tencloud.module.user.presenter.EmployeesListPresenter;
 import com.ten.tencloud.module.user.presenter.EmployeesTransferAdminPresenter;
+import com.ten.tencloud.widget.dialog.CommonDialog;
 
 import java.util.List;
 
@@ -77,11 +77,26 @@ public class EmployeeSelectAdminActivity extends BaseActivity
             public void onObjectItemClicked(EmployeeBean employeeBean, int position) {
                 mAdapter.setSelectPos(position);
                 if (employeeBean.getUid() != AppBaseCache.getInstance().getUserInfo().getId()) {
-                    new AlertDialog.Builder(mContext)
+//                    new AlertDialog.Builder(mContext)
+//                            .setMessage("确认更换 " + employeeBean.getName() + " 为管理员?")
+//                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    EmployeeBean selectObject = mAdapter.getSelectObject();
+//                                    if (selectObject == null) {
+//                                        showMessage("请选择员工");
+//                                        return;
+//                                    }
+//                                    mEmployeesTransferAdminPresenter.transferAdmin(selectObject.getUid());
+//                                }
+//                            })
+//                            .setNegativeButton("取消", null)
+//                            .create().show();
+                    new CommonDialog(mContext)
                             .setMessage("确认更换 " + employeeBean.getName() + " 为管理员?")
-                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("确认", new CommonDialog.OnButtonClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                public void onClick(Dialog dialog) {
                                     EmployeeBean selectObject = mAdapter.getSelectObject();
                                     if (selectObject == null) {
                                         showMessage("请选择员工");
@@ -90,8 +105,7 @@ public class EmployeeSelectAdminActivity extends BaseActivity
                                     mEmployeesTransferAdminPresenter.transferAdmin(selectObject.getUid());
                                 }
                             })
-                            .setNegativeButton("取消", null)
-                            .create().show();
+                            .show();
                 }
             }
         });
@@ -117,8 +131,14 @@ public class EmployeeSelectAdminActivity extends BaseActivity
     }
 
     @Override
+    public void onFailure() {
+
+    }
+
+    @Override
     public void transferSuccess() {
         showMessage("更换成功");
+        AppBaseCache.getInstance().setIsAdmin(false);
         GlobalStatusManager.getInstance().setEmployeeListNeedRefresh(true);
         GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
         GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);

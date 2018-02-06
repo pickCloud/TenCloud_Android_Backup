@@ -6,6 +6,7 @@ import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.PermissionTemplate2Bean;
 import com.ten.tencloud.bean.User;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.JesException;
@@ -68,6 +69,8 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                 }));
     }
 
+    int tryCount = 0;
+
     @Override
     public void getPermission(final int cid) {
         AppBaseCache.getInstance().setUserPermission("");//清空
@@ -92,7 +95,8 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                     @Override
                     public void _onError(JesException e) {
                         super._onError(e);
-                        if (e.getCode() != 10003) {//非公司员工
+                        if (e.getCode() != Constants.NET_CODE_NOT_EMPLOYEE && tryCount < 3) {//非公司员工
+                            tryCount++;
                             getPermission(cid);
                         }
                     }

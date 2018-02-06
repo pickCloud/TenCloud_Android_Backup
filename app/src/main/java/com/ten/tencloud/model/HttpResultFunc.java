@@ -24,7 +24,7 @@ public class HttpResultFunc<T> implements Func1<Response<JesResponse<T>>, T> {
             try {
                 String body = response.errorBody().string();
                 JesResponse jesResponse = TenApp.getInstance().getGsonInstance().fromJson(body, JesResponse.class);
-                if (jesResponse != null) {
+                if (jesResponse != null && jesResponse.getStatus() == Constants.NET_CODE_RE_LOGIN_KICK) {
                     throw new JesException(jesResponse.getMessage(), jesResponse.getStatus());
                 }
             } catch (IOException e) {

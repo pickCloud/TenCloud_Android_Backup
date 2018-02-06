@@ -2,7 +2,9 @@ package com.ten.tencloud.module.user.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.EmployeeBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.user.contract.EmployeeListContract;
 import com.ten.tencloud.module.user.model.EmployeesModel;
@@ -27,6 +29,14 @@ public class EmployeesListPresenter extends BasePresenter<EmployeeListContract.V
                             mView.showEmpty();
                         } else {
                             mView.showEmployees(employeeBeans);
+                        }
+                    }
+
+                    @Override
+                    public void _onError(JesException e) {
+                        super._onError(e);
+                        if (e.getCode() == Constants.NET_CODE_NOT_EMPLOYEE) {
+                            mView.onFailure();
                         }
                     }
                 }));

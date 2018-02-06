@@ -24,18 +24,17 @@ import com.ten.tencloud.module.main.adapter.RvMsgAdapter;
 import com.ten.tencloud.module.main.contract.MsgContract;
 import com.ten.tencloud.module.main.model.MsgModel;
 import com.ten.tencloud.module.main.presenter.MsgPresenter;
+import com.ten.tencloud.module.server.ui.ServerAddActivity;
+import com.ten.tencloud.module.server.ui.ServerListActivity;
 import com.ten.tencloud.module.user.ui.CompanyInfoActivity;
 import com.ten.tencloud.module.user.ui.EmployeeListActivity;
+import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.widget.StatusSelectPopView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 public class MsgActivity extends BaseActivity implements MsgContract.View {
 
@@ -140,15 +139,7 @@ public class MsgActivity extends BaseActivity implements MsgContract.View {
         switch (subMode) {
             //马上审核
             case 0:
-                Observable.just("").delay(50, TimeUnit.MILLISECONDS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<String>() {
-                            @Override
-                            public void call(String s) {
-                                startActivity(new Intent(mContext, EmployeeListActivity.class));
-                            }
-                        });
-                TenApp.getInstance().jumpMainActivity();
+                Utils.startActivityWithMain(mContext, new Intent(mContext, EmployeeListActivity.class));
                 break;
             //重新提交
             case 1:
@@ -162,16 +153,15 @@ public class MsgActivity extends BaseActivity implements MsgContract.View {
                 break;
             //马上查看
             case 3:
-                Observable.just("").delay(50, TimeUnit.MILLISECONDS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<String>() {
-                            @Override
-                            public void call(String s) {
-                                startActivity(new Intent(mContext, CompanyInfoActivity.class));
-                            }
-                        });
-
-                TenApp.getInstance().jumpMainActivity();
+                Utils.startActivityWithMain(mContext, new Intent(mContext, CompanyInfoActivity.class));
+                break;
+            //查看主机
+            case 4:
+                Utils.startActivityWithMain(mContext, new Intent(mContext, ServerListActivity.class));
+                break;
+            //添加主机
+            case 5:
+                Utils.startActivityWithMain(mContext, new Intent(mContext, ServerAddActivity.class));
                 break;
         }
     }

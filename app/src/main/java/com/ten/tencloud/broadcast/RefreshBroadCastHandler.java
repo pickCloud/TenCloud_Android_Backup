@@ -12,7 +12,7 @@ import com.ten.tencloud.listener.OnRefreshListener;
  * Created by lxq on 2018/1/30.
  */
 
-public class RefreshBroadCastHander {
+public class RefreshBroadCastHandler {
 
     /**
      * 权限发生变化
@@ -33,7 +33,7 @@ public class RefreshBroadCastHander {
 
     private String mAction;
 
-    public RefreshBroadCastHander(Context context, String action) {
+    public RefreshBroadCastHandler(Context context, String action) {
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(context);
         mAction = action;
     }

@@ -10,6 +10,7 @@ import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -70,5 +71,8 @@ public interface TenServerApi {
 
     @POST("/api/server/update")
     Observable<Response<JesResponse<Object>>> changeServerInfo(@Body RequestBody body);
+
+    @GET("/api/cluster/summary")
+    Observable<Response<JesResponse<Map<String,Integer>>>> summary();
 
 }

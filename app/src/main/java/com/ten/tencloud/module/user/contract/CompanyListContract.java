@@ -13,6 +13,8 @@ public class CompanyListContract {
     public interface View extends IBaseView {
 
         void showCompanies(List<CompanyBean> companies);
+
+        void showEmptyView();
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {

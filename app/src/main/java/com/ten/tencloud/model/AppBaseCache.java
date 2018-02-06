@@ -165,4 +165,18 @@ public class AppBaseCache {
         }
         return TenApp.getInstance().getGsonInstance().fromJson(json, CompanyBean.class);
     }
+
+    public void setIsAdmin(boolean isAdmin) {
+        CompanyBean selectCompanyWithLogin = getSelectCompanyWithLogin();
+        selectCompanyWithLogin.setIs_admin(isAdmin ? 1 : 0);
+        saveSelectCompanyWithLogin(selectCompanyWithLogin);
+    }
+
+    public boolean isAdmin() {
+        CompanyBean selectCompanyWithLogin = getSelectCompanyWithLogin();
+        if (selectCompanyWithLogin != null && selectCompanyWithLogin.getIs_admin() != 0) {
+            return true;
+        }
+        return false;
+    }
 }

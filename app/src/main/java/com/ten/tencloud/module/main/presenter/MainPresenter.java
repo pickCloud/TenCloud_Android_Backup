@@ -26,7 +26,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
 
     @Override
     public void getMsgCount() {
-        mSubscriptions.add(Observable.interval(0, 30, TimeUnit.SECONDS)
+        mSubscriptions.add(Observable.interval(0, 10, TimeUnit.SECONDS)
                 .flatMap(new Func1<Long, Observable<Map<String, Integer>>>() {
                     @Override
                     public Observable<Map<String, Integer>> call(Long aLong) {

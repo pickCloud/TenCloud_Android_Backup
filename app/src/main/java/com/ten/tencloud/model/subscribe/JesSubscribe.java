@@ -4,6 +4,7 @@ package com.ten.tencloud.model.subscribe;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.IBaseView;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.utils.NetWorkUtils;
 
@@ -74,6 +75,12 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
                 case Constants.NET_CODE_RE_LOGIN_KICK:
                     TenApp.getInstance().jumpLoginForKickActivity(exception.getMessage());
                     return;
+                //处理管理提示
+                case Constants.NET_CODE_NOT_EMPLOYEE:
+                    if (!AppBaseCache.getInstance().isAdmin()) {
+                        exception = new JesException("您已被管理员踢出", Constants.NET_CODE_NOT_EMPLOYEE);
+                    }
+                    break;
             }
         } else {
             exception = new JesException(e.getMessage(), 100050);

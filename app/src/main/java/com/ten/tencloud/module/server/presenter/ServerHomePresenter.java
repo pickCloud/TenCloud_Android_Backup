@@ -7,6 +7,7 @@ import com.ten.tencloud.module.server.contract.ServerHomeContract;
 import com.ten.tencloud.module.server.model.ServerModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lxq on 2017/11/23.
@@ -26,6 +27,19 @@ public class ServerHomePresenter extends BasePresenter<ServerHomeContract.View>
                         } else {
                             mView.showWarnServerList(serverBeans);
                         }
+                    }
+                }));
+    }
+
+    @Override
+    public void summary() {
+        mSubscriptions.add(ServerModel.getInstance().summary()
+                .subscribe(new JesSubscribe<Map<String, Integer>>(mView) {
+                    @Override
+                    public void _onSuccess(Map<String, Integer> stringIntegerMap) {
+                        mView.showSummary(stringIntegerMap.get("server_num"),
+                                stringIntegerMap.get("warn_num"),
+                                stringIntegerMap.get("payment_num"));
                     }
                 }));
     }

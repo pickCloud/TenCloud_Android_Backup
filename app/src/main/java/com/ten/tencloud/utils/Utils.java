@@ -12,8 +12,13 @@ import com.ten.tencloud.bean.NetSpeedBean;
 import com.ten.tencloud.model.AppBaseCache;
 
 import java.text.DecimalFormat;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by lxq on 2017/11/20.
@@ -178,5 +183,21 @@ public class Utils {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    /**
+     * 跳转到某个页面从首页出发
+     */
+    public static void startActivityWithMain(final Context context, final Intent intent) {
+        Observable.just("").delay(50, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        context.startActivity(intent);
+                    }
+                });
+
+        TenApp.getInstance().jumpMainActivity();
     }
 }

@@ -15,7 +15,7 @@
         <item>日志</item>
     </string-array>
 
-    <string name="sqsm">厦门十全十美网络科技有限公司</string>
+    <string name="sqsm">厦门视我科技有限公司</string>
 
     <!--校验格式提示-->
     <string name="tips_verify_phone_error">请输入正确的手机号</string>

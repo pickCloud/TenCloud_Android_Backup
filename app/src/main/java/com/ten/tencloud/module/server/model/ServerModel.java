@@ -303,4 +303,18 @@ public class ServerModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 服务器首页摘要信息
+     *
+     * @return
+     */
+    public Observable<Map<String, Integer>> summary() {
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .summary()
+                .map(new HttpResultFunc<Map<String, Integer>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
 }

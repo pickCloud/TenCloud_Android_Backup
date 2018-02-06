@@ -9,8 +9,11 @@ import android.widget.EditText;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.module.server.model.ServerAddModel;
+import com.ten.tencloud.widget.dialog.ServerAddFailureDialog;
 import com.ten.tencloud.widget.dialog.ServerAddLogDialog;
+import com.ten.tencloud.widget.dialog.ServerAddSuccessDialog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,44 +39,69 @@ public class ServerAddActivity extends BaseActivity {
     private String mPasswd;
     private ServerAddModel mServerAddModel;
     private ServerAddLogDialog mServerAddLogDialog;
+    private RefreshBroadCastHandler mServerHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_add);
         initTitleBar(true, "添加主机");
+        mServerHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerAddModel = new ServerAddModel(new ServerAddModel.onServerAddListener() {
 
             @Override
             public void onSuccess() {
+                showLogDialog("主机添加成功", true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mBtnAdd.setText("确认添加");
                         mBtnAdd.setEnabled(true);
+                        mServerHandler.sendBroadCast();
+                        mServerAddLogDialog.cancel();
+                        new ServerAddSuccessDialog(mContext, new ServerAddSuccessDialog.OnBtnListener() {
+                            @Override
+                            public void onAdd() {
+                                resetParams();
+                            }
+
+                            @Override
+                            public void onView() {
+                                startActivityNoValue(mContext, ServerListActivity.class);
+                            }
+                        }).show();
                     }
                 });
-                showLogDialog("主机添加成功", true);
             }
 
             @Override
-            public void onFailure(String message) {
+            public void onFailure(final String message) {
+                showLogDialog(message, true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mBtnAdd.setText("确认添加");
                         mBtnAdd.setEnabled(true);
+                        mServerAddLogDialog.cancel();
+                        ServerAddFailureDialog serverAddFailureDialog = new ServerAddFailureDialog(mContext);
+                        serverAddFailureDialog.show();
+                        serverAddFailureDialog.setCause(message);
                     }
                 });
-                showLogDialog(message, true);
             }
-
             @Override
             public void onMessage(String text) {
                 showLogDialog(text, true);
             }
         });
-        mServerAddModel.connect();
+//        mServerAddModel.connect();
+    }
+
+    private void resetParams() {
+        mEtIp.setText("");
+        mEtName.setText("");
+        mEtPassword.setText("");
+        mEtUser.setText("");
     }
 
     private void sendData() {
@@ -84,6 +112,7 @@ public class ServerAddActivity extends BaseActivity {
         map.put("username", mUser);
         map.put("passwd", mPasswd);
         String json = TenApp.getInstance().getGsonInstance().toJson(map);
+        mServerAddModel.connect();
         mServerAddModel.send(json);
         runOnUiThread(new Runnable() {
             @Override
@@ -148,10 +177,12 @@ public class ServerAddActivity extends BaseActivity {
         });
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mServerAddModel.close();
+        mServerAddModel.onDestroy();
         mServerAddModel = null;
     }
 

@@ -1,7 +1,9 @@
 package com.ten.tencloud.module.user.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,7 +14,7 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.EmployeeBean;
 import com.ten.tencloud.bean.User;
-import com.ten.tencloud.broadcast.RefreshBroadCastHander;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.listener.OnRefreshListener;
@@ -69,7 +71,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
 
     private EmployeeBean mEmployeeInfo;
     private EmployeesInfoPresenter mEmployeesInfoPresenter;
-    private RefreshBroadCastHander mRefreshBroadCastHander;
+    private RefreshBroadCastHandler mRefreshBroadCastHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +81,8 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mEmployeeInfo = getIntent().getParcelableExtra("obj");
         mEmployeesInfoPresenter = new EmployeesInfoPresenter();
         mEmployeesInfoPresenter.attachView(this);
-        mRefreshBroadCastHander = new RefreshBroadCastHander(this, RefreshBroadCastHander.PERMISSION_REFRESH_ACTION);
-        mRefreshBroadCastHander.registerReceiver(new OnRefreshListener() {
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initView();
@@ -195,12 +197,32 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             //离开公司
             case R.id.btn_leave:
             case R.id.btn_leave_no_admin: {
-                mEmployeesInfoPresenter.employeeDismissCompany(mEmployeeInfo.getId());
+                new AlertDialog.Builder(this)
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mEmployeesInfoPresenter.employeeDismissCompany(mEmployeeInfo.getId());
+                                dialog.dismiss();
+                            }
+                        })
+                        .setMessage("确定离开该公司吗？")
+                        .create().show();
                 break;
             }
             //解除关系
             case R.id.btn_relieve: {
-                mEmployeesInfoPresenter.companyDismissEmployee(mEmployeeInfo.getId());
+                new AlertDialog.Builder(this)
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mEmployeesInfoPresenter.companyDismissEmployee(mEmployeeInfo.getId());
+                                dialog.dismiss();
+                            }
+                        })
+                        .setMessage("确定踢出该员工吗？")
+                        .create().show();
                 break;
             }
             case R.id.btn_allow: {
@@ -217,7 +239,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
-
+            initView();
         }
     }
 
@@ -260,8 +282,8 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mRefreshBroadCastHander.unregisterReceiver();
-        mRefreshBroadCastHander = null;
+        mRefreshBroadCastHandler.unregisterReceiver();
+        mRefreshBroadCastHandler = null;
         mEmployeesInfoPresenter.detachView();
     }
 }

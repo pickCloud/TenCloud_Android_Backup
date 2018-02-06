@@ -54,8 +54,12 @@ public class JoinCom1Presenter extends BasePresenter<JoinCom1Contract.View> impl
                 .subscribe(new JesSubscribe<Map<String, Integer>>(mView) {
                     @Override
                     public void _onSuccess(Map<String, Integer> stringIntegerMap) {
-                        Integer status = stringIntegerMap.get("status");
-                        mView.showEmployeeStatus(status);
+                        if (stringIntegerMap == null){
+                            mView.showEmployeeStatus(null);
+                        }else {
+                            Integer status = stringIntegerMap.get("status");
+                            mView.showEmployeeStatus(status);
+                        }
                     }
                 }));
     }

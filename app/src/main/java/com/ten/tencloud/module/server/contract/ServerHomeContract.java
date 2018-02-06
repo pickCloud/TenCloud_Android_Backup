@@ -15,9 +15,13 @@ public class ServerHomeContract {
         void showWarnServerList(List<ServerBean> servers);
 
         void showEmptyView();
+
+        void showSummary(int server_num, int warn_num, int payment_num);
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
         void getWarnServerList(int id);
+
+        void summary();
     }
 }

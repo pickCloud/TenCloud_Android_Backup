@@ -14,6 +14,8 @@ public class EmployeeListContract {
         void showEmployees(List<EmployeeBean> employees);
 
         void showEmpty();
+
+        void onFailure();
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {

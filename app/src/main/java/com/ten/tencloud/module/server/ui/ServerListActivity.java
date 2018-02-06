@@ -16,7 +16,9 @@ import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServerBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.contract.ServerListContract;
 import com.ten.tencloud.module.server.presenter.ServerListPresenter;
@@ -48,14 +50,40 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
     private List<ProviderBean> providers;
     private Map<String, Map<String, Boolean>> select;
     private boolean mPermissionAddServer;
+    private RefreshBroadCastHandler mServerHandler;
+    private RefreshBroadCastHandler mRefreshPermissionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_list);
 
-        mPermissionAddServer = Utils.hasPermission("添加主机");
+        mPresenter = new ServerListPresenter();
+        mPresenter.attachView(this);
 
+        mServerHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mServerHandler.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getServerList(1);
+            }
+        });
+        mRefreshPermissionHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshPermissionHandler.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initPermission();
+            }
+        });
+
+        initPermission();
+        initView();
+        //默认集群 1
+        mPresenter.getServerList(1);
+    }
+
+    private void initPermission() {
+        mPermissionAddServer = Utils.hasPermission("添加主机");
         if (mPermissionAddServer) {
             initTitleBar(true, "服务器列表", R.menu.menu_add_server, new OnMenuItemClickListener() {
                 @Override
@@ -70,11 +98,6 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
         } else {
             initTitleBar(true, "服务器列表");
         }
-        initView();
-        mPresenter = new ServerListPresenter();
-        mPresenter.attachView(this);
-        //默认集群 1
-        mPresenter.getServerList(1);
     }
 
     @OnClick({R.id.tv_refresh, R.id.tv_filter, R.id.tv_add_server})
@@ -186,5 +209,9 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+        mRefreshPermissionHandler.unregisterReceiver();
+        mRefreshPermissionHandler = null;
+        mServerHandler.unregisterReceiver();
+        mServerHandler = null;
     }
 }
