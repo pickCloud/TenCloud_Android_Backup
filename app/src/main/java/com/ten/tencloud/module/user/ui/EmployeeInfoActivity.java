@@ -1,9 +1,8 @@
 package com.ten.tencloud.module.user.ui;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +23,7 @@ import com.ten.tencloud.module.user.contract.EmployeeInfoContract;
 import com.ten.tencloud.module.user.presenter.EmployeesInfoPresenter;
 import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.utils.glide.GlideUtils;
+import com.ten.tencloud.widget.dialog.CommonDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -197,32 +197,30 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             //离开公司
             case R.id.btn_leave:
             case R.id.btn_leave_no_admin: {
-                new AlertDialog.Builder(this)
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                new CommonDialog(this)
+                        .setPositiveButton("确定", new CommonDialog.OnButtonClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(Dialog dialog) {
                                 mEmployeesInfoPresenter.employeeDismissCompany(mEmployeeInfo.getId());
                                 dialog.dismiss();
                             }
                         })
                         .setMessage("确定离开该公司吗？")
-                        .create().show();
+                        .show();
                 break;
             }
             //解除关系
             case R.id.btn_relieve: {
-                new AlertDialog.Builder(this)
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                new CommonDialog(this)
+                        .setPositiveButton("确定", new CommonDialog.OnButtonClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(Dialog dialog) {
                                 mEmployeesInfoPresenter.companyDismissEmployee(mEmployeeInfo.getId());
                                 dialog.dismiss();
                             }
                         })
                         .setMessage("确定踢出该员工吗？")
-                        .create().show();
+                        .show();
                 break;
             }
             case R.id.btn_allow: {

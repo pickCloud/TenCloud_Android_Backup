@@ -3,6 +3,7 @@ package com.ten.tencloud.module.login.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import com.ten.tencloud.module.login.contract.LoginContract;
 import com.ten.tencloud.module.login.presenter.JoinCom1Presenter;
 import com.ten.tencloud.module.login.presenter.LoginCaptchaPresenter;
 import com.ten.tencloud.module.login.presenter.LoginPresenter;
+import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.utils.Utils;
 
 import butterknife.BindView;
@@ -117,7 +119,7 @@ public class JoinComStep1Activity extends BaseActivity
         }
     }
 
-    @OnClick({R.id.btn_send_code})
+    @OnClick({R.id.btn_send_code, R.id.tv_go})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_send_code:
@@ -129,6 +131,15 @@ public class JoinComStep1Activity extends BaseActivity
                 } else {
                     showMessage(R.string.tips_verify_phone_error);
                 }
+                break;
+            case R.id.tv_go:
+                String token = AppBaseCache.getInstance().getToken();
+                if (TextUtils.isEmpty(token)) {
+                    startActivity(new Intent(this, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(this, MainActivity.class));
+                }
+                finish();
                 break;
         }
     }

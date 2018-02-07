@@ -9,7 +9,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
-import com.ten.tencloud.module.user.adapter.FirstLevelNodeViewBinder;
+import com.ten.tencloud.module.user.adapter.FirstLevelNodeViewBinder1;
 import com.ten.tencloud.module.user.adapter.OtherLevelNodeViewBinder;
 
 import org.greenrobot.essentials.StringUtils;
@@ -79,7 +79,7 @@ public class PermissionTreePager extends BasePager {
             public BaseNodeViewBinder getNodeViewBinder(View view, int level) {
                 switch (level) {
                     case 0:
-                        return new FirstLevelNodeViewBinder(view);
+                        return new FirstLevelNodeViewBinder1(view, isView);
                     default:
                         return new OtherLevelNodeViewBinder(view, isView);
                 }

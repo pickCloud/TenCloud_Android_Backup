@@ -121,6 +121,30 @@
         android:onClick="btnOk"
         android:text="接受邀请" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂不接受，直接   "
+            android:textColor="@color/text_color_556278"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="进入系统"
+            android:textColor="@color/text_color_287db6"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
     <TextView
         style="@style/BottomCompanyText"
         android:text="@string/sqsm" />

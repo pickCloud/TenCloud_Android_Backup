@@ -35,14 +35,15 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private TextView mTvMsgCount;
     private MainPresenter mMainPresenter;
     private RefreshBroadCastHandler mRefreshBroadCastHandler;
+    private View mMsgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_main);
-        View msgView = View.inflate(this, R.layout.include_message, null);
-        mTvMsgCount = msgView.findViewById(R.id.tv_msg_count);
-        initTitleBar(false, getResources().getString(R.string.server), msgView, new View.OnClickListener() {
+        mMsgView = View.inflate(this, R.layout.include_message, null);
+        mTvMsgCount = mMsgView.findViewById(R.id.tv_msg_count);
+        initTitleBar(false, getResources().getString(R.string.server), mMsgView, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityNoValue(mContext, MsgActivity.class);
@@ -87,7 +88,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             @Override
             public void onPageSelected(int position) {
                 mNavLayout.setSelected(position);
-                initTitleBar(false, titles[position]);
+                changeTitle(titles[position]);
             }
         });
         mNavLayout.setOnItemSelectedListener(new NavLayout.OnItemSelectedListener() {
@@ -113,6 +114,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void updatePermissionSuccess() {
         mRefreshBroadCastHandler.sendBroadCast();
+    }
+
+    @Override
+    public void updateAdminInfo() {
+        mMainPresenter.isAdmin();
     }
 
     @Override

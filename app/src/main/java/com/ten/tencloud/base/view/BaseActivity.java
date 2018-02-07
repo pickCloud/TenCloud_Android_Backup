@@ -195,6 +195,13 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(isBack);
         }
+        mBarTitleSub.setVisibility(View.GONE);
+        mTvRight.setVisibility(View.GONE);
+        mFlRight.removeAllViews();
+        mIvLeft.setVisibility(View.GONE);
+        this.menuRes = -1;
+        onMenuItemClickListener = null;
+        supportInvalidateOptionsMenu();
     }
 
     public void initTitleBar(boolean isBack, @StringRes int title) {
@@ -261,6 +268,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         initTitleBar(isBack, title);
         this.menuRes = menuRes;
         this.onMenuItemClickListener = onMenuItemClickListener;
+        supportInvalidateOptionsMenu();
     }
 
     public void initTitleBar(boolean isBack, @StringRes int title, @MenuRes int menuRes, OnMenuItemClickListener onMenuItemClickListener) {
@@ -376,6 +384,15 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
             getMenuInflater().inflate(menuRes, menu);
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        if (menuRes != -1) {
+            getMenuInflater().inflate(menuRes, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     protected void startActivityNoValue(Context context, Class<?> clazz) {

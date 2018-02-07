@@ -111,16 +111,18 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5a5f057d8f4a9d6ff4000042" />
-
         <activity android:name=".module.user.ui.CompanyObjectionActivity" />
         <activity
             android:name=".module.login.ui.JoinComTipsActivity"
             android:label="@string/title_activity_join_com_tips"
-            android:theme="@style/AppTheme.NoAction"></activity>
+            android:theme="@style/AppTheme.NoAction" />
+        <activity
+            android:name=".module.other.ui.WelcomeActivity"
+            android:theme="@style/AppTheme.NoAction.FullScreen.Splash" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a5f057d8f4a9d6ff4000042" />
     </application>
 
 </manifest>

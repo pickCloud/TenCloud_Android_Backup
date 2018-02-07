@@ -14,11 +14,15 @@ public class MainContract {
         void updatePermission();
 
         void updatePermissionSuccess();
+
+        void updateAdminInfo();
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
         void getMsgCount();
 
         void getPermission(final int cid);
+
+        void isAdmin();
     }
 }

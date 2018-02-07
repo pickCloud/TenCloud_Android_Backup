@@ -77,21 +77,6 @@ public class EmployeeSelectAdminActivity extends BaseActivity
             public void onObjectItemClicked(EmployeeBean employeeBean, int position) {
                 mAdapter.setSelectPos(position);
                 if (employeeBean.getUid() != AppBaseCache.getInstance().getUserInfo().getId()) {
-//                    new AlertDialog.Builder(mContext)
-//                            .setMessage("确认更换 " + employeeBean.getName() + " 为管理员?")
-//                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    EmployeeBean selectObject = mAdapter.getSelectObject();
-//                                    if (selectObject == null) {
-//                                        showMessage("请选择员工");
-//                                        return;
-//                                    }
-//                                    mEmployeesTransferAdminPresenter.transferAdmin(selectObject.getUid());
-//                                }
-//                            })
-//                            .setNegativeButton("取消", null)
-//                            .create().show();
                     new CommonDialog(mContext)
                             .setMessage("确认更换 " + employeeBean.getName() + " 为管理员?")
                             .setPositiveButton("确认", new CommonDialog.OnButtonClickListener() {

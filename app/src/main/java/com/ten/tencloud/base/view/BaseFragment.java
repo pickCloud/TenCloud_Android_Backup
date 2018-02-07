@@ -242,6 +242,19 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         return this;
     }
 
-    ;
+    /**
+     * 传递参数
+     * @param key
+     * @param value
+     * @return
+     */
+    public BaseFragment putArgument(String key, int value) {
+        if (arguments == null) {
+            arguments = new Bundle();
+        }
+        arguments.putInt(key, value);
+        setArguments(arguments);
+        return this;
+    }
 
 }

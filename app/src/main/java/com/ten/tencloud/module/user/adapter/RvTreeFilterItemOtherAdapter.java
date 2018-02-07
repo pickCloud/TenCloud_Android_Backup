@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
@@ -47,6 +48,22 @@ public class RvTreeFilterItemOtherAdapter extends CJSBaseRecyclerViewAdapter<Per
         holder.tvName.setText(Utils.strIsEmptyForDefault(bean.getName(), bean.getFilename()));
         holder.cbSelect.setChecked(selectPos.contains(bean.getId()));
         holder.tvName.setSelected(selectPos.contains(bean.getId()));
+
+        Integer type = bean.getType();
+        if (type == null) {
+            holder.ivType.setVisibility(View.GONE);
+        } else if (type == 1) {
+            holder.ivType.setVisibility(View.VISIBLE);
+            holder.ivType.setImageResource(selectPos.contains(bean.getId()) ? R.mipmap.icon_folder_on : R.mipmap.icon_folder_off);
+        } else if (type == 0) {
+            holder.ivType.setVisibility(View.VISIBLE);
+            if (bean.getMime().contains("image/")) {
+                holder.ivType.setImageResource(selectPos.contains(bean.getId()) ? R.mipmap.icon_pic_on : R.mipmap.icon_pic_off);
+            } else {
+                holder.ivType.setImageResource(selectPos.contains(bean.getId()) ? R.mipmap.icon_doc_on : R.mipmap.icon_doc_off);
+            }
+        }
+
         if (isView) {
             holder.cbSelect.setVisibility(View.INVISIBLE);
         }
@@ -79,6 +96,8 @@ public class RvTreeFilterItemOtherAdapter extends CJSBaseRecyclerViewAdapter<Per
         CheckBox cbSelect;
         @BindView(R.id.tv_name)
         TextView tvName;
+        @BindView(R.id.iv_type)
+        ImageView ivType;// 文件类型
         @BindView(R.id.layout)
         View layout;
 

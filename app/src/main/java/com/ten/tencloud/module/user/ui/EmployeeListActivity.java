@@ -72,6 +72,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
             @Override
             public void onRefresh() {
                 initPermission();
+                mEmployeesListPresenter.getEmployees("", EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL);
             }
         });
         initPermission();
@@ -83,7 +84,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
      */
     private void initPermission() {
         mIsPermissionInvite = Utils.hasPermission("邀请新员工");
-        mIsAdmin = AppBaseCache.getInstance().getSelectCompanyWithLogin().getIs_admin() != 0;
+        mIsAdmin = AppBaseCache.getInstance().isAdmin();
         if (!mIsPermissionInvite && !mIsAdmin) {
             initTitleBar(true, "员工列表");
         } else {
@@ -209,6 +210,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
+            initPermission();
             search();
         }
     }

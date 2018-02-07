@@ -73,7 +73,6 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
 
     @Override
     public void getPermission(final int cid) {
-        AppBaseCache.getInstance().setUserPermission("");//清空
         if (cid == 0) {
             return;
         }

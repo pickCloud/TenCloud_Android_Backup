@@ -1,10 +1,9 @@
 package com.ten.tencloud.module.user.ui;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -27,6 +26,7 @@ import com.ten.tencloud.module.user.adapter.RvCompanyAdapter;
 import com.ten.tencloud.module.user.contract.CompanyListContract;
 import com.ten.tencloud.module.user.presenter.CompanyListPresenter;
 import com.ten.tencloud.utils.UiUtils;
+import com.ten.tencloud.widget.dialog.CommonDialog;
 
 import java.util.List;
 
@@ -101,35 +101,31 @@ public class CompanyListActivity extends BaseActivity implements CompanyListCont
             public void onObjectItemClicked(final CompanyBean companyBean, int position) {
                 int status = companyBean.getStatus();
                 if (status == Constants.EMPLOYEE_STATUS_CODE_PASS || status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                    new CommonDialog(mContext)
                             .setMessage("确定切换企业身份？")
-                            .setNegativeButton("取消", null)
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("确定", new CommonDialog.OnButtonClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                public void onClick(Dialog dialog) {
                                     AppBaseCache.getInstance().setCid(companyBean.getCid());
                                     GlobalStatusManager.getInstance().setCompanyListNeedRefresh(true);
                                     dialog.dismiss();
                                     TenApp.getInstance().jumpMainActivity();
                                 }
                             })
-                            .create();
-                    alertDialog.show();
+                            .show();
                 } else if (status == Constants.EMPLOYEE_STATUS_CODE_NO_PASS || status == Constants.EMPLOYEE_STATUS_CODE_WAITING) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                    new CommonDialog(mContext)
                             .setMessage("重新提交申请？")
-                            .setNegativeButton("取消", null)
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("确定", new CommonDialog.OnButtonClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                                public void onClick(Dialog dialog) {
                                     Intent intent = new Intent(mContext, JoinComStep2Activity.class);
                                     intent.putExtra("code", companyBean.getCode());
                                     startActivity(intent);
                                     dialog.dismiss();
                                 }
                             })
-                            .create();
-                    alertDialog.show();
+                            .show();
                 }
             }
         });

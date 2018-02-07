@@ -39,7 +39,9 @@ public class AppBaseCache {
 
     public static synchronized AppBaseCache getInstance() {
         if (sAppBaseCache == null) {
-            sAppBaseCache = new AppBaseCache(TenApp.getInstance());
+            synchronized (AppBaseCache.class){
+                sAppBaseCache = new AppBaseCache(TenApp.getInstance());
+            }
         }
         return sAppBaseCache;
     }
@@ -119,6 +121,9 @@ public class AppBaseCache {
     }
 
     public String getUserPermission() {
+        if (!TextUtils.isEmpty(userPermission)) {
+            return userPermission;
+        }
         Box<KeyValue> box = TenApp.getInstance().getBoxStore().boxFor(KeyValue.class);
         KeyValue value = box.query().equal(KeyValue_.key, USER_PERMISSION).build().findFirst();
         if (value == null) {
@@ -134,6 +139,7 @@ public class AppBaseCache {
             box.remove(first);
         }
         box.put(new KeyValue(USER_PERMISSION, userPermission));
+        this.userPermission = userPermission;
     }
 
     public int getCid() {

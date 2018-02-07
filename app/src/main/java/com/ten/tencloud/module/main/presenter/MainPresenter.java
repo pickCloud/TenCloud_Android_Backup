@@ -8,6 +8,7 @@ import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.main.contract.MainContract;
 import com.ten.tencloud.module.main.model.MsgModel;
+import com.ten.tencloud.module.user.model.EmployeesModel;
 import com.ten.tencloud.module.user.model.UserModel;
 
 import java.util.Map;
@@ -39,8 +40,12 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                     public void _onSuccess(Map<String, Integer> stringIntegerMap) {
                         mView.showMsgCount(stringIntegerMap.get("num") + "");
                         Integer permission_changed = stringIntegerMap.get("permission_changed");
+                        Integer admin_changed = stringIntegerMap.get("admin_changed");
                         if (permission_changed != 0) {
                             mView.updatePermission();
+                        }
+                        if (admin_changed != 0) {
+                            mView.updateAdminInfo();
                         }
                     }
 
@@ -52,7 +57,6 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
 
     @Override
     public void getPermission(final int cid) {
-        AppBaseCache.getInstance().setUserPermission("");//清空
         User userInfo = AppBaseCache.getInstance().getUserInfo();
         if (userInfo == null) {
             TenApp.getInstance().jumpLoginActivity();
@@ -72,6 +76,20 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                     public void onError(Throwable e) {
                         super.onError(e);
                         getPermission(cid);
+                    }
+                }));
+    }
+
+    @Override
+    public void isAdmin() {
+        int cid = AppBaseCache.getInstance().getCid();
+        mSubscriptions.add(EmployeesModel.getInstance().getEmployeeStatus(cid)
+                .subscribe(new JesSubscribe<Map<String, Integer>>(mView) {
+                    @Override
+                    public void _onSuccess(Map<String, Integer> stringIntegerMap) {
+                        Integer is_admin = stringIntegerMap.get("is_admin");
+                        AppBaseCache.getInstance().setIsAdmin(is_admin == 1);
+                        mView.updatePermissionSuccess();
                     }
                 }));
     }

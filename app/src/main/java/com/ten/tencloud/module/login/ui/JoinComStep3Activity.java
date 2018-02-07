@@ -8,6 +8,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.module.other.ui.WelcomeActivity;
 import com.ten.tencloud.module.user.ui.CompanyListActivity;
 
 import java.util.concurrent.TimeUnit;
@@ -28,8 +29,9 @@ public class JoinComStep3Activity extends BaseActivity {
     }
 
     public void btnOk(View view) {
-        TenApp.getInstance().jumpMainActivity();
+//        TenApp.getInstance().jumpMainActivity();
         GlobalStatusManager.getInstance().clearTask();
+        startActivityNoValue(this, WelcomeActivity.class);
     }
 
     @OnClick({R.id.tv_company})
@@ -41,8 +43,8 @@ public class JoinComStep3Activity extends BaseActivity {
                         .subscribe(new Action1<String>() {
                             @Override
                             public void call(String s) {
-                                GlobalStatusManager.getInstance().clearTask();
                                 startActivity(new Intent(JoinComStep3Activity.this, CompanyListActivity.class));
+                                GlobalStatusManager.getInstance().clearTask();
                             }
                         });
                 TenApp.getInstance().jumpMainActivity();

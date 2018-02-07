@@ -56,12 +56,7 @@ public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
         }
         mCheckBox.setText(name);
         int level = treeNode.getLevel();
-        int padding;
-        if (level == 1) {
-            padding = UiUtils.dip2px(TenApp.getInstance(), 16);
-        } else {
-            padding = UiUtils.dip2px(TenApp.getInstance(), 16 + (24 * (level - 1)));
-        }
+        int padding = UiUtils.dip2px(TenApp.getInstance(), 16 + (24 * (level)));
         mLlContent.setPadding(padding, 0, 0, 0);
         if (treeNode.getChildren() == null || treeNode.getChildren().size() == 0) {
             mIvArrow.setVisibility(View.GONE);

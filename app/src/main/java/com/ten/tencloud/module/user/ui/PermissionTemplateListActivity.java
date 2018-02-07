@@ -1,15 +1,15 @@
 package com.ten.tencloud.module.user.ui;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
@@ -22,6 +22,7 @@ import com.ten.tencloud.module.user.adapter.RvTemplateAdapter;
 import com.ten.tencloud.module.user.contract.PermissionTemplatesContract;
 import com.ten.tencloud.module.user.presenter.PermissionTemplatesPresenter;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.widget.dialog.CommonDialog;
 import com.ten.tencloud.widget.popup.DelPopupWindow;
 
 import java.util.List;
@@ -54,6 +55,7 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
         mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
+                KLog.e(">>>接收到权限变更");
                 initPermission();
             }
         });
@@ -110,16 +112,16 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
                     mDelPopupWindow.setOnButtonClickListener(new DelPopupWindow.OnButtonClickListener() {
                         @Override
                         public void onDelClick() {
-                            new AlertDialog.Builder(mContext)
+                            new CommonDialog(mContext)
                                     .setMessage("确认删除该模版？")
-                                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("确认", new CommonDialog.OnButtonClickListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                        public void onClick(Dialog dialog) {
                                             mTemplatesPresenter.delTemplate(bean.getId());
+                                            dialog.dismiss();
                                         }
                                     })
-                                    .setNegativeButton("取消", null)
-                                    .create().show();
+                                    .show();
                         }
                     });
 

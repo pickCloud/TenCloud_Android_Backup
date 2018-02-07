@@ -50,9 +50,6 @@ public class CommonDialog extends Dialog {
                 dismiss();
             }
         });
-        mTvMsg.setText(msg);
-        mTvPositiveButton.setText(mPositiveText);
-        mMCancelButton.setText(Utils.strIsEmptyForDefault(mCancelText, "取消"));
         mTvPositiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +65,14 @@ public class CommonDialog extends Dialog {
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         setCancelable(false);
         setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        mTvMsg.setText(msg);
+        mTvPositiveButton.setText(mPositiveText);
+        mMCancelButton.setText(Utils.strIsEmptyForDefault(mCancelText, "取消"));
     }
 
     public CommonDialog setMessage(String msg) {

@@ -10,6 +10,8 @@ public class PermissionTreeNodeBean {
 
     private String name;
     private String filename;
+    private Integer type;//有空的
+    private String mime;
     private int id;
     private int group;
 
@@ -110,5 +112,21 @@ public class PermissionTreeNodeBean {
 
     public void setSelect(boolean select) {
         isSelect = select;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getMime() {
+        return mime;
+    }
+
+    public void setMime(String mime) {
+        this.mime = mime;
     }
 }

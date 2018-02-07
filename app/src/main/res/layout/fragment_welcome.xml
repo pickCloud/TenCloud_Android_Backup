@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/p1"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/DefaultButtonStyle"
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="498dp"
+        android:text="马上体验"
+        android:visibility="gone" />
+
+</LinearLayout>

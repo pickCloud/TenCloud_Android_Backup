@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.server.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import com.ten.tencloud.module.server.contract.ServerOperationContract;
 import com.ten.tencloud.module.server.presenter.ServerDetailPresenter;
 import com.ten.tencloud.module.server.presenter.ServerOperationPresenter;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.widget.dialog.CommonDialog;
 
 import java.util.concurrent.TimeUnit;
 
@@ -73,6 +75,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     private boolean isFirst = true;
     private String mId;
     private AlertDialog mDialog;
+    private CommonDialog mCommonDialog;
 
     private int clickState = 0;
     private String mName;
@@ -120,6 +123,30 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                     }
                 }).create();
 
+        mCommonDialog = new CommonDialog(mContext)
+                .setPositiveButton("确定", new CommonDialog.OnButtonClickListener() {
+                    @Override
+                    public void onClick(Dialog dialog) {
+                        switch (clickState) {
+                            case CLICK_STATE_REBOOT:
+                                mServerOperationPresenter.rebootServer(mId);
+                                setState("停止中");
+                                break;
+                            case CLICK_STATE_START:
+                                mServerOperationPresenter.startServer(mId);
+                                setState("启动中");
+                                break;
+                            case CLICK_STATE_STOP:
+                                mServerOperationPresenter.stopServer(mId);
+                                setState("停止中");
+                                break;
+                            case CLICK_STATE_DEL:
+                                mServerOperationPresenter.delServer(mId);
+                                break;
+                        }
+                    }
+                });
+
         mRefreshBroadCastHandler = new RefreshBroadCastHandler(mContext, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
@@ -152,23 +179,31 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                 break;
             case R.id.btn_restart:
                 clickState = CLICK_STATE_REBOOT;
-                mDialog.setMessage("您确定要重启该机器吗？");
-                mDialog.show();
+//                mDialog.setMessage("您确定要重启该机器吗？");
+//                mDialog.show();
+                mCommonDialog.setMessage("您确定要重启该机器吗？");
+                mCommonDialog.show();
                 break;
             case R.id.btn_del:
                 clickState = CLICK_STATE_DEL;
-                mDialog.setMessage("您确定删除 " + mName + " 吗?");
-                mDialog.show();
+//                mDialog.setMessage("您确定删除 " + mName + " 吗?");
+//                mDialog.show();
+                mCommonDialog.setMessage("您确定删除 " + mName + " 吗?");
+                mCommonDialog.show();
                 break;
             case R.id.btn_start:
                 clickState = CLICK_STATE_START;
-                mDialog.setMessage("您确定开机吗？");
-                mDialog.show();
+//                mDialog.setMessage("您确定开机吗？");
+//                mDialog.show();
+                mCommonDialog.setMessage("您确定开机吗?");
+                mCommonDialog.show();
                 break;
             case R.id.btn_stop:
                 clickState = CLICK_STATE_STOP;
-                mDialog.setMessage("您确定关机吗？");
-                mDialog.show();
+//                mDialog.setMessage("您确定关机吗？");
+//                mDialog.show();
+                mCommonDialog.setMessage("您确定关机吗?");
+                mCommonDialog.show();
                 break;
         }
     }
