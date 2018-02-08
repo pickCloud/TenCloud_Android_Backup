@@ -98,7 +98,9 @@ public class ServerAddModel {
     }
 
     public void close() {
-        mWebSocket.close(1000, "");
+        if (mWebSocket != null) {
+            mWebSocket.close(1000, "");
+        }
     }
 
     public void onDestroy() {

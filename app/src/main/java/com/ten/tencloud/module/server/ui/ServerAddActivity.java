@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.ten.tencloud.BuildConfig;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
@@ -41,11 +42,26 @@ public class ServerAddActivity extends BaseActivity {
     private ServerAddLogDialog mServerAddLogDialog;
     private RefreshBroadCastHandler mServerHandler;
 
+    private String name = "测试";
+    private String ip = "47.97.185.147";
+    private String user = "root";
+    private String pw = "Test1234";
+
+    private String msg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_add);
         initTitleBar(true, "添加主机");
+
+        if (BuildConfig.DEBUG) {
+            mEtIp.setText(ip);
+            mEtName.setText(name);
+            mEtPassword.setText(pw);
+            mEtUser.setText(user);
+        }
+
         mServerHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerAddModel = new ServerAddModel(new ServerAddModel.onServerAddListener() {
 
@@ -85,12 +101,14 @@ public class ServerAddActivity extends BaseActivity {
                         mServerAddLogDialog.cancel();
                         ServerAddFailureDialog serverAddFailureDialog = new ServerAddFailureDialog(mContext);
                         serverAddFailureDialog.show();
-                        serverAddFailureDialog.setCause(message);
+                        serverAddFailureDialog.setCause(msg);
                     }
                 });
             }
+
             @Override
             public void onMessage(String text) {
+                msg = text;
                 showLogDialog(text, true);
             }
         });

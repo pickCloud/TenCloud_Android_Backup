@@ -2,6 +2,7 @@ package com.ten.tencloud.module.main.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -119,6 +120,28 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void updateAdminInfo() {
         mMainPresenter.isAdmin();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            exit();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private long mExitTime;
+
+    private void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            showMessage("再按一次退出");
+            mExitTime = System.currentTimeMillis();
+        } else {
+            finish();
+        }
     }
 
     @Override

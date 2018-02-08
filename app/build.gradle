@@ -128,6 +128,8 @@ dependencies {
 
     compile "com.songhang:smart-headerfooter-recyclerview:${libs.RecycleViewHeaderView}"
 
+    compile "com.github.hackware1993:MagicIndicator:${libs.MagicIndicator}"
+
     /**
      *   选择器
      */

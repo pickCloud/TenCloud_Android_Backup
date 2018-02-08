@@ -3,7 +3,7 @@ package com.ten.tencloud.module.server.ui;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
+import android.view.View;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
@@ -23,8 +23,8 @@ public class ServerDetailDockerPager extends BasePager implements ServerDockerCo
 
     @BindView(R.id.xrv_docker)
     RecyclerView mXrvDocker;
-    @BindView(R.id.tv_empty)
-    TextView mTvEmpty;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
 
     private boolean isFirst = true;
     private RvServerDetailDockerAdapter mAdapter;
@@ -51,14 +51,15 @@ public class ServerDetailDockerPager extends BasePager implements ServerDockerCo
 
     @Override
     public void showDocker(List<List<String>> dockers) {
-        mTvEmpty.setVisibility(INVISIBLE);
+        mEmptyView.setVisibility(INVISIBLE);
         mAdapter.setDatas(dockers);
         isFirst = false;
     }
 
     @Override
     public void showEmpty() {
-        mTvEmpty.setVisibility(VISIBLE);
+        mAdapter.clear();
+        mEmptyView.setVisibility(VISIBLE);
         isFirst = false;
     }
 }

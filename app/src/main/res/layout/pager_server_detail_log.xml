@@ -11,14 +11,6 @@
         android:layout_marginTop="8dp"
         android:overScrollMode="never" />
 
-    <TextView
-        android:id="@+id/tv_empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="暂无数据"
-        android:textColor="@color/text_color_899ab6"
-        android:textSize="16sp"
-        android:visibility="invisible" />
+    <include layout="@layout/layout_empty_view_default" />
 
 </FrameLayout>

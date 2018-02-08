@@ -3,7 +3,7 @@ package com.ten.tencloud.module.server.ui;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
+import android.view.View;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
@@ -25,8 +25,8 @@ public class ServerDetailLogPager extends BasePager implements ServerLogContract
 
     @BindView(R.id.rv_server_log)
     RecyclerView mRvServerLog;
-    @BindView(R.id.tv_empty)
-    TextView mTvEmpty;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
 
     private boolean isFirst = true;
     private RvServerLogAdapter mLogAdapter;
@@ -55,13 +55,14 @@ public class ServerDetailLogPager extends BasePager implements ServerLogContract
 
     @Override
     public void showServerLogList(List<ServerLogBean.LogInfo> servers) {
-        mTvEmpty.setVisibility(INVISIBLE);
+        mEmptyView.setVisibility(INVISIBLE);
         mLogAdapter.setDatas(servers);
         isFirst = false;
     }
 
     @Override
     public void showEmpty() {
-        mTvEmpty.setVisibility(VISIBLE);
+        mLogAdapter.clear();
+        mEmptyView.setVisibility(VISIBLE);
     }
 }

@@ -3,9 +3,7 @@ package com.ten.tencloud.module.server.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -74,7 +72,6 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
 
     private boolean isFirst = true;
     private String mId;
-    private AlertDialog mDialog;
     private CommonDialog mCommonDialog;
 
     private int clickState = 0;
@@ -98,31 +95,6 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         mServerDetailPresenter.attachView(this);
         mServerOperationPresenter.attachView(this);
 
-        mDialog = new AlertDialog.Builder(mContext)
-                .setNegativeButton("取消", null)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (clickState) {
-                            case CLICK_STATE_REBOOT:
-                                mServerOperationPresenter.rebootServer(mId);
-                                setState("停止中");
-                                break;
-                            case CLICK_STATE_START:
-                                mServerOperationPresenter.startServer(mId);
-                                setState("启动中");
-                                break;
-                            case CLICK_STATE_STOP:
-                                mServerOperationPresenter.stopServer(mId);
-                                setState("停止中");
-                                break;
-                            case CLICK_STATE_DEL:
-                                mServerOperationPresenter.delServer(mId);
-                                break;
-                        }
-                    }
-                }).create();
-
         mCommonDialog = new CommonDialog(mContext)
                 .setPositiveButton("确定", new CommonDialog.OnButtonClickListener() {
                     @Override
@@ -144,6 +116,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                                 mServerOperationPresenter.delServer(mId);
                                 break;
                         }
+                        dialog.dismiss();
                     }
                 });
 
@@ -179,29 +152,21 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                 break;
             case R.id.btn_restart:
                 clickState = CLICK_STATE_REBOOT;
-//                mDialog.setMessage("您确定要重启该机器吗？");
-//                mDialog.show();
                 mCommonDialog.setMessage("您确定要重启该机器吗？");
                 mCommonDialog.show();
                 break;
             case R.id.btn_del:
                 clickState = CLICK_STATE_DEL;
-//                mDialog.setMessage("您确定删除 " + mName + " 吗?");
-//                mDialog.show();
                 mCommonDialog.setMessage("您确定删除 " + mName + " 吗?");
                 mCommonDialog.show();
                 break;
             case R.id.btn_start:
                 clickState = CLICK_STATE_START;
-//                mDialog.setMessage("您确定开机吗？");
-//                mDialog.show();
                 mCommonDialog.setMessage("您确定开机吗?");
                 mCommonDialog.show();
                 break;
             case R.id.btn_stop:
                 clickState = CLICK_STATE_STOP;
-//                mDialog.setMessage("您确定关机吗？");
-//                mDialog.show();
                 mCommonDialog.setMessage("您确定关机吗?");
                 mCommonDialog.show();
                 break;
@@ -247,16 +212,16 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     private void setState(final String state) {
         mTvStatus.setText(state);
         mTvStatus.setSelected(true);
-        mTvStatus.setEnabled(!"已停止".equals(state));
-        if ("异常".equals(state)) {
+        mTvStatus.setEnabled(!"已关机".equals(state));
+        if ("故障".equals(state) || ("异常").equals(state)) {
             mTvStatus.setSelected(false);
         }
         if (mPermissionStartServer) {
-            if ("已停止".equals(state)) {
+            if ("已关机".equals(state) || ("已停止").equals(state)) {
                 mBtnStop.setVisibility(GONE);
                 mBtnRestart.setVisibility(GONE);
                 mBtnStart.setVisibility(VISIBLE);
-            } else if ("运行中".equals(state) || "异常".equals(state)) {
+            } else if ("运行中".equals(state) || "故障".equals(state) || ("异常").equals(state)) {
                 mBtnStop.setVisibility(VISIBLE);
                 mBtnRestart.setVisibility(VISIBLE);
                 mBtnStart.setVisibility(GONE);
@@ -272,7 +237,8 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         if (mAnimSubscribe != null && !mAnimSubscribe.isUnsubscribed()) {
             mAnimSubscribe.unsubscribe();
         }
-        if ("停止中".equals(state) || "启动中".equals(state)) {
+        if ("关机中".equals(state) || "开机中".equals(state)
+                || ("停止中").equals(state) || ("启动中").equals(state)) {
             mAnimSubscribe = Observable.interval(0, 500, TimeUnit.MILLISECONDS)
                     .map(new Func1<Long, Integer>() {
                         @Override
