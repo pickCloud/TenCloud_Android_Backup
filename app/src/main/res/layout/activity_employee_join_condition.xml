@@ -77,7 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="48.5dp"
         android:background="@color/bg_232730"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout style="@style/SettingItemLayout">
 

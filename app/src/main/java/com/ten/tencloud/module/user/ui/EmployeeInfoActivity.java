@@ -114,6 +114,10 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
             mTvStatus.setText("待加入");
             mTvStatus.setEnabled(true);
             mTvStatus.setSelected(false);
+        } else if (status == Constants.EMPLOYEE_STATUS_CODE_CREATE) {
+            mTvStatus.setText("创建人");
+            mTvStatus.setEnabled(true);
+            mTvStatus.setSelected(true);
         } else {
             mTvStatus.setText("审核通过");
             mTvStatus.setEnabled(true);
@@ -121,7 +125,8 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         }
         // TODO: 2018/1/3 身份证
         boolean hasPermissionViewIdCard = Utils.hasPermission("查看员工身份证信息");
-        mLlIdCard.setVisibility(hasPermissionViewIdCard ? View.VISIBLE : View.GONE);
+//        mLlIdCard.setVisibility(hasPermissionViewIdCard ? View.VISIBLE : View.GONE);
+        mLlIdCard.setVisibility(View.GONE);
         mTvIdNum.setText(Utils.isEmptyDefaultForString(mEmployeeInfo.getId_card(), "-"));
         setButtonStatusForPermission();
     }
