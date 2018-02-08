@@ -1,8 +1,9 @@
 package com.ten.tencloud.module.user.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
+import com.ten.tencloud.base.adapter.CJSVpPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.PermissionTemplateBean;
@@ -19,14 +21,26 @@ import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvTreeComTemplateAdapter;
-import com.ten.tencloud.base.adapter.CJSVpPagerAdapter;
 import com.ten.tencloud.module.user.contract.PermissionTreeContract;
 import com.ten.tencloud.module.user.presenter.PermissionTreePresenter;
+import com.ten.tencloud.utils.UiUtils;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 
 public class PermissionTreeActivity extends BaseActivity implements PermissionTreeContract.View {
@@ -40,9 +54,13 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
     public static final int TYPE_USER_SETTING = 4;
     public static final int TYPE_USER_VIEW = 5;
 
+    @BindColor(R.color.colorPrimary)
+    int mColorPrimary;
+    @BindColor(R.color.text_color_899ab6)
+    int mColor899ab6;
 
-    @BindView(R.id.tab)
-    TabLayout mTab;
+    @BindView(R.id.indicator)
+    MagicIndicator mIndicator;
     @BindView(R.id.vp_content)
     ViewPager mVpContent;
 
@@ -57,12 +75,14 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
     private CJSVpPagerAdapter mAdapter;
     private PermissionTreePresenter mTreePresenter;
     private PermissionTreePager mFuncPager;
-//    private PermissionTreePager mDataPager;
+    //    private PermissionTreePager mDataPager;
     private PermissionTreeFilterPager mDataPager;
     private List<PermissionTreeNodeBean> resource;
 
     private int type;
     private RvTreeComTemplateAdapter mTreeComTemplateAdapter;
+    private CommonNavigatorAdapter mCommonNavigatorAdapter;
+    private CommonNavigator mCommonNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +169,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
                 @Override
                 public void onSelect(PermissionTemplateBean bean) {
                     mTemplateBean = bean;
+                    initIndicator();
                     showTemplatesAll(resource);
                 }
             });
@@ -163,6 +184,63 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             //更新权限
             mTreePresenter.getTemplateResource(AppBaseCache.getInstance().getCid());
         }
+        initIndicator();
+    }
+
+    private void initIndicator() {
+        mCommonNavigator = new CommonNavigator(this);
+        mCommonNavigatorAdapter = new CommonNavigatorAdapter() {
+            @Override
+            public int getCount() {
+                return titles.length;
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                SimplePagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
+                simplePagerTitleView.setNormalColor(mColor899ab6);
+                simplePagerTitleView.setSelectedColor(mColorPrimary);
+                simplePagerTitleView.setText(titles[index]);
+                simplePagerTitleView.setTextSize(14);
+                simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mVpContent.setCurrentItem(index);
+                    }
+                });
+                return simplePagerTitleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setColors(mColorPrimary);
+                indicator.setLineHeight(UiUtils.dip2px(context, 2));
+                return indicator;
+            }
+        };
+        mCommonNavigator.setAdapter(mCommonNavigatorAdapter);
+        mIndicator.setNavigator(mCommonNavigator);
+        LinearLayout titleContainer = mCommonNavigator.getTitleContainer();
+        titleContainer.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        titleContainer.setDividerDrawable(new ColorDrawable() {
+            @Override
+            public int getIntrinsicWidth() {
+                return UIUtil.dip2px(mContext, 120);
+            }
+        });
+    }
+
+    private void notifyTitleChange() {
+        mCommonNavigator.notifyDataSetChanged();
+        LinearLayout titleContainer = mCommonNavigator.getTitleContainer();
+        titleContainer.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        titleContainer.setDividerDrawable(new ColorDrawable() {
+            @Override
+            public int getIntrinsicWidth() {
+                return UIUtil.dip2px(mContext, 120);
+            }
+        });
     }
 
     @Override
@@ -199,7 +277,13 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         mAdapter = new CJSVpPagerAdapter(titles, pagers);
         mVpContent.setOffscreenPageLimit(pagers.size());
         mVpContent.setAdapter(mAdapter);
-        mTab.setupWithViewPager(mVpContent);
+
+        
+        titles[0] = "功能(" + 0 + ")";
+        titles[1] = "数据(" + 0 + ")";
+        ViewPagerHelper.bind(mIndicator, mVpContent);
+        notifyTitleChange();
+
     }
 
     @Override
@@ -234,7 +318,8 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         mAdapter = new CJSVpPagerAdapter(titles, pagers);
         mVpContent.setOffscreenPageLimit(pagers.size());
         mVpContent.setAdapter(mAdapter);
-        mTab.setupWithViewPager(mVpContent);
+        ViewPagerHelper.bind(mIndicator, mVpContent);
+        notifyTitleChange();
     }
 
     @Override

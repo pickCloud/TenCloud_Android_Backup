@@ -3,6 +3,7 @@ package com.ten.tencloud.module.user.adapter;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -58,6 +59,12 @@ public class FirstLevelNodeViewBinder1 extends CheckableNodeViewBinder {
         } else {
             mIvArrow.setVisibility(View.VISIBLE);
         }
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                
+            }
+        });
     }
 
     @Override
