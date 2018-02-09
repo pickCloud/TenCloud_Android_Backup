@@ -45,16 +45,6 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
     private long startTime;
     private long endTime;
 
-
-    //    private PopupWindow mPopupWindow;
-//    private TextView mTvCycleDefault;
-//    private TextView mTvCycleHour;
-//    private TextView mTvCycleDay;
-//    private ImageView mIvCycleDefault;
-//    private ImageView mIvCycleHour;
-//    private ImageView mIvCycleDay;
-//    private TextView[] mTvCycleArray;
-//    private ImageView[] mIvCycleArray;
     private ServerHistoryPresenter mServerHistoryPresenter;
     private RvServerHistoryAdapter mAdapter;
     private ServerHistoryTimeDialog mHistoryTimeDialog;

@@ -47,8 +47,9 @@ public class MsgActivity extends BaseActivity implements MsgContract.View {
     SmartRefreshLayout mRefresh;
     @BindView(R.id.rv_msg)
     RecyclerView mRvMsg;
-    @BindView(R.id.tv_empty)
-    TextView mTvEmpty;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
+
     private RvMsgAdapter mMsgAdapter;
     private MsgPresenter mMsgPresenter;
 
@@ -180,14 +181,14 @@ public class MsgActivity extends BaseActivity implements MsgContract.View {
         } else {
             mMsgAdapter.clear();
             mRefresh.finishRefresh();
-            mTvEmpty.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.VISIBLE);
             mRvMsg.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void showMsgList(List<MessageBean> msg, boolean isLoadMore) {
-        mTvEmpty.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
         mRvMsg.setVisibility(View.VISIBLE);
         if (isLoadMore) {
             mMsgAdapter.addData(msg);

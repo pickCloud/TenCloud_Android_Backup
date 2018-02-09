@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
@@ -48,6 +49,8 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
 
     @BindView(R.id.tv_name)
     TextView mTvName;
+    @BindView(R.id.iv_arrow)
+    ImageView mIvArrow;
     @BindView(R.id.tv_provider)
     TextView mTvProvider;
     @BindView(R.id.tv_address)
@@ -145,10 +148,12 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_name:
-                Intent intent = new Intent(mContext, ServerChangeNameActivity.class);
-                intent.putExtra("id", mId);
-                intent.putExtra("name", mName);
-                ((Activity) mContext).startActivityForResult(intent, CODE_CHANGE_NAME);
+                if (mPermissionChangeServer) {
+                    Intent intent = new Intent(mContext, ServerChangeNameActivity.class);
+                    intent.putExtra("id", mId);
+                    intent.putExtra("name", mName);
+                    ((Activity) mContext).startActivityForResult(intent, CODE_CHANGE_NAME);
+                }
                 break;
             case R.id.btn_restart:
                 clickState = CLICK_STATE_REBOOT;
@@ -186,6 +191,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         if (isFirst) {
             mId = getArgument("id");
             createView(R.layout.pager_server_detail_basic);
+            mIvArrow.setVisibility(mPermissionChangeServer ? VISIBLE : INVISIBLE);
             mServerDetailPresenter.getServerDetail(mId);
         }
     }
