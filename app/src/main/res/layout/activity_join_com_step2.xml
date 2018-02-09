@@ -127,6 +127,7 @@
 
     <LinearLayout
         android:id="@+id/ll_id_card"
+        android:visibility="gone"
         style="@style/ListItemLLFirst">
 
         <LinearLayout style="@style/ListItemLL2">

@@ -18,7 +18,9 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.user.adapter.RvTreeComTemplateAdapter;
 import com.ten.tencloud.module.user.contract.PermissionTreeContract;
@@ -83,6 +85,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
     private RvTreeComTemplateAdapter mTreeComTemplateAdapter;
     private CommonNavigatorAdapter mCommonNavigatorAdapter;
     private CommonNavigator mCommonNavigator;
+    private RefreshBroadCastHandler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +151,28 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
                 }
             });
         }
+
+        mHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
+        mHandler.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Map<String, String> funcSelectNode = mFuncPager.getSelectNode();
+                Map<String, String> dataSelectNode = mDataPager.getSelectNode();
+                dataSelectNode.putAll(funcSelectNode);
+                mTemplateBean.setPermissions(dataSelectNode.get("permissions"));
+                mTemplateBean.setAccess_filehub(dataSelectNode.get("access_filehub"));
+                mTemplateBean.setAccess_projects(dataSelectNode.get("access_projects"));
+                mTemplateBean.setAccess_servers(dataSelectNode.get("access_servers"));
+                int funcCount = handCount(mTemplateBean.getPermissions());
+                int dataCount = handCount(mTemplateBean.getAccess_servers())
+                        + handCount(mTemplateBean.getAccess_projects())
+                        + handCount(mTemplateBean.getAccess_filehub());
+                titles[0] = "功能(" + funcCount + "/" + getTotal(resource.get(0)) + ")";
+                titles[1] = "数据(" + dataCount + "/" + getTotal(resource.get(1)) + ")";
+                notifyTitleChange();
+            }
+        });
+
         initView();
     }
 
@@ -262,6 +287,15 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             mTemplateBean.setAccess_filehub("");
             mFuncPager.putArgument("isView", true);
             mDataPager.putArgument("isView", true);
+            titles[0] = "功能(" + getTotal(data.get(0)) + ")";
+            titles[1] = "功能(" + getTotal(data.get(1)) + ")";
+        } else {
+            int funcCount = handCount(mTemplateBean.getPermissions());
+            int dataCount = handCount(mTemplateBean.getAccess_servers())
+                    + handCount(mTemplateBean.getAccess_projects())
+                    + handCount(mTemplateBean.getAccess_filehub());
+            titles[0] = "功能(" + funcCount + "/" + getTotal(data.get(0)) + ")";
+            titles[1] = "数据(" + dataCount + "/" + getTotal(data.get(1)) + ")";
         }
 
         mFuncPager.putArgument("resource", data.get(0).getData());
@@ -277,10 +311,6 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         mAdapter = new CJSVpPagerAdapter(titles, pagers);
         mVpContent.setOffscreenPageLimit(pagers.size());
         mVpContent.setAdapter(mAdapter);
-
-        
-        titles[0] = "功能(" + 0 + ")";
-        titles[1] = "数据(" + 0 + ")";
         ViewPagerHelper.bind(mIndicator, mVpContent);
         notifyTitleChange();
 
@@ -312,9 +342,13 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             int dataCount = handCount(mTemplateBean.getAccess_servers())
                     + handCount(mTemplateBean.getAccess_projects())
                     + handCount(mTemplateBean.getAccess_filehub());
-            titles[0] = "功能(" + funcCount + ")";
-            titles[1] = "数据(" + dataCount + ")";
+            titles[0] = "功能(" + funcCount + "/" + getTotal(data.getData().get(0)) + ")";
+            titles[1] = "数据(" + dataCount + "/" + getTotal(data.getData().get(1)) + ")";
+        } else {
+            titles[0] = "功能(" + getTotal(data.getData().get(0)) + ")";
+            titles[1] = "功能(" + getTotal(data.getData().get(1)) + ")";
         }
+
         mAdapter = new CJSVpPagerAdapter(titles, pagers);
         mVpContent.setOffscreenPageLimit(pagers.size());
         mVpContent.setAdapter(mAdapter);
@@ -350,6 +384,29 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         }
     }
 
+    /**
+     * 获取统计
+     *
+     * @param nodes
+     * @return
+     */
+    private int getTotal(PermissionTreeNodeBean nodes) {
+        int total = 0;
+        List<PermissionTreeNodeBean> data = nodes.getData();
+        if (data == null) {//最底层
+            if (nodes.getId() != 0 || nodes.getSid() != 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            for (PermissionTreeNodeBean datum : data) {
+                total += getTotal(datum);
+            }
+        }
+        return total;
+    }
+
     private int handCount(String permission) {
         if (TextUtils.isEmpty(permission)) {
             return 0;
@@ -357,4 +414,12 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
         return permission.split(",").length;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTreePresenter.detachView();
+        mTreePresenter = null;
+        mHandler.unregisterReceiver();
+        mHandler = null;
+    }
 }

@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +27,14 @@ import butterknife.ButterKnife;
 
 public class RvTreeFilterItemServerAdapter extends CJSBaseRecyclerViewAdapter<PermissionTreeNodeBean, RvTreeFilterItemServerAdapter.ViewHolder> {
 
+    private final RefreshBroadCastHandler mHandler;
     private List<Integer> selectPos = new ArrayList<>();
     private boolean isView;
 
     public RvTreeFilterItemServerAdapter(Context context, boolean isView) {
         super(context);
         this.isView = isView;
+        mHandler = new RefreshBroadCastHandler(TenApp.getInstance(), RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
     }
 
     @Override
@@ -69,6 +73,7 @@ public class RvTreeFilterItemServerAdapter extends CJSBaseRecyclerViewAdapter<Pe
                         selectPos.add(bean.getSid());
                     }
                     notifyItemChanged(position);
+                    mHandler.sendBroadCast();
                 }
             }
         });

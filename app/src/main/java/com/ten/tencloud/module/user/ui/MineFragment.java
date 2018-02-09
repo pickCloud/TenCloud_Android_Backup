@@ -314,6 +314,7 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
     public void showOwnerInfo() {
         cid = 0;
         AppBaseCache.getInstance().setCid(cid);
+        mSwitchCompanyRefreshBroadCastHandler.sendBroadCast();
         initView();
     }
 

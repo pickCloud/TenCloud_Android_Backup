@@ -75,7 +75,8 @@ public class JoinComStep2Activity extends BaseActivity implements JoinCom2Contra
         mEtName.setText(userInfo.getName());
         mEtPhone.setText(userInfo.getMobile());
         mLlName.setVisibility(mIsName ? View.VISIBLE : View.GONE);
-        mLlIdCard.setVisibility(mIsIdCard ? View.VISIBLE : View.GONE);
+//        mLlIdCard.setVisibility(mIsIdCard ? View.VISIBLE : View.GONE);
+        mLlIdCard.setVisibility(View.GONE);//暂时隐藏身份证相关
     }
 
     public void btnOk(View view) {
@@ -99,10 +100,10 @@ public class JoinComStep2Activity extends BaseActivity implements JoinCom2Contra
             showMessage(R.string.tips_verify_name_empty);
             return;
         }
-        if (mIsIdCard && TextUtils.isEmpty(idCard)) {
-            showMessage(R.string.tips_verify_id_card_empty);
-            return;
-        }
+//        if (mIsIdCard && TextUtils.isEmpty(idCard)) {
+//            showMessage(R.string.tips_verify_id_card_empty);
+//            return;
+//        }
         String mobile = AppBaseCache.getInstance().getUserInfo().getMobile();
         mJoinCom2Presenter.joinCompany(mIsNeedPW, password, mCode, mobile, name, idCard);
     }

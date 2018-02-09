@@ -3,12 +3,14 @@ package com.ten.tencloud.module.user.adapter;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.utils.UiUtils;
 
 import me.texy.treeview.TreeNode;
@@ -20,6 +22,7 @@ import me.texy.treeview.base.CheckableNodeViewBinder;
 
 public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
 
+    private final RefreshBroadCastHandler mHandler;
     private CheckBox mCheckBox;
     private LinearLayout mLlContent;
     private ImageView mIvArrow;
@@ -31,6 +34,7 @@ public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
         mCheckBox = view.findViewById(R.id.checkbox);
         mLlContent = view.findViewById(R.id.ll_content);
         mIvArrow = view.findViewById(R.id.iv_arrow);
+        mHandler = new RefreshBroadCastHandler(TenApp.getInstance(), RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
     }
 
     @Override
@@ -63,6 +67,12 @@ public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
         } else {
             mIvArrow.setVisibility(View.VISIBLE);
         }
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mHandler.sendBroadCast();
+            }
+        });
     }
 
     @Override

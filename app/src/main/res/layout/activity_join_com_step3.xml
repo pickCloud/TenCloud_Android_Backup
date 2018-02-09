@@ -44,7 +44,7 @@
             android:background="@drawable/shape_round_default"
             android:gravity="center"
             android:onClick="btnOk"
-            android:text="好的"
+            android:text="进入系统"
             android:textColor="@color/text_color_232730"
             android:textSize="14sp" />
 

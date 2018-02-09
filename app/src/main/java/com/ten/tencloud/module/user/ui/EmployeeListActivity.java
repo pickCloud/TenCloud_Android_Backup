@@ -62,6 +62,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     private int status = EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL;
     private RefreshBroadCastHandler mRefreshBroadCastHandler;
     private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mMSwitchRefreshBroadCastHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
                 mEmployeesListPresenter.getEmployees("", EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL);
             }
         });
+        mMSwitchRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
         initPermission();
         initView();
     }
@@ -224,6 +226,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     @Override
     public void onFailure() {
         AppBaseCache.getInstance().setCid(0);
+        mMSwitchRefreshBroadCastHandler.sendBroadCast();
         GlobalStatusManager.getInstance().setUserInfoNeedRefresh(true);
         finish();
     }

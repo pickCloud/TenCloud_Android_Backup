@@ -50,7 +50,6 @@ public class PermissionTreePager extends BasePager {
     private boolean isView;
     private int mType;
     private boolean mIsNew;
-    private OtherLevelNodeViewBinder mOtherLevelNodeViewBinder;
 
     public PermissionTreePager(Context context) {
         super(context);
@@ -82,8 +81,7 @@ public class PermissionTreePager extends BasePager {
                     case 0:
                         return new FirstLevelNodeViewBinder1(view, isView);
                     default:
-                        mOtherLevelNodeViewBinder = new OtherLevelNodeViewBinder(view, isView);
-                        return mOtherLevelNodeViewBinder;
+                        return new OtherLevelNodeViewBinder(view, isView);
                 }
             }
         });

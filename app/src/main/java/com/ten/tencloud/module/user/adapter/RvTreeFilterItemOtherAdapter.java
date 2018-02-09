@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.utils.Utils;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import butterknife.ButterKnife;
 
 public class RvTreeFilterItemOtherAdapter extends CJSBaseRecyclerViewAdapter<PermissionTreeNodeBean, RvTreeFilterItemOtherAdapter.ViewHolder> {
 
+    private final RefreshBroadCastHandler mHandler;
     private List<Integer> selectPos = new ArrayList<>();
     //查看状态
     private boolean isView;
@@ -33,6 +36,7 @@ public class RvTreeFilterItemOtherAdapter extends CJSBaseRecyclerViewAdapter<Per
     public RvTreeFilterItemOtherAdapter(Context context, boolean isView) {
         super(context);
         this.isView = isView;
+        mHandler = new RefreshBroadCastHandler(TenApp.getInstance(), RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
     }
 
     @Override
@@ -77,6 +81,7 @@ public class RvTreeFilterItemOtherAdapter extends CJSBaseRecyclerViewAdapter<Per
                         selectPos.add(bean.getId());
                     }
                     notifyItemChanged(position);
+                    mHandler.sendBroadCast();
                 }
             }
         });

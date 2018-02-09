@@ -69,10 +69,10 @@ public class CompanyNewActivity extends BaseActivity implements CompanyNewContra
 
     @Override
     public void showFailed(JesException e) {
-        if (e.getCode() == 10001) {
+        if (e.getCode() == 10000) {
             startActivityNoValue(this, CompanyNewResultActivity.class);
         } else {
-            showMessage("创建失败");
+            showMessage(e.getMessage());
         }
     }
 }
