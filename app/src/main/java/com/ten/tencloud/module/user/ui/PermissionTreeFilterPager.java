@@ -3,7 +3,6 @@ package com.ten.tencloud.module.user.ui;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -12,8 +11,6 @@ import com.ten.tencloud.base.adapter.CJSVpPagerAdapter;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
-import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
-import com.ten.tencloud.listener.OnRefreshListener;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -58,12 +55,10 @@ public class PermissionTreeFilterPager extends BasePager {
     //选择的数据
     private PermissionTemplateBean mSelectData;
 
-    private String[] mTabTitles;
     private String[] mTitles;
     private int[] totals;
     private List<BasePager> mPagers;
     private CommonNavigator mCommonNavigator;
-    private RefreshBroadCastHandler mHandler;
 
     public PermissionTreeFilterPager(Context context) {
         super(context);
@@ -73,32 +68,11 @@ public class PermissionTreeFilterPager extends BasePager {
     @Override
     public void init() {
         createView(R.layout.pager_permission_tree_filter);
-        mHandler = new RefreshBroadCastHandler(mContext, RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
-        mHandler.registerReceiver(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                for (int i = 0; i < mTabTitles.length; i++) {
-                    Map<String, String> selectNode = ((PermissionTreeFilterItemPager) mPagers.get(i)).getSelectNode();
-                    int count = 0;
-                    for (String s : selectNode.keySet()) {
-                        String str = selectNode.get(s);
-                        if (TextUtils.isEmpty(str)) {
-                            count = 0;
-                        } else {
-                            count = str.split(",").length;
-                        }
-                    }
-                    mTabTitles[i] = mTitles[i] + "(" + count + "/" + totals[i] + ")";
-                    notifyTitleChange();
-                }
-            }
-        });
     }
 
     private void initData() {
         //文件 项目 服务器 级别
         List<PermissionTreeNodeBean> types = mResourceData;
-        mTabTitles = new String[types.size()];
         mTitles = new String[types.size()];
         totals = new int[types.size()];
         mPagers = new ArrayList<>();
@@ -115,27 +89,8 @@ public class PermissionTreeFilterPager extends BasePager {
             itemPager.initView();
             mPagers.add(itemPager);
         }
-        if (isView) {
-            for (int i = 0; i < mTabTitles.length; i++) {
-                mTabTitles[i] = mTitles[i] + "(" + totals[i] + ")";
-            }
-        } else {
-            for (int i = 0; i < mTabTitles.length; i++) {
-                Map<String, String> selectNode = ((PermissionTreeFilterItemPager) mPagers.get(i)).getSelectNode();
-                int count = 0;
-                for (String s : selectNode.keySet()) {
-                    String str = selectNode.get(s);
-                    if (TextUtils.isEmpty(str)) {
-                        count = 0;
-                    } else {
-                        count = str.split(",").length;
-                    }
-                }
-                mTabTitles[i] = mTitles[i] + "(" + count + "/" + totals[i] + ")";
-            }
-        }
         initIndicator();
-        mVpData.setAdapter(new CJSVpPagerAdapter(mTabTitles, mPagers));
+        mVpData.setAdapter(new CJSVpPagerAdapter(mTitles, mPagers));
         ViewPagerHelper.bind(mIndicator, mVpData);
     }
 
@@ -144,7 +99,7 @@ public class PermissionTreeFilterPager extends BasePager {
         CommonNavigatorAdapter mCommonNavigatorAdapter = new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-                return mTabTitles.length;
+                return mTitles.length;
             }
 
             @Override
@@ -152,7 +107,7 @@ public class PermissionTreeFilterPager extends BasePager {
                 SimplePagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
                 simplePagerTitleView.setNormalColor(mColor556278);
                 simplePagerTitleView.setSelectedColor(mColor899ab6);
-                simplePagerTitleView.setText(mTabTitles[index]);
+                simplePagerTitleView.setText(mTitles[index]);
                 simplePagerTitleView.setTextSize(14);
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -175,19 +130,7 @@ public class PermissionTreeFilterPager extends BasePager {
         titleContainer.setDividerDrawable(new ColorDrawable() {
             @Override
             public int getIntrinsicWidth() {
-                return UIUtil.dip2px(mContext, 15);
-            }
-        });
-    }
-
-    private void notifyTitleChange() {
-        mCommonNavigator.notifyDataSetChanged();
-        LinearLayout titleContainer = mCommonNavigator.getTitleContainer();
-        titleContainer.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-        titleContainer.setDividerDrawable(new ColorDrawable() {
-            @Override
-            public int getIntrinsicWidth() {
-                return UIUtil.dip2px(mContext, 15);
+                return UIUtil.dip2px(mContext, 25);
             }
         });
     }

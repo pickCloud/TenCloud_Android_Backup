@@ -35,6 +35,8 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
     StatusSelectPopView mSpvCycle;
     @BindView(R.id.rv_history)
     RecyclerView mRvHistory;
+    @BindView(R.id.empty_view)
+    View mEmptyView;
     @BindView(R.id.refresh)
     SmartRefreshLayout mRefresh;
 
@@ -129,6 +131,7 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
             mAdapter.addData(data);
             mRefresh.finishLoadmore();
         } else {
+            mEmptyView.setVisibility(View.INVISIBLE);
             mAdapter.setDatas(data);
             mRefresh.finishRefresh();
         }
@@ -140,7 +143,7 @@ public class ServerPerformanceHistoryActivity extends BaseActivity implements Se
             showMessage("没有数据了");
             mRefresh.finishLoadmore();
         } else {
-            showMessage("暂无数据");
+            mEmptyView.setVisibility(View.VISIBLE);
             mAdapter.clear();
             mRefresh.finishRefresh();
         }

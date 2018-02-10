@@ -57,12 +57,20 @@
         app:srlEnablePreviewInEditMode="true"
         app:srlHeaderMaxDragRate="1.3">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_history"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:overScrollMode="never" />
+
+            <include layout="@layout/layout_empty_view_default" />
+
+        </FrameLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
