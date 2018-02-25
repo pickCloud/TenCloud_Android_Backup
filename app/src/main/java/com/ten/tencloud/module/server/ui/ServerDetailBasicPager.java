@@ -92,7 +92,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
 
     public ServerDetailBasicPager(Context context) {
         super(context);
-        mServerHandler = new RefreshBroadCastHandler(mContext, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mServerHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerDetailPresenter = new ServerDetailPresenter();
         mServerOperationPresenter = new ServerOperationPresenter();
         mServerDetailPresenter.attachView(this);
@@ -123,7 +123,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
                     }
                 });
 
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(mContext, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {

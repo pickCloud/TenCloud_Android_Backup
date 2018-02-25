@@ -62,7 +62,7 @@ public class ServerAddActivity extends BaseActivity {
             mEtUser.setText(user);
         }
 
-        mServerHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mServerHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerAddModel = new ServerAddModel(new ServerAddModel.onServerAddListener() {
 
             @Override

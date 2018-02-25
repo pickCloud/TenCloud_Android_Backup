@@ -116,14 +116,14 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         mUserInfoPresenter = new UserInfoPresenter();
         mUserInfoPresenter.attachView(this);
 
-        mPermissionRefreshBroadCastHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mPermissionRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mPermissionRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initView();
             }
         });
-        mSwitchCompanyRefreshBroadCastHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
+        mSwitchCompanyRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
         initPopupWindow();
         initView();
     }

@@ -34,7 +34,7 @@ public class OtherLevelNodeViewBinder extends CheckableNodeViewBinder {
         mCheckBox = view.findViewById(R.id.checkbox);
         mLlContent = view.findViewById(R.id.ll_content);
         mIvArrow = view.findViewById(R.id.iv_arrow);
-        mHandler = new RefreshBroadCastHandler(TenApp.getInstance(), RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
+        mHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ServerChangeNameActivity extends BaseActivity implements ServerChan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_change_name);
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         initTitleBar(true, "修改名称", "确认", new View.OnClickListener() {
             @Override
             public void onClick(View v) {

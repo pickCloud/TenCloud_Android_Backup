@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
@@ -51,11 +50,10 @@ public class PermissionTemplateListActivity extends BaseActivity implements Perm
         mCid = getIntent().getIntExtra("cid", 0);
         mTemplatesPresenter = new PermissionTemplatesPresenter();
         mTemplatesPresenter.attachView(this);
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                KLog.e(">>>接收到权限变更");
                 initPermission();
             }
         });

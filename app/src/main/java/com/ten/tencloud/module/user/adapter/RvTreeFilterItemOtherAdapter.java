@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
-import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.PermissionTreeNodeBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
@@ -36,7 +35,7 @@ public class RvTreeFilterItemOtherAdapter extends CJSBaseRecyclerViewAdapter<Per
     public RvTreeFilterItemOtherAdapter(Context context, boolean isView) {
         super(context);
         this.isView = isView;
-        mHandler = new RefreshBroadCastHandler(TenApp.getInstance(), RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
+        mHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
     }
 
     @Override

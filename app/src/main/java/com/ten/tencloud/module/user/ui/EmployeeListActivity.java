@@ -68,7 +68,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_employee_list);
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -76,7 +76,7 @@ public class EmployeeListActivity extends BaseActivity implements EmployeeListCo
                 mEmployeesListPresenter.getEmployees("", EmployeesModel.STATUS_EMPLOYEE_SEARCH_ALL);
             }
         });
-        mMSwitchRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
+        mMSwitchRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
         initPermission();
         initView();
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.listener.OnRefreshListener;
 
 /**
@@ -38,8 +39,8 @@ public class RefreshBroadCastHandler {
 
     private String mAction;
 
-    public RefreshBroadCastHandler(Context context, String action) {
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(context);
+    public RefreshBroadCastHandler(String action) {
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(TenApp.getInstance());
         mAction = action;
     }
 

@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 , getResources().getString(R.string.mine)};
         mMainPresenter = new MainPresenter();
         mMainPresenter.attachView(this);
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
     }
 
     private void initView() {

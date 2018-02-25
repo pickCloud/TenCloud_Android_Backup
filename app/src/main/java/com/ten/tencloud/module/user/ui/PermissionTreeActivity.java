@@ -152,7 +152,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             });
         }
 
-        mHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
+        mHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_SETTING_CHANGE_ACTION);
         mHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {

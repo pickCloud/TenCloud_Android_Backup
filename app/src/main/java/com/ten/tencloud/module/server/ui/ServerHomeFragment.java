@@ -68,11 +68,11 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             }
         };
 
-        mPermissionRefreshBroadCastHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mPermissionRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mPermissionRefreshBroadCastHandler.registerReceiver(onRefreshListener);
-        mSwitchCompanyRefreshBroadCastHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
+        mSwitchCompanyRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
         mSwitchCompanyRefreshBroadCastHandler.registerReceiver(onRefreshListener);
-        mServerRefreshHandler = new RefreshBroadCastHandler(mActivity, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mServerRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerRefreshHandler.registerReceiver(onRefreshListener);
 
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

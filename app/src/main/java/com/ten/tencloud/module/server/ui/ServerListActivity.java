@@ -61,14 +61,14 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
         mPresenter = new ServerListPresenter();
         mPresenter.attachView(this);
 
-        mServerHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mServerHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mPresenter.getServerList(1);
             }
         });
-        mRefreshPermissionHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshPermissionHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mRefreshPermissionHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -81,7 +81,7 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mEmployeeInfo = getIntent().getParcelableExtra("obj");
         mEmployeesInfoPresenter = new EmployeesInfoPresenter();
         mEmployeesInfoPresenter.attachView(this);
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(this, RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
