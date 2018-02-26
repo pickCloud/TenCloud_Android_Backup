@@ -57,6 +57,8 @@ public class MsgModel {
     public static final String MODE_JOIN = "1";
     public static final String MODE_CHANGE = "2";
     public static final String MODE_LEAVE = "3";
+    public static final String MODE_SERVER = "4";
+    public static final String MODE_IMAGE = "5";
 
     public Observable<List<MessageBean>> getMsgList(String status, String mode, int page) {
         return TenApp.getRetrofitClient().getTenMsgApi()

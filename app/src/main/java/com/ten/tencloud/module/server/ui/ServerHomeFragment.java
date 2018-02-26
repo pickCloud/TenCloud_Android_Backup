@@ -151,8 +151,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mTvServerAlarm.setText(warn_num + "");
         mTvServerCash.setText(payment_num + "");
         mTvServerTotal.setSelected(server_num != 0);
-        mTvServerAlarm.setSelected(server_num != 0);
-        mTvServerCash.setSelected(server_num != 0);
+        mTvServerAlarm.setSelected(warn_num != 0);
+        mTvServerCash.setSelected(payment_num != 0);
     }
 
     @Override

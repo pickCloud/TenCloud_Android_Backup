@@ -58,10 +58,14 @@ public class MsgActivity extends BaseActivity implements MsgContract.View {
 
     private String mode = MsgModel.MODE_ALL;
 
-    private String[] modes = {MsgModel.MODE_ALL,
+    private String[] modes = {
+            MsgModel.MODE_ALL,
             MsgModel.MODE_JOIN,
             MsgModel.MODE_CHANGE,
-            MsgModel.MODE_LEAVE};
+            MsgModel.MODE_LEAVE,
+            MsgModel.MODE_SERVER,
+            MsgModel.MODE_IMAGE,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,8 @@ public class MsgActivity extends BaseActivity implements MsgContract.View {
         modeTitles.add("加入企业");
         modeTitles.add("企业变更");
         modeTitles.add("离开企业");
+        modeTitles.add("添加主机");
+        modeTitles.add("构建主机");
         mSpvMode.initData(modeTitles);
         mSpvMode.setOnSelectListener(new StatusSelectPopView.OnSelectListener() {
             @Override
