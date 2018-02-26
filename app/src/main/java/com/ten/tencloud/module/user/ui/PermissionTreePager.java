@@ -151,7 +151,24 @@ public class PermissionTreePager extends BasePager {
                 maxLevel = addTree(treeNodeBean.getData(), treeNode, level + 1);
             }
         }
+        setParentNodeSelected(parentNode);
         return maxLevel;
+    }
+
+    /**
+     * 给父接口设置勾选
+     *
+     * @param treeNode
+     */
+    private void setParentNodeSelected(TreeNode treeNode) {
+        List<TreeNode> children = treeNode.getChildren();
+        for (TreeNode child : children) {
+            boolean selected = child.isSelected();
+            if (!selected) {
+                return;
+            }
+        }
+        treeNode.setSelected(true);
     }
 
     /**

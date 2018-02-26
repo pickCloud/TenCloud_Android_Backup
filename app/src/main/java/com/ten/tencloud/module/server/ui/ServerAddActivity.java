@@ -42,10 +42,15 @@ public class ServerAddActivity extends BaseActivity {
     private ServerAddLogDialog mServerAddLogDialog;
     private RefreshBroadCastHandler mServerHandler;
 
-    private String name = "测试";
-    private String ip = "47.96.129.231";
-    private String user = "root";
-    private String pw = "Test1234";
+//    private String name = "测试";
+//    private String ip = "47.96.129.231";
+//    private String user = "root";
+//    private String pw = "Test1234";
+
+    private String name = "";
+    private String ip = "";
+    private String user = "";
+    private String pw = "";
 
     private String msg;
 

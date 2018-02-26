@@ -20,7 +20,7 @@ public class Url {
     public static String BASE_WEBSOCTET_URL;
 
     static {
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             BASE_URL = BASE_URL_DEBUG;
             BASE_WEBSOCTET_URL = WEBSOCKET_URL_DEBUG;
         } else {
