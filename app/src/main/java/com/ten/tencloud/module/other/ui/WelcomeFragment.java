@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseFragment;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.model.SPFHelper;
 import com.ten.tencloud.module.login.ui.LoginActivity;
 import com.ten.tencloud.module.main.ui.MainActivity;
 
@@ -50,6 +53,7 @@ public class WelcomeFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_ok:
+                new SPFHelper(TenApp.getInstance(), "").putBoolean(Constants.FIRST_OPEN, false);
                 String token = AppBaseCache.getInstance().getToken();
                 if (TextUtils.isEmpty(token)) {
                     startActivity(new Intent(mActivity, LoginActivity.class));

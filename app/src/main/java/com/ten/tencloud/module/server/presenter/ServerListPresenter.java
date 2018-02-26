@@ -20,7 +20,7 @@ public class ServerListPresenter extends BasePresenter<ServerListContract.View>
 
     @Override
     public void getServerList(int id) {
-        mSubscriptions.add(ServerModel.getInstance().getServerList(id).subscribe(new JesSubscribe<List<ServerBean>>(mView) {
+        mSubscriptions.add(ServerModel.getInstance().search("1", "", null, null).subscribe(new JesSubscribe<List<ServerBean>>(mView) {
             @Override
             public void _onSuccess(List<ServerBean> serverBeans) {
                 GlobalStatusManager.getInstance().setServerListNeedRefresh(false);

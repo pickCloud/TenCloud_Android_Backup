@@ -73,8 +73,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, L
         createView(R.layout.activity_login);
         hideToolBar();
         StatusBarUtils.setTransparent(this);
-        mMobile = new SPFHelper(this, "").getString("loginName", "");
-        mEtPhonePw.setText(mMobile);
         mLoginPresenter = new LoginPresenter();
         mLoginCaptchaPresenter = new LoginCaptchaPresenter();
         mLoginPresenter.attachView(this);
@@ -83,6 +81,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, L
     }
 
     private void initView() {
+        mMobile = new SPFHelper(this, "").getString("loginName", "");
+        mEtPhonePw.setText(mMobile);
+        mEtPhoneCode.setText(mMobile);
         changeLoginTab(true);
         mLoginCaptchaPresenter.geeInit(this);
         int type = getIntent().getIntExtra("type", 0);

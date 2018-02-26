@@ -13,9 +13,12 @@ import android.view.WindowManager;
 
 import com.ten.tencloud.BuildConfig;
 import com.ten.tencloud.R;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.Url;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.model.SPFHelper;
 import com.ten.tencloud.module.login.ui.LoginActivity;
 import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.utils.StatusBarUtils;
@@ -77,10 +80,15 @@ public class SplashActivity extends BaseActivity {
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean isEmpty) {
-                        if (isEmpty) {
-                            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                        boolean isFirstOpen = new SPFHelper(TenApp.getInstance(), "").getBoolean(Constants.FIRST_OPEN, true);
+                        if (isFirstOpen) {
+                            startActivityNoValue(mContext, WelcomeActivity.class);
                         } else {
-                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            if (isEmpty) {
+                                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                            } else {
+                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            }
                         }
                         finish();
                     }

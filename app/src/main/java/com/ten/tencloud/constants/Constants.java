@@ -12,6 +12,8 @@ public class Constants {
 
     public static final String PROJECT_NAME = "TenCloud";
 
+    public static final String FIRST_OPEN = "FirstOpen";
+
     /**
      * 路径
      */

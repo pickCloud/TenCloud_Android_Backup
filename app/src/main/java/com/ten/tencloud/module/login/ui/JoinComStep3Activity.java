@@ -7,7 +7,9 @@ import android.view.View;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
+import com.ten.tencloud.model.SPFHelper;
 import com.ten.tencloud.module.other.ui.WelcomeActivity;
 import com.ten.tencloud.module.user.ui.CompanyListActivity;
 
@@ -29,9 +31,13 @@ public class JoinComStep3Activity extends BaseActivity {
     }
 
     public void btnOk(View view) {
-//        TenApp.getInstance().jumpMainActivity();
         GlobalStatusManager.getInstance().clearTask();
-        startActivityNoValue(this, WelcomeActivity.class);
+        boolean isFirstOpen = new SPFHelper(this, "").getBoolean(Constants.FIRST_OPEN, true);
+        if (isFirstOpen) {
+            startActivityNoValue(this, WelcomeActivity.class);
+        } else {
+            TenApp.getInstance().jumpMainActivity();
+        }
     }
 
     @OnClick({R.id.tv_company})

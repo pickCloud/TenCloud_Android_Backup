@@ -271,6 +271,8 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mTvStatus.setText("审核通过");
         mTvStatus.setEnabled(true);
         mTvStatus.setSelected(true);
+        mEmployeeInfo.setStatus(Constants.EMPLOYEE_STATUS_CODE_PASS);
+        initView();
     }
 
     @Override
@@ -280,6 +282,8 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mBtnReject.setVisibility(View.GONE);
         mTvStatus.setText("审核不通过");
         mTvStatus.setEnabled(false);
+        mEmployeeInfo.setStatus(Constants.EMPLOYEE_STATUS_CODE_NO_PASS);
+        initView();
     }
 
     @Override
