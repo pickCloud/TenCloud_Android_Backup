@@ -22,17 +22,16 @@
 
     <TextView
         android:id="@+id/tv_add"
+        style="@style/LineButtonLakeBlue"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/shape_border_button"
         android:gravity="center"
         android:paddingBottom="4dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="4dp"
         android:text="马上去添加"
-        android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
 
 </LinearLayout>

@@ -216,8 +216,8 @@
     <Button
         style="@style/ButtonFullWidth"
         android:layout_marginTop="24dp"
-        android:background="@drawable/shape_round_default"
+        android:background="@drawable/selector_button_lake_blue"
         android:onClick="generateUrl"
         android:text="生成链接，分享邀请"
-        android:textColor="@color/text_color_232730" />
+        android:textColor="@color/selector_button_lake_blue_text" />
 </LinearLayout>

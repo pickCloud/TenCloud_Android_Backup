@@ -17,6 +17,7 @@ import com.ten.tencloud.bean.SendSMSBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.model.SPFHelper;
 import com.ten.tencloud.module.login.contract.JoinCom1Contract;
 import com.ten.tencloud.module.login.contract.LoginCaptchaContract;
 import com.ten.tencloud.module.login.contract.LoginContract;
@@ -24,6 +25,7 @@ import com.ten.tencloud.module.login.presenter.JoinCom1Presenter;
 import com.ten.tencloud.module.login.presenter.LoginCaptchaPresenter;
 import com.ten.tencloud.module.login.presenter.LoginPresenter;
 import com.ten.tencloud.module.main.ui.MainActivity;
+import com.ten.tencloud.module.other.ui.WelcomeActivity;
 import com.ten.tencloud.utils.Utils;
 
 import butterknife.BindView;
@@ -133,11 +135,16 @@ public class JoinComStep1Activity extends BaseActivity
                 }
                 break;
             case R.id.tv_go:
-                String token = AppBaseCache.getInstance().getToken();
-                if (TextUtils.isEmpty(token)) {
-                    startActivity(new Intent(this, LoginActivity.class));
+                boolean isFirstOpen = new SPFHelper(this, "").getBoolean(Constants.FIRST_OPEN, true);
+                if (isFirstOpen) {
+                    startActivityNoValue(this, WelcomeActivity.class);
                 } else {
-                    startActivity(new Intent(this, MainActivity.class));
+                    String token = AppBaseCache.getInstance().getToken();
+                    if (TextUtils.isEmpty(token)) {
+                        startActivity(new Intent(this, LoginActivity.class));
+                    } else {
+                        startActivity(new Intent(this, MainActivity.class));
+                    }
                 }
                 finish();
                 break;

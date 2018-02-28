@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
@@ -27,6 +28,10 @@ public class PermissionTemplateNewActivity extends BaseActivity implements Permi
     TextView mTvFuncCount;
     @BindView(R.id.tv_data_count)
     TextView mTvDataCount;
+    @BindView(R.id.tv_select)
+    TextView mTvSelect;
+    @BindView(R.id.ll_count)
+    LinearLayout mLlCount;
     private PermissionTemplateBean mTemplateBean;
     private PermissionNewPresenter mPresenter;
 
@@ -62,6 +67,8 @@ public class PermissionTemplateNewActivity extends BaseActivity implements Permi
             int funcCount = handCount(temp.getAccess_filehub()) + handCount(temp.getAccess_projects()) + handCount(temp.getAccess_servers());
             mTvDataCount.setText(funcCount + "");
             mTvFuncCount.setText(handCount(temp.getPermissions()) + "");
+            mTvSelect.setVisibility(View.INVISIBLE);
+            mLlCount.setVisibility(View.VISIBLE);
             mTemplateBean.setPermissions(temp.getPermissions());
             mTemplateBean.setAccess_filehub(temp.getAccess_filehub());
             mTemplateBean.setAccess_projects(temp.getAccess_projects());

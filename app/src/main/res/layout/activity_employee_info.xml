@@ -161,66 +161,66 @@
         <Button
             android:id="@+id/btn_view_permission"
             style="@style/ButtonFullWidth"
-            android:background="@drawable/shape_round_default"
+            android:background="@drawable/selector_button_lake_blue"
             android:text="查看权限"
-            android:textColor="@color/text_color_232730"
+            android:textColor="@color/selector_button_lake_blue_text"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_replace_admin"
             style="@style/ButtonFullWidth"
-            android:background="@drawable/shape_round_default"
+            android:background="@drawable/selector_button_lake_blue"
             android:text="更换管理员"
-            android:textColor="@color/text_color_232730"
+            android:textColor="@color/selector_button_lake_blue_text"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_leave"
             style="@style/ButtonFullWidth"
-            android:background="@drawable/shape_round_default"
+            android:background="@drawable/selector_button_lake_blue"
             android:text="离开企业"
-            android:textColor="@color/text_color_232730"
+            android:textColor="@color/selector_button_lake_blue_text"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_allow"
             style="@style/ButtonFullWidth"
-            android:background="@drawable/shape_round_default"
+            android:background="@drawable/selector_button_lake_blue"
             android:text="允许加入"
-            android:textColor="@color/text_color_232730"
+            android:textColor="@color/selector_button_lake_blue_text"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_reject"
             style="@style/ButtonFullWidth"
-            android:background="@drawable/shape_round_ef9a9a"
+            android:background="@drawable/selector_button_pink"
             android:text="拒绝加入"
-            android:textColor="@color/text_color_502016"
+            android:textColor="@color/selector_button_pink_text"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_setting_permission"
             style="@style/ButtonFullWidth"
-            android:background="@drawable/shape_round_default"
+            android:background="@drawable/selector_button_lake_blue"
             android:text="设置权限"
-            android:textColor="@color/text_color_232730"
+            android:textColor="@color/selector_button_lake_blue_text"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_relieve"
             style="@style/ButtonFullWidth"
-            android:background="@drawable/shape_round_ef9a9a"
+            android:background="@drawable/selector_button_pink"
             android:text="踢出企业"
-            android:textColor="@color/text_color_502016"
+            android:textColor="@color/selector_button_pink_text"
             android:visibility="gone" />
 
         <!--没有权限的员工看自己的-->
         <Button
             android:id="@+id/btn_leave_no_admin"
             style="@style/ButtonFullWidth"
-            android:background="@drawable/shape_round_ef9a9a"
+            android:background="@drawable/selector_button_pink"
             android:text="离开企业"
-            android:textColor="@color/text_color_502016"
+            android:textColor="@color/selector_button_pink_text"
             android:visibility="gone" />
 
     </LinearLayout>

@@ -81,31 +81,27 @@
             android:textSize="12sp" />
 
         <Button
+            style="@style/ButtonLakeBlue"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="60dp"
-            android:background="@drawable/shape_round_default"
             android:gravity="center"
             android:onClick="retry"
-            android:text="重新填写"
-            android:textColor="@color/text_color_232730"
-            android:textSize="16sp" />
+            android:text="重新填写" />
 
         <Button
+            style="@style/ButtonDarkBlue"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/shape_round_262a35"
             android:gravity="center"
             android:onClick="forgetPW"
-            android:text="忘记密码"
-            android:textColor="@color/text_color_556278"
-            android:textSize="16sp" />
+            android:text="忘记密码" />
     </LinearLayout>
 </FrameLayout>

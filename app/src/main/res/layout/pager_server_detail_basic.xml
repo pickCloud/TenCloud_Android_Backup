@@ -145,33 +145,33 @@
     <Button
         android:id="@+id/btn_restart"
         style="@style/ButtonFullWidth"
-        android:background="@drawable/shape_round_default"
+        android:background="@drawable/selector_button_lake_blue"
         android:text="重启"
-        android:textColor="@color/text_color_232730"
+        android:textColor="@color/selector_button_lake_blue_text"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_start"
         style="@style/ButtonFullWidth"
-        android:background="@drawable/shape_round_default"
+        android:background="@drawable/selector_button_lake_blue"
         android:text="开机"
-        android:textColor="@color/text_color_232730"
+        android:textColor="@color/selector_button_lake_blue_text"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_stop"
         style="@style/ButtonFullWidth"
-        android:background="@drawable/shape_round_default"
+        android:background="@drawable/selector_button_lake_blue"
         android:text="关机"
-        android:textColor="@color/text_color_232730"
+        android:textColor="@color/selector_button_lake_blue_text"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_del"
         style="@style/ButtonFullWidth"
-        android:background="@drawable/shape_round_ef9a9a"
+        android:background="@drawable/selector_button_pink"
         android:text="删除"
-        android:textColor="@color/text_color_502016"
+        android:textColor="@color/selector_button_pink_text"
         android:visibility="gone" />
 
 </LinearLayout>

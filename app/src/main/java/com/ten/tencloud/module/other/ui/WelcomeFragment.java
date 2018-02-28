@@ -60,6 +60,7 @@ public class WelcomeFragment extends BaseFragment {
                 } else {
                     startActivity(new Intent(mActivity, MainActivity.class));
                 }
+                mActivity.finish();
                 break;
         }
     }

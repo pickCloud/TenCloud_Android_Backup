@@ -30,15 +30,26 @@
     <color name="bg_tran_48bbc0_30">#4d48bbc0</color>
     <color name="bg_tran_3f4656_30">#4d3f4656</color>
 
+    <color name="text_color_48bbc0">#48bbc0</color>
+    <color name="text_color_48bbc0_pressed">#6648bbc0</color>
+    <color name="text_color_48bbc0_disable">#3348bbc0</color>
     <color name="text_color_899ab6">#899ab6</color>
     <color name="text_color_2F3543">#2F3543</color>
     <color name="text_color_2F3543_20">#332F3543</color>
     <color name="text_color_556278">#556278</color>
     <color name="text_color_373e4c">#373e4c</color>
     <color name="text_color_232730">#232730</color>
-    <color name="text_color_232730_disable">#4d232730</color>
+    <color name="text_color_232730_pressed">#66232730</color>
+    <color name="text_color_232730_disable">#33232730</color>
     <color name="text_color_502016">#502016</color>
+    <color name="text_color_502016_pressed">#66502016</color>
+    <color name="text_color_502016_disable">#33502016</color>
     <color name="text_color_ef9a9a">#ef9a9a</color>
+    <color name="text_color_ef9a9a_pressed">#66ef9a9a</color>
+    <color name="text_color_ef9a9a_disable">#33ef9a9a</color>
+    <color name="text_color_566278">#566278</color>
+    <color name="text_color_566278_pressed">#66566278</color>
+    <color name="text_color_566278_disable">#33566278</color>
     <color name="text_color_f15532">#f15532</color>
     <color name="text_color_09bb07">#09bb07</color>
     <color name="text_color_287db6">#287db6</color>
@@ -54,4 +65,17 @@
     <color name="color_80a487">#80a487</color>
 
     <color name="bar_color_alarm">#f15532</color>
+
+    <!--湖蓝色-->
+    <color name="lake_blue">#48bbc0</color>
+    <color name="lake_blue_pressed">#3a969a</color>
+
+    <!--粉红色-->
+    <color name="pink">#ef9a9a</color>
+    <color name="pink_pressed">#bf7b7b</color>
+
+    <!--深蓝色-->
+    <color name="dark_blue">#262a35</color>
+    <color name="dark_blue_pressed">#1e222a</color>
+
 </resources>

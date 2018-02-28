@@ -90,61 +90,84 @@
             android:id="@+id/tv_label"
             style="@style/SettingItemLabel"
             android:layout_weight="1"
-            android:text="选择权限" />
+            android:text="模板权限项" />
 
-        <TextView
-            android:id="@+id/temp1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="功能权限"
-            android:textColor="@color/select_89_56"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/tv_func_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:text="0"
-            android:textColor="@color/select_login_tab"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/temp2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="项"
-            android:textColor="@color/select_89_56"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/temp3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="数据权限"
-            android:textColor="@color/select_89_56"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/tv_data_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:text="0"
-            android:textColor="@color/select_login_tab"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/temp4"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="项"
-            android:textColor="@color/select_89_56"
-            android:textSize="10sp" />
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="请选择"
+                android:textColor="@color/select_89_56"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/temp1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="功能权限"
+                    android:textColor="@color/select_89_56"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_func_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:text="0"
+                    android:textColor="@color/select_login_tab"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/temp2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="项"
+                    android:textColor="@color/select_89_56"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/temp3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="数据权限"
+                    android:textColor="@color/select_89_56"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_data_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:text="0"
+                    android:textColor="@color/select_login_tab"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/temp4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="项"
+                    android:textColor="@color/select_89_56"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/iv_arrow"

@@ -145,23 +145,18 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="DefaultButtonStyle">
-        <item name="android:background">@drawable/shape_round_default</item>
+    <style name="DefaultButtonStyle" parent="ButtonLakeBlue">
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/select_button_default</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="BtnLoginStepNext">
+    <style name="BtnLoginStepNext" parent="ButtonLakeBlue">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_marginTop">32dp</item>
-        <item name="android:background">@drawable/shape_round_default</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/select_button_default</item>
-        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="BottomCompanyText">
@@ -230,6 +225,34 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--按钮选择器-->
+    <style name="ButtonLakeBlue">
+        <item name="android:background">@drawable/selector_button_lake_blue</item>
+        <item name="android:textColor">@color/selector_button_lake_blue_text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="LineButtonLakeBlue">
+        <item name="android:background">@drawable/selector_line_button_lake_blue</item>
+        <item name="android:textColor">@color/selector_line_button_lake_blue_text</item>
+    </style>
+
+    <style name="ButtonPink">
+        <item name="android:background">@drawable/selector_button_pink</item>
+        <item name="android:textColor">@color/selector_button_pink_text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="LineButtonPink">
+        <item name="android:background">@drawable/selector_line_button_pink</item>
+        <item name="android:textColor">@color/selector_line_button_pink_text</item>
+    </style>
+
+    <style name="ButtonDarkBlue">
+        <item name="android:background">@drawable/selector_button_dark_blue</item>
+        <item name="android:textColor">@color/selector_button_dark_blue_text</item>
     </style>
 
 </resources>
