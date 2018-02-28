@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/ll_layout"
         style="@style/SettingItemLayout"
-        android:background="@drawable/shape_switch_bg">
+        android:background="@drawable/selector_common_dialog_button">
 
         <TextView
             android:id="@+id/tv_role"

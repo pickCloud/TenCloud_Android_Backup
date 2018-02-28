@@ -47,10 +47,11 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
     private RefreshBroadCastHandler mPermissionRefreshBroadCastHandler;
     private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mServerRefreshHandler;
+
     private TextView mTvServerTotal;
     private TextView mTvServerAlarm;
     private TextView mTvServerCash;
-    private RefreshBroadCastHandler mServerRefreshHandler;
 
     @Nullable
     @Override
@@ -162,6 +163,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mPermissionRefreshBroadCastHandler = null;
         mSwitchCompanyRefreshBroadCastHandler.unregisterReceiver();
         mSwitchCompanyRefreshBroadCastHandler = null;
+        mServerRefreshHandler.unregisterReceiver();
+        mServerRefreshHandler = null;
         mPresenter.detachView();
     }
 }

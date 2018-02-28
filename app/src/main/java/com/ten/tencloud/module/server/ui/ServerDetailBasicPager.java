@@ -315,6 +315,7 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         super.onActivityDestroy();
         mServerDetailPresenter.detachView();
         mServerOperationPresenter.detachView();
+        mRefreshBroadCastHandler.unregisterReceiver();
         if (mAnimSubscribe != null && !mAnimSubscribe.isUnsubscribed()) {
             mAnimSubscribe.unsubscribe();
         }

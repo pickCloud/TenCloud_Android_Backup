@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="270dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_dialog_server_add_bg"
+    android:background="@drawable/shape_common_dialog_button"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -30,6 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/selector_common_dialog_button"
             android:gravity="center"
             android:text="取消"
             android:textColor="@color/text_color_899ab6"
@@ -45,6 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/selector_common_dialog_button"
             android:gravity="center"
             android:text="确认"
             android:textColor="@color/colorPrimary"
