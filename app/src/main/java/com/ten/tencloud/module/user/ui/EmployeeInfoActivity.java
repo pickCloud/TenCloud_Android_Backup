@@ -21,6 +21,7 @@ import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.main.ui.MainActivity;
 import com.ten.tencloud.module.user.contract.EmployeeInfoContract;
 import com.ten.tencloud.module.user.presenter.EmployeesInfoPresenter;
+import com.ten.tencloud.utils.DateUtils;
 import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.dialog.CommonDialog;
@@ -97,11 +98,11 @@ public class EmployeeInfoActivity extends BaseActivity implements EmployeeInfoCo
         mTvName.setText(mEmployeeInfo.getName());
         mTvPhone.setText(mEmployeeInfo.getMobile());
         GlideUtils.getInstance().loadCircleImage(mContext, mIvAvatar, mEmployeeInfo.getImage_url(), R.mipmap.icon_userphoto);
-        mTvApplyTime.setText(mEmployeeInfo.getCreate_time());
+        mTvApplyTime.setText(DateUtils.dateToDefault(mEmployeeInfo.getCreate_time()));
         mTvJoinTime.setText(((mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_NO_PASS)
                 && (mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_WAITING)
                 && (mEmployeeInfo.getStatus() != Constants.EMPLOYEE_STATUS_CODE_CHECKING))
-                ? mEmployeeInfo.getUpdate_time() : "-");
+                ? DateUtils.dateToDefault(mEmployeeInfo.getUpdate_time()) : "-");
         int status = mEmployeeInfo.getStatus();
         if (status == Constants.EMPLOYEE_STATUS_CODE_NO_PASS) {
             mTvStatus.setText("审核不通过");

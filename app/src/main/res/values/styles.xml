@@ -183,7 +183,7 @@
     <style name="SettingItemLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
-        <item name="android:background">@color/bg_232730</item>
+        <item name="android:background">@drawable/selector_banner_bg</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingLeft">16dp</item>

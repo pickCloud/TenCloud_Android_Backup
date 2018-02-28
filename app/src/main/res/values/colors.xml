@@ -15,6 +15,7 @@
     <color name="default_bg">#171A21</color>
     <color name="bg_1d202a">#1d202a</color>
     <color name="bg_232730">#232730</color>
+    <color name="bg_232730_pressed">#1c1f26</color>
     <color name="bg_search">#4d3f4656</color>
     <color name="bg_2f3543">#2f3543</color>
     <color name="bg_262a35">#262a35</color>
