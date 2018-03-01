@@ -10,7 +10,7 @@ import com.ten.tencloud.BuildConfig;
 
 public class Url {
 
-    private static boolean isTest = false;
+    private static boolean isTest = true;
 
     public static final String BASE_URL_DEBUG = "http://cd.10.com";
     public static final String BASE_URL_RELEASE = "https://c.10.com";

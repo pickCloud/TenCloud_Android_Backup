@@ -32,7 +32,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -67,11 +68,6 @@ dependencies {
      */
     compile "com.jakewharton:butterknife:${libs.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknife}"
-
-    /**
-     *   xrecyclerview
-     */
-    compile "com.jcodecraeer:xrecyclerview:${libs.xrecyclerview}"
 
     /**
      *   运行时权限注解框架
