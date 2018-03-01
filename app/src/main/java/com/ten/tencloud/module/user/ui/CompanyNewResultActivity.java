@@ -25,7 +25,7 @@ public class CompanyNewResultActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_company_new_result);
-        initTitleBar(true, "提起企业异议");
+        initTitleBar(true, "提交结果");
         mIsSuccess = getIntent().getBooleanExtra("isSuccess", false);
         mLlSuccess.setVisibility(mIsSuccess ? View.VISIBLE : View.GONE);
         mLlFailed.setVisibility(!mIsSuccess ? View.VISIBLE : View.GONE);
