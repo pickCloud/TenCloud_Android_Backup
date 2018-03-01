@@ -77,9 +77,10 @@ public class PermissionTreeFilterPager extends BasePager {
         totals = new int[types.size()];
         mPagers = new ArrayList<>();
         //组装各类别数据
-        for (int i = 0; i < types.size(); i++) {
-            mTitles[i] = types.get(i).getName();
-            totals[i] = getTotal(types.get(i));
+        //倒序排列
+        for (int i = types.size() - 1; i >= 0; i--) {
+            mTitles[types.size() - i - 1] = types.get(i).getName();
+//            totals[i] = getTotal(types.get(i));
             PermissionTreeFilterItemPager itemPager = new PermissionTreeFilterItemPager(mContext);
             List<PermissionTreeNodeBean> data = types.get(i).getData();
             itemPager.putArgument("data", data);

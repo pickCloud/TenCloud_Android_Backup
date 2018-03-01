@@ -288,7 +288,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             mFuncPager.putArgument("isView", true);
             mDataPager.putArgument("isView", true);
             titles[0] = "功能(" + getTotal(data.get(0)) + ")";
-            titles[1] = "功能(" + getTotal(data.get(1)) + ")";
+            titles[1] = "数据(" + getTotal(data.get(1)) + ")";
         } else {
             int funcCount = handCount(mTemplateBean.getPermissions());
             int dataCount = handCount(mTemplateBean.getAccess_servers())
@@ -346,7 +346,7 @@ public class PermissionTreeActivity extends BaseActivity implements PermissionTr
             titles[1] = "数据(" + dataCount + "/" + getTotal(data.getData().get(1)) + ")";
         } else {
             titles[0] = "功能(" + getTotal(data.getData().get(0)) + ")";
-            titles[1] = "功能(" + getTotal(data.getData().get(1)) + ")";
+            titles[1] = "数据(" + getTotal(data.getData().get(1)) + ")";
         }
 
         mAdapter = new CJSVpPagerAdapter(titles, pagers);
