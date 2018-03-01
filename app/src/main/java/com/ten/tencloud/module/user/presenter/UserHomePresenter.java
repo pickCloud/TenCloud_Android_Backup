@@ -32,9 +32,6 @@ public class UserHomePresenter extends BasePresenter<UserHomeContract.View>
                     @Override
                     public void _onSuccess(List<CompanyBean> companyBeans) {
                         GlobalStatusManager.getInstance().setCompanyListNeedRefresh(false);
-                        if (companyBeans == null || companyBeans.size() == 0) {
-                            mView.showMessage("暂无公司信息");
-                        }
                         mView.showCompanies(companyBeans);
                     }
                 }));

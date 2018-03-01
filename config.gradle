@@ -25,7 +25,6 @@ ext {
             glide_transformations    : "2.0.1",
             constraint_layout        : "1.0.2",
             permissionsdispatcher    : "2.3.2",
-            hellocharts              : "v1.5.8",
             fab                      : "1.6.4",
             hawk                     : "2.0.1",
             flexbox                  : "0.3.0",
