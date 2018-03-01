@@ -20,6 +20,7 @@ import com.ten.tencloud.bean.MyObjectBox;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.InitRetrofit;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -81,6 +82,8 @@ public class TenApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //bugly
+        CrashReport.initCrashReport(getApplicationContext(), "0537c3965d", BuildConfig.DEBUG);
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
         }
@@ -91,6 +94,7 @@ public class TenApp extends Application {
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
         UMConfigure.setLogEnabled(true);
         UMShareAPI.get(this);
+
         //日志打印
         KLog.init(BuildConfig.DEBUG, Constants.PROJECT_NAME);
     }

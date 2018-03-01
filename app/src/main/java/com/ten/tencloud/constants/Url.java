@@ -9,11 +9,16 @@ import com.ten.tencloud.BuildConfig;
  */
 
 public class Url {
+
+    private static boolean isTest = false;
+
     public static final String BASE_URL_DEBUG = "http://cd.10.com";
     public static final String BASE_URL_RELEASE = "https://c.10.com";
+    public static final String BASE_URL_TEST = "http://ct.10.com";
 
     public final static String WEBSOCKET_URL_DEBUG = "ws://cd.10.com";
     public final static String WEBSOCKET_URL_RELEASE = "ws://c.10.com";
+    public final static String WEBSOCKET_URL_TEST = "ws://ct.10.com";
 
 
     public static String BASE_URL;
@@ -21,8 +26,8 @@ public class Url {
 
     static {
         if (BuildConfig.DEBUG) {
-            BASE_URL = BASE_URL_DEBUG;
-            BASE_WEBSOCTET_URL = WEBSOCKET_URL_DEBUG;
+            BASE_URL = isTest ? BASE_URL_TEST : BASE_URL_DEBUG;
+            BASE_WEBSOCTET_URL = isTest ? WEBSOCKET_URL_TEST : WEBSOCKET_URL_DEBUG;
         } else {
             BASE_URL = BASE_URL_RELEASE;
             BASE_WEBSOCTET_URL = WEBSOCKET_URL_RELEASE;
