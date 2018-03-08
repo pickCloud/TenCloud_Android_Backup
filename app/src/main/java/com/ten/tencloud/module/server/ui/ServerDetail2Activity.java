@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.server.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -197,7 +198,9 @@ public class ServerDetail2Activity extends BaseActivity
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_basic_detail:
-
+                Intent intent = new Intent(mContext, ServerDetailBasicActivity.class);
+                intent.putExtra("id", mServerId);
+                startActivity(intent);
                 break;
         }
     }
@@ -401,11 +404,11 @@ public class ServerDetail2Activity extends BaseActivity
     @Override
     public void showServerSystemLoad(ServerSystemLoadBean systemLoadBean) {
         mTvOsTime.setText(systemLoadBean.getDate());
-        mTvLoginCount.setText(systemLoadBean.getLogin_users());
+        mTvLoginCount.setText(systemLoadBean.getLogin_users() + "");
         mTvRunDuration.setText(systemLoadBean.getRun_time());
-        setMinuteLoadStyle(mTvLoad1,systemLoadBean.getOne_minute_load());
-        setMinuteLoadStyle(mTvLoad5,systemLoadBean.getFive_minute_load());
-        setMinuteLoadStyle(mTvLoad10,systemLoadBean.getTen_minute_load_());
+        setMinuteLoadStyle(mTvLoad1, systemLoadBean.getOne_minute_load());
+        setMinuteLoadStyle(mTvLoad5, systemLoadBean.getFive_minute_load());
+        setMinuteLoadStyle(mTvLoad10, systemLoadBean.getTen_minute_load_());
         mTvLoad1.setText(systemLoadBean.getOne_minute_load() + "");
         mTvLoad5.setText(systemLoadBean.getFive_minute_load() + "");
         mTvLoad10.setText(systemLoadBean.getTen_minute_load_() + "");

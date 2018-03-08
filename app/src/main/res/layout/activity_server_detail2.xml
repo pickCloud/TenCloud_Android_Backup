@@ -117,7 +117,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableRight="@mipmap/icon_more_blue"
+                        android:drawableRight="@mipmap/icon_more"
                         android:text="详情"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />
@@ -482,6 +482,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="16dp"
+                                        android:text="暂无数据"
                                         android:textColor="@color/text_color_899ab6"
                                         android:textSize="12sp" />
 
@@ -513,6 +514,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="16dp"
+                                        android:text="暂无数据"
                                         android:textColor="@color/text_color_899ab6"
                                         android:textSize="12sp" />
 
@@ -557,7 +559,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableRight="@mipmap/icon_more_blue"
+                        android:drawableRight="@mipmap/icon_more"
                         android:text="详情"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />
@@ -745,7 +747,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableRight="@mipmap/icon_more_blue"
+                        android:drawableRight="@mipmap/icon_more"
                         android:text="详情"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />

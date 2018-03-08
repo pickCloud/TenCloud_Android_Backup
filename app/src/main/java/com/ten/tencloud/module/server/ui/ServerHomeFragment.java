@@ -88,7 +88,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerBean>() {
             @Override
             public void onObjectItemClicked(ServerBean serverBean, int position) {
-                Intent intent = new Intent(mActivity, ServerDetailActivity.class);
+                Intent intent = new Intent(mActivity, ServerDetail2Activity.class);
                 intent.putExtra("name", serverBean.getName());
                 intent.putExtra("id", serverBean.getId());
                 startActivity(intent);

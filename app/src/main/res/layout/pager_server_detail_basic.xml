@@ -5,9 +5,7 @@
     android:background="@color/default_bg"
     android:orientation="vertical">
 
-    <View
-        style="@style/LineHorizontal2f3543"
-        android:layout_marginTop="16dp" />
+    <View style="@style/LineHorizontal2f3543" />
 
     <LinearLayout
         android:id="@+id/ll_name"
