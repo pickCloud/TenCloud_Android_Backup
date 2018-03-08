@@ -1,6 +1,5 @@
 package com.ten.tencloud.module.server.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.headerfooter.songhang.library.SmartRecyclerAdapter;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
@@ -35,7 +33,7 @@ import butterknife.OnClick;
 public class ServerHomeFragment extends BaseFragment implements ServerHomeContract.View {
 
     @BindView(R.id.xrv_servers)
-    RecyclerView mXrvServer;
+    RecyclerView mRvServer;
     @BindView(R.id.empty_view)
     View mEmptyView;
     @BindView(R.id.tv_add_server)
@@ -49,9 +47,12 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
     private RefreshBroadCastHandler mServerRefreshHandler;
 
-    private TextView mTvServerTotal;
-    private TextView mTvServerAlarm;
-    private TextView mTvServerCash;
+    @BindView(R.id.tv_total)
+    TextView mTvServerTotal;
+    @BindView(R.id.tv_alarm)
+    TextView mTvServerAlarm;
+    @BindView(R.id.tv_cluster)
+    TextView mTvServerCluster;
 
     @Nullable
     @Override
@@ -76,33 +77,14 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mServerRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerRefreshHandler.registerReceiver(onRefreshListener);
 
-        LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View header = inflater.inflate(R.layout.header_server_main, null);
-        header.findViewById(R.id.tv_more).setOnClickListener(new View.OnClickListener() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false) {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mActivity, ServerListActivity.class));
+            public boolean canScrollVertically() {
+                return false;//禁止滑动，处理与scrollview的冲突
             }
-        });
-        header.findViewById(R.id.rl_server).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mActivity, ServerListActivity.class));
-            }
-        });
-        header.findViewById(R.id.rl_temp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mTvServerTotal = header.findViewById(R.id.tv_total);
-        mTvServerAlarm = header.findViewById(R.id.tv_alarm);
-        mTvServerCash = header.findViewById(R.id.tv_cash);
-        mXrvServer.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+        };
+        mRvServer.setLayoutManager(layoutManager);
         mAdapter = new RvServerAdapter(mActivity);
-        SmartRecyclerAdapter smartRecyclerAdapter = new SmartRecyclerAdapter(mAdapter);
-        smartRecyclerAdapter.setHeaderView(header);
         mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerBean>() {
             @Override
             public void onObjectItemClicked(ServerBean serverBean, int position) {
@@ -112,7 +94,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
                 startActivity(intent);
             }
         });
-        mXrvServer.setAdapter(smartRecyclerAdapter);
+        mRvServer.setAdapter(mAdapter);
+        mRvServer.setFocusableInTouchMode(false);//处理自动滚动
         mPresenter = new ServerHomePresenter();
         mPresenter.attachView(this);
         initView();
@@ -125,11 +108,23 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mPresenter.summary();
     }
 
-    @OnClick({R.id.tv_add_server})
+    @OnClick({R.id.tv_add_server, R.id.tv_more, R.id.rl_server, R.id.rl_cluster, R.id.rl_alarm})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add_server:
                 startActivity(new Intent(mActivity, ServerAddActivity.class));
+                break;
+            case R.id.tv_more:
+                startActivity(new Intent(mActivity, ServerListActivity.class));
+                break;
+            case R.id.rl_server:
+                startActivity(new Intent(mActivity, ServerListActivity.class));
+                break;
+            case R.id.rl_cluster:
+
+                break;
+            case R.id.rl_alarm:
+
                 break;
         }
     }
@@ -150,10 +145,10 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     public void showSummary(int server_num, int warn_num, int payment_num) {
         mTvServerTotal.setText(server_num + "");
         mTvServerAlarm.setText(warn_num + "");
-        mTvServerCash.setText(payment_num + "");
+        mTvServerCluster.setText(payment_num + "");
         mTvServerTotal.setSelected(server_num != 0);
         mTvServerAlarm.setSelected(warn_num != 0);
-        mTvServerCash.setSelected(payment_num != 0);
+        mTvServerCluster.setSelected(payment_num != 0);
     }
 
     @Override

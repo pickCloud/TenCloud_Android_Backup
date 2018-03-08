@@ -32,7 +32,7 @@
                 android:layout_below="@id/iv_total"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="4dp"
-                android:text="服务器总数"
+                android:text="主机总数"
                 android:textColor="@color/text_color_556278"
                 android:textSize="12sp" />
 
@@ -56,6 +56,51 @@
             android:background="@color/line_color_3f4656" />
 
         <RelativeLayout
+            android:id="@+id/rl_cluster"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/iv_cluster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/icon_cluster" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_cluster"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:text="集群总数"
+                android:textColor="@color/text_color_556278"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_cluster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/iv_cluster"
+                android:background="@drawable/selector_server_summary"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="0"
+                android:textColor="@color/text_color_373e4c"
+                android:textSize="11sp" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="55dp"
+            android:background="@color/line_color_3f4656" />
+
+        <RelativeLayout
+            android:id="@+id/rl_alarm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -83,49 +128,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/iv_alarm"
-                android:background="@drawable/selector_server_summary"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="0"
-                android:textColor="@color/text_color_373e4c"
-                android:textSize="11sp" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="55dp"
-            android:background="@color/line_color_3f4656" />
-
-        <RelativeLayout
-            android:id="@+id/rl_temp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:id="@+id/iv_cash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:src="@mipmap/icon_cash" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_cash"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:text="缴费信息"
-                android:textColor="@color/text_color_556278"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_cash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/iv_cash"
                 android:background="@drawable/selector_server_summary"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"

@@ -8,6 +8,7 @@ import com.ten.tencloud.bean.ServerDetailBean;
 import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
+import com.ten.tencloud.bean.ServerSystemLoadBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
@@ -127,6 +128,21 @@ public class ServerModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    /**
+     * 资源概况
+     *
+     * @param id
+     * @return
+     */
+    public Observable<ServerSystemLoadBean> getServerSystemLoad(String id) {
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .getServerSystemLoad(id)
+                .map(new HttpResultFunc<ServerSystemLoadBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
     /**
      * 重启

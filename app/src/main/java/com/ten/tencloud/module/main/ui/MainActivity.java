@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         createView(R.layout.activity_main);
         mMsgView = View.inflate(this, R.layout.include_message, null);
         mTvMsgCount = mMsgView.findViewById(R.id.tv_msg_count);
-        initTitleBar(false, getResources().getString(R.string.server), mMsgView, new View.OnClickListener() {
+        initTitleBar(false, getResources().getString(R.string.nav_01), mMsgView, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityNoValue(mContext, MsgActivity.class);
@@ -60,9 +60,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     private void init() {
-        titles = new String[]{getResources().getString(R.string.server), getResources().getString(R.string.project)
-                , getResources().getString(R.string.resource), getResources().getString(R.string.discover)
-                , getResources().getString(R.string.mine)};
+        titles = new String[]{getResources().getString(R.string.nav_01), getResources().getString(R.string.nav_02)
+                , getResources().getString(R.string.nav_03), getResources().getString(R.string.nav_04)
+                , getResources().getString(R.string.nav_05)};
         mMainPresenter = new MainPresenter();
         mMainPresenter.attachView(this);
         mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);

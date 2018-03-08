@@ -10,7 +10,7 @@ import com.ten.tencloud.BuildConfig;
 
 public class Url {
 
-    private static boolean isTest = true;
+    private static boolean isTest = false;
 
     public static final String BASE_URL_DEBUG = "http://cd.10.com";
     public static final String BASE_URL_RELEASE = "https://c.10.com";
@@ -25,7 +25,7 @@ public class Url {
     public static String BASE_WEBSOCTET_URL;
 
     static {
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             BASE_URL = isTest ? BASE_URL_TEST : BASE_URL_DEBUG;
             BASE_WEBSOCTET_URL = isTest ? WEBSOCKET_URL_TEST : WEBSOCKET_URL_DEBUG;
         } else {

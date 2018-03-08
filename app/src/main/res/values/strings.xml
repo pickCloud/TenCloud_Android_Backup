@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">拾·云</string>
+    <string name="app_name">拾云</string>
     <string name="DES_KEY">123456</string>
 
-    <string name="server">服务器</string>
-    <string name="project">项目</string>
-    <string name="resource">资源</string>
-    <string name="discover">发现</string>
-    <string name="mine">我的</string>
+    <string name="nav_01">主机/集群</string>
+    <string name="nav_02">应用/服务</string>
+    <string name="nav_03">日志/事件</string>
+    <string name="nav_04">镜像</string>
+    <string name="nav_05">我的</string>
     <string-array name="tabServerDetail">
         <item>监控</item>
         <item>基本信息</item>

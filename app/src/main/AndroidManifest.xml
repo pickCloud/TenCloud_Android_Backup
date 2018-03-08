@@ -123,6 +123,8 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5a5f057d8f4a9d6ff4000042" />
+
+        <activity android:name=".module.server.ui.ServerDetail2Activity"></activity>
     </application>
 
 </manifest>

@@ -147,7 +147,7 @@ public class ServerListActivity extends BaseActivity implements ServerListContra
         mServerAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerBean>() {
             @Override
             public void onObjectItemClicked(ServerBean serverBean, int position) {
-                Intent intent = new Intent(mContext, ServerDetailActivity.class);
+                Intent intent = new Intent(mContext, ServerDetail2Activity.class);
                 intent.putExtra("name", serverBean.getName());
                 intent.putExtra("id", serverBean.getId());
                 startActivity(intent);

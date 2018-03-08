@@ -8,6 +8,7 @@ import com.ten.tencloud.bean.ServerDetailBean;
 import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
+import com.ten.tencloud.bean.ServerSystemLoadBean;
 
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,9 @@ public interface TenServerApi {
     @GET("/api/server/{id}")
     Observable<Response<JesResponse<ServerDetailBean>>> getServerDetail(@Path("id") String id);
 
+    @GET("/api/server/{id}/systemload")
+    Observable<Response<JesResponse<ServerSystemLoadBean>>> getServerSystemLoad(@Path("id") String id);
+
     @POST("/api/server/del")
     Observable<Response<JesResponse<Object>>> delServer(@Body RequestBody body);
 
@@ -73,6 +77,6 @@ public interface TenServerApi {
     Observable<Response<JesResponse<Object>>> changeServerInfo(@Body RequestBody body);
 
     @GET("/api/cluster/summary")
-    Observable<Response<JesResponse<Map<String,Integer>>>> summary();
+    Observable<Response<JesResponse<Map<String, Integer>>>> summary();
 
 }
