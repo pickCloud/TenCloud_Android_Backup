@@ -9,6 +9,8 @@ import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -67,8 +69,8 @@ public class ServerDetail2Activity extends BaseActivity
     TextView mTvLoad1;
     @BindView(R.id.tv_load_5)
     TextView mTvLoad5;
-    @BindView(R.id.tv_load_10)
-    TextView mTvLoad10;
+    @BindView(R.id.tv_load_15)
+    TextView mTvLoad15;
 
     //配置信息
     @BindView(R.id.tv_os_name)
@@ -91,6 +93,16 @@ public class ServerDetail2Activity extends BaseActivity
     @BindView(R.id.lc_net)
     LineChart mLcNet;
 
+    //周期
+    @BindView(R.id.rg_cycle)
+    RadioGroup mRgCycle;
+    @BindView(R.id.btn_one_hour)
+    RadioButton mBtnOneHour;
+    @BindView(R.id.btn_one_day)
+    RadioButton mBtnOneDay;
+    @BindView(R.id.btn_one_week)
+    RadioButton mBtnOneWeek;
+
     private String mServerName;
     private String mServerId;
 
@@ -98,6 +110,9 @@ public class ServerDetail2Activity extends BaseActivity
     private final static int STATE_DAY = 2;
     private final static int STATE_WEEK = 3;
     private final static int STATE_MONTH = 4;
+
+    //当前周期
+    private int mCycle = STATE_HOUR;
 
     private ServerDetailPresenter mServerDetailPresenter;
     private ServerMonitorPresenter mServerMonitorPresenter;
@@ -123,13 +138,44 @@ public class ServerDetail2Activity extends BaseActivity
         mServerSystemLoadPresenter.getServerSystemLoad(mServerId);
         mServerMonitorPresenter = new ServerMonitorPresenter();
         mServerMonitorPresenter.attachView(this);
-        String[] cycle = handCycle(STATE_HOUR);
+        String[] cycle = handCycle(mCycle);
         mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
     }
 
     private void initView() {
         mTvName.setText(mServerName);
         initLineChart();
+        mRgCycle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.btn_one_hour: {
+                        if (mCycle != STATE_HOUR) {
+                            mCycle = STATE_HOUR;
+                            String[] cycle = handCycle(mCycle);
+                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
+                        }
+                        break;
+                    }
+                    case R.id.btn_one_day: {
+                        if (mCycle != STATE_DAY) {
+                            mCycle = STATE_DAY;
+                            String[] cycle = handCycle(mCycle);
+                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
+                        }
+                        break;
+                    }
+                    case R.id.btn_one_week: {
+                        if (mCycle != STATE_WEEK) {
+                            mCycle = STATE_WEEK;
+                            String[] cycle = handCycle(mCycle);
+                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
+                        }
+                        break;
+                    }
+                }
+            }
+        });
     }
 
     private void initLineChart() {
@@ -408,10 +454,10 @@ public class ServerDetail2Activity extends BaseActivity
         mTvRunDuration.setText(systemLoadBean.getRun_time());
         setMinuteLoadStyle(mTvLoad1, systemLoadBean.getOne_minute_load());
         setMinuteLoadStyle(mTvLoad5, systemLoadBean.getFive_minute_load());
-        setMinuteLoadStyle(mTvLoad10, systemLoadBean.getTen_minute_load_());
+        setMinuteLoadStyle(mTvLoad15, systemLoadBean.getFifteen_minute_load());
         mTvLoad1.setText(systemLoadBean.getOne_minute_load() + "");
         mTvLoad5.setText(systemLoadBean.getFive_minute_load() + "");
-        mTvLoad10.setText(systemLoadBean.getTen_minute_load_() + "");
+        mTvLoad15.setText(systemLoadBean.getFifteen_minute_load() + "");
     }
 
     private void setMinuteLoadStyle(TextView tv, float value) {

@@ -244,7 +244,6 @@
                                     android:id="@+id/tv_load_1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="1.05"
                                     android:textColor="@color/select_server_status"
                                     android:textSize="20sp" />
 
@@ -275,7 +274,6 @@
                                     android:id="@+id/tv_load_5"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="0.24"
                                     android:textColor="@color/select_server_status"
                                     android:textSize="20sp" />
 
@@ -303,10 +301,9 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:id="@+id/tv_load_10"
+                                    android:id="@+id/tv_load_15"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="0.14"
                                     android:textColor="@color/select_server_status"
                                     android:textSize="20sp" />
 
@@ -320,7 +317,7 @@
                                     android:paddingLeft="10dp"
                                     android:paddingRight="10dp"
                                     android:paddingTop="2dp"
-                                    android:text="10分钟"
+                                    android:text="15分钟"
                                     android:textColor="@color/text_color_566278"
                                     android:textSize="10sp" />
 
@@ -787,6 +784,54 @@
                             android:textColor="@color/text_color_556278"
                             android:textSize="12sp" />
 
+                        <RadioGroup
+                            android:id="@+id/rg_cycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/btn_one_hour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="16dp"
+                                android:background="@drawable/selector_server_monitor_cycle_button"
+                                android:button="@null"
+                                android:checked="true"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="8dp"
+                                android:text="1小时"
+                                android:textColor="@color/select_permission_check"
+                                android:textSize="10sp" />
+
+                            <RadioButton
+                                android:id="@+id/btn_one_day"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="16dp"
+                                android:background="@drawable/selector_server_monitor_cycle_button"
+                                android:button="@null"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="8dp"
+                                android:text="24小时"
+                                android:textColor="@color/select_permission_check"
+                                android:textSize="10sp" />
+
+                            <RadioButton
+                                android:id="@+id/btn_one_week"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/selector_server_monitor_cycle_button"
+                                android:button="@null"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="8dp"
+                                android:text="1周"
+                                android:textColor="@color/select_permission_check"
+                                android:textSize="10sp" />
+
+                        </RadioGroup>
+
                     </LinearLayout>
 
                     <com.github.mikephil.charting.charts.LineChart
@@ -887,7 +932,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="right|bottom"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="96dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/selector_question" />
 
@@ -895,7 +940,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="right|bottom"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/selector_toolbox" />
 </FrameLayout>

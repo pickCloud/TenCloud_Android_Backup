@@ -24,6 +24,54 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_provider"
+        style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="服务商" />
+
+            <TextView
+                android:id="@+id/tv_provider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:drawablePadding="4dp"
+                android:drawableRight="@mipmap/icon_arrow_right"
+                android:gravity="right"
+                android:text="请选择服务商"
+                android:textColor="@color/text_color_566278"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="区域" />
+
+            <EditText
+                android:id="@+id/et_region"
+                style="@style/ListItemEditValue"
+                android:hint="请输入所在区域" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
     <LinearLayout style="@style/ListItemLLFirst">
 
         <LinearLayout style="@style/ListItemLL2">

@@ -22,7 +22,7 @@ public class ServerSystemLoadPresenter extends BasePresenter<ServerSystemLoadCon
 //                }));
         String json = "{\n" +
                 "      \"date\": \"2018-03-08 14:23:30\",\n" +
-                "      \"ten_minute_load_\": 0.54,\n" +
+                "      \"fifteen_minute_load\": 0.54,\n" +
                 "      \"five_minute_load\": 0.81,\n" +
                 "      \"login_users\": 1,\n" +
                 "      \"one_minute_load\": 0.14,\n" +

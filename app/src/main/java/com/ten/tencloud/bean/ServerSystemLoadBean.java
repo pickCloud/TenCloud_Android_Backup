@@ -8,7 +8,7 @@ public class ServerSystemLoadBean {
 
     /**
      * date : 2018-03-08 14:23:30
-     * ten_minute_load_ : 0.24
+     * fifteen_minute_load : 0.24
      * five_minute_load : 0.34
      * login_users : 1
      * one_minute_load : 0.14
@@ -16,7 +16,7 @@ public class ServerSystemLoadBean {
      */
 
     private String date;
-    private float ten_minute_load_;
+    private float fifteen_minute_load;
     private float five_minute_load;
     private int login_users;
     private float one_minute_load;
@@ -30,12 +30,12 @@ public class ServerSystemLoadBean {
         this.date = date;
     }
 
-    public float getTen_minute_load_() {
-        return ten_minute_load_;
+    public float getFifteen_minute_load() {
+        return fifteen_minute_load;
     }
 
-    public void setTen_minute_load_(float ten_minute_load_) {
-        this.ten_minute_load_ = ten_minute_load_;
+    public void setFifteen_minute_load(float fifteen_minute_load) {
+        this.fifteen_minute_load = fifteen_minute_load;
     }
 
     public float getFive_minute_load() {
