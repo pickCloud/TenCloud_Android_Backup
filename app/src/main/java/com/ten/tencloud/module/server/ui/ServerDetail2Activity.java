@@ -32,6 +32,8 @@ import com.ten.tencloud.bean.NetSpeedBean;
 import com.ten.tencloud.bean.ServerDetailBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.bean.ServerSystemLoadBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.contract.ServerDetailContract;
 import com.ten.tencloud.module.server.contract.ServerMonitorContract;
 import com.ten.tencloud.module.server.contract.ServerSystemLoadContract;
@@ -117,6 +119,7 @@ public class ServerDetail2Activity extends BaseActivity
     private ServerDetailPresenter mServerDetailPresenter;
     private ServerMonitorPresenter mServerMonitorPresenter;
     private ServerSystemLoadPresenter mServerSystemLoadPresenter;
+    private RefreshBroadCastHandler mBroadCastHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,19 +128,28 @@ public class ServerDetail2Activity extends BaseActivity
         initTitleBar(true, "主机详情");
         mServerName = getIntent().getStringExtra("name");
         mServerId = getIntent().getStringExtra("id");
+
+        mServerDetailPresenter = new ServerDetailPresenter();
+        mServerDetailPresenter.attachView(this);
+        mServerSystemLoadPresenter = new ServerSystemLoadPresenter();
+        mServerSystemLoadPresenter.attachView(this);
+        mServerMonitorPresenter = new ServerMonitorPresenter();
+        mServerMonitorPresenter.attachView(this);
+
+        mBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mBroadCastHandler.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mServerDetailPresenter.getServerDetail(mServerId);
+            }
+        });
         initView();
         initData();
     }
 
     private void initData() {
-        mServerDetailPresenter = new ServerDetailPresenter();
-        mServerDetailPresenter.attachView(this);
         mServerDetailPresenter.getServerDetail(mServerId);
-        mServerSystemLoadPresenter = new ServerSystemLoadPresenter();
-        mServerSystemLoadPresenter.attachView(this);
         mServerSystemLoadPresenter.getServerSystemLoad(mServerId);
-        mServerMonitorPresenter = new ServerMonitorPresenter();
-        mServerMonitorPresenter.attachView(this);
         String[] cycle = handCycle(mCycle);
         mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
     }
@@ -240,19 +252,28 @@ public class ServerDetail2Activity extends BaseActivity
         lineChart.getAxisRight().setEnabled(false);
     }
 
-    @OnClick({R.id.rl_basic_detail})
+    @OnClick({R.id.rl_basic_detail, R.id.tv_more})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_basic_detail:
+            case R.id.rl_basic_detail: {
                 Intent intent = new Intent(mContext, ServerDetailBasicActivity.class);
                 intent.putExtra("id", mServerId);
                 startActivity(intent);
                 break;
+            }
+            case R.id.tv_more: {
+                Intent intent = new Intent(mContext, ServerPerformanceHistoryActivity.class);
+                intent.putExtra("id", mServerId);
+                intent.putExtra("name", mServerName);
+                mContext.startActivity(intent);
+                break;
+            }
         }
     }
 
     @Override
     public void showServerDetail(ServerDetailBean serverDetailBean) {
+        mTvName.setText(serverDetailBean.getBasic_info().getName());
         mTvIP.setText(serverDetailBean.getBasic_info().getPublic_ip());
         //设置运营商icon
         String provider = serverDetailBean.getBusiness_info().getProvider();
@@ -499,5 +520,6 @@ public class ServerDetail2Activity extends BaseActivity
         mServerMonitorPresenter = null;
         mServerSystemLoadPresenter.detachView();
         mServerSystemLoadPresenter = null;
+        mBroadCastHandler.unregisterReceiver();
     }
 }

@@ -25,7 +25,7 @@ public class Url {
     public static String BASE_WEBSOCTET_URL;
 
     static {
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             BASE_URL = isTest ? BASE_URL_TEST : BASE_URL_DEBUG;
             BASE_WEBSOCTET_URL = isTest ? WEBSOCKET_URL_TEST : WEBSOCKET_URL_DEBUG;
         } else {

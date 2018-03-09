@@ -765,7 +765,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="bottom"
+                        android:baselineAligned="false"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingBottom="10dp"
                         android:paddingTop="16dp">
@@ -786,8 +787,9 @@
 
                         <RadioGroup
                             android:id="@+id/rg_cycle"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:gravity="right"
                             android:orientation="horizontal">
 
@@ -822,6 +824,7 @@
                                 android:id="@+id/btn_one_week"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="16dp"
                                 android:background="@drawable/selector_server_monitor_cycle_button"
                                 android:button="@null"
                                 android:paddingLeft="8dp"
@@ -831,6 +834,18 @@
                                 android:textSize="10sp" />
 
                         </RadioGroup>
+
+                        <TextView
+                            android:id="@+id/tv_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/selector_server_monitor_cycle_button"
+                            android:button="@null"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="更多"
+                            android:textColor="@color/select_permission_check"
+                            android:textSize="10sp" />
 
                     </LinearLayout>
 

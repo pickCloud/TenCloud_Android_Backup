@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.server.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
@@ -29,6 +30,12 @@ public class ServerDetailBasicActivity extends BaseActivity {
         mServerDetailBasicPager.putArgument("id", mServerId);
         mLlContent.addView(mServerDetailBasicPager);
         mServerDetailBasicPager.init();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mServerDetailBasicPager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
