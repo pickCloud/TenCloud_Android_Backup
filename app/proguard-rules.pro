@@ -32,6 +32,10 @@
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
+
+#RealtimeBlurView
+-keep class android.support.v8.renderscript.** { *; }
+
 #butterknife
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**

@@ -24,6 +24,8 @@ android {
         targetSdkVersion cfg.targetSdk
         versionCode cfg.versionCode
         versionName cfg.versionName
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
@@ -129,6 +131,8 @@ dependencies {
     compile "com.songhang:smart-headerfooter-recyclerview:${libs.RecycleViewHeaderView}"
 
     compile "com.github.hackware1993:MagicIndicator:${libs.MagicIndicator}"
+
+    compile "com.github.mmin18:realtimeblurview:${libs.realtimeblurview}"
 
     /**
      *   选择器

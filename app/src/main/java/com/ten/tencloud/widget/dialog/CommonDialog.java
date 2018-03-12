@@ -23,11 +23,16 @@ public class CommonDialog extends Dialog {
     private String msg;
     private String mPositiveText;
     private String mCancelText;
+    private boolean mIsTwoButton = true;//两个按钮
+
     private OnButtonClickListener mOnPositiveClickListener;
 
     private TextView mTvMsg;
     private TextView mTvPositiveButton;
     private TextView mMCancelButton;
+    private View mLlBtn1;
+    private View mLlBtn2;
+    private TextView mTvOk2;
 
     public CommonDialog(@NonNull Context context) {
         super(context);
@@ -43,6 +48,12 @@ public class CommonDialog extends Dialog {
         mTvMsg = window.findViewById(R.id.tv_msg);
         mTvPositiveButton = window.findViewById(R.id.tv_ok);
         mMCancelButton = window.findViewById(R.id.tv_cancel);
+        mLlBtn1 = window.findViewById(R.id.ll_btn_1);
+        mLlBtn2 = window.findViewById(R.id.ll_btn_2);
+        mTvOk2 = window.findViewById(R.id.tv_ok2);
+
+        mLlBtn1.setVisibility(mIsTwoButton ? View.VISIBLE : View.GONE);
+        mLlBtn2.setVisibility(!mIsTwoButton ? View.VISIBLE : View.GONE);
 
         mMCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +67,13 @@ public class CommonDialog extends Dialog {
                 if (mOnPositiveClickListener != null) {
                     mOnPositiveClickListener.onClick(CommonDialog.this);
                 }
+            }
+        });
+
+        mTvOk2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
             }
         });
 
@@ -89,6 +107,10 @@ public class CommonDialog extends Dialog {
     public CommonDialog setCancelButton(String text) {
         mCancelText = text;
         return this;
+    }
+
+    public void setTwoButton(boolean twoButton) {
+        mIsTwoButton = twoButton;
     }
 
     public interface OnButtonClickListener {

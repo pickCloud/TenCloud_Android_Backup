@@ -955,6 +955,7 @@
         android:background="@drawable/selector_question" />
 
     <Button
+        android:id="@+id/btn_toolbox"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="right|bottom"
