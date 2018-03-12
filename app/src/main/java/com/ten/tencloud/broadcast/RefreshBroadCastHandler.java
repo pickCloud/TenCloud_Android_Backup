@@ -30,6 +30,11 @@ public class RefreshBroadCastHandler {
     public final static String SERVER_LIST_CHANGE_ACTION = "SERVER_LIST_CHANGE_ACTION";
 
     /**
+     * 服务器信息变化
+     */
+    public final static String SERVER_INFO_CHANGE_ACTION = "SERVER_INFO_CHANGE_ACTION";
+
+    /**
      * 设置权限勾选
      */
     public final static String PERMISSION_SETTING_CHANGE_ACTION = "PERMISSION_SETTING_CHANGE_ACTION";

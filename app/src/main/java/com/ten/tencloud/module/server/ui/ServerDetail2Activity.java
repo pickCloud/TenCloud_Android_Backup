@@ -33,6 +33,7 @@ import com.ten.tencloud.bean.ServerDetailBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.bean.ServerSystemLoadBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.contract.ServerDetailContract;
 import com.ten.tencloud.module.server.contract.ServerMonitorContract;
@@ -136,7 +137,7 @@ public class ServerDetail2Activity extends BaseActivity
         mServerMonitorPresenter = new ServerMonitorPresenter();
         mServerMonitorPresenter.attachView(this);
 
-        mBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_INFO_CHANGE_ACTION);
         mBroadCastHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -258,7 +259,7 @@ public class ServerDetail2Activity extends BaseActivity
             case R.id.rl_basic_detail: {
                 Intent intent = new Intent(mContext, ServerDetailBasicActivity.class);
                 intent.putExtra("id", mServerId);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 break;
             }
             case R.id.tv_more: {
@@ -470,6 +471,9 @@ public class ServerDetail2Activity extends BaseActivity
 
     @Override
     public void showServerSystemLoad(ServerSystemLoadBean systemLoadBean) {
+        if (systemLoadBean == null) {
+            return;
+        }
         mTvOsTime.setText(systemLoadBean.getDate());
         mTvLoginCount.setText(systemLoadBean.getLogin_users() + "");
         mTvRunDuration.setText(systemLoadBean.getRun_time());
@@ -509,6 +513,14 @@ public class ServerDetail2Activity extends BaseActivity
                 break;
         }
         return new String[]{startTime + "", endTime + ""};
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_FINISH) {
+            finish();
+        }
     }
 
     @Override

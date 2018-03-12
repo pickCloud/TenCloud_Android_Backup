@@ -23,13 +23,15 @@ public class ServerChangeNameActivity extends BaseActivity implements ServerChan
     private String mId;
     private String mName;
     private ServerChangeNamePresenter mServerChangeNamePresenter;
-    private RefreshBroadCastHandler mRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mInfoRefreshHandler;
+    private RefreshBroadCastHandler mListRefreshHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_change_name);
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mInfoRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_INFO_CHANGE_ACTION);
+        mListRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         initTitleBar(true, "修改名称", "确认", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +76,8 @@ public class ServerChangeNameActivity extends BaseActivity implements ServerChan
     public void changeSuccess() {
         showMessage("修改成功");
         Intent data = new Intent();
-        mRefreshBroadCastHandler.sendBroadCast();
+        mInfoRefreshHandler.sendBroadCast();
+        mListRefreshHandler.sendBroadCast();
         data.putExtra("name", mName);
         setResult(ServerDetailBasicPager.CODE_CHANGE_NAME, data);
         finish();

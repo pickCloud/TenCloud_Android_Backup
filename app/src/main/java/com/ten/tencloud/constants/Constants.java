@@ -90,6 +90,8 @@ public class Constants {
      */
     public static final int ACTIVITY_RESULT_CODE_REFRESH = 20086;
 
+    public static final int ACTIVITY_RESULT_CODE_FINISH = 20087;
+
 
     /**
      * 员工状态码

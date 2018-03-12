@@ -14,6 +14,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.ServerDetailBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.GlobalStatusManager;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.contract.ServerDetailContract;
@@ -287,9 +288,11 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     @Override
     public void delSuccess() {
         showMessage("删除成功");
+        Activity activity = (Activity) mContext;
+        activity.setResult(Constants.ACTIVITY_RESULT_CODE_FINISH);
+        activity.finish();
         mServerHandler.sendBroadCast();
         GlobalStatusManager.getInstance().setServerListNeedRefresh(true);
-        ((Activity) mContext).finish();
     }
 
     @Override

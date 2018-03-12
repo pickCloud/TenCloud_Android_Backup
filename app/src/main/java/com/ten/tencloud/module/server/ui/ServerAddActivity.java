@@ -88,6 +88,7 @@ public class ServerAddActivity extends BaseActivity {
 
                             @Override
                             public void onView() {
+                                finish();
                                 startActivityNoValue(mContext, ServerListActivity.class);
                             }
                         }).show();
