@@ -20,6 +20,7 @@ import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
 import com.ten.tencloud.module.server.presenter.ServerHomePresenter;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.widget.HeatLayout;
 
 import java.util.List;
 
@@ -53,6 +54,13 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     TextView mTvServerAlarm;
     @BindView(R.id.tv_cluster)
     TextView mTvServerCluster;
+
+    @BindView(R.id.hl_01)
+    HeatLayout mHl01;
+    @BindView(R.id.hl_02)
+    HeatLayout mHl02;
+    @BindView(R.id.hl_03)
+    HeatLayout mHl03;
 
     @Nullable
     @Override
@@ -106,6 +114,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mPermissionAddServer = Utils.hasPermission("添加主机");
         mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
         mPresenter.summary();
+        mHl02.setAlpha(15 / 100f);
+        mHl03.setAlpha(30 / 100f);
     }
 
     @OnClick({R.id.tv_add_server, R.id.tv_more, R.id.rl_server, R.id.rl_cluster, R.id.rl_alarm})

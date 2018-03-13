@@ -425,7 +425,7 @@ public class ServerDetail2Activity extends BaseActivity
      * @param cpuInfo
      */
     private void setDataWithCPUView(List<ContentInfoBean> cpuInfo) {
-        setDataWithContentInfo(mLcCpu, cpuInfo, R.color.colorPrimary, R.drawable.fade_red);
+        setDataWithContentInfo(mLcCpu, cpuInfo, R.color.colorPrimary, R.drawable.fade_blue);
     }
 
     /**

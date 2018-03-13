@@ -22,6 +22,7 @@
     <color name="bg_262a35">#262a35</color>
     <color name="bg_0d6569">#0d6569</color>
     <color name="bg_054e51">#054e51</color>
+    <color name="bg_245e60">#245e60</color>
 
     <color name="btn_passive">#ef9a9a</color>
 
@@ -43,6 +44,7 @@
     <color name="text_color_232730">#232730</color>
     <color name="text_color_232730_pressed">#66232730</color>
     <color name="text_color_232730_disable">#33232730</color>
+    <color name="text_color_232730_translucence">#80232730</color>
     <color name="text_color_502016">#502016</color>
     <color name="text_color_502016_pressed">#66502016</color>
     <color name="text_color_502016_disable">#33502016</color>
