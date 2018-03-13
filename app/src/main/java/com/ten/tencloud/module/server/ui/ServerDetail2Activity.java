@@ -42,6 +42,7 @@ import com.ten.tencloud.module.server.presenter.ServerDetailPresenter;
 import com.ten.tencloud.module.server.presenter.ServerMonitorPresenter;
 import com.ten.tencloud.module.server.presenter.ServerSystemLoadPresenter;
 import com.ten.tencloud.utils.DateUtils;
+import com.ten.tencloud.widget.dialog.ServerSystemLoadDialog;
 import com.ten.tencloud.widget.dialog.ServerToolBoxDialog;
 
 import java.util.ArrayList;
@@ -123,6 +124,7 @@ public class ServerDetail2Activity extends BaseActivity
     private ServerSystemLoadPresenter mServerSystemLoadPresenter;
     private RefreshBroadCastHandler mBroadCastHandler;
     private ServerToolBoxDialog mServerToolBoxDialog;
+    private ServerSystemLoadDialog mServerSystemLoadDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,7 +257,7 @@ public class ServerDetail2Activity extends BaseActivity
         lineChart.getAxisRight().setEnabled(false);
     }
 
-    @OnClick({R.id.rl_basic_detail, R.id.tv_more, R.id.btn_toolbox})
+    @OnClick({R.id.rl_basic_detail, R.id.tv_more, R.id.btn_toolbox, R.id.tv_load_des})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_basic_detail: {
@@ -276,6 +278,13 @@ public class ServerDetail2Activity extends BaseActivity
                     mServerToolBoxDialog = new ServerToolBoxDialog(this);
                 }
                 mServerToolBoxDialog.show();
+                break;
+            }
+            case R.id.tv_load_des: {
+                if (mServerSystemLoadDialog == null) {
+                    mServerSystemLoadDialog = new ServerSystemLoadDialog(mContext);
+                }
+                mServerSystemLoadDialog.show();
                 break;
             }
         }

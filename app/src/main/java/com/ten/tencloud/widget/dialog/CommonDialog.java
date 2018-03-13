@@ -20,9 +20,11 @@ import com.ten.tencloud.utils.Utils;
 
 public class CommonDialog extends Dialog {
 
+    private String mTitle;
     private String msg;
     private String mPositiveText;
     private String mCancelText;
+    private boolean mIsShowTitle = false;//头部标题
     private boolean mIsTwoButton = true;//两个按钮
 
     private OnButtonClickListener mOnPositiveClickListener;
@@ -33,6 +35,7 @@ public class CommonDialog extends Dialog {
     private View mLlBtn1;
     private View mLlBtn2;
     private TextView mTvOk2;
+    private TextView mTvTitle;
 
     public CommonDialog(@NonNull Context context) {
         super(context);
@@ -45,6 +48,7 @@ public class CommonDialog extends Dialog {
         window.setGravity(Gravity.CENTER);
         window.setContentView(R.layout.dialog_common);
 
+        mTvTitle = window.findViewById(R.id.tv_title);
         mTvMsg = window.findViewById(R.id.tv_msg);
         mTvPositiveButton = window.findViewById(R.id.tv_ok);
         mMCancelButton = window.findViewById(R.id.tv_cancel);
@@ -54,6 +58,13 @@ public class CommonDialog extends Dialog {
 
         mLlBtn1.setVisibility(mIsTwoButton ? View.VISIBLE : View.GONE);
         mLlBtn2.setVisibility(!mIsTwoButton ? View.VISIBLE : View.GONE);
+
+        mTvTitle.setVisibility(mIsShowTitle ? View.VISIBLE : View.GONE);
+        mTvTitle.setText(mTitle);
+        if (mIsShowTitle) {
+            mTvMsg.setTextColor(getContext().getResources().getColor(R.color.text_color_556278));
+            mTvMsg.setTextSize(12);
+        }
 
         mMCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,8 +120,19 @@ public class CommonDialog extends Dialog {
         return this;
     }
 
-    public void setTwoButton(boolean twoButton) {
+    public CommonDialog setTwoButton(boolean twoButton) {
         mIsTwoButton = twoButton;
+        return this;
+    }
+
+    public CommonDialog setShowTitle(boolean showTitle) {
+        mIsShowTitle = showTitle;
+        return this;
+    }
+
+    public CommonDialog setTitle(String title) {
+        mTitle = title;
+        return this;
     }
 
     public interface OnButtonClickListener {
