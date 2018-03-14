@@ -3,6 +3,7 @@ package com.ten.tencloud.module.server.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,12 +18,14 @@ import com.ten.tencloud.bean.ServerBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
+import com.ten.tencloud.module.server.adapter.RvServerHeatChartAdapter;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
 import com.ten.tencloud.module.server.presenter.ServerHomePresenter;
 import com.ten.tencloud.utils.Utils;
-import com.ten.tencloud.widget.HeatLayout;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -55,12 +58,9 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @BindView(R.id.tv_cluster)
     TextView mTvServerCluster;
 
-    @BindView(R.id.hl_01)
-    HeatLayout mHl01;
-    @BindView(R.id.hl_02)
-    HeatLayout mHl02;
-    @BindView(R.id.hl_03)
-    HeatLayout mHl03;
+    @BindView(R.id.rv_heat)
+    RecyclerView mRvHeat;
+
 
     @Nullable
     @Override
@@ -114,8 +114,33 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mPermissionAddServer = Utils.hasPermission("添加主机");
         mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
         mPresenter.summary();
-        mHl02.setAlpha(15 / 100f);
-        mHl03.setAlpha(30 / 100f);
+        initHeatChart();
+    }
+
+    private void initHeatChart() {
+        // TODO: 2018/3/14 测试
+        ArrayList<Integer> datas = new ArrayList<>();
+        int size = new Random().nextInt(20) + 2;
+        for (int i = 0; i < size; i++) {
+            datas.add(new Random().nextInt(5) + 1);
+        }
+
+        int spanCount = 1;
+        int type = 0;
+        if (datas.size() >= 2 && datas.size() <= 4) {
+            spanCount = 2;
+            type = RvServerHeatChartAdapter.TYPE_TWO;
+        } else if (datas.size() > 4 && datas.size() <= 9) {
+            spanCount = 3;
+            type = RvServerHeatChartAdapter.TYPE_THREE;
+        } else if (datas.size() > 9) {
+            spanCount = 4;
+            type = RvServerHeatChartAdapter.TYPE_FOUR;
+        }
+        mRvHeat.setLayoutManager(new GridLayoutManager(mActivity, spanCount));
+        RvServerHeatChartAdapter adapter = new RvServerHeatChartAdapter(mActivity, type);
+        mRvHeat.setAdapter(adapter);
+        adapter.setDatas(datas);
     }
 
     @OnClick({R.id.tv_add_server, R.id.tv_more, R.id.rl_server, R.id.rl_cluster, R.id.rl_alarm})
@@ -134,7 +159,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
                 break;
             case R.id.rl_alarm:
-
+                initHeatChart();
                 break;
         }
     }

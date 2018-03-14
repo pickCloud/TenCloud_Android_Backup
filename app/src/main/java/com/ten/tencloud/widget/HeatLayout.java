@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -29,6 +30,10 @@ public class HeatLayout extends FrameLayout {
 
     public HeatLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mLlContent = new LinearLayout(getContext());
+        mLlContent.setBackgroundColor(Color.BLACK);
+        mLlContent.setAlpha(0f);
+        addView(mLlContent);
     }
 
     @Override
@@ -43,16 +48,11 @@ public class HeatLayout extends FrameLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        mLlContent = new LinearLayout(getContext());
-        mLlContent.setBackgroundColor(Color.BLACK);
-        mLlContent.setAlpha(0f);
-        addView(mLlContent);
-    }
-
     public void setAlpha(float alpha) {
         mLlContent.setAlpha(alpha);
+    }
+
+    public void addViewWithContent(View child) {
+        mLlContent.addView(child);
     }
 }

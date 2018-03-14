@@ -37,13 +37,6 @@ public class ServerToolBoxDialog extends Dialog {
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        int uiOptions =View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                |View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                |View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                |View.SYSTEM_UI_FLAG_IMMERSIVE
-                |View.SYSTEM_UI_FLAG_FULLSCREEN;
-        window.getDecorView().setSystemUiVisibility(uiOptions);
     }
 
     @OnClick({R.id.btn_close, R.id.btn_tool1, R.id.btn_tool2, R.id.btn_tool3,

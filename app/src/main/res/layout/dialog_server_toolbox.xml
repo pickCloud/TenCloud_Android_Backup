@@ -8,8 +8,8 @@
     <com.github.mmin18.widget.RealtimeBlurView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:realtimeBlurRadius="15dp"
-        app:realtimeOverlayColor="#00000000" />
+        app:realtimeBlurRadius="30dp"
+        app:realtimeOverlayColor="#80000000" />
 
     <LinearLayout
         android:layout_width="match_parent"

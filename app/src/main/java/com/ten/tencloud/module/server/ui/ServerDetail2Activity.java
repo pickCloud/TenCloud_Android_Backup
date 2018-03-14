@@ -497,10 +497,10 @@ public class ServerDetail2Activity extends BaseActivity
         mTvRunDuration.setText(systemLoadBean.getRun_time());
         setMinuteLoadStyle(mTvLoad1, systemLoadBean.getOne_minute_load());
         setMinuteLoadStyle(mTvLoad5, systemLoadBean.getFive_minute_load());
-        setMinuteLoadStyle(mTvLoad15, systemLoadBean.getFifteen_minute_load());
+        setMinuteLoadStyle(mTvLoad15, systemLoadBean.getFifth_minute_load());
         mTvLoad1.setText(systemLoadBean.getOne_minute_load() + "");
         mTvLoad5.setText(systemLoadBean.getFive_minute_load() + "");
-        mTvLoad15.setText(systemLoadBean.getFifteen_minute_load() + "");
+        mTvLoad15.setText(systemLoadBean.getFifth_minute_load() + "");
     }
 
     private void setMinuteLoadStyle(TextView tv, float value) {
