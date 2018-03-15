@@ -8,23 +8,24 @@ import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
+import com.ten.tencloud.bean.ServerHeatBean;
 import com.ten.tencloud.widget.HeatLayout;
 
 /**
  * Created by lxq on 2018/3/14.
  */
 
-public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<Integer, RvServerHeatChartAdapter.ViewHolder> {
+public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerHeatBean, RvServerHeatChartAdapter.ViewHolder> {
 
     public final static int TYPE_TWO = 0;
     public final static int TYPE_THREE = 1;
     public final static int TYPE_FOUR = 2;
 
-    public final static int LEVEL_1 = 1;
+    public final static int LEVEL_1 = 1;//警告
     public final static int LEVEL_2 = 2;
     public final static int LEVEL_3 = 3;
     public final static int LEVEL_4 = 4;
-    public final static int LEVEL_5 = 5;
+    public final static int LEVEL_5 = 5;//最低
 
     private int mType = TYPE_TWO;
 
@@ -44,19 +45,27 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<Integer
 
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
+        ServerHeatBean serverHeatBean = datas.get(position);
         View view = mLayoutInflater.inflate(layouts[mType], holder.mHeatLayout, true);
         TextView tvTitle = view.findViewById(R.id.tv_title);
+        tvTitle.setText(serverHeatBean.getName());
         if (mType == TYPE_TWO) {
             TextView tvCpu = view.findViewById(R.id.tv_cpu);
             TextView tvMemory = view.findViewById(R.id.tv_memory);
             TextView tvDisk = view.findViewById(R.id.tv_disk);
             TextView tvNet = view.findViewById(R.id.tv_net);
-        } else {
+            tvCpu.setText(serverHeatBean.getCpu() + "%");
+            tvMemory.setText(serverHeatBean.getMemory() + "%");
+            tvDisk.setText(serverHeatBean.getDisk() + "%");
+            tvNet.setText(serverHeatBean.getNet());
+        } else if (mType == TYPE_THREE) {
             TextView tvCpu = view.findViewById(R.id.tv_cpu);
             TextView tvMemory = view.findViewById(R.id.tv_memory);
+            tvCpu.setText(serverHeatBean.getCpu() + "%");
+            tvMemory.setText(serverHeatBean.getMemory() + "%");
         }
-        tvTitle.setText("@服务器>>>" + datas.get(position));
-        setLevel(holder, datas.get(position));
+        tvTitle.setText(serverHeatBean.getName());
+        setLevel(holder, datas.get(position).getLevel());
     }
 
     /**

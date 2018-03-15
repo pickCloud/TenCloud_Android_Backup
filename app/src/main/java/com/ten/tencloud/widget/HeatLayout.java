@@ -6,7 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+
+import com.ten.tencloud.R;
 
 /**
  * Created by lxq on 2018/3/13.
@@ -15,10 +16,11 @@ import android.widget.LinearLayout;
 public class HeatLayout extends FrameLayout {
 
     //实际的容器
-    private LinearLayout mLlContent;
+    private View mShadeView;
 
     //宽高比
     private float mAspectRatio = 3 / 4f;
+    private View mClickShadeView;
 
     public HeatLayout(Context context) {
         this(context, null);
@@ -30,10 +32,14 @@ public class HeatLayout extends FrameLayout {
 
     public HeatLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mLlContent = new LinearLayout(getContext());
-        mLlContent.setBackgroundColor(Color.BLACK);
-        mLlContent.setAlpha(0f);
-        addView(mLlContent);
+        mShadeView = new View(getContext());
+        mShadeView.setBackgroundColor(Color.BLACK);
+        mShadeView.setAlpha(0f);
+        //点击效果遮罩
+        mClickShadeView = new View(getContext());
+        mClickShadeView.setBackgroundResource(R.drawable.selector_button_shade);
+        addView(mShadeView);
+        addView(mClickShadeView);
     }
 
     @Override
@@ -49,10 +55,6 @@ public class HeatLayout extends FrameLayout {
     }
 
     public void setAlpha(float alpha) {
-        mLlContent.setAlpha(alpha);
-    }
-
-    public void addViewWithContent(View child) {
-        mLlContent.addView(child);
+        mShadeView.setAlpha(alpha);
     }
 }

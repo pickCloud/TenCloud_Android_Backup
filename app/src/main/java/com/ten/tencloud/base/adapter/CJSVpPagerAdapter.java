@@ -22,6 +22,10 @@ public class CJSVpPagerAdapter extends PagerAdapter {
         mPagers = pagers;
     }
 
+    public CJSVpPagerAdapter(List<BasePager> pagers) {
+        mPagers = pagers;
+    }
+
     @Override
     public int getCount() {
         return mPagers.size();
@@ -45,6 +49,9 @@ public class CJSVpPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+        if (mTitles == null) {
+            return super.getPageTitle(position);
+        }
         return mTitles[position];
     }
 }

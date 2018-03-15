@@ -26,6 +26,9 @@
 
     <color name="btn_passive">#ef9a9a</color>
 
+    <color name="btn_shade_normal">#00000000</color>
+    <color name="btn_shade_pressed">#33000000</color>
+
     <color name="bg_tran_48bbc0_20">#3348bbc0</color>
     <color name="bg_tran_ef9a9a_20">#33ef9a9a</color>
     <color name="bg_tran_f15532_20">#33f15532</color>
@@ -59,6 +62,7 @@
     <color name="text_color_287db6">#287db6</color>
     <color name="text_color_feeeeb">#feeeeb</color>
     <color name="text_color_b3000000">#b3000000</color>
+    <color name="text_color_80000000">#80000000</color>
     <color name="text_color_66ffffff">#66ffffff</color>
 
     <color name="line_color_3f4656">#3f4656</color>
@@ -69,6 +73,10 @@
     <color name="color_ba5659">#ba5659</color>
     <color name="color_95c099">#95c099</color>
     <color name="color_80a487">#80a487</color>
+
+    <color name="color_33ffffff">#33ffffff</color>
+    <color name="color_80ffffff">#80ffffff</color>
+    <color name="color_ccffffff">#ccffffff</color>
 
     <color name="bar_color_alarm">#f15532</color>
 
