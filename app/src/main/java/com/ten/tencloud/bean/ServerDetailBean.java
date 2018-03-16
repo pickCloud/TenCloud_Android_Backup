@@ -204,6 +204,7 @@ public class ServerDetailBean {
             private String system_disk_type;
             private String system_disk_size;
             private String image_id;
+            private String image_name;
 
             public int getCpu() {
                 return cpu;
@@ -299,6 +300,14 @@ public class ServerDetailBean {
 
             public void setImage_id(String image_id) {
                 this.image_id = image_id;
+            }
+
+            public String getImage_name() {
+                return image_name;
+            }
+
+            public void setImage_name(String image_name) {
+                this.image_name = image_name;
             }
         }
     }

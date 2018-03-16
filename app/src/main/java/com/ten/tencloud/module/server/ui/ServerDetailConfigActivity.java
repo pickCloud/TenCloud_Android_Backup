@@ -58,7 +58,7 @@ public class ServerDetailConfigActivity extends BaseActivity implements ServerDe
             mTvCpu.setText(serverDetailBean.getSystem_info().getConfig().getCpu() + "");
             mTvMemory.setText(serverDetailBean.getSystem_info().getConfig().getMemory() / 1024 + "GB");
             mTvOsName.setText(serverDetailBean.getSystem_info().getConfig().getOs_name());
-            mTvImageId.setText(serverDetailBean.getSystem_info().getConfig().getImage_id());
+            mTvImageId.setText(serverDetailBean.getSystem_info().getConfig().getImage_name());
             mTvDiskType.setText(serverDetailBean.getSystem_info().getConfig().getSystem_disk_type());
             mTvDisk.setText(serverDetailBean.getSystem_info().getConfig().getSystem_disk_size());
             mTvNetType.setText(serverDetailBean.getSystem_info().getConfig().getInstance_network_type());
