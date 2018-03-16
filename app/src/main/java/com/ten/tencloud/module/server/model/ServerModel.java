@@ -9,6 +9,7 @@ import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.bean.ServerSystemLoadBean;
+import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
@@ -332,5 +333,17 @@ public class ServerModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 服务器阈值
+     *
+     * @return
+     */
+    public Observable<ServerThresholdBean> getThreshold() {
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .getThreshold()
+                .map(new HttpResultFunc<ServerThresholdBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
 }

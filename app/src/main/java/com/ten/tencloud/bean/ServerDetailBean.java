@@ -177,12 +177,33 @@ public class ServerDetailBean {
              * memory : 2048
              * os_name : CentOS  7.0 64位
              * os_type : linux
+             *
+             * "cpu": 1,
+             "memory": 1024,
+             "os_name": "CentOS  7.4 64位",
+             "os_type": "linux",
+             "security_group_ids": "sg-bp1c7rvm8oqqf6fblu0z",
+             "instance_network_type": "vpc",
+             "internet_max_bandwidth_in": "200",
+             "internet_max_bandwidth_out": "1",
+             "system_disk_id": "",
+             "system_disk_type": "alibase",
+             "system_disk_size": "20G",
+             "image_id": "centos_7_04_64_20G_alibase_201701015.vhd"
              */
 
             private int cpu;
             private int memory;
             private String os_name;
             private String os_type;
+            private String security_group_ids;
+            private String instance_network_type;
+            private String internet_max_bandwidth_in;
+            private String internet_max_bandwidth_out;
+            private String system_disk_id;
+            private String system_disk_type;
+            private String system_disk_size;
+            private String image_id;
 
             public int getCpu() {
                 return cpu;
@@ -214,6 +235,70 @@ public class ServerDetailBean {
 
             public void setOs_type(String os_type) {
                 this.os_type = os_type;
+            }
+
+            public String getSecurity_group_ids() {
+                return security_group_ids;
+            }
+
+            public void setSecurity_group_ids(String security_group_ids) {
+                this.security_group_ids = security_group_ids;
+            }
+
+            public String getInstance_network_type() {
+                return instance_network_type;
+            }
+
+            public void setInstance_network_type(String instance_network_type) {
+                this.instance_network_type = instance_network_type;
+            }
+
+            public String getInternet_max_bandwidth_in() {
+                return internet_max_bandwidth_in;
+            }
+
+            public void setInternet_max_bandwidth_in(String internet_max_bandwidth_in) {
+                this.internet_max_bandwidth_in = internet_max_bandwidth_in;
+            }
+
+            public String getInternet_max_bandwidth_out() {
+                return internet_max_bandwidth_out;
+            }
+
+            public void setInternet_max_bandwidth_out(String internet_max_bandwidth_out) {
+                this.internet_max_bandwidth_out = internet_max_bandwidth_out;
+            }
+
+            public String getSystem_disk_id() {
+                return system_disk_id;
+            }
+
+            public void setSystem_disk_id(String system_disk_id) {
+                this.system_disk_id = system_disk_id;
+            }
+
+            public String getSystem_disk_type() {
+                return system_disk_type;
+            }
+
+            public void setSystem_disk_type(String system_disk_type) {
+                this.system_disk_type = system_disk_type;
+            }
+
+            public String getSystem_disk_size() {
+                return system_disk_size;
+            }
+
+            public void setSystem_disk_size(String system_disk_size) {
+                this.system_disk_size = system_disk_size;
+            }
+
+            public String getImage_id() {
+                return image_id;
+            }
+
+            public void setImage_id(String image_id) {
+                this.image_id = image_id;
             }
         }
     }

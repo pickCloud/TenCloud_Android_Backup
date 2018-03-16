@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
@@ -21,6 +22,7 @@ import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.ServerBean;
 import com.ten.tencloud.bean.ServerHeatBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
+import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
@@ -39,9 +41,14 @@ import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by lxq on 2017/11/22.
@@ -91,6 +98,23 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @BindView(R.id.single_indicator)
     MagicIndicator mSingleIndicator;
 
+    //阈值
+    @BindView(R.id.tv_cpu_threshold)
+    TextView mTvCpuThreshold;
+    @BindView(R.id.tv_memory_threshold)
+    TextView mTvMemoryThreshold;
+    @BindView(R.id.tv_net_threshold)
+    TextView mTvNetThreshold;
+    @BindView(R.id.tv_block_threshold)
+    TextView mTvBlockThreshold;
+    @BindView(R.id.tv_disk_threshold)
+    TextView mTvDiskThreshold;
+
+    @BindView(R.id.ll_heat)
+    LinearLayout mLlHeat;
+
+    private Subscription mHeatTestSubscribe;
+
 
     @Nullable
     @Override
@@ -136,6 +160,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mRvServer.setFocusableInTouchMode(false);//处理自动滚动
         mPresenter = new ServerHomePresenter();
         mPresenter.attachView(this);
+        mPresenter.getThreshold();
         //单台服务器时加载监控数据
         mServerMonitorPresenter = new ServerMonitorPresenter();
         mServerMonitorPresenter.attachView(this);
@@ -147,7 +172,19 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mPermissionAddServer = Utils.hasPermission("添加主机");
         mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
         mPresenter.summary();
-        initHeatChart();
+    }
+
+    private void startHeatTest() {
+        if (mHeatTestSubscribe == null || mHeatTestSubscribe.isUnsubscribed()) {
+            mHeatTestSubscribe = Observable.interval(0, 1, TimeUnit.MINUTES)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<Long>() {
+                        @Override
+                        public void call(Long aLong) {
+                            initHeatChart();
+                        }
+                    });
+        }
     }
 
     private void initHeatChart() {
@@ -155,6 +192,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         ArrayList<ServerHeatBean> datas = new ArrayList<>();
         Random random = new Random();
         int size = random.nextInt(20) + 1;
+        size = 10;
         if (size == 1) {
             mRvHeat.setVisibility(View.GONE);
             mHlSingleLayout.setVisibility(View.VISIBLE);
@@ -199,7 +237,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         adapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerHeatBean>() {
             @Override
             public void onObjectItemClicked(ServerHeatBean serverHeatBean, int position) {
-                showMessage(serverHeatBean.getName());
+//                showMessage(serverHeatBean.getName());
             }
         });
         adapter.setDatas(datas);
@@ -237,7 +275,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
                 break;
             case R.id.rl_alarm:
-
+                initHeatChart();
                 break;
             case R.id.hl_single_layout:
 
@@ -263,12 +301,15 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @Override
     public void showWarnServerList(List<ServerBean> servers) {
         mAdapter.setDatas(servers);
+        mLlHeat.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
+        startHeatTest();
     }
 
     @Override
     public void showEmptyView() {
         mEmptyView.setVisibility(View.VISIBLE);
+        mLlHeat.setVisibility(View.GONE);
         mAdapter.clear();
     }
 
@@ -280,6 +321,17 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mTvServerTotal.setSelected(server_num != 0);
         mTvServerAlarm.setSelected(warn_num != 0);
         mTvServerCluster.setSelected(payment_num != 0);
+    }
+
+    @Override
+    public void showThreshold(ServerThresholdBean serverThresholdBean) {
+        if (serverThresholdBean != null) {
+            mTvCpuThreshold.setText(serverThresholdBean.getCpu_threshold() * 100 + "%");
+            mTvBlockThreshold.setText(serverThresholdBean.getBlock_threshold() * 100 + "%");
+            mTvDiskThreshold.setText(serverThresholdBean.getDisk_threshold() * 100 + "%");
+            mTvMemoryThreshold.setText(serverThresholdBean.getMemory_threshold() * 100 + "%");
+            mTvNetThreshold.setText(serverThresholdBean.getNet_threshold() * 100 + "%");
+        }
     }
 
     /**
@@ -318,5 +370,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mServerRefreshHandler = null;
         mPresenter.detachView();
         mServerMonitorPresenter.detachView();
+        mHeatTestSubscribe.unsubscribe();
     }
 }

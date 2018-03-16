@@ -86,8 +86,10 @@ public class ServerDetail2Activity extends BaseActivity
     TextView mTvMemory;
     @BindView(R.id.tv_disk)
     TextView mTvDisk;
-    @BindView(R.id.tv_net)
-    TextView mTVNet;
+    @BindView(R.id.tv_image_id)
+    TextView mTvImageId;
+    @BindView(R.id.tv_disk_type)
+    TextView mTvDiskType;
 
     @BindView(R.id.lc_cpu)
     LineChart mLcCpu;
@@ -257,7 +259,7 @@ public class ServerDetail2Activity extends BaseActivity
         lineChart.getAxisRight().setEnabled(false);
     }
 
-    @OnClick({R.id.rl_basic_detail, R.id.tv_more, R.id.btn_toolbox, R.id.tv_load_des})
+    @OnClick({R.id.rl_basic_detail, R.id.tv_more, R.id.btn_toolbox, R.id.tv_load_des, R.id.tv_config_more})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_basic_detail: {
@@ -285,6 +287,12 @@ public class ServerDetail2Activity extends BaseActivity
                     mServerSystemLoadDialog = new ServerSystemLoadDialog(mContext);
                 }
                 mServerSystemLoadDialog.show();
+                break;
+            }
+            case R.id.tv_config_more: {
+                Intent intent = new Intent(mContext, ServerDetailConfigActivity.class);
+                intent.putExtra("serverId", mServerId);
+                startActivity(intent);
                 break;
             }
         }
@@ -316,7 +324,9 @@ public class ServerDetail2Activity extends BaseActivity
         mTvOsName.setText(config.getOs_name());
         mTvCpu.setText(config.getCpu() + "");
         mTvMemory.setText(config.getMemory() / 1024 + "GB");
-        // TODO: 2018/3/8 网络。存储
+        mTvDisk.setText(config.getSystem_disk_size());
+        mTvImageId.setText(config.getImage_id());
+        mTvDiskType.setText(config.getSystem_disk_type());
     }
 
     @Override

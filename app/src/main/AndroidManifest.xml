@@ -125,7 +125,8 @@
             android:value="5a5f057d8f4a9d6ff4000042" />
 
         <activity android:name=".module.server.ui.ServerDetail2Activity" />
-        <activity android:name=".module.server.ui.ServerDetailBasicActivity"></activity>
+        <activity android:name=".module.server.ui.ServerDetailBasicActivity" />
+        <activity android:name=".module.server.ui.ServerDetailConfigActivity"></activity>
     </application>
 
 </manifest>

@@ -36,11 +36,14 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/ll_heat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:orientation="vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -102,10 +105,10 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tv_cpu_threshold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="xx%"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -126,10 +129,10 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tv_memory_threshold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="xx%"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -159,10 +162,10 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tv_block_threshold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="x/x"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -183,10 +186,10 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tv_disk_threshold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="xx%"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -216,10 +219,10 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tv_net_threshold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
-                                android:text="x/x"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 

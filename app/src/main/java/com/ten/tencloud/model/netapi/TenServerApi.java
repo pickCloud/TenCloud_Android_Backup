@@ -9,6 +9,7 @@ import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.bean.ServerSystemLoadBean;
+import com.ten.tencloud.bean.ServerThresholdBean;
 
 import java.util.List;
 import java.util.Map;
@@ -79,4 +80,7 @@ public interface TenServerApi {
     @GET("/api/cluster/summary")
     Observable<Response<JesResponse<Map<String, Integer>>>> summary();
 
+    //阈值
+    @GET("/api/server/threshold")
+    Observable<Response<JesResponse<ServerThresholdBean>>> getThreshold();
 }
