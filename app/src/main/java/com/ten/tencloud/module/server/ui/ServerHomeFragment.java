@@ -193,6 +193,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         Random random = new Random();
         int size = random.nextInt(20) + 1;
         size = 10;
+
         if (size == 1) {
             mRvHeat.setVisibility(View.GONE);
             mHlSingleLayout.setVisibility(View.VISIBLE);
@@ -204,20 +205,16 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             mServerMonitorPresenter.getServerMonitorInfo("184", cycle[0], cycle[1]);
             return;
         }
-        for (int i = 0; i < size; i++) {
-            int temp = random.nextInt(3) + 3;
-            if (temp == 3) {
-                temp = random.nextInt(3) + 1;
-            }
-            ServerHeatBean serverHeatBean = new ServerHeatBean();
-            serverHeatBean.setName("@服务器>>" + (i + 1));
-            serverHeatBean.setCpu(random.nextInt(100) + 1);
-            serverHeatBean.setDisk(random.nextInt(100) + 1);
-            serverHeatBean.setMemory(random.nextInt(100) + 1);
-            serverHeatBean.setNet(random.nextInt(20) + "/" + random.nextInt(20));
-            serverHeatBean.setLevel(temp);
-            datas.add(serverHeatBean);
-        }
+        datas.add(createData("域名备用"));
+        datas.add(createData("@Ye教育_线上环境"));
+        datas.add(createData("@Ye教育_开发测试"));
+        datas.add(createData("@Ten_官网"));
+        datas.add(createData("@Ten_备用翻墙"));
+        datas.add(createData("@Ten_中间件"));
+        datas.add(createData("@TenCloud_测试环境"));
+        datas.add(createData("@TenCloud_Docker仓库"));
+        datas.add(createData("@Aimer_WF+"));
+        datas.add(createData("@Aimer_Infohub"));
 
         int spanCount = 1;
         int type = 0;
@@ -241,6 +238,22 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             }
         });
         adapter.setDatas(datas);
+    }
+
+    private ServerHeatBean createData(String name) {
+        Random random = new Random();
+        ServerHeatBean serverHeatBean = new ServerHeatBean();
+        serverHeatBean.setName(name);
+        serverHeatBean.setCpu(random.nextInt(100) + 1);
+        serverHeatBean.setDisk(random.nextInt(100) + 1);
+        serverHeatBean.setMemory(random.nextInt(100) + 1);
+        serverHeatBean.setNet(random.nextInt(20) + "/" + random.nextInt(20));
+        int temp = random.nextInt(3) + 3;
+        if (temp == 3) {
+            temp = random.nextInt(3) + 1;
+        }
+        serverHeatBean.setLevel(temp);
+        return serverHeatBean;
     }
 
     private void initMagicIndicator() {
@@ -370,6 +383,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mServerRefreshHandler = null;
         mPresenter.detachView();
         mServerMonitorPresenter.detachView();
-        mHeatTestSubscribe.unsubscribe();
+        if (mHeatTestSubscribe != null) {
+            mHeatTestSubscribe.unsubscribe();
+        }
     }
 }

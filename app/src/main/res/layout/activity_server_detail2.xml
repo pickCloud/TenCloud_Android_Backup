@@ -465,60 +465,13 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="镜像"
-                                    android:textColor="@color/text_color_566278"
-                                    android:textSize="12sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="16dp"
                                     android:text="操作系统"
                                     android:textColor="@color/text_color_566278"
                                     android:textSize="12sp" />
 
+
                                 <TextView
                                     android:id="@+id/tv_os_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="8dp"
-                                    android:textColor="@color/text_color_899ab6"
-                                    android:textSize="12sp" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="镜像"
-                                    android:textColor="@color/text_color_566278"
-                                    android:textSize="12sp"
-                                    android:visibility="invisible" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="16dp"
-                                    android:text="镜像ID"
-                                    android:textColor="@color/text_color_566278"
-                                    android:textSize="12sp" />
-
-                                <TextView
-                                    android:id="@+id/tv_image_id"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="8dp"

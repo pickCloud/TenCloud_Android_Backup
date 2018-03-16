@@ -84,7 +84,7 @@
 
             <TextView
                 style="@style/LayoutCellTitle"
-                android:text="镜像" />
+                android:text="操作系统" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,32 +115,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="镜像ID"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_image_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:textColor="@color/text_color_899ab6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
             </LinearLayout>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -206,6 +184,74 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/LayoutCellTitle"
+                android:text="镜像" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_232730"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="镜像名称"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_image_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当前版本"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_image_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

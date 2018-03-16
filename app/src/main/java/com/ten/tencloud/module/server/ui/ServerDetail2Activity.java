@@ -86,8 +86,6 @@ public class ServerDetail2Activity extends BaseActivity
     TextView mTvMemory;
     @BindView(R.id.tv_disk)
     TextView mTvDisk;
-    @BindView(R.id.tv_image_id)
-    TextView mTvImageId;
     @BindView(R.id.tv_disk_type)
     TextView mTvDiskType;
 
@@ -325,7 +323,6 @@ public class ServerDetail2Activity extends BaseActivity
         mTvCpu.setText(config.getCpu() + "");
         mTvMemory.setText(config.getMemory() / 1024 + "GB");
         mTvDisk.setText(config.getSystem_disk_size());
-        mTvImageId.setText(config.getImage_id());
         mTvDiskType.setText(config.getSystem_disk_type());
     }
 
