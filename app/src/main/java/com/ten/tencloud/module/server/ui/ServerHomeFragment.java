@@ -190,7 +190,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         ArrayList<ServerHeatBean> datas = new ArrayList<>();
         Random random = new Random();
         int size = random.nextInt(20) + 1;
-        size = 10;
+        size = 1;
 
         if (size == 1) {
             mRvHeat.setVisibility(View.GONE);
@@ -199,7 +199,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             mHlSingleLayout.setBackgroundResource(R.drawable.fade_server_heat_green);
             mHlSingleLayout.setAlpha(30f / 100);
             // TODO: 2018/3/15 服务器id
-            mServerMonitorPresenter.getServerMonitorInfo("184", ServerMonitorPresenter.STATE_HOUR);
+            mServerMonitorPresenter.getServerMonitorInfo("24", ServerMonitorPresenter.STATE_HOUR);
             return;
         }
         datas.add(createData("域名备用"));

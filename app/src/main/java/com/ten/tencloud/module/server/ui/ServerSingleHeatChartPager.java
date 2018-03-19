@@ -79,9 +79,11 @@ public class ServerSingleHeatChartPager extends BasePager {
         if (mType == TYPE_NET) {
             mLcChart.getLegend().setTextSize(10);
             mLcChart.getLegend().setForm(Legend.LegendForm.LINE);
+            mLcChart.getLegend().setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
+            mLcChart.getLegend().setYEntrySpace(2f);
             mLcChart.getLegend().setFormSize(8);
             mLcChart.getLegend().setFormToTextSpace(2);
-            mLcChart.getLegend().setTextColor(getResources().getColor(R.color.text_color_899ab6));
+            mLcChart.getLegend().setTextColor(getResources().getColor(R.color.text_color_66ffffff));
         }
         //设置X轴
         setAxisStyle(mLcChart);
@@ -168,11 +170,11 @@ public class ServerSingleHeatChartPager extends BasePager {
             mLcChart.getData().notifyDataChanged();
             mLcChart.notifyDataSetChanged();
         } else {
-            recvSet = setLineStyleWithNet(recvValues, "接收", R.color.color_eb6565, R.drawable.fade_ba5659);
-            sendSet = setLineStyleWithNet(sendValues, "发送", R.color.color_95c099, R.drawable.fade_80a487);
+            recvSet = setLineStyleWithNet(recvValues, "接收", R.color.color_ccffffff, R.drawable.fade_server_chart_white);
+            sendSet = setLineStyleWithNet(sendValues, "发送", R.color.color_99000000, R.drawable.fade_server_chart_black);
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(recvSet);
             dataSets.add(sendSet);
+            dataSets.add(recvSet);
             LineData data = new LineData(dataSets);
             mLcChart.setData(data);
         }
@@ -187,8 +189,8 @@ public class ServerSingleHeatChartPager extends BasePager {
         dataSet.setLineWidth(1f);
         dataSet.setCircleColor(getResources().getColor(color));
         dataSet.setCircleRadius(3f);
-        dataSet.setDrawCircleHole(true);//空心
-        dataSet.setCircleHoleRadius(1f);
+        dataSet.setDrawCircleHole(false);//空心
+//        dataSet.setCircleHoleRadius(1f);
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setCubicIntensity(0.6f);//折线平滑度
         dataSet.setValueTextSize(9f);
