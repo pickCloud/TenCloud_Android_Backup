@@ -62,8 +62,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     private final static int STATE_WEEK = 3;
     private final static int STATE_MONTH = 4;
 
-    private Integer[] mCycleData = {STATE_HOUR, STATE_DAY, STATE_WEEK, STATE_MONTH};
-
     @BindView(R.id.xrv_servers)
     RecyclerView mRvServer;
     @BindView(R.id.empty_view)
@@ -200,9 +198,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             mTvTitle.setText("测试服务器");
             mHlSingleLayout.setBackgroundResource(R.drawable.fade_server_heat_green);
             mHlSingleLayout.setAlpha(30f / 100);
-            String[] cycle = handCycle(STATE_HOUR);
             // TODO: 2018/3/15 服务器id
-            mServerMonitorPresenter.getServerMonitorInfo("184", cycle[0], cycle[1]);
+            mServerMonitorPresenter.getServerMonitorInfo("184", ServerMonitorPresenter.STATE_HOUR);
             return;
         }
         datas.add(createData("域名备用"));
@@ -345,31 +342,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             mTvMemoryThreshold.setText(serverThresholdBean.getMemory_threshold() * 100 + "%");
             mTvNetThreshold.setText(serverThresholdBean.getNet_threshold() * 100 + "%");
         }
-    }
-
-    /**
-     * 根据周期处理开始和结束时间
-     *
-     * @return
-     */
-    private String[] handCycle(int cycleId) {
-        long endTime = System.currentTimeMillis() / 1000;
-        long startTime = endTime;
-        switch (cycleId) {
-            case STATE_HOUR:
-                startTime = endTime - (60 * 60);
-                break;
-            case STATE_DAY:
-                startTime = endTime - (24 * 60 * 60);
-                break;
-            case STATE_WEEK:
-                startTime = endTime - (7 * 24 * 60 * 60);
-                break;
-            case STATE_MONTH:
-                startTime = endTime - (30 * 24 * 60 * 60);
-                break;
-        }
-        return new String[]{startTime + "", endTime + ""};
     }
 
     @Override

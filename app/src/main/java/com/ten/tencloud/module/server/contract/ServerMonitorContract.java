@@ -15,6 +15,6 @@ public class ServerMonitorContract {
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
-        void getServerMonitorInfo(String id,String startTime,String endTime);
+        void getServerMonitorInfo(String id, int cycleState);
     }
 }

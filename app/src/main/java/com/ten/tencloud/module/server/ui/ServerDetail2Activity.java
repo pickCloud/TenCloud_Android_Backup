@@ -51,6 +51,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_DAY;
+import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_HOUR;
+import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_WEEK;
+
 public class ServerDetail2Activity extends BaseActivity
         implements ServerDetailContract.View, ServerMonitorContract.View, ServerSystemLoadContract.View {
 
@@ -111,11 +115,6 @@ public class ServerDetail2Activity extends BaseActivity
     private String mServerName;
     private String mServerId;
 
-    private final static int STATE_HOUR = 1;
-    private final static int STATE_DAY = 2;
-    private final static int STATE_WEEK = 3;
-    private final static int STATE_MONTH = 4;
-
     //当前周期
     private int mCycle = STATE_HOUR;
 
@@ -155,8 +154,7 @@ public class ServerDetail2Activity extends BaseActivity
     private void initData() {
         mServerDetailPresenter.getServerDetail(mServerId);
         mServerSystemLoadPresenter.getServerSystemLoad(mServerId);
-        String[] cycle = handCycle(mCycle);
-        mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
+        mServerMonitorPresenter.getServerMonitorInfo(mServerId, mCycle);
     }
 
     private void initView() {
@@ -169,24 +167,21 @@ public class ServerDetail2Activity extends BaseActivity
                     case R.id.btn_one_hour: {
                         if (mCycle != STATE_HOUR) {
                             mCycle = STATE_HOUR;
-                            String[] cycle = handCycle(mCycle);
-                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
+                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, mCycle);
                         }
                         break;
                     }
                     case R.id.btn_one_day: {
                         if (mCycle != STATE_DAY) {
                             mCycle = STATE_DAY;
-                            String[] cycle = handCycle(mCycle);
-                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
+                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, mCycle);
                         }
                         break;
                     }
                     case R.id.btn_one_week: {
                         if (mCycle != STATE_WEEK) {
                             mCycle = STATE_WEEK;
-                            String[] cycle = handCycle(mCycle);
-                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, cycle[0], cycle[1]);
+                            mServerMonitorPresenter.getServerMonitorInfo(mServerId, mCycle);
                         }
                         break;
                     }
@@ -513,31 +508,6 @@ public class ServerDetail2Activity extends BaseActivity
     private void setMinuteLoadStyle(TextView tv, float value) {
         tv.setEnabled(value < 0.8);
         tv.setSelected(value < 0.8);
-    }
-
-    /**
-     * 根据周期处理开始和结束时间
-     *
-     * @return
-     */
-    private String[] handCycle(int cycleId) {
-        long endTime = System.currentTimeMillis() / 1000;
-        long startTime = endTime;
-        switch (cycleId) {
-            case STATE_HOUR:
-                startTime = endTime - (60 * 60);
-                break;
-            case STATE_DAY:
-                startTime = endTime - (24 * 60 * 60);
-                break;
-            case STATE_WEEK:
-                startTime = endTime - (7 * 24 * 60 * 60);
-                break;
-            case STATE_MONTH:
-                startTime = endTime - (30 * 24 * 60 * 60);
-                break;
-        }
-        return new String[]{startTime + "", endTime + ""};
     }
 
     @Override

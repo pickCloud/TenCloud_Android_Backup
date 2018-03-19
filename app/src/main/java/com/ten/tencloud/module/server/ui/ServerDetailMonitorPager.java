@@ -37,6 +37,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_DAY;
+import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_HOUR;
+import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_MONTH;
+import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_WEEK;
+
 /**
  * Created by lxq on 2017/11/29.
  */
@@ -53,11 +58,6 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
     LineChart mLcDisk;
     @BindView(R.id.lc_net)
     LineChart mLcNet;
-
-    private final static int STATE_HOUR = 1;
-    private final static int STATE_DAY = 2;
-    private final static int STATE_WEEK = 3;
-    private final static int STATE_MONTH = 4;
 
     private Integer[] mCycleData = {STATE_HOUR, STATE_DAY, STATE_WEEK, STATE_MONTH};
 
@@ -77,8 +77,7 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
         initView();
         mServerMonitorPresenter = new ServerMonitorPresenter();
         mServerMonitorPresenter.attachView(this);
-        String[] cycle = handCycle(STATE_HOUR);
-        mServerMonitorPresenter.getServerMonitorInfo(mId, cycle[0], cycle[1]);
+        mServerMonitorPresenter.getServerMonitorInfo(mId, STATE_HOUR);
     }
 
     private void initView() {
@@ -93,8 +92,7 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
         mSpvCycle.setOnSelectListener(new StatusSelectPopView.OnSelectListener() {
             @Override
             public void onSelect(int pos) {
-                String[] cycle = handCycle(mCycleData[pos]);
-                mServerMonitorPresenter.getServerMonitorInfo(mId, cycle[0], cycle[1]);
+                mServerMonitorPresenter.getServerMonitorInfo(mId, mCycleData[pos]);
             }
         });
 
@@ -308,7 +306,7 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
             set1.setValues(values);
             lineChart.getData().notifyDataChanged();
             lineChart.notifyDataSetChanged();
-        }else {
+        } else {
             set1 = new LineDataSet(values, "");
             set1.setDrawIcons(false);
             set1.setColor(getResources().getColor(color));
@@ -338,30 +336,5 @@ public class ServerDetailMonitorPager extends BasePager implements ServerMonitor
             lineChart.setData(data);
         }
         lineChart.invalidate();
-    }
-
-    /**
-     * 根据周期处理开始和结束时间
-     *
-     * @return
-     */
-    private String[] handCycle(int cycleId) {
-        long endTime = System.currentTimeMillis() / 1000;
-        long startTime = endTime;
-        switch (cycleId) {
-            case STATE_HOUR:
-                startTime = endTime - (60 * 60);
-                break;
-            case STATE_DAY:
-                startTime = endTime - (24 * 60 * 60);
-                break;
-            case STATE_WEEK:
-                startTime = endTime - (7 * 24 * 60 * 60);
-                break;
-            case STATE_MONTH:
-                startTime = endTime - (30 * 24 * 60 * 60);
-                break;
-        }
-        return new String[]{startTime + "", endTime + ""};
     }
 }
