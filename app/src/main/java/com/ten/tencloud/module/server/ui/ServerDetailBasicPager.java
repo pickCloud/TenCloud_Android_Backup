@@ -90,10 +90,14 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
     private boolean mPermissionChangeServer;
     private final RefreshBroadCastHandler mRefreshBroadCastHandler;
     private RefreshBroadCastHandler mServerHandler;
+    private final RefreshBroadCastHandler mServerInfoHandler;
+    private String mMachineStatus = "";
+
 
     public ServerDetailBasicPager(Context context) {
         super(context);
         mServerHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mServerInfoHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_INFO_CHANGE_ACTION);
         mServerDetailPresenter = new ServerDetailPresenter();
         mServerOperationPresenter = new ServerOperationPresenter();
         mServerDetailPresenter.attachView(this);
@@ -206,9 +210,9 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         mTvProvider.setText(serverDetailBean.getBusiness_info().getProvider());
         mTvAddress.setText(serverDetailBean.getBasic_info().getAddress());
         mTvIP.setText(serverDetailBean.getBasic_info().getPublic_ip());
-        String machine_status = serverDetailBean.getBasic_info().getMachine_status();
+        mMachineStatus = serverDetailBean.getBasic_info().getMachine_status();
         mTvAddTime.setText(serverDetailBean.getBasic_info().getCreated_time());
-        setState(machine_status);
+        setState(mMachineStatus);
     }
 
     /**
@@ -217,6 +221,11 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
      * @param state
      */
     private void setState(final String state) {
+        //状态发生变化
+        if (!mMachineStatus.equals(state)) {
+            mServerInfoHandler.sendBroadCast();
+            mServerHandler.sendBroadCast();
+        }
         mTvStatus.setText(state);
         mTvStatus.setSelected(true);
         mTvStatus.setEnabled(!"已关机".equals(state));

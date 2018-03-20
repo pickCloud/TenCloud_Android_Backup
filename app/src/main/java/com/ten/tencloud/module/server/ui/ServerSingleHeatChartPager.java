@@ -72,7 +72,6 @@ public class ServerSingleHeatChartPager extends BasePager {
         mLcChart.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
         mLcChart.setScaleEnabled(false);
         Description description = new Description();
-        description.setText("CPU");
         description.setPosition(0, 0);
         mLcChart.setDescription(description);
         mLcChart.getLegend().setEnabled(mType == TYPE_NET);//标签设置
@@ -109,6 +108,10 @@ public class ServerSingleHeatChartPager extends BasePager {
         leftAxis.setTextColor(getResources().getColor(R.color.text_color_66ffffff));
         leftAxis.removeAllLimitLines();
 
+        if (mType != TYPE_NET) {
+            leftAxis.setAxisMinimum(0);
+            leftAxis.setAxisMaximum(100);
+        }
         lineChart.getAxisRight().setEnabled(false);
     }
 
@@ -116,15 +119,15 @@ public class ServerSingleHeatChartPager extends BasePager {
         switch (mType) {
             case TYPE_CPU:
                 setDataWithCPUView(mDatas.getCpu());
-                mTvName.setText("CPU");
+                mTvName.setText("CPU(%)");
                 break;
             case TYPE_MEMORY:
                 setDataWithMemoryView(mDatas.getMemory());
-                mTvName.setText("内存");
+                mTvName.setText("内存(%)");
                 break;
             case TYPE_DISK:
                 setDataWithDiskView(mDatas.getDisk());
-                mTvName.setText("磁盘使用情况");
+                mTvName.setText("磁盘使用情况(%)");
                 break;
             case TYPE_NET:
                 setDataWithNetView(mDatas.getNet());

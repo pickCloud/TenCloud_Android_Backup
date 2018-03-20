@@ -252,7 +252,9 @@ public class ServerDetail2Activity extends BaseActivity
         lineChart.getAxisRight().setEnabled(false);
     }
 
-    @OnClick({R.id.rl_basic_detail, R.id.tv_more, R.id.btn_toolbox, R.id.tv_load_des, R.id.tv_config_more})
+    @OnClick({R.id.rl_basic_detail, R.id.tv_more, R.id.btn_toolbox,
+            R.id.tv_load_des, R.id.tv_config_more, R.id.tv_cost_more,
+            R.id.tv_res_more, R.id.tv_res_more_})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_basic_detail: {
@@ -284,6 +286,17 @@ public class ServerDetail2Activity extends BaseActivity
             }
             case R.id.tv_config_more: {
                 Intent intent = new Intent(mContext, ServerDetailConfigActivity.class);
+                intent.putExtra("serverId", mServerId);
+                startActivity(intent);
+                break;
+            }
+            case R.id.tv_cost_more: {
+
+                break;
+            }
+            case R.id.tv_res_more_:
+            case R.id.tv_res_more: {
+                Intent intent = new Intent(mContext, ServerMonitorActivity.class);
                 intent.putExtra("serverId", mServerId);
                 startActivity(intent);
                 break;

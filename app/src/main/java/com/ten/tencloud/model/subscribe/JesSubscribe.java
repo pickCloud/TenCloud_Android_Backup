@@ -10,6 +10,7 @@ import com.ten.tencloud.utils.NetWorkUtils;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import rx.Subscriber;
 
@@ -61,7 +62,7 @@ public abstract class JesSubscribe<T> extends Subscriber<T> {
         JesException exception;
         if (e instanceof SocketTimeoutException) {
             exception = new JesException("连接超时", Constants.NET_CODE_TIME_OUT);
-        } else if (e instanceof ConnectException) {
+        } else if (e instanceof ConnectException || e instanceof UnknownHostException) {
             exception = new JesException("网络中断，请检查您的网络状态", Constants.NET_CODE_NO_NETWORK);
         } else if (e instanceof JesException) {
             exception = (JesException) e;

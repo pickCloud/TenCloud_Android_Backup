@@ -15,6 +15,13 @@
         <item>日志</item>
     </string-array>
 
+    <string-array name="tabServerMonitor">
+        <item>主机性能</item>
+        <item>网络情况</item>
+        <item>磁盘监控</item>
+        <item>安全监测</item>
+    </string-array>
+
     <string name="sqsm">厦门视我科技有限公司</string>
 
     <!--校验格式提示-->

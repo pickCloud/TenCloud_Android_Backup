@@ -126,7 +126,8 @@
 
         <activity android:name=".module.server.ui.ServerDetail2Activity" />
         <activity android:name=".module.server.ui.ServerDetailBasicActivity" />
-        <activity android:name=".module.server.ui.ServerDetailConfigActivity"></activity>
+        <activity android:name=".module.server.ui.ServerDetailConfigActivity" />
+        <activity android:name=".module.server.ui.ServerMonitorActivity"></activity>
     </application>
 
 </manifest>

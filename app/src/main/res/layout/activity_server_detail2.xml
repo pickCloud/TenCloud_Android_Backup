@@ -115,6 +115,7 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/tv_res_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableRight="@mipmap/icon_more"
@@ -612,6 +613,7 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/tv_cost_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableRight="@mipmap/icon_more"
@@ -800,6 +802,7 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/tv_res_more_"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableRight="@mipmap/icon_more"

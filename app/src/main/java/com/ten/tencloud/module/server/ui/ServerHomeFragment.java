@@ -56,11 +56,6 @@ import rx.functions.Action1;
 
 public class ServerHomeFragment extends BaseFragment implements ServerHomeContract.View, ServerMonitorContract.View {
 
-    //监控周期
-    private final static int STATE_HOUR = 1;
-    private final static int STATE_DAY = 2;
-    private final static int STATE_WEEK = 3;
-    private final static int STATE_MONTH = 4;
 
     @BindView(R.id.xrv_servers)
     RecyclerView mRvServer;

@@ -213,14 +213,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
-                    android:text="查看"
+                    android:text="监控"
                     android:textColor="@color/text_color_566278"
                     android:textSize="10sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="网络接口信息"
+                    android:text="打开的文件"
                     android:textColor="@color/text_color_566278"
                     android:textSize="10sp" />
 
