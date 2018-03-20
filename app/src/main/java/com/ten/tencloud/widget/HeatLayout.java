@@ -15,6 +15,13 @@ import com.ten.tencloud.R;
 
 public class HeatLayout extends FrameLayout {
 
+    //等级
+    public final static int LEVEL_1 = 1;//警告
+    public final static int LEVEL_2 = 2;
+    public final static int LEVEL_3 = 3;
+    public final static int LEVEL_4 = 4;
+    public final static int LEVEL_5 = 5;//最低
+
     //实际的容器
     private View mShadeView;
 
@@ -56,5 +63,28 @@ public class HeatLayout extends FrameLayout {
 
     public void setAlpha(float alpha) {
         mShadeView.setAlpha(alpha);
+    }
+
+    /**
+     * 设置警告等级
+     *
+     * @param level
+     */
+    public void setHeatLevel(int level) {
+        if (level == LEVEL_1) {
+            setBackgroundResource(R.drawable.fade_server_heat_red);
+        } else if (level == LEVEL_2) {
+            setBackgroundResource(R.drawable.fade_server_heat_red);
+            setAlpha(15f / 100);
+        } else if (level == LEVEL_3) {
+            setBackgroundResource(R.drawable.fade_server_heat_red);
+            setAlpha(30f / 100);
+        } else if (level == LEVEL_4) {
+            setBackgroundResource(R.drawable.fade_server_heat_green);
+            setAlpha(30f / 100);
+        } else if (level == LEVEL_5) {
+            setBackgroundResource(R.drawable.fade_server_heat_gray);
+            setAlpha(10f / 100);
+        }
     }
 }

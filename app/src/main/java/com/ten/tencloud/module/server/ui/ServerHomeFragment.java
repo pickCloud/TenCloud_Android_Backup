@@ -196,10 +196,13 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             mRvHeat.setVisibility(View.GONE);
             mHlSingleLayout.setVisibility(View.VISIBLE);
             mTvTitle.setText("测试服务器");
-            mHlSingleLayout.setBackgroundResource(R.drawable.fade_server_heat_green);
-            mHlSingleLayout.setAlpha(30f / 100);
+            int temp = random.nextInt(3) + 3;
+            if (temp == 3) {
+                temp = random.nextInt(3) + 1;
+            }
+            mHlSingleLayout.setHeatLevel(temp);
             // TODO: 2018/3/15 服务器id
-            mServerMonitorPresenter.getServerMonitorInfo("24", ServerMonitorPresenter.STATE_HOUR);
+            mServerMonitorPresenter.getServerMonitorInfo("184", ServerMonitorPresenter.STATE_HOUR);
             return;
         }
         datas.add(createData("域名备用"));

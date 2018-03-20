@@ -21,12 +21,6 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
     public final static int TYPE_THREE = 1;
     public final static int TYPE_FOUR = 2;
 
-    public final static int LEVEL_1 = 1;//警告
-    public final static int LEVEL_2 = 2;
-    public final static int LEVEL_3 = 3;
-    public final static int LEVEL_4 = 4;
-    public final static int LEVEL_5 = 5;//最低
-
     private int mType = TYPE_TWO;
 
     private int[] layouts = {R.layout.item_server_heat_type3,
@@ -65,30 +59,7 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
             tvMemory.setText(serverHeatBean.getMemory() + "%");
         }
         tvTitle.setText(serverHeatBean.getName());
-        setLevel(holder, datas.get(position).getLevel());
-    }
-
-    /**
-     * 设置警告等级
-     *
-     * @param level
-     */
-    private void setLevel(ViewHolder holder, int level) {
-        if (level == LEVEL_1) {
-            holder.mHeatLayout.setBackgroundResource(R.drawable.fade_server_heat_red);
-        } else if (level == LEVEL_2) {
-            holder.mHeatLayout.setBackgroundResource(R.drawable.fade_server_heat_red);
-            holder.mHeatLayout.setAlpha(15f / 100);
-        } else if (level == LEVEL_3) {
-            holder.mHeatLayout.setBackgroundResource(R.drawable.fade_server_heat_red);
-            holder.mHeatLayout.setAlpha(30f / 100);
-        } else if (level == LEVEL_4) {
-            holder.mHeatLayout.setBackgroundResource(R.drawable.fade_server_heat_green);
-            holder.mHeatLayout.setAlpha(30f / 100);
-        } else if (level == LEVEL_5) {
-            holder.mHeatLayout.setBackgroundResource(R.drawable.fade_server_heat_gray);
-            holder.mHeatLayout.setAlpha(10f / 100);
-        }
+        holder.mHeatLayout.setHeatLevel(datas.get(position).getLevel());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
