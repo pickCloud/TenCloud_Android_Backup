@@ -10,6 +10,7 @@ import com.ten.tencloud.base.adapter.CJSVpPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.utils.UiUtils;
+import com.ten.tencloud.widget.dialog.ServerToolBoxDialog;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindColor;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ServerMonitorActivity extends BaseActivity {
 
@@ -44,6 +46,7 @@ public class ServerMonitorActivity extends BaseActivity {
 
     private CJSVpPagerAdapter mAdapter;
     private List<BasePager> mPagers;
+    private ServerToolBoxDialog mServerToolBoxDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class ServerMonitorActivity extends BaseActivity {
     private void initView() {
         initIndicator();
         mPagers = new ArrayList<>();
-        mPagers.add(new ServerDetailBasicPager(this).putArgument("id", mServerId));
+        mPagers.add(new ServerMonitorPerformancePager(this).putArgument("id", mServerId));
         mPagers.add(new ServerDetailConfigPager(this).putArgument("id", mServerId));
         mPagers.add(new ServerDetailDockerPager(this).putArgument("id", mServerId));
         mPagers.add(new ServerDetailLogPager(this).putArgument("id", mServerId));
@@ -114,5 +117,18 @@ public class ServerMonitorActivity extends BaseActivity {
         };
         mCommonNavigator.setAdapter(mCommonNavigatorAdapter);
         mIndicator.setNavigator(mCommonNavigator);
+    }
+
+    @OnClick({R.id.btn_toolbox})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_toolbox: {
+                if (mServerToolBoxDialog == null) {
+                    mServerToolBoxDialog = new ServerToolBoxDialog(this);
+                }
+                mServerToolBoxDialog.show();
+                break;
+            }
+        }
     }
 }

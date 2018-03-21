@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/default_bg"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/bg_232730"
-        android:gravity="center"
+        android:layout_height="match_parent"
+        android:background="@color/default_bg"
         android:orientation="vertical">
 
-        <net.lucode.hackware.magicindicator.MagicIndicator
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/bg_232730"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <net.lucode.hackware.magicindicator.MagicIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <Button
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="96dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/selector_question" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_toolbox"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="32dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/selector_toolbox" />
+
+</FrameLayout>
