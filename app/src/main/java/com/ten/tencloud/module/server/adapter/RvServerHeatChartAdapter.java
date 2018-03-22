@@ -26,9 +26,8 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
     private int[] layouts = {R.layout.item_server_heat_type3,
             R.layout.item_server_heat_type2, R.layout.item_server_heat_type1};
 
-    public RvServerHeatChartAdapter(Context context, int type) {
+    public RvServerHeatChartAdapter(Context context) {
         super(context);
-        mType = type;
     }
 
     @Override
@@ -40,6 +39,7 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         ServerHeatBean serverHeatBean = datas.get(position);
+        holder.mHeatLayout.removeAllViews();
         View view = mLayoutInflater.inflate(layouts[mType], holder.mHeatLayout, true);
         TextView tvTitle = view.findViewById(R.id.tv_title);
         tvTitle.setText(serverHeatBean.getName());
@@ -48,18 +48,22 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
             TextView tvMemory = view.findViewById(R.id.tv_memory);
             TextView tvDisk = view.findViewById(R.id.tv_disk);
             TextView tvNet = view.findViewById(R.id.tv_net);
-            tvCpu.setText(serverHeatBean.getCpu() + "%");
-            tvMemory.setText(serverHeatBean.getMemory() + "%");
-            tvDisk.setText(serverHeatBean.getDisk() + "%");
-            tvNet.setText(serverHeatBean.getNet());
+            tvCpu.setText(serverHeatBean.getCpuUsageRate() + "%");
+            tvMemory.setText(serverHeatBean.getMemUsageRate() + "%");
+            tvDisk.setText(serverHeatBean.getDiskUsageRate() + "%");
+            tvNet.setText(serverHeatBean.getNetworkUsage());
         } else if (mType == TYPE_THREE) {
             TextView tvCpu = view.findViewById(R.id.tv_cpu);
             TextView tvMemory = view.findViewById(R.id.tv_memory);
-            tvCpu.setText(serverHeatBean.getCpu() + "%");
-            tvMemory.setText(serverHeatBean.getMemory() + "%");
+            tvCpu.setText(serverHeatBean.getCpuUsageRate() + "%");
+            tvMemory.setText(serverHeatBean.getMemUsageRate() + "%");
         }
         tvTitle.setText(serverHeatBean.getName());
-        holder.mHeatLayout.setHeatLevel(datas.get(position).getLevel());
+        holder.mHeatLayout.setHeatLevel(datas.get(position).getColorType());
+    }
+
+    public void setType(int type) {
+        mType = type;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

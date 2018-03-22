@@ -5,6 +5,7 @@ import com.ten.tencloud.bean.ClusterInfoBean;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServerBean;
 import com.ten.tencloud.bean.ServerDetailBean;
+import com.ten.tencloud.bean.ServerHeatBean;
 import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
@@ -83,4 +84,7 @@ public interface TenServerApi {
     //阈值
     @GET("/api/server/threshold")
     Observable<Response<JesResponse<ServerThresholdBean>>> getThreshold();
+
+    @GET("/api/server/monitor")
+    Observable<Response<JesResponse<List<ServerHeatBean>>>> getServerMonitor();
 }

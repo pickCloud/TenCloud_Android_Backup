@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -88,10 +90,8 @@ public class ServerDetail2Activity extends BaseActivity
     TextView mTvCpu;
     @BindView(R.id.tv_memory)
     TextView mTvMemory;
-    @BindView(R.id.tv_disk)
-    TextView mTvDisk;
-    @BindView(R.id.tv_disk_type)
-    TextView mTvDiskType;
+    @BindView(R.id.ll_disk_info)
+    LinearLayout mLlDiskInfo;
 
     @BindView(R.id.lc_cpu)
     LineChart mLcCpu;
@@ -296,9 +296,9 @@ public class ServerDetail2Activity extends BaseActivity
             }
             case R.id.tv_res_more_:
             case R.id.tv_res_more: {
-                Intent intent = new Intent(mContext, ServerMonitorActivity.class);
-                intent.putExtra("serverId", mServerId);
-                startActivity(intent);
+//                Intent intent = new Intent(mContext, ServerMonitorActivity.class);
+//                intent.putExtra("serverId", mServerId);
+//                startActivity(intent);
                 break;
             }
         }
@@ -327,11 +327,32 @@ public class ServerDetail2Activity extends BaseActivity
         }
         //配置信息
         ServerDetailBean.SystemInfoBean.ConfigBean config = serverDetailBean.getSystem_info().getConfig();
-        mTvOsName.setText(config.getOs_name());
-        mTvCpu.setText(config.getCpu() + "");
-        mTvMemory.setText(config.getMemory() / 1024 + "GB");
-        mTvDisk.setText(config.getSystem_disk_size());
-        mTvDiskType.setText(config.getSystem_disk_type());
+        mTvCpu.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getCpu() + "","无"));
+        mTvMemory.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getMemory() / 1024 + "GB","无"));
+        mTvOsName.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getOs_name(),"无"));
+        addDiskInfoUI(serverDetailBean.getSystem_info().getConfig().getDisk_info());
+    }
+
+    private void addDiskInfoUI(List<ServerDetailBean.BusinessInfoBean.DiskInfo> disk_info) {
+        mLlDiskInfo.removeAllViews();
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        for (int i = 0; i < disk_info.size(); i++) {
+            View view = inflater.inflate(R.layout.item_server_monitor_disk_info, null);
+            TextView tvName = view.findViewById(R.id.tv_disk_name);
+            TextView tvName_ = view.findViewById(R.id.tv_disk_name_);
+            TextView tvType = view.findViewById(R.id.tv_disk_type);
+            TextView tvSize = view.findViewById(R.id.tv_disk_size);
+            if (disk_info.size() == 1) {
+                tvName.setText("存储");
+                tvName_.setText("存储");
+            } else {
+                tvName.setText("存储" + (i + 1));
+                tvName_.setText("存储" + (i + 1));
+            }
+            tvType.setText(disk_info.get(i).getSystem_disk_type());
+            tvSize.setText(disk_info.get(i).getSystem_disk_size() + "");
+            mLlDiskInfo.addView(view);
+        }
     }
 
     @Override

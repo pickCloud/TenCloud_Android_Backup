@@ -1,5 +1,7 @@
 package com.ten.tencloud.bean;
 
+import java.util.List;
+
 /**
  * Created by lxq on 2017/11/29.
  */
@@ -177,19 +179,19 @@ public class ServerDetailBean {
              * memory : 2048
              * os_name : CentOS  7.0 64位
              * os_type : linux
-             *
+             * <p>
              * "cpu": 1,
-             "memory": 1024,
-             "os_name": "CentOS  7.4 64位",
-             "os_type": "linux",
-             "security_group_ids": "sg-bp1c7rvm8oqqf6fblu0z",
-             "instance_network_type": "vpc",
-             "internet_max_bandwidth_in": "200",
-             "internet_max_bandwidth_out": "1",
-             "system_disk_id": "",
-             "system_disk_type": "alibase",
-             "system_disk_size": "20G",
-             "image_id": "centos_7_04_64_20G_alibase_201701015.vhd"
+             * "memory": 1024,
+             * "os_name": "CentOS  7.4 64位",
+             * "os_type": "linux",
+             * "security_group_ids": "sg-bp1c7rvm8oqqf6fblu0z",
+             * "instance_network_type": "vpc",
+             * "internet_max_bandwidth_in": "200",
+             * "internet_max_bandwidth_out": "1",
+             * "system_disk_id": "",
+             * "system_disk_type": "alibase",
+             * "system_disk_size": "20G",
+             * "image_id": "centos_7_04_64_20G_alibase_201701015.vhd"
              */
 
             private int cpu;
@@ -200,11 +202,10 @@ public class ServerDetailBean {
             private String instance_network_type;
             private String internet_max_bandwidth_in;
             private String internet_max_bandwidth_out;
-            private String system_disk_id;
-            private String system_disk_type;
-            private String system_disk_size;
-            private String image_id;
-            private String image_name;
+
+            private List<BusinessInfoBean.DiskInfo> disk_info;
+
+            private List<BusinessInfoBean.ImageInfo> image_info;
 
             public int getCpu() {
                 return cpu;
@@ -270,44 +271,20 @@ public class ServerDetailBean {
                 this.internet_max_bandwidth_out = internet_max_bandwidth_out;
             }
 
-            public String getSystem_disk_id() {
-                return system_disk_id;
+            public List<BusinessInfoBean.DiskInfo> getDisk_info() {
+                return disk_info;
             }
 
-            public void setSystem_disk_id(String system_disk_id) {
-                this.system_disk_id = system_disk_id;
+            public void setDisk_info(List<BusinessInfoBean.DiskInfo> disk_info) {
+                this.disk_info = disk_info;
             }
 
-            public String getSystem_disk_type() {
-                return system_disk_type;
+            public List<BusinessInfoBean.ImageInfo> getImage_info() {
+                return image_info;
             }
 
-            public void setSystem_disk_type(String system_disk_type) {
-                this.system_disk_type = system_disk_type;
-            }
-
-            public String getSystem_disk_size() {
-                return system_disk_size;
-            }
-
-            public void setSystem_disk_size(String system_disk_size) {
-                this.system_disk_size = system_disk_size;
-            }
-
-            public String getImage_id() {
-                return image_id;
-            }
-
-            public void setImage_id(String image_id) {
-                this.image_id = image_id;
-            }
-
-            public String getImage_name() {
-                return image_name;
-            }
-
-            public void setImage_name(String image_name) {
-                this.image_name = image_name;
+            public void setImage_info(List<BusinessInfoBean.ImageInfo> image_info) {
+                this.image_info = image_info;
             }
         }
     }
@@ -370,6 +347,80 @@ public class ServerDetailBean {
 
             public void setCharge_type(String charge_type) {
                 this.charge_type = charge_type;
+            }
+        }
+
+        public static class DiskInfo {
+
+            /**
+             * system_disk_id : d-bp1b2jpvwlu2ilh63r9h
+             * system_disk_type : cloud_efficiency
+             * system_disk_size : 40
+             */
+
+            private String system_disk_id;
+            private String system_disk_type;
+            private String system_disk_size;
+
+            public String getSystem_disk_id() {
+                return system_disk_id;
+            }
+
+            public void setSystem_disk_id(String system_disk_id) {
+                this.system_disk_id = system_disk_id;
+            }
+
+            public String getSystem_disk_type() {
+                return system_disk_type;
+            }
+
+            public void setSystem_disk_type(String system_disk_type) {
+                this.system_disk_type = system_disk_type;
+            }
+
+            public String getSystem_disk_size() {
+                return system_disk_size;
+            }
+
+            public void setSystem_disk_size(String system_disk_size) {
+                this.system_disk_size = system_disk_size;
+            }
+        }
+
+        public static class ImageInfo {
+
+            /**
+             * image_id : centos_7_04_64_20G_alibase_201701015.vhd
+             * image_name : centos_7_04_64_20G_alibase_201701015.vhd
+             * image_version :
+             */
+
+            private String image_id;
+            private String image_name;
+            private String image_version;
+
+            public String getImage_id() {
+                return image_id;
+            }
+
+            public void setImage_id(String image_id) {
+                this.image_id = image_id;
+            }
+
+            public String getImage_name() {
+                return image_name;
+            }
+
+            public void setImage_name(String image_name) {
+                this.image_name = image_name;
+            }
+
+            public String getImage_version() {
+                return image_version;
+            }
+
+            public void setImage_version(String image_version) {
+                this.image_version = image_version;
             }
         }
     }

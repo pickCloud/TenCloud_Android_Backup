@@ -45,6 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:text="无"
                         android:textColor="@color/text_color_899ab6"
                         android:textSize="12sp" />
 
@@ -68,6 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:text="无"
                         android:textColor="@color/text_color_899ab6"
                         android:textSize="12sp" />
 
@@ -110,6 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:text="无"
                         android:textColor="@color/text_color_899ab6"
                         android:textSize="12sp" />
 
@@ -134,52 +137,16 @@
                 android:layout_height="wrap_content"
                 android:background="@color/bg_232730"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ll_disk_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="类型"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_disk_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:textColor="@color/text_color_899ab6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="容量"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_disk"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:textColor="@color/text_color_899ab6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
+                    android:orientation="vertical" />
 
             </LinearLayout>
 
@@ -199,54 +166,16 @@
                 android:layout_height="wrap_content"
                 android:background="@color/bg_232730"
                 android:orientation="vertical"
-                android:padding="16dp">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="镜像名称"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_image_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:textColor="@color/text_color_899ab6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="4dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ll_image_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="当前版本"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_image_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:textColor="@color/text_color_899ab6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
+                    android:orientation="vertical" />
 
             </LinearLayout>
 
@@ -286,6 +215,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:text="无"
                         android:textColor="@color/text_color_899ab6"
                         android:textSize="12sp" />
 
@@ -309,6 +239,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
+                        android:text="无"
                         android:textColor="@color/text_color_899ab6"
                         android:textSize="12sp" />
 
@@ -346,6 +277,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
+                            android:text="无"
                             android:textColor="@color/text_color_899ab6"
                             android:textSize="12sp" />
 
@@ -386,6 +318,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
+                            android:text="无"
                             android:textColor="@color/text_color_899ab6"
                             android:textSize="12sp" />
 

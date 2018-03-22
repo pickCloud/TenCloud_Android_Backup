@@ -110,7 +110,6 @@ public class ServerSingleHeatChartPager extends BasePager {
 
         if (mType != TYPE_NET) {
             leftAxis.setAxisMinimum(0);
-            leftAxis.setAxisMaximum(100);
         }
         lineChart.getAxisRight().setEnabled(false);
     }

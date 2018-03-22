@@ -5,12 +5,34 @@ package com.ten.tencloud.bean;
  */
 
 public class ServerHeatBean {
+
+    /**
+     * serverID : 184
+     * name : 测试
+     * colorType : 4
+     * cpuUsageRate : 0
+     * memUsageRate : 0.19940000000000002
+     * diskUsageRate : 0.0394
+     * diskIO : 0.7854583758348964
+     * networkUsage : 0/0
+     */
+
+    private int serverID;
     private String name;
-    private int cpu;
-    private int memory;
-    private int disk;
-    private String net;
-    private int level;
+    private int colorType;
+    private float cpuUsageRate;
+    private float memUsageRate;
+    private float diskUsageRate;
+    private float diskIO;
+    private String networkUsage;
+
+    public int getServerID() {
+        return serverID;
+    }
+
+    public void setServerID(int serverID) {
+        this.serverID = serverID;
+    }
 
     public String getName() {
         return name;
@@ -20,43 +42,51 @@ public class ServerHeatBean {
         this.name = name;
     }
 
-    public int getCpu() {
-        return cpu;
+    public int getColorType() {
+        return colorType;
     }
 
-    public void setCpu(int cpu) {
-        this.cpu = cpu;
+    public void setColorType(int colorType) {
+        this.colorType = colorType;
     }
 
-    public int getMemory() {
-        return memory;
+    public float getCpuUsageRate() {
+        return cpuUsageRate;
     }
 
-    public void setMemory(int memory) {
-        this.memory = memory;
+    public void setCpuUsageRate(float cpuUsageRate) {
+        this.cpuUsageRate = cpuUsageRate;
     }
 
-    public int getDisk() {
-        return disk;
+    public float getMemUsageRate() {
+        return memUsageRate;
     }
 
-    public void setDisk(int disk) {
-        this.disk = disk;
+    public void setMemUsageRate(float memUsageRate) {
+        this.memUsageRate = memUsageRate;
     }
 
-    public String getNet() {
-        return net;
+    public float getDiskUsageRate() {
+        return diskUsageRate;
     }
 
-    public void setNet(String net) {
-        this.net = net;
+    public void setDiskUsageRate(float diskUsageRate) {
+        this.diskUsageRate = diskUsageRate;
     }
 
-    public int getLevel() {
-        return level;
+    public float getDiskIO() {
+        return diskIO;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setDiskIO(float diskIO) {
+        this.diskIO = diskIO;
+    }
+
+    public String getNetworkUsage() {
+        return networkUsage;
+    }
+
+    public void setNetworkUsage(String networkUsage) {
+        this.networkUsage = networkUsage;
     }
 }
