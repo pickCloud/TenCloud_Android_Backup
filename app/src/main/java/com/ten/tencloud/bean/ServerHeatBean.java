@@ -23,7 +23,7 @@ public class ServerHeatBean {
     private float cpuUsageRate;
     private float memUsageRate;
     private float diskUsageRate;
-    private float diskIO;
+    private String diskIO;
     private String networkUsage;
 
     public int getServerID() {
@@ -74,11 +74,11 @@ public class ServerHeatBean {
         this.diskUsageRate = diskUsageRate;
     }
 
-    public float getDiskIO() {
+    public String getDiskIO() {
         return diskIO;
     }
 
-    public void setDiskIO(float diskIO) {
+    public void setDiskIO(String diskIO) {
         this.diskIO = diskIO;
     }
 

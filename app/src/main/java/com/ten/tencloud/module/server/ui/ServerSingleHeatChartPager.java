@@ -130,7 +130,7 @@ public class ServerSingleHeatChartPager extends BasePager {
                 break;
             case TYPE_NET:
                 setDataWithNetView(mDatas.getNet());
-                mTvName.setText("网络");
+                mTvName.setText("网络(kb/s)");
                 break;
         }
     }
