@@ -132,7 +132,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/text_color_899ab6"
                     android:textSize="10sp"
-                    tools:text="<none>" />
+                    tools:text="none" />
 
                 <TextView
                     android:layout_width="0dp"
