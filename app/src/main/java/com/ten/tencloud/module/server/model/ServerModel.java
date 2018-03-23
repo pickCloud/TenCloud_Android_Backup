@@ -5,6 +5,7 @@ import com.ten.tencloud.bean.ClusterInfoBean;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServerBean;
 import com.ten.tencloud.bean.ServerDetailBean;
+import com.ten.tencloud.bean.ServerHeatBean;
 import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
@@ -342,6 +343,14 @@ public class ServerModel {
         return TenApp.getRetrofitClient().getTenServerApi()
                 .getThreshold()
                 .map(new HttpResultFunc<ServerThresholdBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<ServerHeatBean>> getServerMonitor(){
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .getServerMonitor()
+                .map(new HttpResultFunc<List<ServerHeatBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

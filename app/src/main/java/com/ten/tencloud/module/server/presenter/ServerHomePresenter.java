@@ -2,6 +2,7 @@ package com.ten.tencloud.module.server.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.ServerBean;
+import com.ten.tencloud.bean.ServerHeatBean;
 import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
@@ -55,4 +56,17 @@ public class ServerHomePresenter extends BasePresenter<ServerHomeContract.View>
                     }
                 }));
     }
+
+    @Override
+    public void getServerMonitor() {
+        mSubscriptions.add(ServerModel.getInstance().getServerMonitor()
+                .subscribe(new JesSubscribe<List<ServerHeatBean>>(mView) {
+                    @Override
+                    public void _onSuccess(List<ServerHeatBean> serverHeatBeans) {
+                        mView.showServerMonitor(serverHeatBeans);
+                    }
+                }));
+    }
+
+
 }

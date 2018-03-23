@@ -25,7 +25,7 @@ import butterknife.OnClick;
 
 public class ServerMonitorPerformancePager extends BasePager implements ServerSystemLoadContract.View {
 
-    private final ServerSystemLoadPresenter mServerSystemLoadPresenter;
+    private ServerSystemLoadPresenter mServerSystemLoadPresenter;
     //资源概况
     @BindView(R.id.tv_os_time)
     TextView mTvOsTime;
@@ -40,14 +40,14 @@ public class ServerMonitorPerformancePager extends BasePager implements ServerSy
     @BindView(R.id.tv_load_15)
     TextView mTvLoad15;
 
+    @BindView(R.id.lc_progress)
+    LineChart mLcProgress;
     @BindView(R.id.lc_cpu)
     LineChart mLcCpu;
     @BindView(R.id.lc_memory)
     LineChart mLcMemory;
-    @BindView(R.id.lc_disk)
-    LineChart mLcDisk;
-    @BindView(R.id.lc_net)
-    LineChart mLcNet;
+    @BindView(R.id.lc_swap)
+    LineChart mLcSwap;
 
     private boolean isFirst = true;
     private String mId;
@@ -75,42 +75,42 @@ public class ServerMonitorPerformancePager extends BasePager implements ServerSy
     }
 
     private void initLineChart() {
+        mLcProgress.setNoDataText("暂无数据");
         mLcCpu.setNoDataText("暂无数据");
         mLcMemory.setNoDataText("暂无数据");
-        mLcDisk.setNoDataText("暂无数据");
-        mLcNet.setNoDataText("暂无数据");
+        mLcSwap.setNoDataText("暂无数据");
 
+        mLcProgress.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
         mLcCpu.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
         mLcMemory.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
-        mLcDisk.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
-        mLcNet.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
+        mLcSwap.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
 
+        mLcProgress.setScaleEnabled(false);
         mLcCpu.setScaleEnabled(false);
         mLcMemory.setScaleEnabled(false);
-        mLcDisk.setScaleEnabled(false);
-        mLcNet.setScaleEnabled(false);
+        mLcSwap.setScaleEnabled(false);
 
         Description description = new Description();
         description.setText("");
+        mLcProgress.setDescription(description);
         mLcCpu.setDescription(description);
         mLcMemory.setDescription(description);
-        mLcDisk.setDescription(description);
-        mLcNet.setDescription(description);
+        mLcSwap.setDescription(description);
 
+        mLcProgress.getLegend().setEnabled(false);//标签设置
         mLcCpu.getLegend().setEnabled(false);//标签设置
         mLcMemory.getLegend().setEnabled(false);//标签设置
-        mLcDisk.getLegend().setEnabled(false);//标签设置
-        mLcNet.getLegend().setEnabled(true);//标签设置
-        mLcNet.getLegend().setTextSize(10);
-        mLcNet.getLegend().setForm(Legend.LegendForm.LINE);
-        mLcNet.getLegend().setFormSize(8);
-        mLcNet.getLegend().setFormToTextSpace(2);
-        mLcNet.getLegend().setTextColor(getResources().getColor(R.color.text_color_899ab6));
+        mLcSwap.getLegend().setEnabled(true);//标签设置
+        mLcSwap.getLegend().setTextSize(10);
+        mLcSwap.getLegend().setForm(Legend.LegendForm.LINE);
+        mLcSwap.getLegend().setFormSize(8);
+        mLcSwap.getLegend().setFormToTextSpace(2);
+        mLcSwap.getLegend().setTextColor(getResources().getColor(R.color.text_color_899ab6));
 
+        setLineChartAxisStyle(mLcProgress);
         setLineChartAxisStyle(mLcCpu);
         setLineChartAxisStyle(mLcMemory);
-        setLineChartAxisStyle(mLcDisk);
-        setLineChartAxisStyle(mLcNet);
+        setLineChartAxisStyle(mLcSwap);
     }
 
     /**

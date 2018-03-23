@@ -40,15 +40,9 @@ import net.lucode.hackware.magicindicator.ViewPagerHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 
 /**
  * Created by lxq on 2017/11/22.
@@ -63,15 +57,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     View mEmptyView;
     @BindView(R.id.tv_add_server)
     TextView mTvAddServer;
-
-    private RvServerAdapter mAdapter;
-    private ServerHomePresenter mPresenter;
-    private ServerMonitorPresenter mServerMonitorPresenter;
-    private boolean mPermissionAddServer;
-
-    private RefreshBroadCastHandler mPermissionRefreshBroadCastHandler;
-    private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
-    private RefreshBroadCastHandler mServerRefreshHandler;
 
     @BindView(R.id.tv_total)
     TextView mTvServerTotal;
@@ -106,7 +91,15 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @BindView(R.id.ll_heat)
     LinearLayout mLlHeat;
 
-    private Subscription mHeatTestSubscribe;
+    private RvServerAdapter mServerAdapter;
+    private ServerHomePresenter mPresenter;
+    private ServerMonitorPresenter mServerMonitorPresenter;
+    private boolean mPermissionAddServer;
+
+    private RefreshBroadCastHandler mPermissionRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mServerRefreshHandler;
+    private RvServerHeatChartAdapter mHeatChartAdapter;
 
 
     @Nullable
@@ -121,7 +114,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         OnRefreshListener onRefreshListener = new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initView();
+                initData();
             }
         };
 
@@ -132,6 +125,35 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mServerRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerRefreshHandler.registerReceiver(onRefreshListener);
 
+        mPresenter = new ServerHomePresenter();
+        mPresenter.attachView(this);
+        //单台服务器时加载监控数据
+        mServerMonitorPresenter = new ServerMonitorPresenter();
+        mServerMonitorPresenter.attachView(this);
+        initView();
+        initData();
+    }
+
+    private void initData() {
+        mPresenter.getThreshold();
+        mPresenter.summary();
+        mPresenter.getWarnServerList(1);
+    }
+
+    private void initView() {
+        mPermissionAddServer = Utils.hasPermission("添加主机");
+        mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
+        mHeatChartAdapter = new RvServerHeatChartAdapter(mActivity);
+        mRvHeat.setAdapter(mHeatChartAdapter);
+        mHeatChartAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerHeatBean>() {
+            @Override
+            public void onObjectItemClicked(ServerHeatBean serverHeatBean, int position) {
+                Intent intent = new Intent(mActivity, ServerDetail2Activity.class);
+                intent.putExtra("name", serverHeatBean.getName());
+                intent.putExtra("id", serverHeatBean.getServerID() + "");
+                startActivity(intent);
+            }
+        });
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
@@ -139,8 +161,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             }
         };
         mRvServer.setLayoutManager(layoutManager);
-        mAdapter = new RvServerAdapter(mActivity);
-        mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerBean>() {
+        mServerAdapter = new RvServerAdapter(mActivity);
+        mServerAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerBean>() {
             @Override
             public void onObjectItemClicked(ServerBean serverBean, int position) {
                 Intent intent = new Intent(mActivity, ServerDetail2Activity.class);
@@ -149,68 +171,21 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
                 startActivity(intent);
             }
         });
-        mRvServer.setAdapter(mAdapter);
+        mRvServer.setAdapter(mServerAdapter);
         mRvServer.setFocusableInTouchMode(false);//处理自动滚动
-        mPresenter = new ServerHomePresenter();
-        mPresenter.attachView(this);
-        mPresenter.getThreshold();
-        //单台服务器时加载监控数据
-        mServerMonitorPresenter = new ServerMonitorPresenter();
-        mServerMonitorPresenter.attachView(this);
-        initView();
+        mRvHeat.setFocusableInTouchMode(false);
     }
 
-    private void initView() {
-        mPresenter.getWarnServerList(1);
-        mPermissionAddServer = Utils.hasPermission("添加主机");
-        mTvAddServer.setVisibility(mPermissionAddServer ? View.VISIBLE : View.GONE);
-        mPresenter.summary();
-    }
-
-    private void startHeatTest() {
-        if (mHeatTestSubscribe == null || mHeatTestSubscribe.isUnsubscribed()) {
-            mHeatTestSubscribe = Observable.interval(0, 1, TimeUnit.MINUTES)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Long>() {
-                        @Override
-                        public void call(Long aLong) {
-                            initHeatChart();
-                        }
-                    });
-        }
-    }
-
-    private void initHeatChart() {
-        // TODO: 2018/3/14 测试-->组装数据
-        ArrayList<ServerHeatBean> datas = new ArrayList<>();
-        Random random = new Random();
-        int size = random.nextInt(20) + 1;
-        size = 1;
-
+    private void initHeatChart(List<ServerHeatBean> datas) {
+        int size = datas.size();
         if (size == 1) {
             mRvHeat.setVisibility(View.GONE);
             mHlSingleLayout.setVisibility(View.VISIBLE);
-            mTvTitle.setText("测试服务器");
-            int temp = random.nextInt(3) + 3;
-            if (temp == 3) {
-                temp = random.nextInt(3) + 1;
-            }
-            mHlSingleLayout.setHeatLevel(temp);
-            // TODO: 2018/3/15 服务器id
-            mServerMonitorPresenter.getServerMonitorInfo("184", ServerMonitorPresenter.STATE_HOUR);
+            mTvTitle.setText(datas.get(0).getName());
+            mHlSingleLayout.setHeatLevel(datas.get(0).getColorType());
+            mServerMonitorPresenter.getServerMonitorInfo(datas.get(0).getServerID() + "", ServerMonitorPresenter.STATE_HOUR);
             return;
         }
-        datas.add(createData("域名备用"));
-        datas.add(createData("@Ye教育_线上环境"));
-        datas.add(createData("@Ye教育_开发测试"));
-        datas.add(createData("@Ten_官网"));
-        datas.add(createData("@Ten_备用翻墙"));
-        datas.add(createData("@Ten_中间件"));
-        datas.add(createData("@TenCloud_测试环境"));
-        datas.add(createData("@TenCloud_Docker仓库"));
-        datas.add(createData("@Aimer_WF+"));
-        datas.add(createData("@Aimer_Infohub"));
-
         int spanCount = 1;
         int type = 0;
         if (datas.size() >= 2 && datas.size() <= 4) {
@@ -223,32 +198,15 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             spanCount = 4;
             type = RvServerHeatChartAdapter.TYPE_FOUR;
         }
-        mRvHeat.setLayoutManager(new GridLayoutManager(mActivity, spanCount));
-        RvServerHeatChartAdapter adapter = new RvServerHeatChartAdapter(mActivity, type);
-        mRvHeat.setAdapter(adapter);
-        adapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ServerHeatBean>() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, spanCount) {
             @Override
-            public void onObjectItemClicked(ServerHeatBean serverHeatBean, int position) {
-//                showMessage(serverHeatBean.getName());
+            public boolean canScrollVertically() {
+                return false;
             }
-        });
-        adapter.setDatas(datas);
-    }
-
-    private ServerHeatBean createData(String name) {
-        Random random = new Random();
-        ServerHeatBean serverHeatBean = new ServerHeatBean();
-        serverHeatBean.setName(name);
-        serverHeatBean.setCpu(random.nextInt(100) + 1);
-        serverHeatBean.setDisk(random.nextInt(100) + 1);
-        serverHeatBean.setMemory(random.nextInt(100) + 1);
-        serverHeatBean.setNet(random.nextInt(20) + "/" + random.nextInt(20));
-        int temp = random.nextInt(3) + 3;
-        if (temp == 3) {
-            temp = random.nextInt(3) + 1;
-        }
-        serverHeatBean.setLevel(temp);
-        return serverHeatBean;
+        };
+        mRvHeat.setLayoutManager(gridLayoutManager);
+        mHeatChartAdapter.setType(type);
+        mHeatChartAdapter.setDatas(datas);
     }
 
     private void initMagicIndicator() {
@@ -283,7 +241,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
                 break;
             case R.id.rl_alarm:
-                initHeatChart();
+
                 break;
             case R.id.hl_single_layout:
 
@@ -308,17 +266,17 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
     @Override
     public void showWarnServerList(List<ServerBean> servers) {
-        mAdapter.setDatas(servers);
+        mServerAdapter.setDatas(servers);
         mLlHeat.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
-        startHeatTest();
+        mPresenter.getServerMonitor();
     }
 
     @Override
     public void showEmptyView() {
         mEmptyView.setVisibility(View.VISIBLE);
         mLlHeat.setVisibility(View.GONE);
-        mAdapter.clear();
+        mServerAdapter.clear();
     }
 
     @Override
@@ -334,12 +292,17 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @Override
     public void showThreshold(ServerThresholdBean serverThresholdBean) {
         if (serverThresholdBean != null) {
-            mTvCpuThreshold.setText(serverThresholdBean.getCpu_threshold() * 100 + "%");
-            mTvBlockThreshold.setText(serverThresholdBean.getBlock_threshold() * 100 + "%");
-            mTvDiskThreshold.setText(serverThresholdBean.getDisk_threshold() * 100 + "%");
-            mTvMemoryThreshold.setText(serverThresholdBean.getMemory_threshold() * 100 + "%");
-            mTvNetThreshold.setText(serverThresholdBean.getNet_threshold() * 100 + "%");
+            mTvCpuThreshold.setText(serverThresholdBean.getCpu_threshold() + "%");
+            mTvBlockThreshold.setText(serverThresholdBean.getBlock_threshold() + "%");
+            mTvDiskThreshold.setText(serverThresholdBean.getDisk_threshold() + "%");
+            mTvMemoryThreshold.setText(serverThresholdBean.getMemory_threshold() + "%");
+            mTvNetThreshold.setText(serverThresholdBean.getNet_threshold() + "%");
         }
+    }
+
+    @Override
+    public void showServerMonitor(List<ServerHeatBean> data) {
+        initHeatChart(data);
     }
 
     @Override
@@ -353,8 +316,5 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mServerRefreshHandler = null;
         mPresenter.detachView();
         mServerMonitorPresenter.detachView();
-        if (mHeatTestSubscribe != null) {
-            mHeatTestSubscribe.unsubscribe();
-        }
     }
 }
