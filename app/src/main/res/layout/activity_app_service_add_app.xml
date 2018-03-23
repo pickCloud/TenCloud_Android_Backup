@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="82.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_logo"
+            style="@style/SettingItemLayout"
+            android:layout_height="82dp">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:layout_weight="1"
+                android:text="图标" />
+
+            <com.ten.tencloud.widget.CircleImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:src="@mipmap/icon_app_photo" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="名称" />
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/ListItemEditValue"
+                android:hint="请输入应用的名称" />
+
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_232730"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:layout_height="match_parent"
+                android:text="描述" />
+
+            <EditText
+                android:id="@+id/et_description"
+                style="@style/ListItemEditValue"
+                android:layout_height="100dp"
+                android:gravity="top"
+                android:hint="请输入应用的描述"
+                android:singleLine="false" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <RelativeLayout style="@style/ListItemLL2">
+
+            <TextView
+                android:id="@+id/tv_label"
+                style="@style/ListItemTextKey"
+                android:layout_centerVertical="true"
+                android:text="标签" />
+
+            <EditText
+                android:id="@+id/et_label"
+                style="@style/ListItemEditValue"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_label"
+                android:hint="请输入标签的名称" />
+
+            <TextView
+                android:id="@+id/tv_add_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/selector_login_code"
+                android:padding="5dp"
+                android:text="新增多个标签"
+                android:textColor="@color/text_color_48bbc0"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <View
+            style="@style/LineHorizontal2f3543"
+            android:layout_marginLeft="86dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_232730"
+        android:paddingLeft="16dp">
+
+        <android.support.v4.widget.Space
+            android:layout_width="70dp"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp" />
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal2f3543"
+        android:layout_marginLeft="16dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48.5dp"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_source"
+            style="@style/SettingItemLayout">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="来源" />
+
+            <TextView
+                android:id="@+id/tv_warehouse"
+                style="@style/SettingItemDes"
+                android:text="绑定github代码仓库" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_color_2f3543" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_sure_add"
+        style="@style/ButtonLakeBlue"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="32dp"
+        android:onClick="login"
+        android:text="确定添加" />
+</LinearLayout>
