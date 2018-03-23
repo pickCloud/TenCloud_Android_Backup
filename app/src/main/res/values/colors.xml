@@ -29,7 +29,10 @@
     <color name="btn_shade_normal">#00000000</color>
     <color name="btn_shade_pressed">#33000000</color>
 
+    <color name="bg_tran_48bbc0_50">#8048bbc0</color>
     <color name="bg_tran_48bbc0_20">#3348bbc0</color>
+    <color name="bg_tran_48bbc0_15">#2648bbc0</color>
+    <color name="bg_tran_48bbc0_5">#0D48bbc0</color>
     <color name="bg_tran_ef9a9a_20">#33ef9a9a</color>
     <color name="bg_tran_f15532_20">#33f15532</color>
     <color name="bg_tran_899ab6_30">#4d899ab6</color>
@@ -52,6 +55,7 @@
     <color name="text_color_502016_pressed">#66502016</color>
     <color name="text_color_502016_disable">#33502016</color>
     <color name="text_color_ef9a9a">#ef9a9a</color>
+    <color name="text_color_ef9a9a_20">#33ef9a9a</color>
     <color name="text_color_ef9a9a_pressed">#66ef9a9a</color>
     <color name="text_color_ef9a9a_disable">#33ef9a9a</color>
     <color name="text_color_566278">#566278</color>
@@ -59,6 +63,7 @@
     <color name="text_color_566278_disable">#33566278</color>
     <color name="text_color_f15532">#f15532</color>
     <color name="text_color_09bb07">#09bb07</color>
+    <color name="text_color_09bb07_20">#3309bb07</color>
     <color name="text_color_287db6">#287db6</color>
     <color name="text_color_feeeeb">#feeeeb</color>
     <color name="text_color_b3000000">#b3000000</color>
