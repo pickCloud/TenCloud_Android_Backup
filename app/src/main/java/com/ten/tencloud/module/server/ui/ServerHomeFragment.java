@@ -141,6 +141,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     }
 
     private void initData() {
+        mSingleServer = null;
         mPresenter.getThreshold();
         mPresenter.summary();
         mPresenter.getWarnServerList(1);
@@ -184,24 +185,19 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mRvHeat.setFocusableInTouchMode(false);
     }
 
+    //热图单台服务器
+    private ServerHeatBean mSingleServer;
+
     private void initHeatChart(final List<ServerHeatBean> datas) {
+        datas.remove(0);
         int size = datas.size();
         if (size == 1) {
             mRvHeat.setVisibility(View.GONE);
             mHlSingleLayout.setVisibility(View.VISIBLE);
-            mTvTitle.setText(datas.get(0).getName());
-            mHlSingleLayout.setHeatLevel(datas.get(0).getColorType());
-            mVpSingleHeat.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ServerHeatBean serverBean = datas.get(0);
-                    Intent intent = new Intent(mActivity, ServerDetail2Activity.class);
-                    intent.putExtra("name", serverBean.getName());
-                    intent.putExtra("id", serverBean.getServerID());
-                    startActivity(intent);
-                }
-            });
-            mServerMonitorPresenter.getServerMonitorInfo(datas.get(0).getServerID() + "", ServerMonitorPresenter.STATE_HOUR);
+            mSingleServer = datas.get(0);
+            mTvTitle.setText(mSingleServer.getName());
+            mHlSingleLayout.setHeatLevel(mSingleServer.getColorType());
+            mServerMonitorPresenter.getServerMonitorInfo(mSingleServer.getServerID() + "", ServerMonitorPresenter.STATE_HOUR);
             return;
         }
         int spanCount = 1;
@@ -286,10 +282,18 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     public void showServerMonitorInfo(ServerMonitorBean serverMonitor) {
         String json = TenApp.getInstance().getGsonInstance().toJson(serverMonitor);
         ArrayList<BasePager> pagers = new ArrayList<>();
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json).putArgument("type", ServerSingleHeatChartPager.TYPE_CPU));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json).putArgument("type", ServerSingleHeatChartPager.TYPE_MEMORY));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json).putArgument("type", ServerSingleHeatChartPager.TYPE_DISK));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json).putArgument("type", ServerSingleHeatChartPager.TYPE_NET));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_CPU));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_MEMORY));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_DISK));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_NET));
         mVpSingleHeat.setAdapter(new CJSVpPagerAdapter(pagers));
         for (BasePager pager : pagers) {
             pager.init();

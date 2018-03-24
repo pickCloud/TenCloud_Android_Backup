@@ -63,7 +63,7 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
                 tvName1.setText("CPU使用率");
                 tvValue1.setText(serverHeatBean.getCpuUsageRate() + "%");
                 if (serverHeatBean.getDiskUsageRate() > 80) {
-                    tvName2.setText("磁盘使用率");
+                    tvName2.setText("磁盘占用率");
                     tvValue2.setText(serverHeatBean.getDiskUsageRate() + "%");
                 } else {
                     tvName2.setText("内存使用率");
@@ -73,14 +73,14 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
                 tvName1.setText("内存使用率");
                 tvValue1.setText(serverHeatBean.getMemUsageRate() + "%");
                 if (serverHeatBean.getDiskUsageRate() > 80) {
-                    tvName2.setText("磁盘使用率");
+                    tvName2.setText("磁盘占用率");
                     tvValue2.setText(serverHeatBean.getDiskUsageRate() + "%");
                 } else {
                     tvName2.setText("CPU使用率");
                     tvValue2.setText(serverHeatBean.getCpuUsageRate() + "%");
                 }
             } else if (serverHeatBean.getDiskUsageRate() > 80) {
-                tvName1.setText("磁盘使用率");
+                tvName1.setText("磁盘占用率");
                 tvValue1.setText(serverHeatBean.getDiskUsageRate() + "%");
                 tvName2.setText("CPU使用率");
                 tvValue2.setText(serverHeatBean.getCpuUsageRate() + "%");
@@ -100,7 +100,7 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
                 tvName.setText("内存使用率");
                 tvValue.setText(serverHeatBean.getMemUsageRate() + "%");
             } else if (serverHeatBean.getDiskUsageRate() > 80) {
-                tvName.setText("磁盘使用率");
+                tvName.setText("磁盘占用率");
                 tvValue.setText(serverHeatBean.getDiskUsageRate() + "%");
             } else {
                 tvName.setText("CPU使用率");

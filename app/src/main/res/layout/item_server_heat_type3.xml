@@ -32,7 +32,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="100%"
             android:textColor="@color/text_color_66ffffff"
             android:textSize="10sp" />
 
@@ -56,7 +55,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="95%"
             android:textColor="@color/text_color_66ffffff"
             android:textSize="10sp" />
 
@@ -71,7 +69,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="磁盘I/O"
+            android:text="磁盘I/O利用率"
             android:textColor="@color/text_color_66ffffff"
             android:textSize="10sp" />
 
@@ -94,7 +92,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="磁盘使用率"
+            android:text="磁盘占用率"
             android:textColor="@color/text_color_66ffffff"
             android:textSize="10sp" />
 
@@ -103,7 +101,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="7.64%"
             android:textColor="@color/text_color_66ffffff"
             android:textSize="10sp" />
 
@@ -127,7 +124,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="11/5"
             android:textColor="@color/text_color_66ffffff"
             android:textSize="10sp" />
 

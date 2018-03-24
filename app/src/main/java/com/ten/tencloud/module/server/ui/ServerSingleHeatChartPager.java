@@ -1,11 +1,13 @@
 package com.ten.tencloud.module.server.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -51,6 +53,7 @@ public class ServerSingleHeatChartPager extends BasePager {
     @BindView(R.id.lc_chart)
     LineChart mLcChart;
     private ServerMonitorBean mDatas;
+    private String mId;
 
     public ServerSingleHeatChartPager(Context context) {
         super(context);
@@ -61,6 +64,7 @@ public class ServerSingleHeatChartPager extends BasePager {
         createView(R.layout.pager_server_single_chart);
         String dataJson = getArgument("data");
         mDatas = TenApp.getInstance().getGsonInstance().fromJson(dataJson, ServerMonitorBean.class);
+        mId = getArgument("serverId");
         mType = getArgument("type", TYPE_CPU);
         initView();
         initData();
@@ -71,6 +75,14 @@ public class ServerSingleHeatChartPager extends BasePager {
         mLcChart.setNoDataText("暂无数据");
         mLcChart.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
         mLcChart.setScaleEnabled(false);
+        mLcChart.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ServerDetail2Activity.class);
+                intent.putExtra("id", mId);
+                mContext.startActivity(intent);
+            }
+        });
         Description description = new Description();
         description.setPosition(0, 0);
         mLcChart.setDescription(description);
