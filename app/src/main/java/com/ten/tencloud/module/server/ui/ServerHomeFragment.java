@@ -330,12 +330,12 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @Override
     public void showThreshold(ServerThresholdBean serverThresholdBean) {
         if (serverThresholdBean != null) {
-            mTvCpuThreshold.setText(serverThresholdBean.getCpu_threshold() + "%");
-            mTvBlockThreshold.setText(serverThresholdBean.getBlock_threshold() + "%");
-            mTvDiskThreshold.setText(serverThresholdBean.getDisk_threshold() + "%");
-            mTvMemoryThreshold.setText(serverThresholdBean.getMemory_threshold() + "%");
-            mTvNetInThreshold.setText(serverThresholdBean.getNet_threshold() + "%");
-            mTvNetOutThreshold.setText(serverThresholdBean.getNet_threshold() + "%");
+            mTvCpuThreshold.setText((int) serverThresholdBean.getCpu_threshold() + "%");
+            mTvBlockThreshold.setText((int) serverThresholdBean.getBlock_threshold() + "%");
+            mTvDiskThreshold.setText((int) serverThresholdBean.getDisk_threshold() + "%");
+            mTvMemoryThreshold.setText((int) serverThresholdBean.getMemory_threshold() + "%");
+            mTvNetInThreshold.setText((int) serverThresholdBean.getNet_threshold() + "%");
+            mTvNetOutThreshold.setText((int) serverThresholdBean.getNet_threshold() + "%");
         }
     }
 

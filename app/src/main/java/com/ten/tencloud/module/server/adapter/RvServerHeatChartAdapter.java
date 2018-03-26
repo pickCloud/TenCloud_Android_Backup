@@ -41,7 +41,7 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
             mServerThreshold.setCpu_threshold(70);
             mServerThreshold.setMemory_threshold(80);
             mServerThreshold.setBlock_threshold(70);
-            mServerThreshold.setDisk_threshold(60);
+            mServerThreshold.setDisk_threshold(80);
             mServerThreshold.setNet_threshold(80);
         }
     }
