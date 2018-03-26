@@ -25,6 +25,7 @@ import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.adapter.RvServerHeatChartAdapter;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
@@ -86,8 +87,10 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     TextView mTvCpuThreshold;
     @BindView(R.id.tv_memory_threshold)
     TextView mTvMemoryThreshold;
-    @BindView(R.id.tv_net_threshold)
-    TextView mTvNetThreshold;
+    @BindView(R.id.tv_net_in_threshold)
+    TextView mTvNetInThreshold;
+    @BindView(R.id.tv_net_out_threshold)
+    TextView mTvNetOutThreshold;
     @BindView(R.id.tv_block_threshold)
     TextView mTvBlockThreshold;
     @BindView(R.id.tv_disk_threshold)
@@ -142,7 +145,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
     private void initData() {
         mSingleServer = null;
-        mPresenter.getThreshold();
         mPresenter.summary();
         mPresenter.getWarnServerList(1);
         mPresenter.getServerMonitor();
@@ -183,6 +185,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mRvServer.setAdapter(mServerAdapter);
         mRvServer.setFocusableInTouchMode(false);//处理自动滚动
         mRvHeat.setFocusableInTouchMode(false);
+        showThreshold(AppBaseCache.getInstance().getServerThreshold());
     }
 
     //热图单台服务器
@@ -331,7 +334,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             mTvBlockThreshold.setText(serverThresholdBean.getBlock_threshold() + "%");
             mTvDiskThreshold.setText(serverThresholdBean.getDisk_threshold() + "%");
             mTvMemoryThreshold.setText(serverThresholdBean.getMemory_threshold() + "%");
-            mTvNetThreshold.setText(serverThresholdBean.getNet_threshold() + "%");
+            mTvNetInThreshold.setText(serverThresholdBean.getNet_threshold() + "%");
+            mTvNetOutThreshold.setText(serverThresholdBean.getNet_threshold() + "%");
         }
     }
 

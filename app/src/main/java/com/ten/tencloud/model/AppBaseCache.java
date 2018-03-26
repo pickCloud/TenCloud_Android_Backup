@@ -8,6 +8,7 @@ import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.bean.KeyValue;
 import com.ten.tencloud.bean.KeyValue_;
 import com.ten.tencloud.bean.LoginInfoBean;
+import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.bean.User;
 import com.ten.tencloud.constants.Constants;
 
@@ -25,6 +26,8 @@ public class AppBaseCache {
     private final String LOGIN_COMPANY = "LOGIN_COMPANY";//记录登录的公司
     private final String USER_PERMISSION = "USER_PERMISSION";//用户权限
 
+    private final String SERVER_THRESHOLD = "SERVER_THRESHOLD";//服务器临界值
+
     private static AppBaseCache sAppBaseCache;
     private static SPFHelper spfHelper;
 
@@ -39,7 +42,7 @@ public class AppBaseCache {
 
     public static synchronized AppBaseCache getInstance() {
         if (sAppBaseCache == null) {
-            synchronized (AppBaseCache.class){
+            synchronized (AppBaseCache.class) {
                 sAppBaseCache = new AppBaseCache(TenApp.getInstance());
             }
         }
@@ -164,6 +167,7 @@ public class AppBaseCache {
         spfHelper.putString(LOGIN_COMPANY, json);
     }
 
+
     public CompanyBean getSelectCompanyWithLogin() {
         String json = spfHelper.getString(LOGIN_COMPANY, "");
         if (TextUtils.isEmpty(json)) {
@@ -184,5 +188,19 @@ public class AppBaseCache {
             return true;
         }
         return false;
+    }
+
+    //=======服务器临界值
+    public void saveServerThreshold(ServerThresholdBean bean) {
+        String json = TenApp.getInstance().getGsonInstance().toJson(bean);
+        spfHelper.putString(SERVER_THRESHOLD, json);
+    }
+
+    public ServerThresholdBean getServerThreshold() {
+        String json = spfHelper.getString(SERVER_THRESHOLD, "");
+        if (TextUtils.isEmpty(json)) {
+            return null;
+        }
+        return TenApp.getInstance().getGsonInstance().fromJson(json, ServerThresholdBean.class);
     }
 }

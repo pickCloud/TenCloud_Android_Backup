@@ -11,6 +11,7 @@ import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.bean.ServerSystemLoadBean;
 import com.ten.tencloud.bean.ServerThresholdBean;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
@@ -343,11 +344,18 @@ public class ServerModel {
         return TenApp.getRetrofitClient().getTenServerApi()
                 .getThreshold()
                 .map(new HttpResultFunc<ServerThresholdBean>())
+                .map(new Func1<ServerThresholdBean, ServerThresholdBean>() {
+                    @Override
+                    public ServerThresholdBean call(ServerThresholdBean serverThresholdBean) {
+                        AppBaseCache.getInstance().saveServerThreshold(serverThresholdBean);
+                        return serverThresholdBean;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<ServerHeatBean>> getServerMonitor(){
+    public Observable<List<ServerHeatBean>> getServerMonitor() {
         return TenApp.getRetrofitClient().getTenServerApi()
                 .getServerMonitor()
                 .map(new HttpResultFunc<List<ServerHeatBean>>())
