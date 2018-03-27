@@ -32,6 +32,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
 
+                <com.ten.tencloud.widget.CircleImageView
+                    android:id="@+id/iv_logo"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@mipmap/icon_app_photo" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -42,6 +48,12 @@
                     android:textSize="14sp"
                     tools:text="应用名称xxxx" />
 
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/fbl_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_name"
+                    android:layout_toEndOf="@id/iv_logo" />
 
                 <TextView
                     android:id="@+id/tv_status"
@@ -53,10 +65,27 @@
                     android:textSize="10sp" />
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="来源"
+                    android:textColor="@color/text_color_556278"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_287db6"
+                    android:textSize="12sp"
+                    tools:text="@string/warehouse_github" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,7 +96,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="来源"
+                    android:text="创建时间"
                     android:textColor="@color/text_color_556278"
                     android:textSize="10sp" />
 
@@ -75,7 +104,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="创建时间"
+                    android:text="更新时间"
                     android:textColor="@color/text_color_556278"
                     android:textSize="10sp" />
             </LinearLayout>
@@ -86,14 +115,16 @@
                 android:layout_marginTop="4dp">
 
                 <TextView
+                    android:id="@+id/tv_create_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/text_color_899ab6"
                     android:textSize="10sp"
-                    tools:text="内部应用-应用名称" />
+                    tools:text="2018-2-15 18：15：12" />
 
                 <TextView
+                    android:id="@+id/tv_update_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

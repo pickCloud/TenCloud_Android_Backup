@@ -128,4 +128,20 @@ public class UiUtils {
         view.setLayoutTransition(transition);
     }
 
+    public static String getString(int resId, String... args) {
+        return getString(getString(resId), args);
+    }
+
+    public static String getString(String string, String... args) {
+        for (int i = 0; i < args.length; i++) {
+            String replaceStr = "$" + i;
+            try {
+                string = string.replace(replaceStr, args[i]);
+            } catch (Exception e) {
+                string = string.replace(replaceStr, "");
+                e.printStackTrace();
+            }
+        }
+        return string;
+    }
 }

@@ -86,6 +86,11 @@ public class Constants {
 
 
     /**
+     * 页面RequestCode
+     */
+    public static final int ACTIVITY_REQUEST_CODE_COMMON1 = 20084;
+    public static final int ACTIVITY_REQUEST_CODE_COMMON2 = 20085;
+    /**
      * 页面ResultCode
      */
     public static final int ACTIVITY_RESULT_CODE_REFRESH = 20086;

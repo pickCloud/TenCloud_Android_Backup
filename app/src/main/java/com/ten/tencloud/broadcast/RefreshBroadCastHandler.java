@@ -39,6 +39,11 @@ public class RefreshBroadCastHandler {
      */
     public final static String PERMISSION_SETTING_CHANGE_ACTION = "PERMISSION_SETTING_CHANGE_ACTION";
 
+    /**
+     * 应用列表变化
+     */
+    public final static String APP_LIST_CHANGE_ACTION = "APP_LIST_CHANGE_ACTION";
+
     private LocalBroadcastManager mLocalBroadcastManager;
     private BroadcastReceiver mReceiver;
 

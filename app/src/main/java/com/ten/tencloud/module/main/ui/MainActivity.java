@@ -12,6 +12,7 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.TempFragment;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.module.app.ui.AppServiceFragment;
 import com.ten.tencloud.module.main.contract.MainContract;
 import com.ten.tencloud.module.main.presenter.MainPresenter;
 import com.ten.tencloud.module.server.ui.ServerHomeFragment;
@@ -79,7 +80,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 .setSelected(0);
         CJSFragmentPagerAdapter pagerAdapter = new CJSFragmentPagerAdapter(getFragmentManager(), titles);
         pagerAdapter.addFragment(new ServerHomeFragment());
-        pagerAdapter.addFragment(new TempFragment());
+        pagerAdapter.addFragment(new AppServiceFragment());
         pagerAdapter.addFragment(new TempFragment());
         pagerAdapter.addFragment(new TempFragment());
         pagerAdapter.addFragment(new MineFragment());

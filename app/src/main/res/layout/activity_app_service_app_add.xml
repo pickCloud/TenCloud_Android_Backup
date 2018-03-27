@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_logo"
+            android:id="@+id/ll1"
             style="@style/SettingItemLayout"
             android:layout_height="82dp">
 
@@ -39,7 +39,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:background="@color/line_color_2f3543" />
 
     </LinearLayout>
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:background="@color/bg_232730"
         android:orientation="vertical"
-        android:paddingLeft="16dp">
+        android:paddingStart="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,7 +102,7 @@
         <RelativeLayout style="@style/ListItemLL2">
 
             <TextView
-                android:id="@+id/tv_label"
+                android:id="@+id/tv1"
                 style="@style/ListItemTextKey"
                 android:layout_centerVertical="true"
                 android:text="标签" />
@@ -111,16 +111,16 @@
                 android:id="@+id/et_label"
                 style="@style/ListItemEditValue"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/tv_label"
+                android:layout_toEndOf="@id/tv1"
                 android:hint="请输入标签的名称" />
 
             <TextView
                 android:id="@+id/tv_add_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/selector_login_code"
                 android:padding="5dp"
                 android:text="新增多个标签"
@@ -130,55 +130,68 @@
 
         <View
             style="@style/LineHorizontal2f3543"
-            android:layout_marginLeft="86dp" />
+            android:layout_marginStart="86dp" />
 
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_232730"
-        android:paddingLeft="16dp">
+    <LinearLayout style="@style/ListItemLLFirst">
 
-        <android.support.v4.widget.Space
-            android:layout_width="70dp"
-            android:layout_height="wrap_content" />
+        <LinearLayout style="@style/ListItemLL2">
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp" />
+            <android.support.v4.widget.Space
+                android:layout_width="70dp"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/fbl_label"
+                android:layout_width="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/shape_border_employee"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="基础服务"
+                    android:textColor="@color/text_color_566278"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="13dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/shape_border_employee"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="应用组件"
+                    android:textColor="@color/text_color_566278"
+                    android:textSize="10sp" />
+            </com.google.android.flexbox.FlexboxLayout>
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
     </LinearLayout>
 
-    <View
-        style="@style/LineHorizontal2f3543"
-        android:layout_marginLeft="16dp" />
+    <LinearLayout style="@style/ListItemLLFirst">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48.5dp"
-        android:background="@color/bg_232730"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/ll_source"
-            style="@style/SettingItemLayout">
+        <LinearLayout style="@style/ListItemLL2">
 
             <TextView
                 style="@style/SettingItemLabel"
-                android:text="来源" />
+                android:text="镜像来源" />
 
             <TextView
                 android:id="@+id/tv_warehouse"
                 style="@style/SettingItemDes"
+                android:layout_marginEnd="16dp"
+                android:drawableEnd="@mipmap/icon_arrow_right"
+                android:drawablePadding="8dp"
                 android:text="绑定github代码仓库" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_arrow_right" />
 
         </LinearLayout>
 

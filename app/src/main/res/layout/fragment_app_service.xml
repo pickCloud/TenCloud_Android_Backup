@@ -1,74 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.ten.tencloud.widget.TenForbidAutoScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_bg">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_header"
+            android:id="@+id/rv_app_service_frag_header"
             android:layout_width="match_parent"
-            android:layout_height="104dp"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="104dp" />
 
 
-        <LinearLayout
-            android:id="@+id/ll_warn_focus"
+        <RelativeLayout
+            android:id="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
             android:layout_marginBottom="3dp"
-            android:orientation="horizontal"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            app:layout_constraintTop_toBottomOf="@id/rv_header">
+            android:paddingRight="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="热门应用"
                 android:textColor="@color/text_color_899ab6"
                 android:textSize="12sp" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/tv_more_focus"
+                android:id="@+id/tv_hot_app_more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:drawableRight="@mipmap/icon_more"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:drawableEnd="@mipmap/icon_more"
                 android:drawablePadding="1dp"
-                android:focusable="true"
                 android:text="更多"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_hot_app"
+        <FrameLayout
+            android:id="@+id/fl1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ll_warn_focus" />
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/ll_newest_deployment"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_hot_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+            <FrameLayout
+                android:id="@+id/app_empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:visibility="gone">
+
+                <include layout="@layout/layout_empty_view_app_servcie" />
+            </FrameLayout>
+        </FrameLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/ll2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
             android:layout_marginBottom="3dp"
-            android:orientation="horizontal"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            app:layout_constraintTop_toBottomOf="@id/rv_hot_app">
+            android:paddingRight="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -77,41 +86,55 @@
                 android:textColor="@color/text_color_899ab6"
                 android:textSize="12sp" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/tv_newest_deployment"
+                android:id="@+id/tv_newest_deployment_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:clickable="true"
-                android:drawableRight="@mipmap/icon_more"
+                android:drawableEnd="@mipmap/icon_more"
                 android:drawablePadding="1dp"
                 android:focusable="true"
                 android:text="更多"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_newest_deployment"
+        <FrameLayout
+            android:id="@+id/fl2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ll_newest_deployment" />
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_newest_deployment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+            <FrameLayout
+                android:id="@+id/deployment_empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:visibility="gone">
+
+                <include layout="@layout/layout_empty_view_default1" />
+            </FrameLayout>
+        </FrameLayout>
+
 
         <LinearLayout
-            android:id="@+id/ll_newest_service"
+            android:id="@+id/ll3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
             android:layout_marginBottom="3dp"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            app:layout_constraintTop_toBottomOf="@id/rv_newest_deployment">
+            android:paddingRight="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -126,11 +149,11 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/tv_newest_service"
+                android:id="@+id/tv_newest_service_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:drawableRight="@mipmap/icon_more"
+                android:drawableEnd="@mipmap/icon_more"
                 android:drawablePadding="1dp"
                 android:focusable="true"
                 android:text="更多"
@@ -139,13 +162,29 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_newest_service"
+        <FrameLayout
+            android:id="@+id/fl3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ll_newest_service" />
+            android:orientation="vertical">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_newest_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
 
-    </android.support.constraint.ConstraintLayout>
+            <FrameLayout
+                android:id="@+id/service_empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:visibility="gone">
+
+                <include layout="@layout/layout_empty_view_default1" />
+            </FrameLayout>
+        </FrameLayout>
+
+    </LinearLayout>
 
 </com.ten.tencloud.widget.TenForbidAutoScrollView>
