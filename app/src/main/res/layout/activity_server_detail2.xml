@@ -902,6 +902,13 @@
                             android:textColor="@color/text_color_899ab6"
                             android:textSize="17sp" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="(kb/s)"
+                            android:textColor="@color/text_color_556278"
+                            android:textSize="12sp" />
+
                     </LinearLayout>
 
                     <com.github.mikephil.charting.charts.LineChart

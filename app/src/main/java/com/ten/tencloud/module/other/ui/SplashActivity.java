@@ -15,12 +15,15 @@ import com.ten.tencloud.BuildConfig;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.Url;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.SPFHelper;
 import com.ten.tencloud.module.login.ui.LoginActivity;
 import com.ten.tencloud.module.main.ui.MainActivity;
+import com.ten.tencloud.module.other.contract.SplashContract;
+import com.ten.tencloud.module.other.presenter.SplashPresenter;
 import com.ten.tencloud.utils.StatusBarUtils;
 import com.ten.tencloud.utils.ToastUtils;
 
@@ -36,7 +39,9 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 @RuntimePermissions
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity implements SplashContract.View {
+
+    private SplashPresenter mSplashPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,8 @@ public class SplashActivity extends BaseActivity {
         if (BuildConfig.DEBUG) {
             ToastUtils.showLongToast("测试版，当前服务器地址:" + Url.BASE_URL);
         }
+        mSplashPresenter = new SplashPresenter();
+        mSplashPresenter.attachView(this);
         init();
     }
 
@@ -69,6 +76,31 @@ public class SplashActivity extends BaseActivity {
 
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
     void goMain() {
+        mSplashPresenter.getThreshold();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        SplashActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @OnPermissionDenied({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void showDenied() {
+        showMessage("权限被拒绝");
+        finish();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void showNeverAsk() {
+        showMessage("请开启权限再使用");
+        Uri packageURI = Uri.parse("package:" + getPackageName());
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showThreshold(ServerThresholdBean bean) {
         Observable.just(AppBaseCache.getInstance().getToken()).delay(3, TimeUnit.SECONDS)
                 .map(new Func1<String, Boolean>() {
                     @Override
@@ -93,25 +125,5 @@ public class SplashActivity extends BaseActivity {
                         finish();
                     }
                 });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        SplashActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-    }
-
-    @OnPermissionDenied({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
-    void showDenied() {
-        showMessage("权限被拒绝");
-        finish();
-    }
-
-    @OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
-    void showNeverAsk() {
-        showMessage("请开启权限再使用");
-        Uri packageURI = Uri.parse("package:" + getPackageName());
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-        startActivity(intent);
     }
 }

@@ -25,6 +25,7 @@ import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.server.adapter.RvServerAdapter;
 import com.ten.tencloud.module.server.adapter.RvServerHeatChartAdapter;
 import com.ten.tencloud.module.server.contract.ServerHomeContract;
@@ -40,9 +41,14 @@ import net.lucode.hackware.magicindicator.ViewPagerHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by lxq on 2017/11/22.
@@ -81,8 +87,10 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     TextView mTvCpuThreshold;
     @BindView(R.id.tv_memory_threshold)
     TextView mTvMemoryThreshold;
-    @BindView(R.id.tv_net_threshold)
-    TextView mTvNetThreshold;
+    @BindView(R.id.tv_net_in_threshold)
+    TextView mTvNetInThreshold;
+    @BindView(R.id.tv_net_out_threshold)
+    TextView mTvNetOutThreshold;
     @BindView(R.id.tv_block_threshold)
     TextView mTvBlockThreshold;
     @BindView(R.id.tv_disk_threshold)
@@ -100,6 +108,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     private RefreshBroadCastHandler mSwitchCompanyRefreshBroadCastHandler;
     private RefreshBroadCastHandler mServerRefreshHandler;
     private RvServerHeatChartAdapter mHeatChartAdapter;
+    private Subscription mHeatSubscribe;
 
 
     @Nullable
@@ -135,9 +144,11 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     }
 
     private void initData() {
-        mPresenter.getThreshold();
+        mSingleServer = null;
         mPresenter.summary();
         mPresenter.getWarnServerList(1);
+        mPresenter.getServerMonitor();
+        startHeat();
     }
 
     private void initView() {
@@ -174,16 +185,21 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mRvServer.setAdapter(mServerAdapter);
         mRvServer.setFocusableInTouchMode(false);//处理自动滚动
         mRvHeat.setFocusableInTouchMode(false);
+        showThreshold(AppBaseCache.getInstance().getServerThreshold());
     }
 
-    private void initHeatChart(List<ServerHeatBean> datas) {
+    //热图单台服务器
+    private ServerHeatBean mSingleServer;
+
+    private void initHeatChart(final List<ServerHeatBean> datas) {
         int size = datas.size();
         if (size == 1) {
             mRvHeat.setVisibility(View.GONE);
             mHlSingleLayout.setVisibility(View.VISIBLE);
-            mTvTitle.setText(datas.get(0).getName());
-            mHlSingleLayout.setHeatLevel(datas.get(0).getColorType());
-            mServerMonitorPresenter.getServerMonitorInfo(datas.get(0).getServerID() + "", ServerMonitorPresenter.STATE_HOUR);
+            mSingleServer = datas.get(0);
+            mTvTitle.setText(mSingleServer.getName());
+            mHlSingleLayout.setHeatLevel(mSingleServer.getColorType());
+            mServerMonitorPresenter.getServerMonitorInfo(mSingleServer.getServerID() + "", ServerMonitorPresenter.STATE_HOUR);
             return;
         }
         int spanCount = 1;
@@ -212,6 +228,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     private void initMagicIndicator() {
         ScaleCircleNavigator circleNavigator = new ScaleCircleNavigator(mActivity);
         circleNavigator.setCircleCount(4);
+        circleNavigator.setSkimOver(true);
         circleNavigator.setNormalCircleColor(getResources().getColor(R.color.color_33ffffff));
         circleNavigator.setSelectedCircleColor(getResources().getColor(R.color.color_80ffffff));
         circleNavigator.setCircleClickListener(new ScaleCircleNavigator.OnCircleClickListener() {
@@ -222,6 +239,20 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         });
         mSingleIndicator.setNavigator(circleNavigator);
         ViewPagerHelper.bind(mSingleIndicator, mVpSingleHeat);
+    }
+
+    private void startHeat() {
+        if (mHeatSubscribe == null || mHeatSubscribe.isUnsubscribed()) {
+            mHeatSubscribe = Observable.interval(20, 20, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<Long>() {
+                        @Override
+                        public void call(Long aLong) {
+                            mPresenter.getWarnServerList(1);
+                            mPresenter.getServerMonitor();
+                        }
+                    });
+        }
     }
 
     @OnClick({R.id.tv_add_server, R.id.tv_more, R.id.rl_server,
@@ -253,10 +284,18 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     public void showServerMonitorInfo(ServerMonitorBean serverMonitor) {
         String json = TenApp.getInstance().getGsonInstance().toJson(serverMonitor);
         ArrayList<BasePager> pagers = new ArrayList<>();
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json).putArgument("type", ServerSingleHeatChartPager.TYPE_CPU));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json).putArgument("type", ServerSingleHeatChartPager.TYPE_MEMORY));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json).putArgument("type", ServerSingleHeatChartPager.TYPE_DISK));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json).putArgument("type", ServerSingleHeatChartPager.TYPE_NET));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_CPU));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_MEMORY));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_DISK));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_NET));
         mVpSingleHeat.setAdapter(new CJSVpPagerAdapter(pagers));
         for (BasePager pager : pagers) {
             pager.init();
@@ -269,7 +308,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mServerAdapter.setDatas(servers);
         mLlHeat.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
-        mPresenter.getServerMonitor();
     }
 
     @Override
@@ -292,11 +330,12 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @Override
     public void showThreshold(ServerThresholdBean serverThresholdBean) {
         if (serverThresholdBean != null) {
-            mTvCpuThreshold.setText(serverThresholdBean.getCpu_threshold() + "%");
-            mTvBlockThreshold.setText(serverThresholdBean.getBlock_threshold() + "%");
-            mTvDiskThreshold.setText(serverThresholdBean.getDisk_threshold() + "%");
-            mTvMemoryThreshold.setText(serverThresholdBean.getMemory_threshold() + "%");
-            mTvNetThreshold.setText(serverThresholdBean.getNet_threshold() + "%");
+            mTvCpuThreshold.setText((int) serverThresholdBean.getCpu_threshold() + "%");
+            mTvBlockThreshold.setText((int) serverThresholdBean.getBlock_threshold() + "%");
+            mTvDiskThreshold.setText((int) serverThresholdBean.getDisk_threshold() + "%");
+            mTvMemoryThreshold.setText((int) serverThresholdBean.getMemory_threshold() + "%");
+            mTvNetInThreshold.setText((int) serverThresholdBean.getNet_threshold() + "%");
+            mTvNetOutThreshold.setText((int) serverThresholdBean.getNet_threshold() + "%");
         }
     }
 
@@ -316,5 +355,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mServerRefreshHandler = null;
         mPresenter.detachView();
         mServerMonitorPresenter.detachView();
+        if (mHeatSubscribe != null) {
+            mHeatSubscribe.unsubscribe();
+        }
     }
 }

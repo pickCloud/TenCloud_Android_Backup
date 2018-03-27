@@ -25,6 +25,9 @@ public class ServerHeatBean {
     private float diskUsageRate;
     private float diskIO;
     private String networkUsage;
+    private String netDownload;
+    private String netUpload;
+
 
     public int getServerID() {
         return serverID;
@@ -88,5 +91,21 @@ public class ServerHeatBean {
 
     public void setNetworkUsage(String networkUsage) {
         this.networkUsage = networkUsage;
+    }
+
+    public String getNetDownload() {
+        return netDownload;
+    }
+
+    public void setNetDownload(String netDownload) {
+        this.netDownload = netDownload;
+    }
+
+    public String getNetUpload() {
+        return netUpload;
+    }
+
+    public void setNetUpload(String netUpload) {
+        this.netUpload = netUpload;
     }
 }

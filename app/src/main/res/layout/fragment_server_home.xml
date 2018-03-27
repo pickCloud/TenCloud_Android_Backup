@@ -12,38 +12,14 @@
 
         <include layout="@layout/header_server_main" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/xrv_servers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never" />
-
-            <FrameLayout
-                android:id="@+id/empty_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:visibility="gone">
-
-                <include layout="@layout/layout_empty_view_server" />
-            </FrameLayout>
-
-        </FrameLayout>
-
         <LinearLayout
             android:id="@+id/ll_heat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="17dp"
             android:orientation="vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:visibility="gone">
+            android:paddingRight="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,8 +57,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/bg_232730"
+                    android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -98,7 +75,7 @@
                             android:paddingLeft="4dp">
 
                             <TextView
-                                android:layout_width="66dp"
+                                android:layout_width="68dp"
                                 android:layout_height="wrap_content"
                                 android:text="CPU使用率"
                                 android:textColor="@color/text_color_899ab6"
@@ -109,6 +86,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
+                                android:text="70%"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -124,7 +102,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="内存利用率"
+                                android:text="内存使用率"
                                 android:textColor="@color/text_color_899ab6"
                                 android:textSize="12sp" />
 
@@ -133,6 +111,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
+                                android:text="80%"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -155,9 +134,9 @@
                             android:paddingLeft="4dp">
 
                             <TextView
-                                android:layout_width="66dp"
+                                android:layout_width="68dp"
                                 android:layout_height="wrap_content"
-                                android:text="磁盘I/O"
+                                android:text="磁盘利用率"
                                 android:textColor="@color/text_color_899ab6"
                                 android:textSize="12sp" />
 
@@ -166,6 +145,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
+                                android:text="70%"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -181,7 +161,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="磁盘利用率"
+                                android:text="磁盘占用率"
                                 android:textColor="@color/text_color_899ab6"
                                 android:textSize="12sp" />
 
@@ -190,6 +170,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
+                                android:text="80%"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -201,28 +182,60 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="horizontal"
                             android:paddingLeft="4dp">
 
                             <TextView
-                                android:layout_width="66dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="网络I/O带宽"
+                                android:text="带宽%"
                                 android:textColor="@color/text_color_899ab6"
                                 android:textSize="12sp" />
 
                             <TextView
-                                android:id="@+id/tv_net_threshold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="(当前/配置max)"
+                                android:textColor="@color/text_color_899ab6"
+                                android:textSize="10sp" />
+
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
+                                android:text="I/max"
+                                android:textColor="@color/text_color_899ab6"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tv_net_in_threshold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:text="80%"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:text="O/max"
+                                android:textColor="@color/text_color_899ab6"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tv_net_out_threshold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:text="80%"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
@@ -236,7 +249,6 @@
                 android:id="@+id/rv_heat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:overScrollMode="never" />
 
@@ -244,7 +256,6 @@
                 android:id="@+id/hl_single_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:visibility="gone">
 
@@ -301,5 +312,64 @@
             </com.ten.tencloud.widget.HeatLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="17dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提醒 / 关注"
+                android:textColor="@color/text_color_899ab6"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:drawablePadding="1dp"
+                android:drawableRight="@mipmap/icon_more"
+                android:focusable="true"
+                android:text="更多"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/xrv_servers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+            <FrameLayout
+                android:id="@+id/empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:visibility="gone">
+
+                <include layout="@layout/layout_empty_view_server" />
+            </FrameLayout>
+
+        </FrameLayout>
     </LinearLayout>
 </com.ten.tencloud.widget.TenForbidAutoScrollView>

@@ -28,6 +28,7 @@ public class HeatLayout extends FrameLayout {
     //宽高比
     private float mAspectRatio = 3 / 4f;
     private View mClickShadeView;
+    public FrameLayout mContent;
 
     public HeatLayout(Context context) {
         this(context, null);
@@ -45,8 +46,12 @@ public class HeatLayout extends FrameLayout {
         //点击效果遮罩
         mClickShadeView = new View(getContext());
         mClickShadeView.setBackgroundResource(R.drawable.selector_button_shade);
+
         addView(mShadeView);
         addView(mClickShadeView);
+
+        mContent = new FrameLayout(context);
+        addView(mContent);
     }
 
     @Override

@@ -30,6 +30,11 @@ public class ServerHomePresenter extends BasePresenter<ServerHomeContract.View>
                             mView.showWarnServerList(serverBeans);
                         }
                     }
+
+                    @Override
+                    public void onStart() {
+
+                    }
                 }));
     }
 
@@ -64,6 +69,11 @@ public class ServerHomePresenter extends BasePresenter<ServerHomeContract.View>
                     @Override
                     public void _onSuccess(List<ServerHeatBean> serverHeatBeans) {
                         mView.showServerMonitor(serverHeatBeans);
+                    }
+
+                    @Override
+                    public void onStart() {
+
                     }
                 }));
     }
