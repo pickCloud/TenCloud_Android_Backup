@@ -2,7 +2,6 @@ package com.ten.tencloud.module.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +22,7 @@ import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.CompanyBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.other.contract.QiniuContract;
@@ -34,14 +34,16 @@ import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
 import com.ten.tencloud.widget.dialog.PhotoSelectDialog;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * Created by chenxh@10.com on 2018/3/26.
  */
-public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResultListener, InvokeListener
-        , QiniuContract.View, CompanyInfoContract.View {
+public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResultListener, InvokeListener,
+        QiniuContract.View, CompanyInfoContract.View {
 
     @BindView(R.id.iv_logo)
     CircleImageView mIvLogo;
@@ -75,6 +77,11 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     private PhotoSelectDialog mPhotoSelectDialog;
 
+    private String mAppName;
+    private String mDescription;
+    private ArrayList<String> mLabels;
+    private String mAppUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +90,8 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        RefreshBroadCastHandler appRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
 
         mCid = AppBaseCache.getInstance().getCid();
         mCompanyInfoPresenter = new CompanyInfoPresenter();
@@ -128,9 +137,13 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                 startActivityForResult(new Intent(this, WareHouseBindActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
                 break;
             case R.id.btn_sure_add:
+                mAppName = mEtName.getText().toString().trim();
+                mDescription = mEtDescription.getText().toString().trim();
+
                 break;
         }
     }
+
 
     @Override
     public void showCompanyInfo(CompanyBean companyInfo) {

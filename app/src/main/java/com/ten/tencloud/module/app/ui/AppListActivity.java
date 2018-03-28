@@ -38,7 +38,7 @@ public class AppListActivity extends BaseActivity {
 
     private RefreshBroadCastHandler mAppHandler;
     private ArrayList<AppBean> mAppBeans;
-    private RvAppAdapter mRvAppAdapter;
+    private RvAppAdapter mAppAdapter;
 
     private AppFilterDialog mAppFilterDialog;
 
@@ -59,7 +59,7 @@ public class AppListActivity extends BaseActivity {
             }
         });
 
-        mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
+        mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
         mAppHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,8 +73,8 @@ public class AppListActivity extends BaseActivity {
 
     private void initView() {
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
-        mRvAppAdapter = new RvAppAdapter(this);
-        mRvApp.setAdapter(mRvAppAdapter);
+        mAppAdapter = new RvAppAdapter(this);
+        mRvApp.setAdapter(mAppAdapter);
 
         mAppFilterDialog = new AppFilterDialog(this);
         mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
@@ -92,11 +92,16 @@ public class AppListActivity extends BaseActivity {
     }
 
     private void initData() {
-        mAppBeans = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            mAppBeans.add(new AppBean());
-        }
-        mRvAppAdapter.setDatas(mAppBeans);
+        ArrayList<AppBean> appBeans = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("普通项目");
+        appBeans.add(new AppBean("应用AIUnicorn", "Github：AIUnicorn/10.com", "2018-2-15 18:15:12", "2018-2-15 20:15:12", 0, labels));
+        labels = new ArrayList<>();
+        labels.add("基础服务");
+        labels.add("应用组件");
+        appBeans.add(new AppBean("应用HelloWorld", "Tenhub：18600503478/redis", "2018-2-16 8:15:12", "2018-2-16 10:15:12", 1, labels));
+        appBeans.add(new AppBean("应用HelloWorld1", "Github：AIUnicorn/10.com", "2018-2-17 18:01:12", "2018-2-17 23:15:12", -1, labels));
+        mAppAdapter.setDatas(appBeans);
     }
 
     @OnClick({R.id.tv_filter, R.id.tv_add_app})

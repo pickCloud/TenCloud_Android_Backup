@@ -23,7 +23,7 @@
 
 
             <TextView
-                android:id="@+id/tv_service_name"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -34,6 +34,7 @@
                 tools:text="service-example" />
 
             <TextView
+                android:id="@+id/tv_label"
                 android:layout_width="wrap_content"
                 android:layout_height="13dp"
                 android:layout_marginStart="8dp"
@@ -42,13 +43,13 @@
                 android:paddingRight="4dp"
                 android:textColor="@color/text_color_566278"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@id/tv_service_name"
-                app:layout_constraintLeft_toRightOf="@id/tv_service_name"
-                app:layout_constraintTop_toTopOf="@id/tv_service_name"
-                tools:text="redis-master" />
+                app:layout_constraintBottom_toBottomOf="@id/tv_name"
+                app:layout_constraintLeft_toRightOf="@id/tv_name"
+                app:layout_constraintTop_toTopOf="@id/tv_name"
+                android:text="redis-master" />
 
             <TextView
-                android:id="@+id/tv_service_status"
+                android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_server_status"
@@ -57,20 +58,22 @@
                 android:paddingEnd="5dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@id/tv_service_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_name"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_service_name"
+                app:layout_constraintTop_toTopOf="@id/tv_name"
                 tools:text="正常" />
 
             <TextView
+                android:id="@+id/tv_check_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_service_status"
+                android:layout_below="@id/tv_status"
                 android:textColor="@color/text_color_566278"
                 android:textSize="10sp"
+                android:visibility="invisible"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_service_status"
-                tools:text="检测状态" />
+                app:layout_constraintTop_toBottomOf="@id/tv_status"
+                android:text="检测状态" />
         </android.support.constraint.ConstraintLayout>
 
 
@@ -98,10 +101,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -110,6 +113,7 @@
                 tools:text="ClusterIP" />
 
             <TextView
+                android:id="@+id/tv_ip"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -142,10 +146,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_out_ip"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -154,6 +158,7 @@
                 tools:text="none" />
 
             <TextView
+                android:id="@+id/tv_burden"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -186,10 +191,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_port"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -198,6 +203,7 @@
                 tools:text="80/TCP,443/TCP" />
 
             <TextView
+                android:id="@+id/tv_create_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

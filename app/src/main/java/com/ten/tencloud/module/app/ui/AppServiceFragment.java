@@ -90,6 +90,14 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         });
         mAppServiceHeaderAdapter = new RvAppServiceHeaderAdapter(mActivity);
         mRvAppServiceFragHeader.setAdapter(mAppServiceHeaderAdapter);
+
+        ArrayList<AppServiceHeaderBean> appServiceHeaderBeans = new ArrayList<>();
+        appServiceHeaderBeans.add(new AppServiceHeaderBean(8, "有效应用"));
+        appServiceHeaderBeans.add(new AppServiceHeaderBean(3, "本周有效部署"));
+        appServiceHeaderBeans.add(new AppServiceHeaderBean(6, "有效Pods"));
+        appServiceHeaderBeans.add(new AppServiceHeaderBean(9, "独立容器"));
+        appServiceHeaderBeans.add(new AppServiceHeaderBean(5, "有效服务"));
+        mAppServiceHeaderAdapter.setDatas(appServiceHeaderBeans);
     }
 
     private void initViewApp() {
@@ -108,6 +116,15 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
             }
         });
 
+        ArrayList<AppBean> appBeans = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("普通项目");
+        appBeans.add(new AppBean("应用AIUnicorn", "Github：AIUnicorn/10.com", "2018-2-15 18:15:12", "2018-2-15 20:15:12", 0, labels));
+        labels = new ArrayList<>();
+        labels.add("基础服务");
+        labels.add("应用组件");
+        appBeans.add(new AppBean("应用HelloWorld", "Tenhub：18600503478/redis", "2018-2-16 8:15:12", "2018-2-16 10:15:12", 1, labels));
+        mAppAdapter.setDatas(appBeans);
     }
 
     private void initViewDeployment() {
@@ -119,6 +136,16 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         });
         mDeploymentAdapter = new RvAppServiceDeploymentAdapter(mActivity);
         mRvNewestDeployment.setAdapter(mDeploymentAdapter);
+
+        ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
+        pods.add(new DeploymentBean.Pod("预设Pod",1));
+        pods.add(new DeploymentBean.Pod("当前Pod",1));
+        pods.add(new DeploymentBean.Pod("更新Pod",1));
+        pods.add(new DeploymentBean.Pod("可用Pod",1));
+        pods.add(new DeploymentBean.Pod("运行时间",8));
+        ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
+        deploymentBeans.add(new DeploymentBean("Kubernets-bootcamp",1,pods, "2018-2-15 18:15:12","AIUnicorn"));
+        mDeploymentAdapter.setDatas(deploymentBeans);
     }
 
     private void initViewService() {
@@ -131,26 +158,15 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         mRvNewestService.addItemDecoration(new HorizontalItemDecoration());
         mServiceAdapter = new RvServiceAdapter(mActivity);
         mRvNewestService.setAdapter(mServiceAdapter);
+
+        ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
+        serviceBeans.add(new ServiceBean("Service-example","ClusterIp","10.23.123.9","<none>","xxxx","80/TCP,443/TCP","2018-2-15 18:15:12"));
+        mServiceAdapter.setDatas(serviceBeans);
     }
 
     private void initData() {
-        ArrayList<AppServiceHeaderBean> appServiceHeaderBeans = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            appServiceHeaderBeans.add(new AppServiceHeaderBean(i, "模拟数据" + i));
-        }
-        ArrayList<AppBean> appBeans = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            appBeans.add(new AppBean());
-        }
-        ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
-        deploymentBeans.add(new DeploymentBean());
-        ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
-        serviceBeans.add(new ServiceBean());
 
-        mAppServiceHeaderAdapter.setDatas(appServiceHeaderBeans);
-        mAppAdapter.setDatas(appBeans);
-        mDeploymentAdapter.setDatas(deploymentBeans);
-        mServiceAdapter.setDatas(serviceBeans);
+
     }
 
     @OnClick({R.id.tv_add_app, R.id.tv_hot_app_more, R.id.tv_newest_deployment_more, R.id.tv_newest_service_more})

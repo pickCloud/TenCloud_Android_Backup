@@ -107,4 +107,8 @@ public class Constants {
     public static final int EMPLOYEE_STATUS_CODE_CREATE = 4;
     public static final int EMPLOYEE_STATUS_CODE_WAITING = 5;
 
+    public static final int APP_STATUS_ERROR = -1;
+    public static final int APP_STATUS_INIT = 0;
+    public static final int APP_STATUS_NORMAL = 1;
+
 }

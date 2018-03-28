@@ -10,6 +10,8 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.widget.CircleImageView;
 
 import butterknife.BindView;
@@ -26,12 +28,41 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
 
     @Override
     protected ViewHolder doOnCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_app, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_app_service_app, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
+
+        holder.mTvName.setText(datas.get(position).getName());
+        holder.mTvSource.setText(datas.get(position).getSource());
+        holder.mTvCreateDate.setText(datas.get(position).getCreateDate());
+        holder.mTvUpdateDate.setText(datas.get(position).getUpdateDate());
+        switch (datas.get(position).getStatus()) {
+            case Constants.APP_STATUS_ERROR:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status_error);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+                holder.mTvStatus.setText("异常");
+                break;
+            case Constants.APP_STATUS_INIT:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status_init);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
+                holder.mTvStatus.setText("初创建");
+                break;
+            case Constants.APP_STATUS_NORMAL:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
+                holder.mTvStatus.setText("正常");
+                break;
+        }
+        if (datas.get(position).getLabels() != null && datas.get(position).getLabels().size() != 0) {
+            for (int i = 0; i < datas.get(position).getLabels().size(); i++) {
+                View labelView = mLayoutInflater.inflate(R.layout.item_app_service_label, null, false);
+                ((TextView) labelView.findViewById(R.id.tv_label_name)).setText(datas.get(position).getLabels().get(i));
+                holder.mFblLabel.addView(labelView);
+            }
+        }
 
     }
 
@@ -41,7 +72,7 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
         @BindView(R.id.tv_name)
         TextView mTvName;
         @BindView(R.id.fbl_label)
-        FlexboxLayout mFlLabel;
+        FlexboxLayout mFblLabel;
         @BindView(R.id.tv_status)
         TextView mTvStatus;
         @BindView(R.id.tv_source)

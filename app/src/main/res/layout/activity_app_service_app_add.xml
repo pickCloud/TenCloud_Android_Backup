@@ -13,8 +13,11 @@
 
         <LinearLayout
             android:id="@+id/ll1"
-            style="@style/SettingItemLayout"
-            android:layout_height="82dp">
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <TextView
                 style="@style/SettingItemLabel"
@@ -146,8 +149,8 @@
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/fbl_label"
                 android:layout_width="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -4,9 +4,12 @@ import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.support.annotation.ColorRes;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ten.tencloud.TenApp;
 
 /**
  * Created by lxq on 2017/11/20.
@@ -126,6 +129,10 @@ public class UiUtils {
         transition.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0);
         transition.setAnimator(LayoutTransition.CHANGE_DISAPPEARING, transition.getAnimator(LayoutTransition.CHANGE_DISAPPEARING));
         view.setLayoutTransition(transition);
+    }
+
+    public static int getColor(@ColorRes int resId) {
+        return TenApp.getInstance().getResources().getColor(resId);
     }
 
     public static String getString(int resId, String... args) {

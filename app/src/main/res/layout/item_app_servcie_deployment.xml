@@ -41,7 +41,7 @@
                     android:layout_toEndOf="@id/iv_logo"
                     android:textColor="@color/text_color_899ab6"
                     android:textSize="14sp"
-                    tools:text="应用名称xxxx" />
+                    tools:text="Kubernets-bootcamp" />
 
 
                 <TextView
@@ -69,7 +69,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="来源"
+                    android:text="关联应用"
                     android:textColor="@color/text_color_556278"
                     android:textSize="10sp" />
 
@@ -88,7 +88,7 @@
                 android:layout_marginTop="4dp">
 
                 <TextView
-                    android:id="@+id/tv_source"
+                    android:id="@+id/tv_link_app"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -81,7 +81,7 @@ public class AppDetailActivity extends BaseActivity {
     }
 
     private void initDeploymentView() {
-        mRvAppDetailDeploy.setLayoutManager(new LinearLayoutManager(this){
+        mRvAppDetailDeploy.setLayoutManager(new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -92,7 +92,7 @@ public class AppDetailActivity extends BaseActivity {
     }
 
     private void initServiceView() {
-        mRvAppDetailService.setLayoutManager(new LinearLayoutManager(this){
+        mRvAppDetailService.setLayoutManager(new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -103,7 +103,7 @@ public class AppDetailActivity extends BaseActivity {
     }
 
     private void initImageView() {
-        mRvImage.setLayoutManager(new LinearLayoutManager(this){
+        mRvImage.setLayoutManager(new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -114,7 +114,7 @@ public class AppDetailActivity extends BaseActivity {
     }
 
     private void initTaskView() {
-        mRvTask.setLayoutManager(new LinearLayoutManager(this){
+        mRvTask.setLayoutManager(new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -125,15 +125,25 @@ public class AppDetailActivity extends BaseActivity {
     }
 
     private void initData() {
+
+        ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
+        pods.add(new DeploymentBean.Pod("预设Pod", 1));
+        pods.add(new DeploymentBean.Pod("当前Pod", 1));
+        pods.add(new DeploymentBean.Pod("更新Pod", 1));
+        pods.add(new DeploymentBean.Pod("可用Pod", 1));
+        pods.add(new DeploymentBean.Pod("运行时间", 8));
+
+
         mDeploymentBeans = new ArrayList<>();
         mServiceBeans = new ArrayList<>();
         mImageBeans = new ArrayList<>();
         mTaskBeans = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
-            mDeploymentBeans.add(new DeploymentBean());
+            mDeploymentBeans.add(new DeploymentBean("Kubernets-bootcamp" + i, 1, pods, "2018-2-15 18:15:12", "AIUnicorn" + i));
         }
         for (int i = 0; i < 1; i++) {
-            mServiceBeans.add(new ServiceBean());
+            mServiceBeans.add(new ServiceBean("Service-example","ClusterIp","10.23.123.9","<none>","xxxx","80/TCP,443/TCP","2018-2-15 18:15:12"));
+
         }
         for (int i = 0; i < 3; i++) {
             mImageBeans.add(new ImageBean());
