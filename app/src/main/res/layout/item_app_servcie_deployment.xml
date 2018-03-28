@@ -13,12 +13,13 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/selector_banner_bg"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/selector_banner_bg"
         app:cardCornerRadius="2dp"
         app:cardPreventCornerOverlap="true"
+        app:contentPaddingBottom="16dp"
         app:contentPaddingLeft="16dp"
         app:contentPaddingTop="16dp">
 
@@ -54,6 +55,7 @@
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_pod"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp" />
@@ -86,6 +88,7 @@
                 android:layout_marginTop="4dp">
 
                 <TextView
+                    android:id="@+id/tv_source"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -94,6 +97,7 @@
                     tools:text="内部应用-应用名称" />
 
                 <TextView
+                    android:id="@+id/tv_create_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -104,5 +108,4 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
-
 </LinearLayout>

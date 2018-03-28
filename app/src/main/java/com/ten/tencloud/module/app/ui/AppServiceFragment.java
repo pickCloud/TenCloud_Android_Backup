@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,18 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
+import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppServiceHeaderBean;
+import com.ten.tencloud.bean.DeploymentBean;
+import com.ten.tencloud.bean.ServiceBean;
+import com.ten.tencloud.module.app.adapter.RvAppAdapter;
+import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceHeaderAdapter;
+import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
 import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
+import com.ten.tencloud.widget.decoration.HorizontalItemDecoration;
 
 import java.util.ArrayList;
 
@@ -50,7 +59,10 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     @BindView(R.id.service_empty_view)
     FrameLayout mServiceEmptyView;
 
-    private RvAppServiceHeaderAdapter mRvAppServiceHeaderAdapter;
+    private RvAppServiceHeaderAdapter mAppServiceHeaderAdapter;
+    private RvAppAdapter mAppAdapter;
+    private RvAppServiceDeploymentAdapter mDeploymentAdapter;
+    private RvServiceAdapter mServiceAdapter;
 
     @Nullable
     @Override
@@ -62,32 +74,83 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
+        initViewHeader();
+        initViewApp();
+        initViewDeployment();
+        initViewService();
         initData();
     }
 
-    private void initData() {
-        ArrayList<AppServiceHeaderBean> data = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            data.add(new AppServiceHeaderBean(i, "模拟数据" + i));
-        }
-        mRvAppServiceHeaderAdapter.setDatas(data);
-    }
-
-    private void initView() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 5) {
+    private void initViewHeader() {
+        mRvAppServiceFragHeader.setLayoutManager(new GridLayoutManager(mActivity, 5) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
-        };
-        mRvAppServiceHeaderAdapter = new RvAppServiceHeaderAdapter(mActivity);
-        mRvAppServiceFragHeader.setLayoutManager(gridLayoutManager);
-        mRvAppServiceFragHeader.setAdapter(mRvAppServiceHeaderAdapter);
+        });
+        mAppServiceHeaderAdapter = new RvAppServiceHeaderAdapter(mActivity);
+        mRvAppServiceFragHeader.setAdapter(mAppServiceHeaderAdapter);
+    }
 
-        mAppEmptyView.setVisibility(View.VISIBLE);
-        mDeploymentEmptyView.setVisibility(View.VISIBLE);
-        mServiceEmptyView.setVisibility(View.VISIBLE);
+    private void initViewApp() {
+        mRvHotApp.setLayoutManager(new LinearLayoutManager(mActivity) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        mAppAdapter = new RvAppAdapter(mActivity);
+        mRvHotApp.setAdapter(mAppAdapter);
+        mAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
+            @Override
+            public void onObjectItemClicked(AppBean appBean, int position) {
+                startActivity(new Intent(mActivity, AppDetailActivity.class));
+            }
+        });
+
+    }
+
+    private void initViewDeployment() {
+        mRvNewestDeployment.setLayoutManager(new LinearLayoutManager(mActivity) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        mDeploymentAdapter = new RvAppServiceDeploymentAdapter(mActivity);
+        mRvNewestDeployment.setAdapter(mDeploymentAdapter);
+    }
+
+    private void initViewService() {
+        mRvNewestService.setLayoutManager(new LinearLayoutManager(mActivity) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        mRvNewestService.addItemDecoration(new HorizontalItemDecoration());
+        mServiceAdapter = new RvServiceAdapter(mActivity);
+        mRvNewestService.setAdapter(mServiceAdapter);
+    }
+
+    private void initData() {
+        ArrayList<AppServiceHeaderBean> appServiceHeaderBeans = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            appServiceHeaderBeans.add(new AppServiceHeaderBean(i, "模拟数据" + i));
+        }
+        ArrayList<AppBean> appBeans = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            appBeans.add(new AppBean());
+        }
+        ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
+        deploymentBeans.add(new DeploymentBean());
+        ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
+        serviceBeans.add(new ServiceBean());
+
+        mAppServiceHeaderAdapter.setDatas(appServiceHeaderBeans);
+        mAppAdapter.setDatas(appBeans);
+        mDeploymentAdapter.setDatas(deploymentBeans);
+        mServiceAdapter.setDatas(serviceBeans);
     }
 
     @OnClick({R.id.tv_add_app, R.id.tv_hot_app_more, R.id.tv_newest_deployment_more, R.id.tv_newest_service_more})

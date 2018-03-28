@@ -140,6 +140,9 @@
         <activity
             android:name=".module.app.ui.AppListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@
     android:id="@+id/rl_basic_detail"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_marginBottom="8dp"
     android:background="@drawable/selector_banner_bg"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
