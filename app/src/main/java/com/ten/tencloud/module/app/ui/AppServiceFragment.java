@@ -24,6 +24,7 @@ import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceHeaderAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
 import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
+import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
 import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 
 import java.util.ArrayList;
@@ -129,6 +130,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     }
 
     private void initViewDeployment() {
+        mRvNewestDeployment.addItemDecoration(new Hor16Ver8ItemDecoration());
         mRvNewestDeployment.setLayoutManager(new LinearLayoutManager(mActivity) {
             @Override
             public boolean canScrollVertically() {

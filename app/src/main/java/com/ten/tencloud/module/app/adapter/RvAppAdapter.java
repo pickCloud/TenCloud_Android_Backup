@@ -40,11 +40,6 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
         holder.mTvCreateDate.setText(datas.get(position).getCreateDate());
         holder.mTvUpdateDate.setText(datas.get(position).getUpdateDate());
         switch (datas.get(position).getStatus()) {
-            case Constants.APP_STATUS_ERROR:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error);
-                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
-                holder.mTvStatus.setText("异常");
-                break;
             case Constants.APP_STATUS_INIT:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
@@ -54,6 +49,11 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                 holder.mTvStatus.setText("正常");
+                break;
+            case Constants.APP_STATUS_ERROR:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+                holder.mTvStatus.setText("异常");
                 break;
         }
         if (datas.get(position).getLabels() != null && datas.get(position).getLabels().size() != 0) {

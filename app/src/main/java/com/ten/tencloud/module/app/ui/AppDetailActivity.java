@@ -15,7 +15,7 @@ import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.bean.TaskBean;
-import com.ten.tencloud.module.app.adapter.RvAppDetailDeploymentAdapter;
+import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
@@ -59,7 +59,7 @@ public class AppDetailActivity extends BaseActivity {
     @BindView(R.id.rl_basic_detail)
     ConstraintLayout mRlBasic;
 
-    private RvAppDetailDeploymentAdapter mDeploymentAdapter;
+    private RvAppServiceDeploymentAdapter mDeploymentAdapter;
     private RvServiceAdapter mServiceAdapter;
     private RvAppDetailImageAdapter mImageAdapter;
     private RvAppDetailTaskAdapter mTaskAdapter;
@@ -90,7 +90,7 @@ public class AppDetailActivity extends BaseActivity {
                 return false;
             }
         });
-        mDeploymentAdapter = new RvAppDetailDeploymentAdapter(this);
+        mDeploymentAdapter = new RvAppServiceDeploymentAdapter(this);
         mRvAppDetailDeploy.setAdapter(mDeploymentAdapter);
 
         ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
@@ -149,7 +149,7 @@ public class AppDetailActivity extends BaseActivity {
         mTaskBeans = new ArrayList<>();
         mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5", "80%", "2018-03-29  10:00:01", "2018-03-29  10:00:11", 0));
         mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5", "100%", "2018-03-29  11:00:01", "2018-03-29  11:00:11", 1));
-        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5", "XX%", "2018-03-29  12:00:01", "2018-03-29  12:00:11", -1));
+        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5", "XX%", "2018-03-29  12:00:01", "2018-03-29  12:00:11", 2));
         mTaskAdapter.setDatas(mTaskBeans);
     }
 

@@ -100,7 +100,7 @@ public class AppListActivity extends BaseActivity {
         labels.add("基础服务");
         labels.add("应用组件");
         appBeans.add(new AppBean("应用HelloWorld", "Tenhub：18600503478/redis", "2018-02-16  8:15:12", "2018-02-16  10:15:12", 1, labels));
-        appBeans.add(new AppBean("应用HelloWorld1", "Github：AIUnicorn/10.com", "2018-02-17  18:01:12", "2018-02-17  23:15:12", -1, labels));
+        appBeans.add(new AppBean("应用HelloWorld1", "Github：AIUnicorn/10.com", "2018-02-17  18:01:12", "2018-02-17  23:15:12", 2, labels));
         mAppAdapter.setDatas(appBeans);
     }
 

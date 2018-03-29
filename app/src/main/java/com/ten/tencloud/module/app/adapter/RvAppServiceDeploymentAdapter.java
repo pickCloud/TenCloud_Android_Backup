@@ -29,7 +29,7 @@ public class RvAppServiceDeploymentAdapter extends CJSBaseRecyclerViewAdapter<De
 
     @Override
     protected ViewHolder doOnCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_app_servcie_deployment, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_app_service_deployment, parent, false);
         return new ViewHolder(view);
     }
 
@@ -37,20 +37,23 @@ public class RvAppServiceDeploymentAdapter extends CJSBaseRecyclerViewAdapter<De
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvName.setText(datas.get(position).getName());
         switch (datas.get(position).getStatus()) {
-            case Constants.APP_STATUS_ERROR:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error);
-                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
-                holder.mTvStatus.setText("异常");
-                break;
             case Constants.APP_STATUS_INIT:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init);
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_green), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
                 holder.mTvStatus.setText("初创建");
                 break;
             case Constants.APP_STATUS_NORMAL:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal);
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                 holder.mTvStatus.setText("运行中");
+                break;
+            case Constants.APP_STATUS_ERROR:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_pink), null, null, null);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+                holder.mTvStatus.setText("异常");
                 break;
         }
         holder.mTvLinkApp.setText(datas.get(position).getLinkApp());

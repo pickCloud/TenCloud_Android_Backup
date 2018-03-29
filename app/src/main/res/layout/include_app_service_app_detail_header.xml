@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ø"
+    android:id="@+id/rl_basic_detail"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@drawable/selector_banner_bg"

@@ -38,11 +38,6 @@ public class RvAppDetailTaskAdapter extends CJSBaseRecyclerViewAdapter<TaskBean,
         holder.mTvStartTime.setText(datas.get(position).getCreateDate());
         holder.mTvEndTime.setText(datas.get(position).getEndDate());
         switch (datas.get(position).getStatus()) {
-            case Constants.APP_STATUS_ERROR:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error);
-                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
-                holder.mTvStatus.setText("失败");
-                break;
             case Constants.APP_STATUS_INIT:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
@@ -52,6 +47,11 @@ public class RvAppDetailTaskAdapter extends CJSBaseRecyclerViewAdapter<TaskBean,
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                 holder.mTvStatus.setText("进行中");
+                break;
+            case Constants.APP_STATUS_ERROR:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+                holder.mTvStatus.setText("失败");
                 break;
         }
     }

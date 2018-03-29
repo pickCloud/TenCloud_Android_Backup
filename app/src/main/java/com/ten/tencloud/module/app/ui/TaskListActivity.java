@@ -10,12 +10,10 @@ import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
-import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.TaskBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
-import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
@@ -91,7 +89,7 @@ public class TaskListActivity extends BaseActivity {
         mTaskBeans = new ArrayList<>();
         mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5","80%","2018-03-29  10:00:01","2018-03-29  10:00:11",0));
         mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5","100%","2018-03-29  11:00:01","2018-03-29  11:00:11",1));
-        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5","XX%","2018-03-29  12:00:01","2018-03-29  12:00:11",-1));
+        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5","XX%","2018-03-29  12:00:01","2018-03-29  12:00:11",2));
         mTaskAdapter.setDatas(mTaskBeans);
     }
 

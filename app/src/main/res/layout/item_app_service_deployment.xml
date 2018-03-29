@@ -48,8 +48,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_status"
                 android:text="检测状态"
+                android:paddingBottom="2dp"
                 android:textColor="@color/text_color_566278"
                 android:textSize="10sp"
                 app:layout_constraintLeft_toLeftOf="@id/tv_status"
@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_status" />
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <com.ten.tencloud.widget.NoTouchRecyclerView
             android:id="@+id/rv_pod"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -87,8 +87,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tv_link_app"

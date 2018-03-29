@@ -88,7 +88,7 @@ public class ServiceListActivity extends BaseActivity {
         ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
         serviceBeans.add(new ServiceBean("service-example1", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
         serviceBeans.add(new ServiceBean("service-example2", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-16  18:15:12", 1));
-        serviceBeans.add(new ServiceBean("service-example3", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-17  18:15:12", -1));
+        serviceBeans.add(new ServiceBean("service-example3", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-17  18:15:12", 2));
         mServiceAdapter.setDatas(serviceBeans);
     }
 

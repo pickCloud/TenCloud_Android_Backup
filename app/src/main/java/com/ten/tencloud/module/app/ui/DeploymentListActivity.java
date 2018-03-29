@@ -3,7 +3,6 @@ package com.ten.tencloud.module.app.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -11,12 +10,11 @@ import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
-import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
-import com.ten.tencloud.module.app.adapter.RvAppDetailDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
+import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
@@ -42,7 +40,7 @@ public class DeploymentListActivity extends BaseActivity {
     FrameLayout mEmptyView;
 
     private RefreshBroadCastHandler mAppHandler;
-    private RvAppDetailDeploymentAdapter mAppServiceDeploymentAdapter;
+    private RvAppServiceDeploymentAdapter mAppServiceDeploymentAdapter;
 
     private AppFilterDialog mAppFilterDialog;
 
@@ -69,7 +67,8 @@ public class DeploymentListActivity extends BaseActivity {
 
     private void initView() {
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
-        mAppServiceDeploymentAdapter = new RvAppDetailDeploymentAdapter(this);
+        mAppServiceDeploymentAdapter = new RvAppServiceDeploymentAdapter(this);
+        mRvApp.addItemDecoration(new Hor16Ver8ItemDecoration());
         mRvApp.setAdapter(mAppServiceDeploymentAdapter);
 
         mAppFilterDialog = new AppFilterDialog(this);
@@ -97,7 +96,7 @@ public class DeploymentListActivity extends BaseActivity {
             pods.add(new DeploymentBean.Pod("更新Pod", 1));
             pods.add(new DeploymentBean.Pod("可用Pod", 1));
             pods.add(new DeploymentBean.Pod("运行时间", 8));
-            deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", i - 1, pods, "2018-02-15  18:15:12", "AIUnicorn"));
+            deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", i, pods, "2018-02-15  18:15:12", "AIUnicorn"));
         }
         mAppServiceDeploymentAdapter.setDatas(deploymentBeans);
     }

@@ -42,12 +42,6 @@ public class RvServiceAdapter extends CJSBaseRecyclerViewAdapter<ServiceBean, Rv
         holder.mTvCreateDate.setText(datas.get(position).getCreateDate());
 
         switch (datas.get(position).getStatus()) {
-            case Constants.APP_STATUS_ERROR:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
-                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_pink), null, null, null);
-                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
-                holder.mTvStatus.setText("失败");
-                break;
             case Constants.APP_STATUS_INIT:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
                 holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_green), null, null, null);
@@ -59,6 +53,12 @@ public class RvServiceAdapter extends CJSBaseRecyclerViewAdapter<ServiceBean, Rv
                 holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                 holder.mTvStatus.setText("运行中");
+                break;
+            case Constants.APP_STATUS_ERROR:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_pink), null, null, null);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+                holder.mTvStatus.setText("失败");
                 break;
         }
     }
