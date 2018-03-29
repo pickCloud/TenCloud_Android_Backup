@@ -18,9 +18,7 @@
         <RelativeLayout
             android:id="@+id/ll1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="17dp"
+            android:layout_height="41dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
@@ -40,6 +38,7 @@
                 android:layout_alignParentEnd="true"
                 android:drawableEnd="@mipmap/icon_more"
                 android:drawablePadding="1dp"
+                android:gravity="center"
                 android:text="更多"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -50,6 +49,7 @@
             android:id="@+id/fl1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="20dp"
                 android:visibility="gone">
 
                 <include layout="@layout/layout_empty_view_app_servcie" />
@@ -74,29 +74,28 @@
         <RelativeLayout
             android:id="@+id/ll2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="-8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="最新部署"
                 android:textColor="@color/text_color_899ab6"
                 android:textSize="12sp" />
 
 
             <TextView
-                android:id="@+id/tv_newest_deployment_more"
+                android:id="@+id/tv_deployment_more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:clickable="true"
                 android:drawableEnd="@mipmap/icon_more"
                 android:drawablePadding="1dp"
-                android:focusable="true"
+                android:gravity="center"
                 android:text="更多"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -107,6 +106,7 @@
             android:id="@+id/fl2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
@@ -128,41 +128,36 @@
         </FrameLayout>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
+            android:layout_height="41dp"
+            android:layout_marginTop="-8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="最新服务"
                 android:textColor="@color/text_color_899ab6"
                 android:textSize="12sp" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/tv_newest_service_more"
+                android:id="@+id/tv_service_more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
                 android:drawableEnd="@mipmap/icon_more"
                 android:drawablePadding="1dp"
-                android:focusable="true"
+                android:gravity="center"
                 android:text="更多"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/fl3"
@@ -171,7 +166,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_newest_service"
+                android:id="@+id/rv_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:overScrollMode="never" />

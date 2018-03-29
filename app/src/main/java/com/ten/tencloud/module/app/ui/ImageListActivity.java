@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
-import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
-import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
-import com.ten.tencloud.widget.decoration.HorVecItemDecoration;
-import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
+import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter1;
+import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ public class ImageListActivity extends BaseActivity {
     FrameLayout mEmptyView;
 
     private RefreshBroadCastHandler mAppHandler;
-    private RvAppDetailImageAdapter mImageAdapter;
+    private RvAppDetailImageAdapter1 mImageAdapter;
 
     private AppFilterDialog mAppFilterDialog;
 
@@ -70,8 +68,7 @@ public class ImageListActivity extends BaseActivity {
 
     private void initView() {
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
-        mRvApp.addItemDecoration(new HorVecItemDecoration());
-        mImageAdapter = new RvAppDetailImageAdapter(this);
+        mImageAdapter = new RvAppDetailImageAdapter1(this);
         mRvApp.setAdapter(mImageAdapter);
 
         mAppFilterDialog = new AppFilterDialog(this);
@@ -91,9 +88,9 @@ public class ImageListActivity extends BaseActivity {
 
     private void initData() {
         ArrayList<ImageBean>  mImageBeans = new ArrayList<>();
-        mImageBeans.add(new ImageBean("Diango1", "V1.0.1", "2018-3-29 10:0:01"));
-        mImageBeans.add(new ImageBean("Diango2", "V1.0.2", "2018-3-29 10:0:10"));
-        mImageBeans.add(new ImageBean("Diango3", "V1.0.3", "2018-3-29 10:0:21"));
+        mImageBeans.add(new ImageBean("Diango1", "V1.0.1", "2018-03-29  10:00:01"));
+        mImageBeans.add(new ImageBean("Diango2", "V1.0.2", "2018-03-29  10:00:10"));
+        mImageBeans.add(new ImageBean("Diango3", "V1.0.3", "2018-03-29  10:00:21"));
         mImageAdapter.setDatas(mImageBeans);
     }
 

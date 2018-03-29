@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.app.ui;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,7 +19,6 @@ import com.ten.tencloud.module.app.adapter.RvAppDetailDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
-import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 
 import java.util.ArrayList;
 
@@ -56,6 +56,8 @@ public class AppDetailActivity extends BaseActivity {
     TextView mTvTaskMore;
     @BindView(R.id.rv_task)
     RecyclerView mRvTask;
+    @BindView(R.id.rl_basic_detail)
+    ConstraintLayout mRlBasic;
 
     private RvAppDetailDeploymentAdapter mDeploymentAdapter;
     private RvServiceAdapter mServiceAdapter;
@@ -98,7 +100,7 @@ public class AppDetailActivity extends BaseActivity {
         pods.add(new DeploymentBean.Pod("可用Pod", 1));
         pods.add(new DeploymentBean.Pod("运行时间", 6));
         ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
-        deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-2-15 18:15:12", "AIUnicorn"));
+        deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-02-15  18:15:12", "AIUnicorn"));
         mDeploymentAdapter.setDatas(deploymentBeans);
     }
 
@@ -109,12 +111,11 @@ public class AppDetailActivity extends BaseActivity {
                 return false;
             }
         });
-//        mRvAppDetailService.addItemDecoration(new ServiceItemDecoration());
         mServiceAdapter = new RvServiceAdapter(this);
         mRvAppDetailService.setAdapter(mServiceAdapter);
 
         mServiceBeans = new ArrayList<>();
-        mServiceBeans.add(new ServiceBean("Service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP,443/TCP", "2018-2-15 18:15:12"));
+        mServiceBeans.add(new ServiceBean("service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
         mServiceAdapter.setDatas(mServiceBeans);
     }
 
@@ -129,9 +130,9 @@ public class AppDetailActivity extends BaseActivity {
         mRvImage.setAdapter(mImageAdapter);
 
         mImageBeans = new ArrayList<>();
-        mImageBeans.add(new ImageBean("Diango1", "V1.0.1", "2018-3-29 10:0:01"));
-        mImageBeans.add(new ImageBean("Diango2", "V1.0.2", "2018-3-29 10:0:10"));
-        mImageBeans.add(new ImageBean("Diango3", "V1.0.3", "2018-3-29 10:0:21"));
+        mImageBeans.add(new ImageBean("Diango1", "V1.0.1", "2018-03-29  10:00:01"));
+        mImageBeans.add(new ImageBean("Diango2", "V1.0.2", "2018-03-29  10:00:10"));
+        mImageBeans.add(new ImageBean("Diango3", "V1.0.3", "2018-03-29  10:00:21"));
         mImageAdapter.setDatas(mImageBeans);
     }
 
@@ -146,9 +147,9 @@ public class AppDetailActivity extends BaseActivity {
         mRvTask.setAdapter(mTaskAdapter);
 
         mTaskBeans = new ArrayList<>();
-        mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5",80,"2018-3-29 10:0:01","2018-3-29 10:0:11",0));
-        mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5",100,"2018-3-29 11:0:01","2018-3-29 11:0:11",1));
-        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5",30,"2018-3-29 12:0:01","2018-3-29 12:0:11",-1));
+        mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5", "80%", "2018-03-29  10:00:01", "2018-03-29  10:00:11", 0));
+        mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5", "100%", "2018-03-29  11:00:01", "2018-03-29  11:00:11", 1));
+        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5", "XX%", "2018-03-29  12:00:01", "2018-03-29  12:00:11", -1));
         mTaskAdapter.setDatas(mTaskBeans);
     }
 
@@ -157,10 +158,10 @@ public class AppDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_arrow, R.id.tv_deploy_more, R.id.tv_service_more, R.id.tv_image_more, R.id.tv_task_more})
+    @OnClick({R.id.rl_basic_detail, R.id.tv_deploy_more, R.id.tv_service_more, R.id.tv_image_more, R.id.tv_task_more})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_arrow:
+            case R.id.rl_basic_detail:
                 startActivityNoValue(this, AppAddActivity.class);
                 break;
             case R.id.tv_deploy_more:

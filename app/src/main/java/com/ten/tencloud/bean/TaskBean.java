@@ -6,12 +6,12 @@ package com.ten.tencloud.bean;
 public class TaskBean {
 
     private String name;
-    private int progress;
+    private String progress;
     private String createDate;
     private String endDate;
     private int status;
 
-    public TaskBean(String name, int progress, String createDate, String endDate, int status) {
+    public TaskBean(String name, String progress, String createDate, String endDate, int status) {
         this.name = name;
         this.progress = progress;
         this.createDate = createDate;
@@ -35,11 +35,11 @@ public class TaskBean {
         this.name = name;
     }
 
-    public int getProgress() {
+    public String getProgress() {
         return progress;
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(String progress) {
         this.progress = progress;
     }
 

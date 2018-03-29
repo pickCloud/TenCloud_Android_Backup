@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.ServiceBean;
+import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.utils.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,13 +34,33 @@ public class RvServiceAdapter extends CJSBaseRecyclerViewAdapter<ServiceBean, Rv
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvName.setText(datas.get(position).getName());
-        holder.mTvStatus.setVisibility(View.GONE);
         holder.mTvType.setText(datas.get(position).getType());
         holder.mTvIp.setText(datas.get(position).getIp());
         holder.mTvOutIp.setText(datas.get(position).getOutIp());
         holder.mTvBurden.setText(datas.get(position).getBurden());
         holder.mTvPort.setText(datas.get(position).getPort());
         holder.mTvCreateDate.setText(datas.get(position).getCreateDate());
+
+        switch (datas.get(position).getStatus()) {
+            case Constants.APP_STATUS_ERROR:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_pink), null, null, null);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+                holder.mTvStatus.setText("失败");
+                break;
+            case Constants.APP_STATUS_INIT:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_green), null, null, null);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
+                holder.mTvStatus.setText("成功");
+                break;
+            case Constants.APP_STATUS_NORMAL:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
+                holder.mTvStatus.setText("运行中");
+                break;
+        }
     }
 
 

@@ -89,9 +89,9 @@ public class TaskListActivity extends BaseActivity {
     private void initData() {
         ArrayList<TaskBean> mTaskBeans = new ArrayList<>();
         mTaskBeans = new ArrayList<>();
-        mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5",80,"2018-3-29 10:0:01","2018-3-29 10:0:11",0));
-        mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5",100,"2018-3-29 11:0:01","2018-3-29 11:0:11",1));
-        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5",30,"2018-3-29 12:0:01","2018-3-29 12:0:11",-1));
+        mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5","80%","2018-03-29  10:00:01","2018-03-29  10:00:11",0));
+        mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5","100%","2018-03-29  11:00:01","2018-03-29  11:00:11",1));
+        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5","XX%","2018-03-29  12:00:01","2018-03-29  12:00:11",-1));
         mTaskAdapter.setDatas(mTaskBeans);
     }
 

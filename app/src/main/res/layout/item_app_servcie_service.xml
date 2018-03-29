@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
     android:background="@drawable/selector_banner_bg"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/selector_banner_bg"
@@ -20,7 +19,6 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <TextView
                 android:id="@+id/tv_name"
@@ -54,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_server_status"
                 android:drawablePadding="5dp"
-                android:drawableStart="@mipmap/icon_detail_green"
+                android:drawableStart="@mipmap/icon_detail"
                 android:paddingEnd="5dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10sp"
@@ -71,8 +69,8 @@
                 android:text="检测状态"
                 android:textColor="@color/text_color_566278"
                 android:textSize="10sp"
-                android:visibility="invisible"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toRightOf="@id/tv_status"
+                app:layout_constraintLeft_toLeftOf="@id/tv_status"
                 app:layout_constraintTop_toBottomOf="@id/tv_status" />
         </android.support.constraint.ConstraintLayout>
 

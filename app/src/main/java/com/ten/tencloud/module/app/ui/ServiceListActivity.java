@@ -13,9 +13,7 @@ import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
-import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
-import com.ten.tencloud.widget.decoration.HorizontalItemDecoration;
 import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
@@ -88,9 +86,9 @@ public class ServiceListActivity extends BaseActivity {
 
     private void initData() {
         ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
-        serviceBeans.add(new ServiceBean("Service-example1", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP,443/TCP", "2018-2-15 18:15:12"));
-        serviceBeans.add(new ServiceBean("Service-example2", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP,443/TCP", "2018-2-16 18:15:12"));
-        serviceBeans.add(new ServiceBean("Service-example3", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP,443/TCP", "2018-2-17 18:15:12"));
+        serviceBeans.add(new ServiceBean("service-example1", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
+        serviceBeans.add(new ServiceBean("service-example2", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-16  18:15:12", 1));
+        serviceBeans.add(new ServiceBean("service-example3", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-17  18:15:12", -1));
         mServiceAdapter.setDatas(serviceBeans);
     }
 

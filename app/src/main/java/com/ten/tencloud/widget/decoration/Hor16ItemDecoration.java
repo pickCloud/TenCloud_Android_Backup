@@ -9,14 +9,14 @@ import com.ten.tencloud.utils.UiUtils;
 /**
  * Created by chenxh@10.com on 2018/3/28.
  */
-public class HorizontalItemDecoration extends RecyclerView.ItemDecoration {
+public class Hor16ItemDecoration extends RecyclerView.ItemDecoration {
     private int dpSpace;
 
-    public HorizontalItemDecoration() {
+    public Hor16ItemDecoration() {
         this(16);
     }
 
-    public HorizontalItemDecoration(int dpSpace) {
+    public Hor16ItemDecoration(int dpSpace) {
         this.dpSpace = dpSpace;
     }
 

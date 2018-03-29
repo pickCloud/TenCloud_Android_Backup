@@ -33,6 +33,7 @@ public class RvPodAdapter extends CJSBaseRecyclerViewAdapter<DeploymentBean.Pod,
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvPodName.setText(datas.get(position).getName());
         holder.mTvCount.setText(String.valueOf(datas.get(position).getCount()));
+        holder.mTvUnit.setText(position == datas.size() - 1 ? "s" : "个");
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

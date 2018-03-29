@@ -9,22 +9,11 @@ import com.ten.tencloud.utils.UiUtils;
 /**
  * Created by chenxh@10.com on 2018/3/28.
  */
-public class ServiceItemDecoration extends RecyclerView.ItemDecoration {
-    private int dpSpace;
-
-    public ServiceItemDecoration() {
-        this(16);
-    }
-
-    public ServiceItemDecoration(int dpSpace) {
-        this.dpSpace = dpSpace;
-    }
+public class ServiceItemDecoration extends Hor16ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        outRect.left = UiUtils.dip2px(parent.getContext(), dpSpace);
-        outRect.right = UiUtils.dip2px(parent.getContext(), dpSpace);
         outRect.bottom = UiUtils.dip2px(parent.getContext(), 8);
     }
 }

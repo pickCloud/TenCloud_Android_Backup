@@ -24,7 +24,6 @@ import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceHeaderAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
 import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
-import com.ten.tencloud.widget.decoration.HorizontalItemDecoration;
 import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 
 import java.util.ArrayList;
@@ -47,13 +46,13 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     TextView mTvAddServer;
     @BindView(R.id.app_empty_view)
     FrameLayout mAppEmptyView;
-    @BindView(R.id.tv_newest_deployment_more)
+    @BindView(R.id.tv_deployment_more)
     TextView mTvNewestDeploymentMore;
     @BindView(R.id.rv_newest_deployment)
     RecyclerView mRvNewestDeployment;
-    @BindView(R.id.tv_newest_service_more)
+    @BindView(R.id.tv_service_more)
     TextView mTvNewestServiceMore;
-    @BindView(R.id.rv_newest_service)
+    @BindView(R.id.rv_service)
     RecyclerView mRvNewestService;
     @BindView(R.id.deployment_empty_view)
     FrameLayout mDeploymentEmptyView;
@@ -121,11 +120,11 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         ArrayList<AppBean> appBeans = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
         labels.add("普通项目");
-        appBeans.add(new AppBean("应用AIUnicorn", "Github：AIUnicorn/10.com", "2018-2-15 18:15:12", "2018-2-15 20:15:12", 0, labels));
+        appBeans.add(new AppBean("应用AIUnicorn", "Github：AIUnicorn/10.com", "2018-02-15  18:15:12", "2018-02-15  20:15:12", 0, labels));
         labels = new ArrayList<>();
         labels.add("基础服务");
         labels.add("应用组件");
-        appBeans.add(new AppBean("应用HelloWorld", "Tenhub：18600503478/redis", "2018-2-16 8:15:12", "2018-2-16 10:15:12", 1, labels));
+        appBeans.add(new AppBean("应用HelloWorld", "Tenhub：18600503478/redis", "2018-02-16  18:15:12", "2018-02-16  10:15:12", 1, labels));
         mAppAdapter.setDatas(appBeans);
     }
 
@@ -146,7 +145,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         pods.add(new DeploymentBean.Pod("可用Pod", 1));
         pods.add(new DeploymentBean.Pod("运行时间", 8));
         ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
-        deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-2-15 18:15:12", "AIUnicorn"));
+        deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-02-15  18:15:12", "AIUnicorn"));
         mDeploymentAdapter.setDatas(deploymentBeans);
     }
 
@@ -162,7 +161,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         mRvNewestService.setAdapter(mServiceAdapter);
 
         ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
-        serviceBeans.add(new ServiceBean("Service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP,443/TCP", "2018-2-15 18:15:12"));
+        serviceBeans.add(new ServiceBean("service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12",0));
         mServiceAdapter.setDatas(serviceBeans);
     }
 
@@ -171,7 +170,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
 
     }
 
-    @OnClick({R.id.tv_add_app, R.id.tv_hot_app_more, R.id.tv_newest_deployment_more, R.id.tv_newest_service_more})
+    @OnClick({R.id.tv_add_app, R.id.tv_hot_app_more, R.id.tv_deployment_more, R.id.tv_service_more})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add_app:
@@ -180,10 +179,10 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
             case R.id.tv_hot_app_more:
                 startActivity(new Intent(mActivity, AppListActivity.class));
                 break;
-            case R.id.tv_newest_deployment_more:
+            case R.id.tv_deployment_more:
                 startActivity(new Intent(mActivity, DeploymentListActivity.class));
                 break;
-            case R.id.tv_newest_service_more:
+            case R.id.tv_service_more:
                 startActivity(new Intent(mActivity, ServiceListActivity.class));
                 break;
         }

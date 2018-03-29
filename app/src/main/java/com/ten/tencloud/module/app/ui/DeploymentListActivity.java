@@ -15,6 +15,7 @@ import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
+import com.ten.tencloud.module.app.adapter.RvAppDetailDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
@@ -41,7 +42,7 @@ public class DeploymentListActivity extends BaseActivity {
     FrameLayout mEmptyView;
 
     private RefreshBroadCastHandler mAppHandler;
-    private RvAppServiceDeploymentAdapter mAppServiceDeploymentAdapter;
+    private RvAppDetailDeploymentAdapter mAppServiceDeploymentAdapter;
 
     private AppFilterDialog mAppFilterDialog;
 
@@ -68,7 +69,7 @@ public class DeploymentListActivity extends BaseActivity {
 
     private void initView() {
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
-        mAppServiceDeploymentAdapter = new RvAppServiceDeploymentAdapter(this);
+        mAppServiceDeploymentAdapter = new RvAppDetailDeploymentAdapter(this);
         mRvApp.setAdapter(mAppServiceDeploymentAdapter);
 
         mAppFilterDialog = new AppFilterDialog(this);
@@ -96,7 +97,7 @@ public class DeploymentListActivity extends BaseActivity {
             pods.add(new DeploymentBean.Pod("更新Pod", 1));
             pods.add(new DeploymentBean.Pod("可用Pod", 1));
             pods.add(new DeploymentBean.Pod("运行时间", 8));
-            deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-2-15 18:15:12", "AIUnicorn"));
+            deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", i - 1, pods, "2018-02-15  18:15:12", "AIUnicorn"));
         }
         mAppServiceDeploymentAdapter.setDatas(deploymentBeans);
     }

@@ -11,8 +11,9 @@ public class ServiceBean {
     private String burden;
     private String port;
     private String createDate;
+    private int status;
 
-    public ServiceBean(String name, String type, String ip, String outIp, String burden, String port, String createDate) {
+    public ServiceBean(String name, String type, String ip, String outIp, String burden, String port, String createDate, int status) {
         this.name = name;
         this.type = type;
         this.ip = ip;
@@ -20,6 +21,15 @@ public class ServiceBean {
         this.burden = burden;
         this.port = port;
         this.createDate = createDate;
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getName() {

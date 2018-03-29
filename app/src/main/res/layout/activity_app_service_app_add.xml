@@ -124,10 +124,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/selector_login_code"
+                android:background="@drawable/shape_login_code_enable"
                 android:padding="5dp"
                 android:text="新增多个标签"
-                android:textColor="@color/text_color_48bbc0"
+                android:textColor="@color/selector_line_button_lake_blue_text"
                 android:textSize="13sp" />
         </RelativeLayout>
 

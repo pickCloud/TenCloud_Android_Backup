@@ -38,19 +38,19 @@ public class RvAppDetailDeploymentAdapter extends CJSBaseRecyclerViewAdapter<Dep
         switch (datas.get(position).getStatus()) {
             case Constants.APP_STATUS_ERROR:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
-//                holder.mTvStatus.setCompoundDrawables(UiUtils.getDrawable(R.mipmap.icon_detail_pink), null, null, null);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_pink), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
                 holder.mTvStatus.setText("异常");
                 break;
             case Constants.APP_STATUS_INIT:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
-//                holder.mTvStatus.setCompoundDrawables(UiUtils.getDrawable(R.mipmap.icon_detail_green), null, null, null);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable( R.mipmap.icon_detail_green), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
                 holder.mTvStatus.setText("初创建");
                 break;
             case Constants.APP_STATUS_NORMAL:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
-//                holder.mTvStatus.setCompoundDrawables(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
+                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                 holder.mTvStatus.setText("运行中");
                 break;

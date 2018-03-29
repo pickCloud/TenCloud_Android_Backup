@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="检测时间：2018-3-26,10:10:10"
+                android:text="检测时间：2018-3-26  10:10:10"
                 android:textColor="@color/text_color_566278"
                 android:textSize="10sp" />
 
@@ -127,8 +127,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_app_detail_service"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-8dp" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -215,7 +214,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_task"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp" />
 
 
     </LinearLayout>
