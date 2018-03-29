@@ -3,8 +3,14 @@ package com.ten.tencloud.utils;
 import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,8 +137,13 @@ public class UiUtils {
         view.setLayoutTransition(transition);
     }
 
+
+    public static Resources getResources(){
+        return TenApp.getInstance().getResources();
+    }
+
     public static int getColor(@ColorRes int resId) {
-        return TenApp.getInstance().getResources().getColor(resId);
+        return getResources().getColor(resId);
     }
 
     public static String getString(int resId, String... args) {
@@ -150,5 +161,21 @@ public class UiUtils {
             }
         }
         return string;
+    }
+
+    /**
+     * @param drawableId
+     * @return 获取Drawable对象
+     */
+    public static Drawable getDrawable(@DrawableRes int drawableId) {
+        return ResourcesCompat.getDrawable(getResources(), drawableId, null);
+    }
+
+    /**
+     * @param drawableId
+     * @return 将res下的图片转换成Bitmap
+     */
+    public static Bitmap getBitmap(@DrawableRes int drawableId) {
+        return BitmapFactory.decodeResource(getResources(), drawableId);
     }
 }

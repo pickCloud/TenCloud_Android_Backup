@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.TaskBean;
+import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.utils.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +33,27 @@ public class RvAppDetailTaskAdapter extends CJSBaseRecyclerViewAdapter<TaskBean,
 
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
-
+        holder.mTvName.setText(datas.get(position).getName());
+        holder.mTvProgress.setText(String.valueOf(datas.get(position).getProgress()));
+        holder.mTvStartTime.setText(datas.get(position).getCreateDate());
+        holder.mTvEndTime.setText(datas.get(position).getEndDate());
+        switch (datas.get(position).getStatus()) {
+            case Constants.APP_STATUS_ERROR:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+                holder.mTvStatus.setText("失败");
+                break;
+            case Constants.APP_STATUS_INIT:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
+                holder.mTvStatus.setText("成功");
+                break;
+            case Constants.APP_STATUS_NORMAL:
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal);
+                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
+                holder.mTvStatus.setText("进行中");
+                break;
+        }
     }
 
 

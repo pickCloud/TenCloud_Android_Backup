@@ -41,17 +41,17 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
         holder.mTvUpdateDate.setText(datas.get(position).getUpdateDate());
         switch (datas.get(position).getStatus()) {
             case Constants.APP_STATUS_ERROR:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status_error);
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
                 holder.mTvStatus.setText("异常");
                 break;
             case Constants.APP_STATUS_INIT:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status_init);
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
                 holder.mTvStatus.setText("初创建");
                 break;
             case Constants.APP_STATUS_NORMAL:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status);
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                 holder.mTvStatus.setText("正常");
                 break;

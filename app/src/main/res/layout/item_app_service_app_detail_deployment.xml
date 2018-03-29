@@ -17,41 +17,45 @@
         android:orientation="vertical">
 
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_deploy_name"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_color_899ab6"
                 android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
                 tools:text="bootcamp" />
 
             <TextView
-                android:id="@+id/tv_deploy_status"
+                android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/selector_server_status"
-                android:drawableStart="@mipmap/icon_detail_green"
-                android:drawablePadding="5dp"
-                android:paddingEnd="5dp"
+                android:background="@drawable/shape_app_status_normal_round"
+                android:drawablePadding="3dp"
+                android:drawableStart="@mipmap/icon_detail"
+                android:paddingEnd="3dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_name"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_name"
                 tools:text="正常" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_deploy_status"
-                android:layout_alignParentEnd="true"
+                android:layout_below="@id/tv_status"
+                android:text="检测状态"
                 android:textColor="@color/text_color_566278"
                 android:textSize="10sp"
-                tools:text="检测状态" />
-        </RelativeLayout>
+                app:layout_constraintLeft_toLeftOf="@id/tv_status"
+                app:layout_constraintRight_toRightOf="@id/tv_status"
+                app:layout_constraintTop_toBottomOf="@id/tv_status" />
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_pod"

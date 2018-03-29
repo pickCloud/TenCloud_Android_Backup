@@ -31,7 +31,10 @@ public class RvAppDetailImageAdapter extends CJSBaseRecyclerViewAdapter<ImageBea
 
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
-
+        holder.mTvName.setText(datas.get(position).getName());
+        holder.mTvImageVersion.setText(datas.get(position).getVersion());
+        holder.mTvUpdateDate.setText(datas.get(position).getUpdateDate());
+        holder.mLine.setVisibility(position == datas.size() - 1 ? View.INVISIBLE : View.VISIBLE);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,6 +45,9 @@ public class RvAppDetailImageAdapter extends CJSBaseRecyclerViewAdapter<ImageBea
         TextView mTvImageVersion;
         @BindView(R.id.tv_update_date)
         TextView mTvUpdateDate;
+        @BindView(R.id.line)
+        View mLine;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

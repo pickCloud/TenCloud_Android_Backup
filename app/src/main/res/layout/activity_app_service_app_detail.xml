@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.ten.tencloud.widget.TenForbidAutoScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_bg">
@@ -35,10 +34,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="详情"
+                android:text="检测时间：2018-3-26,10:10:10"
                 android:textColor="@color/text_color_566278"
-                android:textSize="10sp"
-                tools:text="检测时间：2018-3-26,10:10:10" />
+                android:textSize="10sp" />
 
         </RelativeLayout>
 
@@ -80,8 +78,9 @@
                     <TextView
                         android:id="@+id/tv_deploy_more"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:drawableEnd="@mipmap/icon_more"
+                        android:gravity="center"
                         android:text="更多"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />
@@ -116,8 +115,9 @@
                     <TextView
                         android:id="@+id/tv_service_more"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:drawableEnd="@mipmap/icon_more"
+                        android:gravity="center"
                         android:text="更多"
                         android:textColor="@color/colorPrimary"
                         android:textSize="12sp" />
@@ -127,7 +127,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_app_detail_service"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp" />
 
             </LinearLayout>
 
@@ -143,7 +144,8 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="镜像及版本"
                 android:textColor="@color/text_color_899ab6"
                 android:textSize="12sp" />
@@ -152,9 +154,10 @@
             <TextView
                 android:id="@+id/tv_image_more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:drawableRight="@mipmap/icon_more"
+                android:gravity="center"
                 android:text="更多"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
@@ -188,7 +191,8 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="任务"
                 android:textColor="@color/text_color_899ab6"
                 android:textSize="12sp" />
@@ -197,9 +201,10 @@
             <TextView
                 android:id="@+id/tv_task_more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:drawableRight="@mipmap/icon_more"
+                android:gravity="center"
                 android:text="更多"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />

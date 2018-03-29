@@ -19,8 +19,8 @@
             android:id="@+id/ll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
             android:layout_marginBottom="3dp"
+            android:layout_marginTop="17dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
@@ -62,6 +62,7 @@
                 android:id="@+id/app_empty_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:layout_marginTop="60dp"
                 android:visibility="gone">
 
@@ -74,8 +75,8 @@
             android:id="@+id/ll2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="3dp"
+            android:layout_marginTop="10dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
@@ -118,6 +119,7 @@
                 android:id="@+id/deployment_empty_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:layout_marginTop="60dp"
                 android:visibility="gone">
 
@@ -130,8 +132,8 @@
             android:id="@+id/ll3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
             android:layout_marginBottom="3dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
@@ -166,7 +168,6 @@
             android:id="@+id/fl3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="17dp"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
@@ -179,6 +180,7 @@
                 android:id="@+id/service_empty_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:layout_marginTop="60dp"
                 android:visibility="gone">
 

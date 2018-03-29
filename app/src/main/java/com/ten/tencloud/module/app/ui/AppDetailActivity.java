@@ -18,6 +18,7 @@ import com.ten.tencloud.module.app.adapter.RvAppDetailDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
+import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 
 import java.util.ArrayList;
 
@@ -89,6 +90,16 @@ public class AppDetailActivity extends BaseActivity {
         });
         mDeploymentAdapter = new RvAppDetailDeploymentAdapter(this);
         mRvAppDetailDeploy.setAdapter(mDeploymentAdapter);
+
+        ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
+        pods.add(new DeploymentBean.Pod("预设Pod", 1));
+        pods.add(new DeploymentBean.Pod("当前Pod", 1));
+        pods.add(new DeploymentBean.Pod("更新Pod", 1));
+        pods.add(new DeploymentBean.Pod("可用Pod", 1));
+        pods.add(new DeploymentBean.Pod("运行时间", 6));
+        ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
+        deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-2-15 18:15:12", "AIUnicorn"));
+        mDeploymentAdapter.setDatas(deploymentBeans);
     }
 
     private void initServiceView() {
@@ -98,8 +109,13 @@ public class AppDetailActivity extends BaseActivity {
                 return false;
             }
         });
+//        mRvAppDetailService.addItemDecoration(new ServiceItemDecoration());
         mServiceAdapter = new RvServiceAdapter(this);
         mRvAppDetailService.setAdapter(mServiceAdapter);
+
+        mServiceBeans = new ArrayList<>();
+        mServiceBeans.add(new ServiceBean("Service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP,443/TCP", "2018-2-15 18:15:12"));
+        mServiceAdapter.setDatas(mServiceBeans);
     }
 
     private void initImageView() {
@@ -111,6 +127,12 @@ public class AppDetailActivity extends BaseActivity {
         });
         mImageAdapter = new RvAppDetailImageAdapter(this);
         mRvImage.setAdapter(mImageAdapter);
+
+        mImageBeans = new ArrayList<>();
+        mImageBeans.add(new ImageBean("Diango1", "V1.0.1", "2018-3-29 10:0:01"));
+        mImageBeans.add(new ImageBean("Diango2", "V1.0.2", "2018-3-29 10:0:10"));
+        mImageBeans.add(new ImageBean("Diango3", "V1.0.3", "2018-3-29 10:0:21"));
+        mImageAdapter.setDatas(mImageBeans);
     }
 
     private void initTaskView() {
@@ -122,53 +144,36 @@ public class AppDetailActivity extends BaseActivity {
         });
         mTaskAdapter = new RvAppDetailTaskAdapter(this);
         mRvTask.setAdapter(mTaskAdapter);
+
+        mTaskBeans = new ArrayList<>();
+        mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5",80,"2018-3-29 10:0:01","2018-3-29 10:0:11",0));
+        mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5",100,"2018-3-29 11:0:01","2018-3-29 11:0:11",1));
+        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5",30,"2018-3-29 12:0:01","2018-3-29 12:0:11",-1));
+        mTaskAdapter.setDatas(mTaskBeans);
     }
 
     private void initData() {
 
-        ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
-        pods.add(new DeploymentBean.Pod("预设Pod", 1));
-        pods.add(new DeploymentBean.Pod("当前Pod", 1));
-        pods.add(new DeploymentBean.Pod("更新Pod", 1));
-        pods.add(new DeploymentBean.Pod("可用Pod", 1));
-        pods.add(new DeploymentBean.Pod("运行时间", 8));
 
-
-        mDeploymentBeans = new ArrayList<>();
-        mServiceBeans = new ArrayList<>();
-        mImageBeans = new ArrayList<>();
-        mTaskBeans = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            mDeploymentBeans.add(new DeploymentBean("Kubernets-bootcamp" + i, 1, pods, "2018-2-15 18:15:12", "AIUnicorn" + i));
-        }
-        for (int i = 0; i < 1; i++) {
-            mServiceBeans.add(new ServiceBean("Service-example","ClusterIp","10.23.123.9","<none>","xxxx","80/TCP,443/TCP","2018-2-15 18:15:12"));
-
-        }
-        for (int i = 0; i < 3; i++) {
-            mImageBeans.add(new ImageBean());
-        }
-        for (int i = 0; i < 3; i++) {
-            mTaskBeans.add(new TaskBean());
-        }
-        mDeploymentAdapter.setDatas(mDeploymentBeans);
-        mServiceAdapter.setDatas(mServiceBeans);
-        mImageAdapter.setDatas(mImageBeans);
-        mTaskAdapter.setDatas(mTaskBeans);
     }
 
     @OnClick({R.id.iv_arrow, R.id.tv_deploy_more, R.id.tv_service_more, R.id.tv_image_more, R.id.tv_task_more})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_arrow:
+                startActivityNoValue(this, AppAddActivity.class);
                 break;
             case R.id.tv_deploy_more:
+                startActivityNoValue(this, DeploymentListActivity.class);
                 break;
             case R.id.tv_service_more:
+                startActivityNoValue(this, ServiceListActivity.class);
                 break;
             case R.id.tv_image_more:
+                startActivityNoValue(this, ImageListActivity.class);
                 break;
             case R.id.tv_task_more:
+                startActivityNoValue(this, TaskListActivity.class);
                 break;
         }
     }

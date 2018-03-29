@@ -12,6 +12,7 @@ import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.utils.UiUtils;
+import com.ten.tencloud.widget.NoTouchRecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,17 +38,17 @@ public class RvAppServiceDeploymentAdapter extends CJSBaseRecyclerViewAdapter<De
         holder.mTvName.setText(datas.get(position).getName());
         switch (datas.get(position).getStatus()) {
             case Constants.APP_STATUS_ERROR:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status_error);
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
                 holder.mTvStatus.setText("异常");
                 break;
             case Constants.APP_STATUS_INIT:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status_init);
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
                 holder.mTvStatus.setText("初创建");
                 break;
             case Constants.APP_STATUS_NORMAL:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_server_status);
+                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                 holder.mTvStatus.setText("运行中");
                 break;
@@ -74,7 +75,7 @@ public class RvAppServiceDeploymentAdapter extends CJSBaseRecyclerViewAdapter<De
         @BindView(R.id.tv_status)
         TextView mTvStatus;
         @BindView(R.id.rv_pod)
-        RecyclerView mRvPod;
+        NoTouchRecyclerView mRvPod;
         @BindView(R.id.tv_link_app)
         TextView mTvLinkApp;
         @BindView(R.id.tv_create_date)

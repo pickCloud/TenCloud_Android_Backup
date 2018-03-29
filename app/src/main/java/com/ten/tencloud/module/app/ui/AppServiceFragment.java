@@ -25,6 +25,7 @@ import com.ten.tencloud.module.app.adapter.RvAppServiceHeaderAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
 import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
 import com.ten.tencloud.widget.decoration.HorizontalItemDecoration;
+import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 
 import java.util.ArrayList;
 
@@ -79,6 +80,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         initViewDeployment();
         initViewService();
         initData();
+
     }
 
     private void initViewHeader() {
@@ -138,13 +140,13 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         mRvNewestDeployment.setAdapter(mDeploymentAdapter);
 
         ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
-        pods.add(new DeploymentBean.Pod("预设Pod",1));
-        pods.add(new DeploymentBean.Pod("当前Pod",1));
-        pods.add(new DeploymentBean.Pod("更新Pod",1));
-        pods.add(new DeploymentBean.Pod("可用Pod",1));
-        pods.add(new DeploymentBean.Pod("运行时间",8));
+        pods.add(new DeploymentBean.Pod("预设Pod", 1));
+        pods.add(new DeploymentBean.Pod("当前Pod", 1));
+        pods.add(new DeploymentBean.Pod("更新Pod", 1));
+        pods.add(new DeploymentBean.Pod("可用Pod", 1));
+        pods.add(new DeploymentBean.Pod("运行时间", 8));
         ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
-        deploymentBeans.add(new DeploymentBean("Kubernets-bootcamp",1,pods, "2018-2-15 18:15:12","AIUnicorn"));
+        deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-2-15 18:15:12", "AIUnicorn"));
         mDeploymentAdapter.setDatas(deploymentBeans);
     }
 
@@ -155,12 +157,12 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
                 return false;
             }
         });
-        mRvNewestService.addItemDecoration(new HorizontalItemDecoration());
+        mRvNewestService.addItemDecoration(new ServiceItemDecoration());
         mServiceAdapter = new RvServiceAdapter(mActivity);
         mRvNewestService.setAdapter(mServiceAdapter);
 
         ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
-        serviceBeans.add(new ServiceBean("Service-example","ClusterIp","10.23.123.9","<none>","xxxx","80/TCP,443/TCP","2018-2-15 18:15:12"));
+        serviceBeans.add(new ServiceBean("Service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP,443/TCP", "2018-2-15 18:15:12"));
         mServiceAdapter.setDatas(serviceBeans);
     }
 
@@ -179,8 +181,10 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
                 startActivity(new Intent(mActivity, AppListActivity.class));
                 break;
             case R.id.tv_newest_deployment_more:
+                startActivity(new Intent(mActivity, DeploymentListActivity.class));
                 break;
             case R.id.tv_newest_service_more:
+                startActivity(new Intent(mActivity, ServiceListActivity.class));
                 break;
         }
     }

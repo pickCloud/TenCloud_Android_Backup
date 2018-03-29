@@ -143,6 +143,18 @@
         <activity
             android:name=".module.app.ui.AppDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.ServiceListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.DeploymentListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.ImageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.TaskListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
