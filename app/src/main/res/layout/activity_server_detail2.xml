@@ -361,7 +361,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:textColor="@color/select_server_status"
+                                    android:textColor="@color/select_server_threshold_status"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -391,7 +391,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:textColor="@color/select_server_status"
+                                    android:textColor="@color/select_server_threshold_status"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -421,7 +421,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:textColor="@color/select_server_status"
+                                    android:textColor="@color/select_server_threshold_status"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -460,7 +460,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:textColor="@color/select_server_status"
+                                    android:textColor="@color/select_server_threshold_status"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -506,7 +506,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="8dp"
                                         android:layout_toRightOf="@id/tv_title_net_in"
-                                        android:textColor="@color/select_server_status"
+                                        android:textColor="@color/select_server_threshold_status"
                                         android:textSize="10sp" />
 
                                     <TextView
@@ -566,7 +566,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="8dp"
                                         android:layout_toRightOf="@id/tv_title_net_out"
-                                        android:textColor="@color/select_server_status"
+                                        android:textColor="@color/select_server_threshold_status"
                                         android:textSize="10sp" />
 
                                     <TextView

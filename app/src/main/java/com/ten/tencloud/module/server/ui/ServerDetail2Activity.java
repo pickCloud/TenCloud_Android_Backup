@@ -581,8 +581,8 @@ public class ServerDetail2Activity extends BaseActivity
         mTvProgressNetOutMax.setText(monitor.getNetOutputMax());
         setMinuteLoadStyle(mTvProgressCpu, monitor.getCpuUsageRate(), serverThreshold.getCpu_threshold());
         setMinuteLoadStyle(mTvProgressMemory, monitor.getMemUsageRate(), serverThreshold.getMemory_threshold());
-        setMinuteLoadStyle(mTvProgressDiskUtil, monitor.getDiskUsageRate(), serverThreshold.getDisk_threshold());
-        setMinuteLoadStyle(mTvProgressDiskUsage, monitor.getDiskUtilize(), serverThreshold.getBlock_threshold());
+        setMinuteLoadStyle(mTvProgressDiskUsage, monitor.getDiskUsageRate(), serverThreshold.getDisk_threshold());
+        setMinuteLoadStyle(mTvProgressDiskUtil, monitor.getDiskUtilize(), serverThreshold.getBlock_threshold());
         setMinuteLoadStyle(mTvProgressNetIn, Float.parseFloat(net[0]), serverThreshold.getNet_threshold());
         setMinuteLoadStyle(mTvProgressNetOut, Float.parseFloat(net[1]), serverThreshold.getNet_threshold());
         mTvProgressCpu.setText(monitor.getCpuUsageRate() + "%");
