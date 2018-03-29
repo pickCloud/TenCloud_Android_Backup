@@ -193,11 +193,13 @@ public class AppBaseCache {
     //=======服务器临界值
     public void saveServerThreshold(ServerThresholdBean bean) {
         String json = TenApp.getInstance().getGsonInstance().toJson(bean);
-        spfHelper.putString(SERVER_THRESHOLD, json);
+        new SPFHelper(TenApp.getInstance(), "")
+                .putString(SERVER_THRESHOLD, json);
     }
 
     public ServerThresholdBean getServerThreshold() {
-        String json = spfHelper.getString(SERVER_THRESHOLD, "");
+        String json = new SPFHelper(TenApp.getInstance(), "")
+                .getString(SERVER_THRESHOLD, "");
         if (TextUtils.isEmpty(json)) {
             return null;
         }

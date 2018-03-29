@@ -11,7 +11,7 @@ public class ServerDetailBean {
     /**
      * basic_info : {"id":3,"name":"@TenHub-官网","cluster_id":1,"cluster_name":"阿里云","address":"华南 1 （深圳）","public_ip":"112.74.31.161","machine_status":"运行中","business_status":0,"region_id":"cn-shenzhen","instance_id":"i-wz93448jsb55l91fpbao","created_time":"2017-06-08 10:04:43"}
      * system_info : {"config":{"cpu":2,"memory":2048,"os_name":"CentOS  7.0 64位","os_type":"linux"}}
-     * business_info : {"provider":"阿里云","contract":{"create_time":"2016-11-24T06:32Z","expired_time":"2018-01-10T16:00Z","charge_type":"PayByBandwidth"}}
+     * business_info : {"provider":"阿里云","contract":{"create_time":"2016-11-24T06:32Z","expired_time":"2018-01-10T16:00Z","instance_charge_type":"PayByBandwidth"}}
      */
 
     private BasicInfoBean basic_info;
@@ -292,7 +292,7 @@ public class ServerDetailBean {
     public static class BusinessInfoBean {
         /**
          * provider : 阿里云
-         * contract : {"create_time":"2016-11-24T06:32Z","expired_time":"2018-01-10T16:00Z","charge_type":"PayByBandwidth"}
+         * contract : {"create_time":"2016-11-24T06:32Z","expired_time":"2018-01-10T16:00Z","instance_charge_type":"PayByBandwidth"}
          */
 
         private String provider;
@@ -318,12 +318,13 @@ public class ServerDetailBean {
             /**
              * create_time : 2016-11-24T06:32Z
              * expired_time : 2018-01-10T16:00Z
-             * charge_type : PayByBandwidth
+             * instance_charge_type : PayByBandwidth
              */
 
             private String create_time;
             private String expired_time;
-            private String charge_type;
+            private String instance_charge_type;
+            private String instance_internet_charge_type;
 
             public String getCreate_time() {
                 return create_time;
@@ -341,12 +342,20 @@ public class ServerDetailBean {
                 this.expired_time = expired_time;
             }
 
-            public String getCharge_type() {
-                return charge_type;
+            public String getInstance_charge_type() {
+                return instance_charge_type;
             }
 
-            public void setCharge_type(String charge_type) {
-                this.charge_type = charge_type;
+            public void setInstance_charge_type(String instance_charge_type) {
+                this.instance_charge_type = instance_charge_type;
+            }
+
+            public String getInstance_internet_charge_type() {
+                return instance_internet_charge_type;
+            }
+
+            public void setInstance_internet_charge_type(String instance_internet_charge_type) {
+                this.instance_internet_charge_type = instance_internet_charge_type;
             }
         }
 

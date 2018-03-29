@@ -34,9 +34,11 @@ import com.ten.tencloud.bean.NetSpeedBean;
 import com.ten.tencloud.bean.ServerDetailBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
 import com.ten.tencloud.bean.ServerSystemLoadBean;
+import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.listener.OnRefreshListener;
+import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.server.contract.ServerDetailContract;
 import com.ten.tencloud.module.server.contract.ServerMonitorContract;
 import com.ten.tencloud.module.server.contract.ServerSystemLoadContract;
@@ -44,8 +46,12 @@ import com.ten.tencloud.module.server.presenter.ServerDetailPresenter;
 import com.ten.tencloud.module.server.presenter.ServerMonitorPresenter;
 import com.ten.tencloud.module.server.presenter.ServerSystemLoadPresenter;
 import com.ten.tencloud.utils.DateUtils;
+import com.ten.tencloud.widget.ProgressCircleView;
+import com.ten.tencloud.widget.ProgressPieView;
+import com.ten.tencloud.widget.ProgressRectView;
+import com.ten.tencloud.widget.ProgressSemiCircleView;
+import com.ten.tencloud.widget.blur.BlurBuilder;
 import com.ten.tencloud.widget.dialog.ServerSystemLoadDialog;
-import com.ten.tencloud.widget.dialog.ServerToolBoxDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +118,36 @@ public class ServerDetail2Activity extends BaseActivity
     @BindView(R.id.btn_one_week)
     RadioButton mBtnOneWeek;
 
+    //--图表
+    @BindView(R.id.tv_progress_cpu)
+    TextView mTvProgressCpu;
+    @BindView(R.id.pv_cpu)
+    ProgressSemiCircleView mPvCpu;
+    @BindView(R.id.tv_progress_memory)
+    TextView mTvProgressMemory;
+    @BindView(R.id.pv_memory)
+    ProgressPieView mPvMemory;
+    @BindView(R.id.tv_progress_disk_util)
+    TextView mTvProgressDiskUtil;
+    @BindView(R.id.pv_disk_util)
+    ProgressCircleView mPvDiskUtil;
+    @BindView(R.id.tv_progress_disk_usage)
+    TextView mTvProgressDiskUsage;
+    @BindView(R.id.pv_disk_usage)
+    ProgressCircleView mPvDiskUsage;
+    @BindView(R.id.tv_progress_net_in)
+    TextView mTvProgressNetIn;
+    @BindView(R.id.pv_net_in)
+    ProgressRectView mPvNetIn;
+    @BindView(R.id.tv_progress_net_out)
+    TextView mTvProgressNetOut;
+    @BindView(R.id.pv_net_out)
+    ProgressRectView mPvNetOut;
+    @BindView(R.id.tv_progress_net_in_max)
+    TextView mTvProgressNetInMax;
+    @BindView(R.id.tv_progress_net_out_max)
+    TextView mTvProgressNetOutMax;
+
     private String mServerName;
     private String mServerId;
 
@@ -122,7 +158,6 @@ public class ServerDetail2Activity extends BaseActivity
     private ServerMonitorPresenter mServerMonitorPresenter;
     private ServerSystemLoadPresenter mServerSystemLoadPresenter;
     private RefreshBroadCastHandler mBroadCastHandler;
-    private ServerToolBoxDialog mServerToolBoxDialog;
     private ServerSystemLoadDialog mServerSystemLoadDialog;
 
     @Override
@@ -271,10 +306,11 @@ public class ServerDetail2Activity extends BaseActivity
                 break;
             }
             case R.id.btn_toolbox: {
-                if (mServerToolBoxDialog == null) {
-                    mServerToolBoxDialog = new ServerToolBoxDialog(this);
-                }
-                mServerToolBoxDialog.show();
+                BlurBuilder.snapShotWithoutStatusBar(this);
+                Intent intent = new Intent(mContext, ServerToolBoxActivity.class);
+                intent.putExtra("serverId", mServerId);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
                 break;
             }
             case R.id.tv_load_des: {
@@ -327,9 +363,9 @@ public class ServerDetail2Activity extends BaseActivity
         }
         //配置信息
         ServerDetailBean.SystemInfoBean.ConfigBean config = serverDetailBean.getSystem_info().getConfig();
-        mTvCpu.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getCpu() + "","无"));
-        mTvMemory.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getMemory() / 1024 + "GB","无"));
-        mTvOsName.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getOs_name(),"无"));
+        mTvCpu.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getCpu() + "", "无"));
+        mTvMemory.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getMemory() / 1024 + "GB", "无"));
+        mTvOsName.setText(com.ten.tencloud.utils.Utils.strIsEmptyForDefault(config.getOs_name(), "无"));
         addDiskInfoUI(serverDetailBean.getSystem_info().getConfig().getDisk_info());
     }
 
@@ -531,17 +567,47 @@ public class ServerDetail2Activity extends BaseActivity
         mTvOsTime.setText(systemLoadBean.getDate());
         mTvLoginCount.setText(systemLoadBean.getLogin_users() + "");
         mTvRunDuration.setText(systemLoadBean.getRun_time());
-        setMinuteLoadStyle(mTvLoad1, systemLoadBean.getOne_minute_load());
-        setMinuteLoadStyle(mTvLoad5, systemLoadBean.getFive_minute_load());
-        setMinuteLoadStyle(mTvLoad15, systemLoadBean.getFifth_minute_load());
+        setMinuteLoadStyle(mTvLoad1, systemLoadBean.getOne_minute_load(), 0.7f);
+        setMinuteLoadStyle(mTvLoad5, systemLoadBean.getFive_minute_load(), 0.7f);
+        setMinuteLoadStyle(mTvLoad15, systemLoadBean.getFifth_minute_load(), 0.7f);
         mTvLoad1.setText(systemLoadBean.getOne_minute_load() + "");
         mTvLoad5.setText(systemLoadBean.getFive_minute_load() + "");
         mTvLoad15.setText(systemLoadBean.getFifth_minute_load() + "");
+
+        ServerThresholdBean serverThreshold = AppBaseCache.getInstance().getServerThreshold();
+        ServerSystemLoadBean.Monitor monitor = systemLoadBean.getMonitor();
+        String[] net = monitor.getNetUsageRate().split("/");
+        mTvProgressNetInMax.setText(monitor.getNetInputMax());
+        mTvProgressNetOutMax.setText(monitor.getNetOutputMax());
+        setMinuteLoadStyle(mTvProgressCpu, monitor.getCpuUsageRate(), serverThreshold.getCpu_threshold());
+        setMinuteLoadStyle(mTvProgressMemory, monitor.getMemUsageRate(), serverThreshold.getMemory_threshold());
+        setMinuteLoadStyle(mTvProgressDiskUtil, monitor.getDiskUsageRate(), serverThreshold.getDisk_threshold());
+        setMinuteLoadStyle(mTvProgressDiskUsage, monitor.getDiskUtilize(), serverThreshold.getBlock_threshold());
+        setMinuteLoadStyle(mTvProgressNetIn, Float.parseFloat(net[0]), serverThreshold.getNet_threshold());
+        setMinuteLoadStyle(mTvProgressNetOut, Float.parseFloat(net[1]), serverThreshold.getNet_threshold());
+        mTvProgressCpu.setText(monitor.getCpuUsageRate() + "%");
+        mPvCpu.setThreshold(serverThreshold.getCpu_threshold());
+        mPvCpu.setProgress((int) monitor.getCpuUsageRate());
+        mTvProgressMemory.setText(monitor.getMemUsageRate() + "%");
+        mPvMemory.setThreshold(serverThreshold.getMemory_threshold());
+        mPvMemory.setProgress((int) monitor.getMemUsageRate());
+        mTvProgressDiskUtil.setText(monitor.getDiskUtilize() + "%");
+        mPvDiskUtil.setThreshold(serverThreshold.getBlock_threshold());
+        mPvDiskUtil.setProgress((int) monitor.getDiskUtilize());
+        mTvProgressDiskUsage.setText(monitor.getDiskUsageRate() + "%");
+        mPvDiskUsage.setThreshold(serverThreshold.getDisk_threshold());
+        mPvDiskUsage.setProgress((int) monitor.getDiskUsageRate());
+        mPvNetIn.setThreshold(serverThreshold.getNet_threshold());
+        mPvNetIn.setProgress((int) Float.parseFloat(net[0]));
+        mPvNetOut.setThreshold(serverThreshold.getNet_threshold());
+        mPvNetOut.setProgress((int) Float.parseFloat(net[1]));
+        mTvProgressNetIn.setText(monitor.getNetDownload());
+        mTvProgressNetOut.setText(monitor.getNetUpload());
     }
 
-    private void setMinuteLoadStyle(TextView tv, float value) {
-        tv.setEnabled(value < 0.8);
-        tv.setSelected(value < 0.8);
+    private void setMinuteLoadStyle(TextView tv, float value, float threshold) {
+        tv.setEnabled(value < threshold);
+        tv.setSelected(value < threshold);
     }
 
     @Override

@@ -36,14 +36,6 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
     public RvServerHeatChartAdapter(Context context) {
         super(context);
         mServerThreshold = AppBaseCache.getInstance().getServerThreshold();
-        if (mServerThreshold == null){
-            mServerThreshold = new ServerThresholdBean();
-            mServerThreshold.setCpu_threshold(70);
-            mServerThreshold.setMemory_threshold(80);
-            mServerThreshold.setBlock_threshold(70);
-            mServerThreshold.setDisk_threshold(80);
-            mServerThreshold.setNet_threshold(80);
-        }
     }
 
     @Override
@@ -64,7 +56,7 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
         if (mType == TYPE_TWO) {
             llValue.addView(createTextView("CPU使用率  " + serverHeatBean.getCpuUsageRate() + "%", 2, 10, R.color.text_color_66ffffff));
             llValue.addView(createTextView("内存使用率  " + serverHeatBean.getMemUsageRate() + "%", 2, 10, R.color.text_color_66ffffff));
-            llValue.addView(createTextView("磁盘利用率  " + serverHeatBean.getDiskIO() + "%", 2, 10, R.color.text_color_66ffffff));
+            llValue.addView(createTextView("磁盘利用率  " + serverHeatBean.getDiskUtilize() + "%", 2, 10, R.color.text_color_66ffffff));
             llValue.addView(createTextView("磁盘占用率  " + serverHeatBean.getDiskUsageRate() + "%", 2, 10, R.color.text_color_66ffffff));
             llValue.addView(createTextView("网络I  " + serverHeatBean.getNetDownload() + "    " + "网络O  " + serverHeatBean.getNetUpload(), 2, 10, R.color.text_color_66ffffff));
         } else if (mType == TYPE_THREE) {
@@ -97,12 +89,12 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
     private List<String> sortWithThreshold(ServerHeatBean serverHeatBean) {
         List<String> result = new ArrayList<>();
         List<String> tempList = new ArrayList<>();
-        String[] net = serverHeatBean.getNetworkUsage().split("/");
+        String[] net = serverHeatBean.getNetUsageRate().split("/");
         float netInputThreshold = Float.parseFloat(net[0]);
         float netOutputThreshold = Float.parseFloat(net[1]);
         String cpu = "CPU使用率  " + serverHeatBean.getCpuUsageRate() + "%";
         String memory = "内存使用率  " + serverHeatBean.getMemUsageRate() + "%";
-        String diskUsage = "磁盘利用率  " + serverHeatBean.getDiskIO() + "%";
+        String diskUsage = "磁盘利用率  " + serverHeatBean.getDiskUtilize() + "%";
         String disk = "磁盘占用率  " + serverHeatBean.getDiskUsageRate() + "%";
         String netInput = "网络I  " + serverHeatBean.getNetDownload();
         String netOutput = "网络O  " + serverHeatBean.getNetUpload();
@@ -121,7 +113,7 @@ public class RvServerHeatChartAdapter extends CJSBaseRecyclerViewAdapter<ServerH
             result.add(memory);
             tempList.remove(memory);
         }
-        if (serverHeatBean.getDiskIO() > mServerThreshold.getBlock_threshold()) {
+        if (serverHeatBean.getDiskUtilize() > mServerThreshold.getBlock_threshold()) {
             result.add(diskUsage);
             tempList.remove(diskUsage);
         }

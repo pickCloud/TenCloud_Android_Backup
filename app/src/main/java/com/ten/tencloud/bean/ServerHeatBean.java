@@ -13,8 +13,8 @@ public class ServerHeatBean {
      * cpuUsageRate : 0
      * memUsageRate : 0.19940000000000002
      * diskUsageRate : 0.0394
-     * diskIO : 0.7854583758348964
-     * networkUsage : 0/0
+     * diskUtilize : 0.7854583758348964
+     * netUsageRate : 0/0
      */
 
     private int serverID;
@@ -23,8 +23,8 @@ public class ServerHeatBean {
     private float cpuUsageRate;
     private float memUsageRate;
     private float diskUsageRate;
-    private float diskIO;
-    private String networkUsage;
+    private float diskUtilize;
+    private String netUsageRate;
     private String netDownload;
     private String netUpload;
 
@@ -77,20 +77,20 @@ public class ServerHeatBean {
         this.diskUsageRate = diskUsageRate;
     }
 
-    public float getDiskIO() {
-        return diskIO;
+    public float getDiskUtilize() {
+        return diskUtilize;
     }
 
-    public void setDiskIO(float diskIO) {
-        this.diskIO = diskIO;
+    public void setDiskUtilize(float diskUtilize) {
+        this.diskUtilize = diskUtilize;
     }
 
-    public String getNetworkUsage() {
-        return networkUsage;
+    public String getNetUsageRate() {
+        return netUsageRate;
     }
 
-    public void setNetworkUsage(String networkUsage) {
-        this.networkUsage = networkUsage;
+    public void setNetUsageRate(String netUsageRate) {
+        this.netUsageRate = netUsageRate;
     }
 
     public String getNetDownload() {

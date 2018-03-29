@@ -20,12 +20,11 @@ public class Url {
     public final static String WEBSOCKET_URL_RELEASE = "ws://c.10.com";
     public final static String WEBSOCKET_URL_TEST = "ws://ct.10.com";
 
-
     public static String BASE_URL;
     public static String BASE_WEBSOCTET_URL;
 
     static {
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             BASE_URL = isTest ? BASE_URL_TEST : BASE_URL_DEBUG;
             BASE_WEBSOCTET_URL = isTest ? WEBSOCKET_URL_TEST : WEBSOCKET_URL_DEBUG;
         } else {

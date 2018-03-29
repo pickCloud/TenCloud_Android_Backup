@@ -59,6 +59,11 @@ public class ServerHomePresenter extends BasePresenter<ServerHomeContract.View>
                                 stringIntegerMap.get("warn_num"),
                                 stringIntegerMap.get("payment_num"));
                     }
+
+                    @Override
+                    public void onStart() {
+
+                    }
                 }));
     }
 

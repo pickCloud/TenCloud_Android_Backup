@@ -24,15 +24,9 @@ import com.ten.tencloud.module.server.presenter.ServerOperationPresenter;
 import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.widget.dialog.CommonDialog;
 
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * Created by lxq on 2017/11/29.
@@ -232,50 +226,50 @@ public class ServerDetailBasicPager extends BasePager implements ServerDetailCon
         if ("故障".equals(state) || ("异常").equals(state)) {
             mTvStatus.setSelected(false);
         }
-        if (mPermissionStartServer) {
-            if ("已关机".equals(state) || ("已停止").equals(state)) {
-                mBtnStop.setVisibility(GONE);
-                mBtnRestart.setVisibility(GONE);
-                mBtnStart.setVisibility(VISIBLE);
-            } else if ("运行中".equals(state) || "故障".equals(state) || ("异常").equals(state)) {
-                mBtnStop.setVisibility(VISIBLE);
-                mBtnRestart.setVisibility(VISIBLE);
-                mBtnStart.setVisibility(GONE);
-            } else {
-                mBtnStop.setVisibility(GONE);
-                mBtnRestart.setVisibility(GONE);
-                mBtnStart.setVisibility(GONE);
-            }
-        }
+//        if (mPermissionStartServer) {
+//            if ("已关机".equals(state) || ("已停止").equals(state)) {
+//                mBtnStop.setVisibility(GONE);
+//                mBtnRestart.setVisibility(GONE);
+//                mBtnStart.setVisibility(VISIBLE);
+//            } else if ("运行中".equals(state) || "故障".equals(state) || ("异常").equals(state)) {
+//                mBtnStop.setVisibility(VISIBLE);
+//                mBtnRestart.setVisibility(VISIBLE);
+//                mBtnStart.setVisibility(GONE);
+//            } else {
+//                mBtnStop.setVisibility(GONE);
+//                mBtnRestart.setVisibility(GONE);
+//                mBtnStart.setVisibility(GONE);
+//            }
+//        }
         mBtnDel.setVisibility(mPermissionDelServer ? VISIBLE : GONE);
-        //开启打点动画
-        i = 0;
-        if (mAnimSubscribe != null && !mAnimSubscribe.isUnsubscribed()) {
-            mAnimSubscribe.unsubscribe();
-        }
-        if ("关机中".equals(state) || "开机中".equals(state)
-                || ("停止中").equals(state) || ("启动中").equals(state)) {
-            mAnimSubscribe = Observable.interval(0, 500, TimeUnit.MILLISECONDS)
-                    .map(new Func1<Long, Integer>() {
-                        @Override
-                        public Integer call(Long aLong) {
-                            return i++ % 3;
-                        }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Integer>() {
-                        @Override
-                        public void call(Integer integer) {
-                            if (integer == 0) {
-                                mTvStatus.setText(state + ".  ");
-                            } else if (integer == 1) {
-                                mTvStatus.setText(state + ".. ");
-                            } else {
-                                mTvStatus.setText(state + "...");
-                            }
-                        }
-                    });
-        }
+//        //开启打点动画
+//        i = 0;
+//        if (mAnimSubscribe != null && !mAnimSubscribe.isUnsubscribed()) {
+//            mAnimSubscribe.unsubscribe();
+//        }
+//        if ("关机中".equals(state) || "开机中".equals(state)
+//                || ("停止中").equals(state) || ("启动中").equals(state)) {
+//            mAnimSubscribe = Observable.interval(0, 500, TimeUnit.MILLISECONDS)
+//                    .map(new Func1<Long, Integer>() {
+//                        @Override
+//                        public Integer call(Long aLong) {
+//                            return i++ % 3;
+//                        }
+//                    })
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Action1<Integer>() {
+//                        @Override
+//                        public void call(Integer integer) {
+//                            if (integer == 0) {
+//                                mTvStatus.setText(state + ".  ");
+//                            } else if (integer == 1) {
+//                                mTvStatus.setText(state + ".. ");
+//                            } else {
+//                                mTvStatus.setText(state + "...");
+//                            }
+//                        }
+//                    });
+//        }
 
     }
 

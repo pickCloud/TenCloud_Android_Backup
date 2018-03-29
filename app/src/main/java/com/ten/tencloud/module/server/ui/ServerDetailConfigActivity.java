@@ -63,7 +63,7 @@ public class ServerDetailConfigActivity extends BaseActivity implements ServerDe
             mTvMemory.setText(Utils.strIsEmptyForDefault(config.getMemory() / 1024 + "GB", "无"));
             mTvOsName.setText(Utils.strIsEmptyForDefault(config.getOs_name(), "无"));
             mTvNetType.setText(Utils.strIsEmptyForDefault(config.getInstance_network_type(), "无"));
-            mTvPayType.setText(Utils.strIsEmptyForDefault(serverDetailBean.getBusiness_info().getContract().getCharge_type(), "无"));
+            mTvPayType.setText(Utils.strIsEmptyForDefault(serverDetailBean.getBusiness_info().getContract().getInstance_internet_charge_type(), "无"));
             mTvNetInMax.setText(Utils.strIsEmptyForDefault(config.getInternet_max_bandwidth_in(), "无"));
             mTvNetOutMax.setText(Utils.strIsEmptyForDefault(config.getInternet_max_bandwidth_out(), "无"));
             addDiskInfoUI(serverDetailBean.getSystem_info().getConfig().getDisk_info());

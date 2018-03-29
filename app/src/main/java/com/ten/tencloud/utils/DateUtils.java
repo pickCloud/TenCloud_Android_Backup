@@ -12,6 +12,46 @@ import java.util.Date;
 public class DateUtils {
 
     /**
+     * 获取当前时间
+     *
+     * @return
+     */
+    public static String getCurrentTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 获取时间戳
+     *
+     * @return 获取时间戳
+     */
+    public static String getTimeString() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        return df.format(calendar.getTime());
+    }
+
+    /**
+     * 时间转换为时间戳
+     *
+     * @param time:需要转换的时间
+     * @return
+     */
+    public static String dateToStamp(String time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long ts = date.getTime();
+        return String.valueOf(ts);
+    }
+
+    /**
      * 时间戳转成String
      *
      * @param timestamp
@@ -45,10 +85,11 @@ public class DateUtils {
 
     /**
      * yyyy-MM-dd
+     *
      * @param date
      * @return
      */
-    public static String dateToDefault(String date){
-        return date.substring(0,10);
+    public static String dateToDefault(String date) {
+        return date.substring(0, 10);
     }
 }

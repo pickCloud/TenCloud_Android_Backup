@@ -40,14 +40,14 @@
 
                     <TextView
                         android:id="@+id/tv_status"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
                         android:background="@drawable/selector_server_status"
                         android:gravity="center"
                         android:paddingBottom="2dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
                         android:paddingTop="2dp"
                         android:textColor="@color/select_server_status"
                         android:textSize="10sp" />
@@ -69,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_name"
                     android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -325,6 +326,270 @@
                                     android:text="15分钟"
                                     android:textColor="@color/text_color_566278"
                                     android:textSize="10sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@color/line_color_2f3543" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <com.ten.tencloud.widget.ProgressSemiCircleView
+                                    android:id="@+id/pv_cpu"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:id="@+id/tv_progress_cpu"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:textColor="@color/select_server_status"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="CPU使用率"
+                                    android:textColor="@color/text_color_566278"
+                                    android:textSize="10sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <com.ten.tencloud.widget.ProgressPieView
+                                    android:id="@+id/pv_memory"
+                                    android:layout_width="25dp"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:id="@+id/tv_progress_memory"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:textColor="@color/select_server_status"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="内存使用率"
+                                    android:textColor="@color/text_color_566278"
+                                    android:textSize="10sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <com.ten.tencloud.widget.ProgressCircleView
+                                    android:id="@+id/pv_disk_util"
+                                    android:layout_width="25dp"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:id="@+id/tv_progress_disk_util"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:textColor="@color/select_server_status"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="磁盘利用率(%Util)"
+                                    android:textColor="@color/text_color_566278"
+                                    android:textSize="10sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <com.ten.tencloud.widget.ProgressCircleView
+                                    android:id="@+id/pv_disk_usage"
+                                    android:layout_width="25dp"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:id="@+id/tv_progress_disk_usage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:textColor="@color/select_server_status"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="磁盘占用率"
+                                    android:textColor="@color/text_color_566278"
+                                    android:textSize="10sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <com.ten.tencloud.widget.ProgressRectView
+                                    android:id="@+id/pv_net_in"
+                                    android:layout_width="13dp"
+                                    android:layout_height="wrap_content" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center">
+
+                                    <TextView
+                                        android:id="@+id/tv_title_net_in"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignRight="@id/tv_title_net_in_max"
+                                        android:text="入带宽"
+                                        android:textColor="@color/text_color_566278"
+                                        android:textSize="10sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_progress_net_in"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="8dp"
+                                        android:layout_toRightOf="@id/tv_title_net_in"
+                                        android:textColor="@color/select_server_status"
+                                        android:textSize="10sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_title_net_in_max"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/tv_title_net_in"
+                                        android:layout_marginTop="2dp"
+                                        android:text="配置max"
+                                        android:textColor="@color/text_color_566278"
+                                        android:textSize="10sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_progress_net_in_max"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignTop="@id/tv_title_net_in_max"
+                                        android:layout_marginLeft="8dp"
+                                        android:layout_toRightOf="@id/tv_title_net_in_max"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="10sp" />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <com.ten.tencloud.widget.ProgressRectView
+                                    android:id="@+id/pv_net_out"
+                                    android:layout_width="13dp"
+                                    android:layout_height="wrap_content" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center">
+
+                                    <TextView
+                                        android:id="@+id/tv_title_net_out"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignRight="@id/tv_title_net_out_max"
+                                        android:text="出带宽"
+                                        android:textColor="@color/text_color_566278"
+                                        android:textSize="10sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_progress_net_out"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="8dp"
+                                        android:layout_toRightOf="@id/tv_title_net_out"
+                                        android:textColor="@color/select_server_status"
+                                        android:textSize="10sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_title_net_out_max"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/tv_title_net_out"
+                                        android:layout_marginTop="2dp"
+                                        android:text="配置max"
+                                        android:textColor="@color/text_color_566278"
+                                        android:textSize="10sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_progress_net_out_max"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignTop="@id/tv_title_net_out_max"
+                                        android:layout_marginLeft="8dp"
+                                        android:layout_toRightOf="@id/tv_title_net_out_max"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="10sp" />
+
+                                </RelativeLayout>
 
                             </LinearLayout>
 

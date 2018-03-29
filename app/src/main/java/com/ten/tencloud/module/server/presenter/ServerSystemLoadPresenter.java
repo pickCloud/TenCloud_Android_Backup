@@ -21,14 +21,5 @@ public class ServerSystemLoadPresenter extends BasePresenter<ServerSystemLoadCon
                         mView.showServerSystemLoad(systemLoadBean);
                     }
                 }));
-//        String json = "{\n" +
-//                "      \"date\": \"2018-03-08 14:23:30\",\n" +
-//                "      \"fifteen_minute_load\": 0.54,\n" +
-//                "      \"five_minute_load\": 0.81,\n" +
-//                "      \"login_users\": 1,\n" +
-//                "      \"one_minute_load\": 0.14,\n" +
-//                "      \"run_time\": \"6天6小时30分钟\"\n" +
-//                "    }";
-//        mView.showServerSystemLoad(TenApp.getInstance().getGsonInstance().fromJson(json, ServerSystemLoadBean.class));
     }
 }

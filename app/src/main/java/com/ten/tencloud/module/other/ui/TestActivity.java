@@ -10,6 +10,10 @@ import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.module.login.ui.JoinComStep1Activity;
+import com.ten.tencloud.widget.ProgressCircleView;
+import com.ten.tencloud.widget.ProgressPieView;
+import com.ten.tencloud.widget.ProgressRectView;
+import com.ten.tencloud.widget.ProgressSemiCircleView;
 import com.ten.tencloud.widget.StatusSelectPopView;
 
 import java.util.ArrayList;
@@ -26,6 +30,14 @@ public class TestActivity extends BaseActivity {
     EditText mEtInfo;
     @BindView(R.id.spv)
     StatusSelectPopView spv;
+    @BindView(R.id.progress)
+    ProgressSemiCircleView progressView;
+    @BindView(R.id.ppv)
+    ProgressPieView ppv;
+    @BindView(R.id.pcv_progress)
+    ProgressCircleView pcv_progress;
+    @BindView(R.id.prv)
+    ProgressRectView prv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +57,10 @@ public class TestActivity extends BaseActivity {
             }
         });
         spv.initData(data);
+        progressView.setProgress(80);
+        ppv.setProgress(70);
+        pcv_progress.setProgress(60);
+        prv.setProgress(90);
     }
 
     public void logout(View view) {

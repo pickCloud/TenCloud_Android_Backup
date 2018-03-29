@@ -21,12 +21,28 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="监控"
-                android:textColor="@color/text_color_899ab6"
-                android:textSize="12sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="监控"
+                    android:textColor="@color/text_color_899ab6"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_refresh_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/text_color_566278"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

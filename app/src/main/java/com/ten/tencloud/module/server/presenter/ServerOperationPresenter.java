@@ -62,7 +62,7 @@ public class ServerOperationPresenter extends BasePresenter<ServerOperationContr
     @Override
     public void queryServerState(final String id) {
         mSubscriptions.add(
-                Observable.interval(5, 5, TimeUnit.SECONDS)
+                Observable.interval(0, 1, TimeUnit.SECONDS)
                         .flatMap(new Func1<Long, Observable<String>>() {
                             @Override
                             public Observable<String> call(Long aLong) {
@@ -75,6 +75,11 @@ public class ServerOperationPresenter extends BasePresenter<ServerOperationContr
                             @Override
                             public void _onSuccess(String s) {
                                 mView.showState(s);
+                            }
+
+                            @Override
+                            public void onStart() {
+
                             }
                         }));
     }

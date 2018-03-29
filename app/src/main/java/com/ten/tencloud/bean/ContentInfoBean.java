@@ -18,6 +18,7 @@ public class ContentInfoBean {
     private String percent;
     private String available;
     private String created_time;
+    private String utilize;
 
     public String getFree() {
         return free;
@@ -57,5 +58,13 @@ public class ContentInfoBean {
 
     public void setCreated_time(String created_time) {
         this.created_time = created_time;
+    }
+
+    public String getUtilize() {
+        return utilize;
+    }
+
+    public void setUtilize(String utilize) {
+        this.utilize = utilize;
     }
 }

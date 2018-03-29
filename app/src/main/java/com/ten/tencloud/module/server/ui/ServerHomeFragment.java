@@ -32,6 +32,7 @@ import com.ten.tencloud.module.server.contract.ServerHomeContract;
 import com.ten.tencloud.module.server.contract.ServerMonitorContract;
 import com.ten.tencloud.module.server.presenter.ServerHomePresenter;
 import com.ten.tencloud.module.server.presenter.ServerMonitorPresenter;
+import com.ten.tencloud.utils.DateUtils;
 import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.widget.HeatLayout;
 import com.ten.tencloud.widget.navigator.ScaleCircleNavigator;
@@ -83,6 +84,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     MagicIndicator mSingleIndicator;
 
     //阈值
+    @BindView(R.id.tv_refresh_time)
+    TextView mTvRefreshTime;
     @BindView(R.id.tv_cpu_threshold)
     TextView mTvCpuThreshold;
     @BindView(R.id.tv_memory_threshold)
@@ -227,7 +230,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
     private void initMagicIndicator() {
         ScaleCircleNavigator circleNavigator = new ScaleCircleNavigator(mActivity);
-        circleNavigator.setCircleCount(4);
+        circleNavigator.setCircleCount(5);
         circleNavigator.setSkimOver(true);
         circleNavigator.setNormalCircleColor(getResources().getColor(R.color.color_33ffffff));
         circleNavigator.setSelectedCircleColor(getResources().getColor(R.color.color_80ffffff));
@@ -243,11 +246,12 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
     private void startHeat() {
         if (mHeatSubscribe == null || mHeatSubscribe.isUnsubscribed()) {
-            mHeatSubscribe = Observable.interval(20, 20, TimeUnit.SECONDS)
+            mHeatSubscribe = Observable.interval(30, 30, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<Long>() {
                         @Override
                         public void call(Long aLong) {
+                            mPresenter.summary();
                             mPresenter.getWarnServerList(1);
                             mPresenter.getServerMonitor();
                         }
@@ -293,6 +297,9 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
                 .putArgument("serverId", mSingleServer.getServerID() + "")
                 .putArgument("type", ServerSingleHeatChartPager.TYPE_DISK));
+        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
+                .putArgument("serverId", mSingleServer.getServerID() + "")
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_DISK_USAGE));
         pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
                 .putArgument("serverId", mSingleServer.getServerID() + "")
                 .putArgument("type", ServerSingleHeatChartPager.TYPE_NET));
@@ -341,6 +348,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
     @Override
     public void showServerMonitor(List<ServerHeatBean> data) {
+        mTvRefreshTime.setText("系统更新时间: " + DateUtils.getCurrentTime());
         initHeatChart(data);
     }
 

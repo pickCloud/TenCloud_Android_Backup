@@ -10,7 +10,6 @@ import com.ten.tencloud.base.adapter.CJSVpPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.utils.UiUtils;
-import com.ten.tencloud.widget.dialog.ServerToolBoxDialog;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -46,7 +45,6 @@ public class ServerMonitorActivity extends BaseActivity {
 
     private CJSVpPagerAdapter mAdapter;
     private List<BasePager> mPagers;
-    private ServerToolBoxDialog mServerToolBoxDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,10 +121,10 @@ public class ServerMonitorActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_toolbox: {
-                if (mServerToolBoxDialog == null) {
-                    mServerToolBoxDialog = new ServerToolBoxDialog(this);
-                }
-                mServerToolBoxDialog.show();
+//                if (mServerToolBoxActivity == null) {
+//                    mServerToolBoxActivity = new ServerToolBoxActivity(this);
+//                }
+//                mServerToolBoxActivity.show();
                 break;
             }
         }
