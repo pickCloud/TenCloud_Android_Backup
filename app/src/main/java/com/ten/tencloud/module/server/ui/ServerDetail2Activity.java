@@ -55,9 +55,14 @@ import com.ten.tencloud.widget.dialog.ServerSystemLoadDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_DAY;
 import static com.ten.tencloud.module.server.presenter.ServerMonitorPresenter.STATE_HOUR;
@@ -159,6 +164,7 @@ public class ServerDetail2Activity extends BaseActivity
     private ServerSystemLoadPresenter mServerSystemLoadPresenter;
     private RefreshBroadCastHandler mBroadCastHandler;
     private ServerSystemLoadDialog mServerSystemLoadDialog;
+    private Subscription mLoopSubscribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,8 +194,15 @@ public class ServerDetail2Activity extends BaseActivity
 
     private void initData() {
         mServerDetailPresenter.getServerDetail(mServerId);
-        mServerSystemLoadPresenter.getServerSystemLoad(mServerId);
         mServerMonitorPresenter.getServerMonitorInfo(mServerId, mCycle);
+        mLoopSubscribe = Observable.interval(0, 30, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        mServerSystemLoadPresenter.getServerSystemLoad(mServerId);
+                    }
+                });
     }
 
     private void initView() {
@@ -628,5 +641,6 @@ public class ServerDetail2Activity extends BaseActivity
         mServerSystemLoadPresenter.detachView();
         mServerSystemLoadPresenter = null;
         mBroadCastHandler.unregisterReceiver();
+        mLoopSubscribe.unsubscribe();
     }
 }

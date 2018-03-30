@@ -57,7 +57,6 @@ import rx.functions.Action1;
 
 public class ServerHomeFragment extends BaseFragment implements ServerHomeContract.View, ServerMonitorContract.View {
 
-
     @BindView(R.id.xrv_servers)
     RecyclerView mRvServer;
     @BindView(R.id.empty_view)
@@ -350,6 +349,14 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     public void showServerMonitor(List<ServerHeatBean> data) {
         mTvRefreshTime.setText("系统更新时间: " + DateUtils.getCurrentTime());
         initHeatChart(data);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.summary();
+        mPresenter.getWarnServerList(1);
+        mPresenter.getServerMonitor();
     }
 
     @Override

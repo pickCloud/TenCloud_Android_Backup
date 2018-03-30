@@ -20,6 +20,11 @@ public class ServerSystemLoadPresenter extends BasePresenter<ServerSystemLoadCon
                     public void _onSuccess(ServerSystemLoadBean systemLoadBean) {
                         mView.showServerSystemLoad(systemLoadBean);
                     }
+
+                    @Override
+                    public void onStart() {
+
+                    }
                 }));
     }
 }

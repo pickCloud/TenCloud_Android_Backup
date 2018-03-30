@@ -44,10 +44,17 @@ public class ServerToolBoxActivity extends BaseActivity implements ServerOperati
 
     @BindView(R.id.btn_tool8)
     LinearLayout mBtnTool8;//关机开机
-    @BindView(R.id.btn_tool9)
-    LinearLayout mBtnTool9;//从重启
     @BindView(R.id.tv_start_or_stop)
     TextView mTvStartOrStop;
+    @BindView(R.id.iv_tool8)
+    ImageView mIvTool8;
+    @BindView(R.id.btn_tool9)
+    LinearLayout mBtnTool9;//从重启
+    @BindView(R.id.tv_tool9)
+    TextView mTvTool9;
+    @BindView(R.id.iv_tool9)
+    ImageView mIvTool9;
+
 
     private RefreshBroadCastHandler mServerHandler;
     private RefreshBroadCastHandler mServerInfoHandler;
@@ -216,18 +223,30 @@ public class ServerToolBoxActivity extends BaseActivity implements ServerOperati
         mMachineStatus = state;
         if (mPermissionStartServer) {
             if ("已关机".equals(state) || ("已停止").equals(state)) {
-                mBtnTool8.setVisibility(View.VISIBLE);
+                setEnabledWithTool8(true);
                 mTvStartOrStop.setText("开机");
-                mBtnTool9.setVisibility(View.GONE);
+                setEnabledWithTool9(false);
             } else if ("运行中".equals(state) || "故障".equals(state) || ("异常").equals(state)) {
-                mBtnTool8.setVisibility(View.VISIBLE);
+                setEnabledWithTool8(true);
                 mTvStartOrStop.setText("关机");
-                mBtnTool9.setVisibility(View.VISIBLE);
+                setEnabledWithTool9(true);
             } else {
-                mBtnTool8.setVisibility(View.GONE);
-                mBtnTool9.setVisibility(View.GONE);
+                setEnabledWithTool8(false);
+                setEnabledWithTool9(false);
             }
         }
+    }
+
+    private void setEnabledWithTool8(boolean enabled) {
+        mBtnTool8.setEnabled(enabled);
+        mTvStartOrStop.setEnabled(enabled);
+        mIvTool8.setEnabled(enabled);
+    }
+
+    private void setEnabledWithTool9(boolean enabled) {
+        mBtnTool9.setEnabled(enabled);
+        mTvTool9.setEnabled(enabled);
+        mIvTool9.setEnabled(enabled);
     }
 
     private void queryState() {
