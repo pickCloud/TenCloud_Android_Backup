@@ -63,12 +63,7 @@ public class ServerSingleHeatChartPager extends BasePager {
     @Override
     public void init() {
         createView(R.layout.pager_server_single_chart);
-        String dataJson = getArgument("data");
-        mDatas = TenApp.getInstance().getGsonInstance().fromJson(dataJson, ServerMonitorBean.class);
-        mId = getArgument("serverId");
-        mType = getArgument("type", TYPE_CPU);
         initView();
-        initData();
     }
 
     private void initView() {
@@ -127,7 +122,11 @@ public class ServerSingleHeatChartPager extends BasePager {
         lineChart.getAxisRight().setEnabled(false);
     }
 
-    private void initData() {
+    public void initData() {
+        String dataJson = getArgument("data");
+        mDatas = TenApp.getInstance().getGsonInstance().fromJson(dataJson, ServerMonitorBean.class);
+        mId = getArgument("serverId");
+        mType = getArgument("type", TYPE_CPU);
         switch (mType) {
             case TYPE_CPU:
                 setDataWithCPUView(mDatas.getCpu());

@@ -45,7 +45,7 @@ public class CJSVpLoopPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
+        container.removeView(mPagers.get(position % mPagers.size()));
     }
 
     @Override

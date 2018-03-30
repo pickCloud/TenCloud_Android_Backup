@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
-import com.ten.tencloud.base.adapter.CJSVpPagerAdapter;
+import com.ten.tencloud.base.adapter.CJSVpLoopPagerAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.bean.ServerBean;
@@ -111,6 +111,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     private RefreshBroadCastHandler mServerRefreshHandler;
     private RvServerHeatChartAdapter mHeatChartAdapter;
     private Subscription mHeatSubscribe;
+    private ArrayList<BasePager> mSingleChartPagers;
 
 
     @Nullable
@@ -146,7 +147,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     }
 
     private void initData() {
-        mSingleServer = null;
         mPresenter.summary();
         mPresenter.getWarnServerList(1);
         mPresenter.getServerMonitor();
@@ -188,12 +188,40 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mRvServer.setFocusableInTouchMode(false);//处理自动滚动
         mRvHeat.setFocusableInTouchMode(false);
         showThreshold(AppBaseCache.getInstance().getServerThreshold());
+        initSingleChartPager();
+        initMagicIndicator();
+    }
+
+    private void initSingleChartPager() {
+        mSingleChartPagers = new ArrayList<>();
+        mSingleChartPagers.add(new ServerSingleHeatChartPager(mActivity)
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_CPU));
+        mSingleChartPagers.add(new ServerSingleHeatChartPager(mActivity)
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_MEMORY));
+        mSingleChartPagers.add(new ServerSingleHeatChartPager(mActivity)
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_DISK));
+        mSingleChartPagers.add(new ServerSingleHeatChartPager(mActivity)
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_DISK_USAGE));
+        mSingleChartPagers.add(new ServerSingleHeatChartPager(mActivity)
+                .putArgument("type", ServerSingleHeatChartPager.TYPE_NET));
+        mVpSingleHeat.setAdapter(new CJSVpLoopPagerAdapter(mSingleChartPagers));
+        mVpSingleHeat.setCurrentItem(2000 * mSingleChartPagers.size());
+        for (BasePager singleChartPager : mSingleChartPagers) {
+            singleChartPager.init();
+        }
+        mVpSingleHeat.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position % mSingleChartPagers.size());
+            }
+        });
     }
 
     //热图单台服务器
     private ServerHeatBean mSingleServer;
 
     private void initHeatChart(final List<ServerHeatBean> datas) {
+        datas.remove(0);
         int size = datas.size();
         if (size == 1) {
             mRvHeat.setVisibility(View.GONE);
@@ -229,16 +257,10 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
 
     private void initMagicIndicator() {
         ScaleCircleNavigator circleNavigator = new ScaleCircleNavigator(mActivity);
-        circleNavigator.setCircleCount(5);
+        circleNavigator.setCircleCount(mSingleChartPagers.size());
         circleNavigator.setSkimOver(true);
         circleNavigator.setNormalCircleColor(getResources().getColor(R.color.color_33ffffff));
         circleNavigator.setSelectedCircleColor(getResources().getColor(R.color.color_80ffffff));
-        circleNavigator.setCircleClickListener(new ScaleCircleNavigator.OnCircleClickListener() {
-            @Override
-            public void onClick(int index) {
-                mVpSingleHeat.setCurrentItem(index);
-            }
-        });
         mSingleIndicator.setNavigator(circleNavigator);
         ViewPagerHelper.bind(mSingleIndicator, mVpSingleHeat);
     }
@@ -286,27 +308,12 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @Override
     public void showServerMonitorInfo(ServerMonitorBean serverMonitor) {
         String json = TenApp.getInstance().getGsonInstance().toJson(serverMonitor);
-        ArrayList<BasePager> pagers = new ArrayList<>();
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
-                .putArgument("serverId", mSingleServer.getServerID() + "")
-                .putArgument("type", ServerSingleHeatChartPager.TYPE_CPU));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
-                .putArgument("serverId", mSingleServer.getServerID() + "")
-                .putArgument("type", ServerSingleHeatChartPager.TYPE_MEMORY));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
-                .putArgument("serverId", mSingleServer.getServerID() + "")
-                .putArgument("type", ServerSingleHeatChartPager.TYPE_DISK));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
-                .putArgument("serverId", mSingleServer.getServerID() + "")
-                .putArgument("type", ServerSingleHeatChartPager.TYPE_DISK_USAGE));
-        pagers.add(new ServerSingleHeatChartPager(mActivity).putArgument("data", json)
-                .putArgument("serverId", mSingleServer.getServerID() + "")
-                .putArgument("type", ServerSingleHeatChartPager.TYPE_NET));
-        mVpSingleHeat.setAdapter(new CJSVpPagerAdapter(pagers));
-        for (BasePager pager : pagers) {
-            pager.init();
+        for (BasePager pager : mSingleChartPagers) {
+            ServerSingleHeatChartPager chartPager = (ServerSingleHeatChartPager) pager;
+            chartPager.putArgument("data", json)
+                    .putArgument("serverId", mSingleServer.getServerID() + "");
+            chartPager.initData();
         }
-        initMagicIndicator();
     }
 
     @Override
@@ -354,9 +361,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.summary();
-        mPresenter.getWarnServerList(1);
-        mPresenter.getServerMonitor();
+        initData();
     }
 
     @Override

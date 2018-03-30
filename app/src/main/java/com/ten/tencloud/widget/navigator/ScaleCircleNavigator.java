@@ -19,6 +19,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * 类似CircleIndicator的效果
  * Created by hackware on 2016/9/3.
@@ -163,11 +164,13 @@ public class ScaleCircleNavigator extends View implements IPagerNavigator, Navig
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        position = position % mCircleCount;
         mNavigatorHelper.onPageScrolled(position, positionOffset, positionOffsetPixels);
     }
 
     @Override
     public void onPageSelected(int position) {
+        position = position % mCircleCount;
         mNavigatorHelper.onPageSelected(position);
     }
 

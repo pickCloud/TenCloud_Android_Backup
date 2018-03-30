@@ -199,23 +199,9 @@ public class ServerToolBoxActivity extends BaseActivity implements ServerOperati
      *
      * @param state
      */
-    private int filterCount = 30;
-
-    private int tempCount = 0;
-
-    private String tempState = "";
 
     private void setState(String state) {
         //状态发生变化
-        if (!TextUtils.isEmpty(tempState)) {
-            tempCount++;
-            if (tempCount < filterCount) {
-                state = tempState;
-            } else {
-                tempState = "";
-                tempCount = 0;
-            }
-        }
         if (!mMachineStatus.equals(state)) {
             mServerInfoHandler.sendBroadCast();
             mServerHandler.sendBroadCast();
@@ -259,7 +245,6 @@ public class ServerToolBoxActivity extends BaseActivity implements ServerOperati
     @Override
     public void rebootSuccess() {
         showMessage("重启中");
-        tempState = "重启中";
         setState("重启中");
     }
 
@@ -276,14 +261,12 @@ public class ServerToolBoxActivity extends BaseActivity implements ServerOperati
     @Override
     public void startSuccess() {
         showMessage("正在开机");
-        tempState = "开机中";
         setState("开机中");
     }
 
     @Override
     public void stopSuccess() {
         showMessage("正在关机");
-        tempState = "关机中";
         setState("关机中");
     }
 
