@@ -221,7 +221,6 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     private ServerHeatBean mSingleServer;
 
     private void initHeatChart(final List<ServerHeatBean> datas) {
-        datas.remove(0);
         int size = datas.size();
         if (size == 1) {
             mRvHeat.setVisibility(View.GONE);
