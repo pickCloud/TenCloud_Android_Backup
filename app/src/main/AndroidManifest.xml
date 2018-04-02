@@ -127,7 +127,7 @@
         <activity android:name=".module.server.ui.ServerDetail2Activity" />
         <activity android:name=".module.server.ui.ServerDetailBasicActivity" />
         <activity android:name=".module.server.ui.ServerDetailConfigActivity" />
-        <activity android:name=".module.server.ui.ServerMonitorActivity"/>
+        <activity android:name=".module.server.ui.ServerMonitorActivity" />
         <activity
             android:name=".module.app.ui.AppAddActivity"
             android:screenOrientation="portrait" />
@@ -158,6 +158,9 @@
         <activity
             android:name=".module.server.ui.ServerToolBoxActivity"
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
+        <activity android:name=".module.server.ui.ServerAddBatchStep1Activity" />
+        <activity android:name=".module.server.ui.ServerAddBatchStep2Activity" />
+        <activity android:name=".module.server.ui.ServerAddBatchStep3Activity"></activity>
     </application>
 
 </manifest>

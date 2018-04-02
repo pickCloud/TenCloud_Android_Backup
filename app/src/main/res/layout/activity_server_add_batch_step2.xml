@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical"
+    tools:context="com.ten.tencloud.module.server.ui.ServerAddBatchStep1Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:background="@mipmap/share_top_bg"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="第二步"
+            android:textColor="@color/text_color_566278"
+            android:textSize="14sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加访问秘钥"
+                android:textColor="@color/text_color_899ab6"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="云秘钥获取帮助文档"
+                android:textColor="@color/text_color_287db6"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_232730"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="14dp"
+            android:drawableLeft="@mipmap/icon_warning01"
+            android:text="您还未在拾云平台保存【云服务商】的访问密钥，需"
+            android:textColor="@color/text_color_566278"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:text="要您提供相关信息。未来一旦您担心由此产生的信息安全"
+            android:textColor="@color/text_color_566278"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="问题，你可以随时禁用此秘钥。"
+                android:textColor="@color/text_color_566278"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="如何禁用"
+                android:textColor="@color/text_color_287db6"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_color_3f4656" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/ListItemLLFirst">
+
+                <LinearLayout style="@style/ListItemLL2">
+
+                    <TextView
+                        style="@style/ListItemTextKey"
+                        android:layout_width="120dp"
+                        android:text="Access Key ID" />
+
+                    <EditText
+                        android:id="@+id/et_phone"
+                        style="@style/ListItemEditValue"
+                        android:hint="请输入Access Key ID"
+                        android:inputType="phone" />
+
+                </LinearLayout>
+
+                <View style="@style/LineHorizontal2f3543" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/ListItemLLFirst">
+
+                <LinearLayout style="@style/ListItemLL2">
+
+                    <TextView
+                        style="@style/ListItemTextKey"
+                        android:layout_width="120dp"
+                        android:text="Access Key Secret" />
+
+                    <EditText
+                        android:id="@+id/et_secret"
+                        style="@style/ListItemEditValue"
+                        android:hint="请输入Access Key Secret"
+                        android:inputType="phone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line_color_3f4656" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
