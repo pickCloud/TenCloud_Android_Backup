@@ -8,15 +8,22 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
+import com.ten.tencloud.module.app.contract.AppListContract;
+import com.ten.tencloud.module.app.presenter.AppListPresenter;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -25,7 +32,7 @@ import butterknife.OnClick;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class AppListActivity extends BaseActivity {
+public class AppListActivity extends BaseActivity implements AppListContract.View {
 
     @BindView(R.id.tv_filter)
     TextView mTvFilter;
@@ -35,13 +42,15 @@ public class AppListActivity extends BaseActivity {
     TextView mTvAddApp;
     @BindView(R.id.empty_view)
     FrameLayout mEmptyView;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout mRefresh;
 
     private RefreshBroadCastHandler mAppHandler;
     private ArrayList<AppBean> mAppBeans;
     private RvAppAdapter mAppAdapter;
 
     private AppFilterDialog mAppFilterDialog;
-
+    private AppListPresenter mAppListPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +68,40 @@ public class AppListActivity extends BaseActivity {
             }
         });
 
+        mAppListPresenter = new AppListPresenter();
+        mAppListPresenter.attachView(this);
+
         mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
         mAppHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
+                KLog.e("刷新应用列表");
+                mAppListPresenter.getAppListByPage(false);
 
             }
         });
 
         initView();
-        initData();
+
+//        initData();
+
     }
 
     private void initView() {
+        mRefresh.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mAppListPresenter.getAppListByPage(false);
+            }
+
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                mAppListPresenter.getAppListByPage(true);
+
+            }
+        });
+        mRefresh.autoRefresh();
+
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
         mAppAdapter = new RvAppAdapter(this);
         mRvApp.setAdapter(mAppAdapter);
@@ -91,19 +121,6 @@ public class AppListActivity extends BaseActivity {
         });
     }
 
-    private void initData() {
-        ArrayList<AppBean> appBeans = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("普通项目");
-        appBeans.add(new AppBean("应用AIUnicorn", "Github：AIUnicorn/10.com", "2018-02-15  18:15:12", "2018-02-15  20:15:12", 0, labels));
-        labels = new ArrayList<>();
-        labels.add("基础服务");
-        labels.add("应用组件");
-        appBeans.add(new AppBean("应用HelloWorld", "Tenhub：18600503478/redis", "2018-02-16  8:15:12", "2018-02-16  10:15:12", 1, labels));
-        appBeans.add(new AppBean("应用HelloWorld1", "Github：AIUnicorn/10.com", "2018-02-17  18:01:12", "2018-02-17  23:15:12", 2, labels));
-        mAppAdapter.setDatas(appBeans);
-    }
-
     @OnClick({R.id.tv_filter, R.id.tv_add_app})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -118,9 +135,36 @@ public class AppListActivity extends BaseActivity {
     }
 
     @Override
+    public void showEmpty(boolean isLoadMore) {
+        if (isLoadMore) {
+            showMessage("暂无更多数据");
+            mRefresh.finishLoadmore();
+        } else {
+            mAppAdapter.clear();
+            mRefresh.finishRefresh();
+            mEmptyView.setVisibility(View.VISIBLE);
+            mRvApp.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showAppList(List<AppBean> msg, boolean isLoadMore) {
+        mEmptyView.setVisibility(View.GONE);
+        mRvApp.setVisibility(View.VISIBLE);
+        if (isLoadMore) {
+            mAppAdapter.addData(msg);
+            mRefresh.finishLoadmore();
+        } else {
+            mAppAdapter.setDatas(msg);
+            mRefresh.finishRefresh();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mAppHandler.unregisterReceiver();
         mAppHandler = null;
+        mAppListPresenter.detachView();
     }
 }

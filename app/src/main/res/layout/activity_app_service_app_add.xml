@@ -189,7 +189,7 @@
                 android:text="镜像来源" />
 
             <TextView
-                android:id="@+id/tv_warehouse"
+                android:id="@+id/tv_repos"
                 style="@style/SettingItemDes"
                 android:layout_marginEnd="16dp"
                 android:drawableEnd="@mipmap/icon_arrow_right"

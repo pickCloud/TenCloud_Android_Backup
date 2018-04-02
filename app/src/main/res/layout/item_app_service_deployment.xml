@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_banner_bg"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/selector_banner_bg"
     app:cardCornerRadius="2dp"

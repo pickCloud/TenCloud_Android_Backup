@@ -21,6 +21,7 @@ public abstract class BasePresenter<V extends IBaseView> implements IBasePresent
     }
 
     protected int page = 1; //当前页
+    protected int page_num = 10; //每页几条
 
     /**
      * 分页加载初始化页数等

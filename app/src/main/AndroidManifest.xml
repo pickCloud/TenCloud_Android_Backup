@@ -132,7 +132,7 @@
             android:name=".module.app.ui.AppAddActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.WareHouseBindActivity"
+            android:name=".module.app.ui.RepositoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.app.ui.LabelAddActivity"

@@ -3,7 +3,6 @@ package com.ten.tencloud.module.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,18 +15,19 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.AppBean;
-import com.ten.tencloud.bean.AppServiceHeaderBean;
+import com.ten.tencloud.bean.AppBrief;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
-import com.ten.tencloud.module.app.adapter.RvAppServiceHeaderAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
 import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
+import com.ten.tencloud.module.app.presenter.AppServiceHomePresenter;
 import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
 import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,8 +37,6 @@ import butterknife.OnClick;
  */
 public class AppServiceFragment extends BaseFragment implements AppServiceHomeContract.View {
 
-    @BindView(R.id.rv_app_service_frag_header)
-    RecyclerView mRvAppServiceFragHeader;
     @BindView(R.id.tv_hot_app_more)
     TextView mTvHotAppMore;
     @BindView(R.id.rv_hot_app)
@@ -59,11 +57,18 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     FrameLayout mDeploymentEmptyView;
     @BindView(R.id.service_empty_view)
     FrameLayout mServiceEmptyView;
+    @BindView(R.id.tv_app_count)
+    TextView mTvAppCount;
+    @BindView(R.id.tv_deploy_count)
+    TextView mTvDeployCount;
+    @BindView(R.id.tv_service_count)
+    TextView mTvServiceCount;
 
-    private RvAppServiceHeaderAdapter mAppServiceHeaderAdapter;
+
     private RvAppAdapter mAppAdapter;
     private RvAppServiceDeploymentAdapter mDeploymentAdapter;
     private RvServiceAdapter mServiceAdapter;
+    private AppServiceHomePresenter mAppServiceHomePresenter;
 
     @Nullable
     @Override
@@ -75,31 +80,15 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initViewHeader();
         initViewApp();
         initViewDeployment();
         initViewService();
         initData();
 
-    }
-
-    private void initViewHeader() {
-        mRvAppServiceFragHeader.setLayoutManager(new GridLayoutManager(mActivity, 5) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        mAppServiceHeaderAdapter = new RvAppServiceHeaderAdapter(mActivity);
-        mRvAppServiceFragHeader.setAdapter(mAppServiceHeaderAdapter);
-
-        ArrayList<AppServiceHeaderBean> appServiceHeaderBeans = new ArrayList<>();
-        appServiceHeaderBeans.add(new AppServiceHeaderBean(8, "有效应用"));
-        appServiceHeaderBeans.add(new AppServiceHeaderBean(3, "本周有效部署"));
-        appServiceHeaderBeans.add(new AppServiceHeaderBean(6, "有效Pods"));
-        appServiceHeaderBeans.add(new AppServiceHeaderBean(9, "独立容器"));
-        appServiceHeaderBeans.add(new AppServiceHeaderBean(5, "有效服务"));
-        mAppServiceHeaderAdapter.setDatas(appServiceHeaderBeans);
+        mAppServiceHomePresenter = new AppServiceHomePresenter();
+        mAppServiceHomePresenter.attachView(this);
+        mAppServiceHomePresenter.getAppBrief();
+        mAppServiceHomePresenter.getAppList();
     }
 
     private void initViewApp() {
@@ -117,16 +106,6 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
                 startActivity(new Intent(mActivity, AppDetailActivity.class));
             }
         });
-
-        ArrayList<AppBean> appBeans = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("普通项目");
-        appBeans.add(new AppBean("应用AIUnicorn", "Github：AIUnicorn/10.com", "2018-02-15  18:15:12", "2018-02-15  20:15:12", 0, labels));
-        labels = new ArrayList<>();
-        labels.add("基础服务");
-        labels.add("应用组件");
-        appBeans.add(new AppBean("应用HelloWorld", "Tenhub：18600503478/redis", "2018-02-16  18:15:12", "2018-02-16  10:15:12", 1, labels));
-        mAppAdapter.setDatas(appBeans);
     }
 
     private void initViewDeployment() {
@@ -163,7 +142,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         mRvNewestService.setAdapter(mServiceAdapter);
 
         ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
-        serviceBeans.add(new ServiceBean("service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12",0));
+        serviceBeans.add(new ServiceBean("service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
         mServiceAdapter.setDatas(serviceBeans);
     }
 
@@ -191,12 +170,29 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     }
 
     @Override
-    public void showEmptyView() {
-        mAppEmptyView.setVisibility(View.VISIBLE);
+    public void showEmptyView(int type) {
+        if (type == AppServiceHomeContract.APP_EMPTY_VIEW)
+            mAppEmptyView.setVisibility(View.VISIBLE);
+        else if (type == AppServiceHomeContract.DEPLOY_EMPTY_VIEW)
+            mDeploymentEmptyView.setVisibility(View.VISIBLE);
+        else mServiceEmptyView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showAppBfief(AppBrief appBrief) {
+        mTvAppCount.setText(String.valueOf(appBrief.getApp_num()));
+        mTvDeployCount.setText(String.valueOf(appBrief.getDeploy_num()));
+        mTvServiceCount.setText(String.valueOf(appBrief.getService_num()));
+    }
+
+    @Override
+    public void showAppList(List<AppBean> appBeanList) {
+        mAppAdapter.setDatas(appBeanList);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mAppServiceHomePresenter.detachView();
     }
 }

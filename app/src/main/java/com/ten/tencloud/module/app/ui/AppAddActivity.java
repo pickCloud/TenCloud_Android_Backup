@@ -21,14 +21,13 @@ import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
-import com.ten.tencloud.bean.CompanyBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
-import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.model.JesException;
+import com.ten.tencloud.model.subscribe.JesSubscribe;
+import com.ten.tencloud.module.app.model.AppModel;
 import com.ten.tencloud.module.other.contract.QiniuContract;
 import com.ten.tencloud.module.other.presenter.QiniuPresenter;
-import com.ten.tencloud.module.user.contract.CompanyInfoContract;
-import com.ten.tencloud.module.user.presenter.CompanyInfoPresenter;
 import com.ten.tencloud.utils.SelectPhotoHelper;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
@@ -43,7 +42,7 @@ import butterknife.OnClick;
  * Created by chenxh@10.com on 2018/3/26.
  */
 public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResultListener, InvokeListener,
-        QiniuContract.View, CompanyInfoContract.View {
+        QiniuContract.View {
 
     @BindView(R.id.iv_logo)
     CircleImageView mIvLogo;
@@ -57,33 +56,29 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     TextView mTvAddLabel;
     @BindView(R.id.fbl_label)
     FlexboxLayout mFlexboxLayout;
-    @BindView(R.id.tv_warehouse)
-    TextView mTvWarehouse;
+    @BindView(R.id.tv_repos)
+    TextView mTvRepos;
     @BindView(R.id.btn_sure_add)
     Button mBtnSureAdd;
-
-    private int mCid;
 
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private SelectPhotoHelper mPhotoHelper;
     private QiniuPresenter mQiniuPresenter;
 
-    private CompanyInfoPresenter mCompanyInfoPresenter;
-    private String mMobile;
-    private String mName;
-    private String mContact;
-    private String mImageUrl;
-
     private PhotoSelectDialog mPhotoSelectDialog;
 
+    private String mLogoUrl;
     private String mAppName;
     private String mDescription;
     private ArrayList<String> mLabels;
-    private String mAppUrl;
+    private String mReposName;
+    private String mReposUrl;
+    private RefreshBroadCastHandler mAppRefreshHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getTakePhoto().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_service_app_add);
         initTitleBar(true, "添加应用");
@@ -91,11 +86,8 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        RefreshBroadCastHandler appRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
+        mAppRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
 
-        mCid = AppBaseCache.getInstance().getCid();
-        mCompanyInfoPresenter = new CompanyInfoPresenter();
-        mCompanyInfoPresenter.attachView(this);
         mQiniuPresenter = new QiniuPresenter();
         mQiniuPresenter.attachView(this);
 
@@ -106,14 +98,12 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         options.cropWidth = 400;
         mPhotoHelper = new SelectPhotoHelper(options);
 
-//        mCompanyInfoPresenter.getCompanyByCid(mCid);
-
     }
 
-    @OnClick({R.id.iv_logo, R.id.tv_add_label, R.id.tv_warehouse, R.id.btn_sure_add})
+    @OnClick({R.id.ll1, R.id.tv_add_label, R.id.tv_repos, R.id.btn_sure_add})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_logo:
+            case R.id.ll1:
                 if (mPhotoSelectDialog == null) {
                     mPhotoSelectDialog = new PhotoSelectDialog(this);
                     mPhotoSelectDialog.setOnBtnClickListener(new PhotoSelectDialog.OnBtnClickListener() {
@@ -133,45 +123,64 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
             case R.id.tv_add_label:
                 startActivityForResult(new Intent(this, LabelAddActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON1);
                 break;
-            case R.id.tv_warehouse:
-                startActivityForResult(new Intent(this, WareHouseBindActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
+            case R.id.tv_repos:
+                startActivityForResult(new Intent(this, RepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
                 break;
             case R.id.btn_sure_add:
                 mAppName = mEtName.getText().toString().trim();
                 mDescription = mEtDescription.getText().toString().trim();
+                if (TextUtils.isEmpty(mAppName)) {
+                    showToastMessage(R.string.tips_verify_app_empty);
+                    return;
+                } else if ((TextUtils.isEmpty(mDescription))) {
+                    showToastMessage(R.string.tips_verify_app_decription_empty);
+                    return;
+                }
 
+                AppModel.getInstance()
+                        .newApp(mAppName, mDescription, mReposName, "", "", mLogoUrl, 0)
+                        .subscribe(new JesSubscribe<Object>(this) {
+
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                mBtnSureAdd.setEnabled(false);
+                                mBtnSureAdd.setText("正在添加应用...请稍候...");
+                            }
+
+                            @Override
+                            public void _onSuccess(Object o) {
+                                showToastMessage("应用添加成功");
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定添加");
+                                mAppRefreshHandler.sendBroadCast();
+                                finish();
+                            }
+
+                            @Override
+                            public void _onError(JesException e) {
+                                super._onError(e);
+                                showToastMessage(e.getMessage());
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定添加");
+                            }
+                        });
                 break;
         }
     }
 
 
     @Override
-    public void showCompanyInfo(CompanyBean companyInfo) {
-        mName = companyInfo.getName();
-        mContact = companyInfo.getContact();
-        mMobile = companyInfo.getMobile();
-        mImageUrl = companyInfo.getImage_url();
-        GlideUtils.getInstance().loadCircleImage(this, mIvLogo, mImageUrl, R.mipmap.icon_com_photo);
-        if (mImageUrl.contains("com/")) {
-            String[] path = mImageUrl.split("com/");
-            if (path.length > 1) {
-                mImageUrl = path[1];
-            }
-        }
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         getTakePhoto().onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Constants.ACTIVITY_RESULT_CODE_REFRESH) {
-            mCompanyInfoPresenter.getCompanyByCid(mCid);
-        } else if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             if (requestCode == Constants.ACTIVITY_REQUEST_CODE_COMMON1
                     && data != null && data.getStringArrayListExtra("labels") != null) {
 
-            } else if (requestCode == Constants.ACTIVITY_REQUEST_CODE_COMMON2
-                    && data != null && !TextUtils.isEmpty(data.getStringExtra("url"))) {
-                mTvWarehouse.setText(data.getStringExtra("url"));
+            } else if (requestCode == Constants.ACTIVITY_REQUEST_CODE_COMMON2 && data != null ) {
+                mTvRepos.setText(data.getStringExtra("url"));
+                mReposName = data.getStringExtra("name");
+                mReposUrl = data.getStringExtra("url");
             }
         }
     }
@@ -208,6 +217,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     public void takeSuccess(TResult result) {
         KLog.i("takeSuccess：" + result.getImage().getCompressPath());
         String path = result.getImage().getCompressPath();//压缩后的路径
+        GlideUtils.getInstance().loadCircleImage(this, mIvLogo, path, R.mipmap.icon_app_photo);
         mQiniuPresenter.uploadFile(path);
     }
 
@@ -232,17 +242,12 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void uploadSuccess(String path) {
-        mCompanyInfoPresenter.updateCompanyInfo(mCid, mName, mContact, mMobile, path);
-    }
-
-    @Override
-    public void updateSuccess() {
-        showMessage("LOGO上传成功");
-        mCompanyInfoPresenter.getCompanyByCid(mCid);
+        KLog.e(path);
+        mLogoUrl = path;
     }
 
     @Override
     public void uploadFiled() {
-        showMessage("LOGO上传失败");
+        showMessage("图片上传失败");
     }
 }

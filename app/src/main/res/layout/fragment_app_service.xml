@@ -2,6 +2,8 @@
 <com.ten.tencloud.widget.TenForbidAutoScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:toosl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/default_bg">
 
     <LinearLayout
@@ -9,11 +11,119 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_app_service_frag_header"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="104dp" />
+            android:layout_height="wrap_content">
 
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="104dp"
+                android:background="@color/bg_232730">
+
+                <TextView
+                    android:id="@+id/tv_app_count"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/shape_circle_app_service_header"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    tools:text="3"
+                    toosl:layout_constraintLeft_toLeftOf="parent"
+                    toosl:layout_constraintRight_toRightOf="parent"
+                    toosl:layout_constraintBottom_toTopOf="@id/tv1"
+                    toosl:layout_constraintVertical_chainStyle="packed"
+                    toosl:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="有效应用"
+                    android:layout_marginTop="8dp"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:textColor="@color/bg_tran_48bbc0_50"
+                    toosl:layout_constraintLeft_toLeftOf="parent"
+                    toosl:layout_constraintRight_toRightOf="parent"
+                    toosl:layout_constraintBottom_toBottomOf="parent"
+                    toosl:layout_constraintTop_toBottomOf="@id/tv_app_count" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="104dp"
+                android:background="@color/bg_232730">
+
+                <TextView
+                    android:id="@+id/tv_deploy_count"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/shape_circle_app_service_header"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    tools:text="3"
+                    toosl:layout_constraintLeft_toLeftOf="parent"
+                    toosl:layout_constraintRight_toRightOf="parent"
+                    toosl:layout_constraintBottom_toTopOf="@id/tv2"
+                    toosl:layout_constraintVertical_chainStyle="packed"
+                    toosl:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本周有效部署"
+                    android:layout_marginTop="8dp"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:textColor="@color/bg_tran_48bbc0_50"
+                    toosl:layout_constraintLeft_toLeftOf="parent"
+                    toosl:layout_constraintRight_toRightOf="parent"
+                    toosl:layout_constraintBottom_toBottomOf="parent"
+                    toosl:layout_constraintTop_toBottomOf="@id/tv_deploy_count" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="104dp"
+                android:background="@color/bg_232730">
+
+                <TextView
+                    android:id="@+id/tv_service_count"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/shape_circle_app_service_header"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    tools:text="3"
+                    toosl:layout_constraintLeft_toLeftOf="parent"
+                    toosl:layout_constraintRight_toRightOf="parent"
+                    toosl:layout_constraintBottom_toTopOf="@id/tv3"
+                    toosl:layout_constraintVertical_chainStyle="packed"
+                    toosl:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="有效服务"
+                    android:layout_marginTop="8dp"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:textColor="@color/bg_tran_48bbc0_50"
+                    toosl:layout_constraintLeft_toLeftOf="parent"
+                    toosl:layout_constraintRight_toRightOf="parent"
+                    toosl:layout_constraintBottom_toBottomOf="parent"
+                    toosl:layout_constraintTop_toBottomOf="@id/tv_service_count" />
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/ll1"

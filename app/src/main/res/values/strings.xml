@@ -39,6 +39,7 @@
     <string name="tips_verify_ip_empty">IP不能为空</string>
     <string name="tips_verify_server_empty">主机名称不能为空</string>
     <string name="tips_verify_app_empty">应用名称不能为空</string>
+    <string name="tips_verify_app_decription_empty">描述不能为空</string>
     <string name="title_activity_join_com_tips">JoinComTipsActivity</string>
     <string name="warehouse_path">路径：$0</string>
     <string name="warehouse_github">Github：$0</string>

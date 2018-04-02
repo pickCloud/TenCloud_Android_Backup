@@ -1,25 +1,46 @@
 package com.ten.tencloud.bean;
 
-import java.util.ArrayList;
-
 /**
  * Created by chenxh@10.com on 2018/3/28.
  */
 public class AppBean {
-    private String name;
-    private String source;
-    private String createDate;
-    private String updateDate;
-    private int status;
-    private ArrayList<String> labels;
 
-    public AppBean(String name, String source, String createDate, String updateDate, int status, ArrayList<String> labels) {
-        this.name = name;
-        this.source = source;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.status = status;
-        this.labels = labels;
+    /**
+     * id : 1
+     * name : app1
+     * description : 测试1
+     * status : 0
+     * repos_name :
+     * repos_ssh_url :
+     * repos_https_url :
+     * logo_url :
+     * image_id : 0
+     * lord : 79
+     * form : 1
+     * create_time : 2018-04-02 10:57:53
+     * update_time : 2018-04-02 10:57:53
+     */
+
+    private int id;
+    private String name;
+    private String description;
+    private int status;
+    private String repos_name;
+    private String repos_ssh_url;
+    private String repos_https_url;
+    private String logo_url;
+    private int image_id;
+    private int lord;
+    private int form;
+    private String create_time;
+    private String update_time;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -30,28 +51,12 @@ public class AppBean {
         this.name = name;
     }
 
-    public String getSource() {
-        return source;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getStatus() {
@@ -62,11 +67,75 @@ public class AppBean {
         this.status = status;
     }
 
-    public ArrayList<String> getLabels() {
-        return labels;
+    public String getRepos_name() {
+        return repos_name;
     }
 
-    public void setLabels(ArrayList<String> labels) {
-        this.labels = labels;
+    public void setRepos_name(String repos_name) {
+        this.repos_name = repos_name;
+    }
+
+    public String getRepos_ssh_url() {
+        return repos_ssh_url;
+    }
+
+    public void setRepos_ssh_url(String repos_ssh_url) {
+        this.repos_ssh_url = repos_ssh_url;
+    }
+
+    public String getRepos_https_url() {
+        return repos_https_url;
+    }
+
+    public void setRepos_https_url(String repos_https_url) {
+        this.repos_https_url = repos_https_url;
+    }
+
+    public String getLogo_url() {
+        return logo_url;
+    }
+
+    public void setLogo_url(String logo_url) {
+        this.logo_url = logo_url;
+    }
+
+    public int getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(int image_id) {
+        this.image_id = image_id;
+    }
+
+    public int getLord() {
+        return lord;
+    }
+
+    public void setLord(int lord) {
+        this.lord = lord;
+    }
+
+    public int getForm() {
+        return form;
+    }
+
+    public void setForm(int form) {
+        this.form = form;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
     }
 }

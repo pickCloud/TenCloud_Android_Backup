@@ -22,7 +22,7 @@ import butterknife.BindView;
 /**
  * Created by chenxh@10.com on 2018/3/26.
  */
-public class WareHouseBindActivity extends BaseActivity {
+public class RepositoryActivity extends BaseActivity {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -30,6 +30,7 @@ public class WareHouseBindActivity extends BaseActivity {
     SmartRefreshLayout mRefreshLayout;
 
     private RvWareHouseBindAdapter mRvWareHouseBindAdapter;
+    private String mWareHouseName;
     private String mWareHouseUrl;
 
     @Override
@@ -41,6 +42,7 @@ public class WareHouseBindActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra("url", mWareHouseUrl);
+                intent.putExtra("name", mWareHouseName);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -59,6 +61,7 @@ public class WareHouseBindActivity extends BaseActivity {
             @Override
             public void onObjectItemClicked(WareHouseBean wareHouseBean, int position) {
                 mRvWareHouseBindAdapter.setSelectPos(position);
+                mWareHouseName = wareHouseBean.getName();
                 mWareHouseUrl = wareHouseBean.getUrl();
             }
         });
