@@ -53,6 +53,24 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<Object> updateApp(int id, String name, String description, String repos_name, String repos_ssh_url,
+                                     String repos_https_url, String logo_url) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", id);
+        hashMap.put("name", name);
+        hashMap.put("description", description);
+        hashMap.put("repos_name", repos_name);
+        hashMap.put("repos_ssh_url", repos_ssh_url);
+        hashMap.put("repos_https_url", repos_https_url);
+        hashMap.put("logo_url", logo_url);
+        RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .updateApp(body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public Observable<List<AppBean>> getAppList() {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getAppList()
@@ -68,4 +86,14 @@ public class AppModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Observable<List<AppBean>> getAppById(int id) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getAppById(id)
+                .map(new HttpResultFunc<List<AppBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
 }

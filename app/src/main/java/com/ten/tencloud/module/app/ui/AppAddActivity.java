@@ -21,11 +21,14 @@ import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
+import com.ten.tencloud.module.app.contract.AppDetailContract;
 import com.ten.tencloud.module.app.model.AppModel;
+import com.ten.tencloud.module.app.presenter.AppDetailPresenter;
 import com.ten.tencloud.module.other.contract.QiniuContract;
 import com.ten.tencloud.module.other.presenter.QiniuPresenter;
 import com.ten.tencloud.utils.SelectPhotoHelper;
@@ -42,7 +45,7 @@ import butterknife.OnClick;
  * Created by chenxh@10.com on 2018/3/26.
  */
 public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResultListener, InvokeListener,
-        QiniuContract.View {
+        QiniuContract.View, AppDetailContract.View {
 
     @BindView(R.id.iv_logo)
     CircleImageView mIvLogo;
@@ -50,16 +53,14 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     EditText mEtName;
     @BindView(R.id.et_description)
     EditText mEtDescription;
-    @BindView(R.id.et_label)
-    EditText mEtLabel;
-    @BindView(R.id.tv_add_label)
-    TextView mTvAddLabel;
     @BindView(R.id.fbl_label)
     FlexboxLayout mFlexboxLayout;
     @BindView(R.id.tv_repos)
     TextView mTvRepos;
     @BindView(R.id.btn_sure_add)
     Button mBtnSureAdd;
+    @BindView(R.id.tv_label_edit)
+    TextView mTvLabelEdit;
 
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
@@ -75,21 +76,36 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private String mReposName;
     private String mReposUrl;
     private RefreshBroadCastHandler mAppRefreshHandler;
+    private int mId;
+
+    private AppDetailPresenter mAppDetailPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_service_app_add);
-        initTitleBar(true, "添加应用");
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        mId = getIntent().getIntExtra("id", -1);
+        if (mId == -1) {
+            initTitleBar(true, "添加应用");
+            mBtnSureAdd.setText("确定添加");
+        } else {
+            initTitleBar(true, "修改应用");
+            mBtnSureAdd.setText("确定修改");
+        }
 
         mAppRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
 
         mQiniuPresenter = new QiniuPresenter();
         mQiniuPresenter.attachView(this);
+
+        mAppDetailPresenter = new AppDetailPresenter();
+        mAppDetailPresenter.attachView(this);
+        mAppDetailPresenter.getAppById(mId);
 
         SelectPhotoHelper.Options options = new SelectPhotoHelper.Options();
         options.isCrop = true;
@@ -98,9 +114,10 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         options.cropWidth = 400;
         mPhotoHelper = new SelectPhotoHelper(options);
 
+
     }
 
-    @OnClick({R.id.ll1, R.id.tv_add_label, R.id.tv_repos, R.id.btn_sure_add})
+    @OnClick({R.id.ll1, R.id.tv_label_edit, R.id.tv_repos, R.id.btn_sure_add})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll1:
@@ -120,52 +137,87 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                 }
                 mPhotoSelectDialog.show();
                 break;
-            case R.id.tv_add_label:
-                startActivityForResult(new Intent(this, LabelAddActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON1);
+            case R.id.tv_label_edit:
+
                 break;
             case R.id.tv_repos:
                 startActivityForResult(new Intent(this, RepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
                 break;
             case R.id.btn_sure_add:
-                mAppName = mEtName.getText().toString().trim();
-                mDescription = mEtDescription.getText().toString().trim();
-                if (TextUtils.isEmpty(mAppName)) {
-                    showToastMessage(R.string.tips_verify_app_empty);
-                    return;
-                } else if ((TextUtils.isEmpty(mDescription))) {
-                    showToastMessage(R.string.tips_verify_app_decription_empty);
-                    return;
-                }
-
-                AppModel.getInstance()
-                        .newApp(mAppName, mDescription, mReposName, "", "", mLogoUrl, 0)
-                        .subscribe(new JesSubscribe<Object>(this) {
-
-                            @Override
-                            public void onStart() {
-                                super.onStart();
-                                mBtnSureAdd.setEnabled(false);
-                                mBtnSureAdd.setText("正在添加应用...请稍候...");
-                            }
-
-                            @Override
-                            public void _onSuccess(Object o) {
-                                showToastMessage("应用添加成功");
-                                mBtnSureAdd.setEnabled(true);
-                                mBtnSureAdd.setText("确定添加");
-                                mAppRefreshHandler.sendBroadCast();
-                                finish();
-                            }
-
-                            @Override
-                            public void _onError(JesException e) {
-                                super._onError(e);
-                                showToastMessage(e.getMessage());
-                                mBtnSureAdd.setEnabled(true);
-                                mBtnSureAdd.setText("确定添加");
-                            }
-                        });
+                addOrUpdateApp();
                 break;
+        }
+    }
+
+    private void addOrUpdateApp() {
+        mAppName = mEtName.getText().toString().trim();
+        mDescription = mEtDescription.getText().toString().trim();
+        if (TextUtils.isEmpty(mAppName)) {
+            showToastMessage(R.string.tips_verify_app_empty);
+            return;
+        } else if ((TextUtils.isEmpty(mDescription))) {
+            showToastMessage(R.string.tips_verify_app_decription_empty);
+            return;
+        }
+
+        if (mId == -1) {
+            AppModel.getInstance()
+                    .newApp(mAppName, mDescription, mReposName, "", "", mLogoUrl, 0)
+                    .subscribe(new JesSubscribe<Object>(this) {
+
+                        @Override
+                        public void onStart() {
+                            super.onStart();
+                            mBtnSureAdd.setEnabled(false);
+                            mBtnSureAdd.setText("正在添加应用...请稍候...");
+                        }
+
+                        @Override
+                        public void _onSuccess(Object o) {
+                            showToastMessage("应用添加成功");
+                            mBtnSureAdd.setEnabled(true);
+                            mBtnSureAdd.setText("确定添加");
+                            mAppRefreshHandler.sendBroadCast();
+                            finish();
+                        }
+
+                        @Override
+                        public void _onError(JesException e) {
+                            super._onError(e);
+                            showToastMessage(e.getMessage());
+                            mBtnSureAdd.setEnabled(true);
+                            mBtnSureAdd.setText("确定添加");
+                        }
+                    });
+        } else {
+            AppModel.getInstance()
+                    .updateApp(mId, mAppName, mDescription, mReposName, "", "", mLogoUrl)
+                    .subscribe(new JesSubscribe<Object>(this) {
+
+                        @Override
+                        public void onStart() {
+                            super.onStart();
+                            mBtnSureAdd.setEnabled(false);
+                            mBtnSureAdd.setText("正在修改应用...请稍候...");
+                        }
+
+                        @Override
+                        public void _onSuccess(Object o) {
+                            showToastMessage("应用修改成功");
+                            mBtnSureAdd.setEnabled(true);
+                            mBtnSureAdd.setText("确定修改");
+                            mAppRefreshHandler.sendBroadCast();
+                            finish();
+                        }
+
+                        @Override
+                        public void _onError(JesException e) {
+                            super._onError(e);
+                            showToastMessage(e.getMessage());
+                            mBtnSureAdd.setEnabled(true);
+                            mBtnSureAdd.setText("确定修改");
+                        }
+                    });
         }
     }
 
@@ -177,7 +229,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
             if (requestCode == Constants.ACTIVITY_REQUEST_CODE_COMMON1
                     && data != null && data.getStringArrayListExtra("labels") != null) {
 
-            } else if (requestCode == Constants.ACTIVITY_REQUEST_CODE_COMMON2 && data != null ) {
+            } else if (requestCode == Constants.ACTIVITY_REQUEST_CODE_COMMON2 && data != null) {
                 mTvRepos.setText(data.getStringExtra("url"));
                 mReposName = data.getStringExtra("name");
                 mReposUrl = data.getStringExtra("url");
@@ -249,5 +301,24 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     @Override
     public void uploadFiled() {
         showMessage("图片上传失败");
+    }
+
+    @Override
+    public void showAppDetail(AppBean appBean) {
+        if (!TextUtils.isEmpty(appBean.getLogo_url())) {
+            GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
+            mLogoUrl = appBean.getLogo_url();
+        }
+        if (!TextUtils.isEmpty(appBean.getName()))
+            mEtName.setText(appBean.getName());
+        if (!TextUtils.isEmpty(appBean.getDescription()))
+            mEtDescription.setText(appBean.getDescription());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mQiniuPresenter.detachView();
+        mAppDetailPresenter.detachView();
     }
 }

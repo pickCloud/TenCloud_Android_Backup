@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.socks.library.KLog;
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
@@ -77,13 +79,10 @@ public class AppListActivity extends BaseActivity implements AppListContract.Vie
             public void onRefresh() {
                 KLog.e("刷新应用列表");
                 mAppListPresenter.getAppListByPage(false);
-
             }
         });
 
         initView();
-
-//        initData();
 
     }
 
@@ -104,6 +103,12 @@ public class AppListActivity extends BaseActivity implements AppListContract.Vie
 
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
         mAppAdapter = new RvAppAdapter(this);
+        mAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
+            @Override
+            public void onObjectItemClicked(AppBean appBean, int position) {
+                startActivity(new Intent(AppListActivity.this, AppDetailActivity.class).putExtra("id", appBean.getId()));
+            }
+        });
         mRvApp.setAdapter(mAppAdapter);
 
         mAppFilterDialog = new AppFilterDialog(this);

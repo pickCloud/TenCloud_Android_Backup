@@ -9,7 +9,6 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
-
     <com.ten.tencloud.widget.CircleImageView
         android:id="@+id/iv_logo"
         android:layout_width="36dp"
@@ -20,13 +19,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="应用名称xxx"
+        tools:text="应用名称xxx"
         android:textColor="@color/text_color_899ab6"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/fbl_label"
@@ -76,11 +74,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@id/tv_name"
-        android:background="@drawable/shape_status_running"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:text="正常"
-        android:textColor="@color/colorPrimary"
+        tools:text="正常"
+        android:textColor="@color/text_color_48bbc0"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_name"
         app:layout_constraintLeft_toRightOf="@id/tv_name"

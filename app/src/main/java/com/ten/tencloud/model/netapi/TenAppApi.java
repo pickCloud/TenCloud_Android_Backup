@@ -27,13 +27,21 @@ public interface TenAppApi {
     @POST("/api/application/new")
     Observable<Response<JesResponse<Object>>> newApp(@Body RequestBody body);
 
+    //更新应用
+    @POST("/api/application/update")
+    Observable<Response<JesResponse<Object>>> updateApp(@Body RequestBody body);
+
     //应用列表，获取所有
     @GET("/api/application")
     Observable<Response<JesResponse<List<AppBean>>>> getAppList();
 
-    //应用列表，分页，可指定id、status查询
+    //应用列表，分页
     @GET("/api/application")
     Observable<Response<JesResponse<List<AppBean>>>> getAppListByPage(@Query("page") int page, @Query("page_num") int page_num);
+
+    //指定应用
+    @GET("/api/application")
+    Observable<Response<JesResponse<List<AppBean>>>> getAppById(@Query("id") int id);
 
 
 

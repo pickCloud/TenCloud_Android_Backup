@@ -135,9 +135,6 @@
             android:name=".module.app.ui.RepositoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.LabelAddActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.app.ui.AppListActivity"
             android:screenOrientation="portrait" />
         <activity

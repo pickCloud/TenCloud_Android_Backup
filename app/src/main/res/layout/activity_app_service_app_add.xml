@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_bg"
@@ -100,80 +101,43 @@
 
     </LinearLayout>
 
-    <LinearLayout style="@style/ListItemLLFirst">
+    <LinearLayout
+        style="@style/ListItemLLFirst"
+        android:layout_height="wrap_content">
 
-        <RelativeLayout style="@style/ListItemLL2">
+        <LinearLayout style="@style/ListItemLL2">
 
             <TextView
                 android:id="@+id/tv1"
                 style="@style/ListItemTextKey"
-                android:layout_centerVertical="true"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
                 android:text="标签" />
 
-            <EditText
-                android:id="@+id/et_label"
-                style="@style/ListItemEditValue"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/tv1"
-                android:hint="请输入标签的名称" />
 
             <TextView
-                android:id="@+id/tv_add_label"
+                android:id="@+id/tv_label_edit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/shape_login_code_enable"
-                android:padding="5dp"
-                android:text="新增多个标签"
-                android:textColor="@color/selector_line_button_lake_blue_text"
-                android:textSize="13sp" />
-        </RelativeLayout>
-
-        <View
-            style="@style/LineHorizontal2f3543"
-            android:layout_marginStart="86dp" />
-
-    </LinearLayout>
-
-
-    <LinearLayout style="@style/ListItemLLFirst">
-
-        <LinearLayout style="@style/ListItemLL2">
-
-            <android.support.v4.widget.Space
-                android:layout_width="70dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="47dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:text="编辑标签"
+                android:textColor="@color/text_color_556278"
+                android:textSize="14sp"
+                android:visibility="visible" />
 
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/fbl_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp">
+                android:paddingBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:visibility="gone"
+                android:paddingTop="18dp"
+                app:flexWrap="wrap" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="13dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/shape_border_label"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:text="基础服务"
-                    android:textColor="@color/text_color_566278"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="13dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@drawable/shape_border_label"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:text="应用组件"
-                    android:textColor="@color/text_color_566278"
-                    android:textSize="10sp" />
-            </com.google.android.flexbox.FlexboxLayout>
         </LinearLayout>
 
         <View style="@style/LineHorizontal2f3543" />
@@ -212,8 +176,8 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
         android:layout_marginRight="32dp"
+        android:layout_marginTop="32dp"
         android:onClick="login"
         android:text="确定添加" />
 </LinearLayout>

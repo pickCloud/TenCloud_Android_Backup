@@ -103,7 +103,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         mAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
             @Override
             public void onObjectItemClicked(AppBean appBean, int position) {
-                startActivity(new Intent(mActivity, AppDetailActivity.class));
+                startActivity(new Intent(mActivity, AppDetailActivity.class).putExtra("id", appBean.getId()));
             }
         });
     }
