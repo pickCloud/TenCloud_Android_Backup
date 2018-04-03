@@ -3,12 +3,14 @@ package com.ten.tencloud.module.server.model;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.ClusterInfoBean;
 import com.ten.tencloud.bean.ProviderBean;
+import com.ten.tencloud.bean.ServerBatchBean;
 import com.ten.tencloud.bean.ServerBean;
 import com.ten.tencloud.bean.ServerDetailBean;
 import com.ten.tencloud.bean.ServerHeatBean;
 import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
+import com.ten.tencloud.bean.ServerProviderBean;
 import com.ten.tencloud.bean.ServerSystemLoadBean;
 import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.model.AppBaseCache;
@@ -363,4 +365,39 @@ public class ServerModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 获取服务器运营商
+     *
+     * @return
+     */
+    public Observable<List<ServerProviderBean>> getServerProvides() {
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .getServerProvides()
+                .map(new HttpResultFunc<List<ServerProviderBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 提交服务器证书，获取主机列表
+     *
+     * @param cloudId
+     * @param access_key
+     * @param access_secret
+     * @return
+     */
+    public Observable<List<ServerBatchBean>> submitCloudCredential(String cloudId, String access_key, String access_secret) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("cloud_type", cloudId);
+        Map<String, Object> temp = new HashMap<>();
+        temp.put("access_key", access_key);
+        temp.put("access_secret", access_secret);
+        map.put("content", temp);
+        RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .submitProviderCredential(body)
+                .map(new HttpResultFunc<List<ServerBatchBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

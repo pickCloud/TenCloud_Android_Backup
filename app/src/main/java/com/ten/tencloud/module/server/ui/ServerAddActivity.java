@@ -58,7 +58,12 @@ public class ServerAddActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_add);
-        initTitleBar(true, "添加主机");
+        initTitleBar(true, "添加主机", "批量", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityNoValue(mContext, ServerAddBatchStep1Activity.class);
+            }
+        });
 
         if (BuildConfig.DEBUG) {
             mEtIp.setText(ip);

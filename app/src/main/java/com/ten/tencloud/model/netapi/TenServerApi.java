@@ -3,12 +3,14 @@ package com.ten.tencloud.model.netapi;
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.ClusterInfoBean;
 import com.ten.tencloud.bean.ProviderBean;
+import com.ten.tencloud.bean.ServerBatchBean;
 import com.ten.tencloud.bean.ServerBean;
 import com.ten.tencloud.bean.ServerDetailBean;
 import com.ten.tencloud.bean.ServerHeatBean;
 import com.ten.tencloud.bean.ServerHistoryBean;
 import com.ten.tencloud.bean.ServerLogBean;
 import com.ten.tencloud.bean.ServerMonitorBean;
+import com.ten.tencloud.bean.ServerProviderBean;
 import com.ten.tencloud.bean.ServerSystemLoadBean;
 import com.ten.tencloud.bean.ServerThresholdBean;
 
@@ -87,4 +89,10 @@ public interface TenServerApi {
 
     @GET("/api/server/monitor")
     Observable<Response<JesResponse<List<ServerHeatBean>>>> getServerMonitor();
+
+    @GET("/api/clouds/support")
+    Observable<Response<JesResponse<List<ServerProviderBean>>>> getServerProvides();
+
+    @POST("/api/cloud/credential")
+    Observable<Response<JesResponse<List<ServerBatchBean>>>> submitProviderCredential(@Body RequestBody body);
 }

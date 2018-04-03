@@ -29,12 +29,12 @@
             android:layout_marginTop="4dp"
             android:text="选择云主机"
             android:textColor="@color/text_color_899ab6"
-            android:textSize="16sp" />
+            android:textSize="24sp" />
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_provider"
+        android:id="@+id/rv_server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
