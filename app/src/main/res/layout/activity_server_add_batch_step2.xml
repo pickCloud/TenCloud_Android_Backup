@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="添加访问秘钥"
                 android:textColor="@color/text_color_899ab6"
-                android:textSize="16sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -45,7 +45,7 @@
                 android:gravity="right"
                 android:text="云秘钥获取帮助文档"
                 android:textColor="@color/text_color_287db6"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -58,50 +58,36 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginTop="14dp"
-            android:drawableLeft="@mipmap/icon_warning01"
-            android:text="您还未在拾云平台保存【云服务商】的访问密钥，需"
-            android:textColor="@color/text_color_566278"
-            android:textSize="12sp" />
+            android:layout_marginTop="20dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:text="要您提供相关信息。未来一旦您担心由此产生的信息安全"
-            android:textColor="@color/text_color_566278"
-            android:textSize="12sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:orientation="horizontal">
-
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="问题，你可以随时禁用此秘钥。"
+                android:src="@mipmap/icon_warning01" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="10dp"
+                android:text="       您还未在拾云平台保存【云服务商】的访问密钥，需要您提供相关信息。未来一旦您担心由此产生的信息安全问题，你可以随时禁用此秘钥。"
                 android:textColor="@color/text_color_566278"
                 android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
                 android:text="如何禁用"
                 android:textColor="@color/text_color_287db6"
                 android:textSize="12sp" />
-        </LinearLayout>
+
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
@@ -123,7 +109,7 @@
                         android:text="Access Key ID" />
 
                     <EditText
-                        android:id="@+id/et_phone"
+                        android:id="@+id/et_key"
                         style="@style/ListItemEditValue"
                         android:hint="请输入Access Key ID"
                         android:inputType="phone" />

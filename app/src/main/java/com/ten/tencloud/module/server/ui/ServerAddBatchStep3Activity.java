@@ -1,12 +1,27 @@
 package com.ten.tencloud.module.server.ui;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.gson.reflect.TypeToken;
 import com.ten.tencloud.R;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.ServerBatchBean;
+
+import java.util.List;
+
+import butterknife.BindView;
 
 public class ServerAddBatchStep3Activity extends BaseActivity {
+
+
+    @BindView(R.id.rv_server)
+    RecyclerView mRvServer;
+
+    private List<ServerBatchBean> mServers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,5 +33,19 @@ public class ServerAddBatchStep3Activity extends BaseActivity {
 
             }
         });
+        String data = getIntent().getStringExtra("data");
+        mServers = TenApp.getInstance().getGsonInstance().fromJson(data, new TypeToken<List<ServerBatchBean>>() {
+        }.getType());
+        initView();
+        initData();
+    }
+
+    private void initView() {
+        mRvServer.setLayoutManager(new LinearLayoutManager(this));
+//        mRvServer.setAdapter();
+    }
+
+    private void initData() {
+
     }
 }
