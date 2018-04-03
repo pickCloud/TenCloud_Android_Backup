@@ -77,7 +77,6 @@ public class AppListActivity extends BaseActivity implements AppListContract.Vie
         mAppHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                KLog.e("刷新应用列表");
                 mAppListPresenter.getAppListByPage(false);
             }
         });

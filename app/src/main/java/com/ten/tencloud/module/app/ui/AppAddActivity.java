@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,8 +24,10 @@ import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.listener.DialogListener;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
@@ -34,6 +38,7 @@ import com.ten.tencloud.module.other.presenter.QiniuPresenter;
 import com.ten.tencloud.utils.SelectPhotoHelper;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
+import com.ten.tencloud.widget.dialog.LabelSelectDialog;
 import com.ten.tencloud.widget.dialog.PhotoSelectDialog;
 
 import java.util.ArrayList;
@@ -72,13 +77,15 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private String mLogoUrl;
     private String mAppName;
     private String mDescription;
-    private ArrayList<String> mLabels;
     private String mReposName;
     private String mReposUrl;
     private RefreshBroadCastHandler mAppRefreshHandler;
     private int mId;
 
     private AppDetailPresenter mAppDetailPresenter;
+    private LabelSelectDialog mLabelSelectDialog;
+    private ArrayList<LabelBean> mLabelBeans;
+    private ArrayList<LabelBean> mDefaultLabels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +121,33 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         options.cropWidth = 400;
         mPhotoHelper = new SelectPhotoHelper(options);
 
+        mDefaultLabels = new ArrayList<>();
+        mDefaultLabels.add(new LabelBean("基础组件", true));
+        mDefaultLabels.add(new LabelBean("应用服务", true));
+        mDefaultLabels.add(new LabelBean("自定义标签", true));
+        mDefaultLabels.add(new LabelBean("基础组件1", true));
+        mDefaultLabels.add(new LabelBean("应用服务1", true));
+        mDefaultLabels.add(new LabelBean("自定义标签1", true));
 
+//        createLabelView();
     }
 
-    @OnClick({R.id.ll1, R.id.tv_label_edit, R.id.tv_repos, R.id.btn_sure_add})
+    public void createLabelView(ArrayList<LabelBean> data) {
+        mFlexboxLayout.removeAllViews();
+        for (LabelBean label : data) {
+            createLableView(label);
+        }
+    }
+
+    private void createLableView(final LabelBean label) {
+        View view = View.inflate(this, R.layout.item_app_service_label, null);
+        final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_label_name);
+        checkBox.setText(label.getName());
+        checkBox.setEnabled(false);
+        mFlexboxLayout.addView(view);
+    }
+
+    @OnClick({R.id.ll1, R.id.fbl_label, R.id.tv_label_edit, R.id.tv_repos, R.id.btn_sure_add})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll1:
@@ -138,7 +168,20 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                 mPhotoSelectDialog.show();
                 break;
             case R.id.tv_label_edit:
-
+            case R.id.fbl_label:
+                mLabelSelectDialog = new LabelSelectDialog(this, new DialogListener<ArrayList<LabelBean>>() {
+                    @Override
+                    public void onRefresh(ArrayList<LabelBean> data) {
+                        mLabelBeans = data;
+                        if (data != null && data.size() != 0) {
+                            mTvLabelEdit.setVisibility(View.GONE);
+                            mFlexboxLayout.setVisibility(View.VISIBLE);
+                            createLabelView(data);
+                        }
+                    }
+                });
+                mLabelSelectDialog.show();
+                mLabelSelectDialog.setData(mLabelBeans == null ? mDefaultLabels : mLabelBeans);
                 break;
             case R.id.tv_repos:
                 startActivityForResult(new Intent(this, RepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
