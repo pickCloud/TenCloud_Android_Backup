@@ -38,7 +38,6 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
 
-        KLog.e(datas.get(position).getLogo_url());
         if (!TextUtils.isEmpty(datas.get(position).getLogo_url()))
             GlideUtils.getInstance().loadCircleImage(mContext, holder.mIvLogo, datas.get(position).getLogo_url(), R.mipmap.icon_app_photo);
         if (!TextUtils.isEmpty(datas.get(position).getName()))

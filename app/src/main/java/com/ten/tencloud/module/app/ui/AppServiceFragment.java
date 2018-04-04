@@ -18,6 +18,8 @@ import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ServiceBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
@@ -69,6 +71,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     private RvAppServiceDeploymentAdapter mDeploymentAdapter;
     private RvServiceAdapter mServiceAdapter;
     private AppServiceHomePresenter mAppServiceHomePresenter;
+    private RefreshBroadCastHandler mRefreshBroadCastHandler;
 
     @Nullable
     @Override
@@ -80,6 +83,14 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
+        mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAppServiceHomePresenter.getAppList();
+            }
+        });
         initViewApp();
         initViewDeployment();
         initViewService();
@@ -171,11 +182,16 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
 
     @Override
     public void showEmptyView(int type) {
-        if (type == AppServiceHomeContract.APP_EMPTY_VIEW)
+        if (type == AppServiceHomeContract.APP_EMPTY_VIEW) {
             mAppEmptyView.setVisibility(View.VISIBLE);
-        else if (type == AppServiceHomeContract.DEPLOY_EMPTY_VIEW)
+            mRvHotApp.setVisibility(View.GONE);
+        } else if (type == AppServiceHomeContract.DEPLOY_EMPTY_VIEW) {
             mDeploymentEmptyView.setVisibility(View.VISIBLE);
-        else mServiceEmptyView.setVisibility(View.VISIBLE);
+            mRvNewestDeployment.setVisibility(View.GONE);
+        } else {
+            mServiceEmptyView.setVisibility(View.VISIBLE);
+            mRvNewestService.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -187,6 +203,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
 
     @Override
     public void showAppList(List<AppBean> appBeanList) {
+        mAppEmptyView.setVisibility(View.GONE);
         mAppAdapter.setDatas(appBeanList);
     }
 
