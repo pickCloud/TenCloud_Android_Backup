@@ -42,14 +42,19 @@ public class RvServerSelectProviderAdapter extends CJSBaseRecyclerViewAdapter<Se
         } else {
             holder.ivSelect.setVisibility(View.INVISIBLE);
         }
-//        EmployeeBean employee = datas.get(position);
+        ServerProviderBean employee = datas.get(position);
         if (position + 1 == datas.size()) {
             holder.line.setVisibility(View.INVISIBLE);
         } else {
             holder.line.setVisibility(View.VISIBLE);
         }
-//        holder.tvName.setText(employee.getName());
-//        holder.tvPhone.setText(Utils.hide4Phone(employee.getMobile()));
+        holder.tvProvider.setText(employee.getName());
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectPos(position);
+            }
+        });
     }
 
     /**
@@ -62,7 +67,7 @@ public class RvServerSelectProviderAdapter extends CJSBaseRecyclerViewAdapter<Se
         return datas.get(selectPos);
     }
 
-    public void setSelectPos(int pos){
+    public void setSelectPos(int pos) {
         selectPos = pos;
         notifyDataSetChanged();
     }

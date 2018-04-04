@@ -386,7 +386,7 @@ public class ServerModel {
      * @param access_secret
      * @return
      */
-    public Observable<List<ServerBatchBean>> submitCloudCredential(String cloudId, String access_key, String access_secret) {
+    public Observable<List<ServerBatchBean>> submitCloudCredential(int cloudId, String access_key, String access_secret) {
         Map<String, Object> map = new HashMap<>();
         map.put("cloud_type", cloudId);
         Map<String, Object> temp = new HashMap<>();

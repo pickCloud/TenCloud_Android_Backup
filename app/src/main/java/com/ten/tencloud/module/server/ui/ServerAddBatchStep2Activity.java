@@ -23,8 +23,11 @@ public class ServerAddBatchStep2Activity extends BaseActivity implements ServerA
     @BindView(R.id.et_secret)
     EditText mEtSecret;
 
+    private String key = "LTAIEouRscyh8evG";
+    private String secret = "D6sGmGSJhG53ZGZl0ptXTPqkm18HA3";
+
     private ServerAddBatchStep2Presenter mPresenter;
-    private String mCloudId;
+    private int mCloudId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +43,14 @@ public class ServerAddBatchStep2Activity extends BaseActivity implements ServerA
         mPresenter = new ServerAddBatchStep2Presenter();
         mPresenter.attachView(this);
 
-        mCloudId = getIntent().getStringExtra("cloudId");
+        mCloudId = getIntent().getIntExtra("cloudId",0);
 
         initView();
     }
 
     private void initView() {
+        mEtKey.setText(key);
+        mEtSecret.setText(secret);
     }
 
     private void submit() {

@@ -90,9 +90,9 @@ public interface TenServerApi {
     @GET("/api/server/monitor")
     Observable<Response<JesResponse<List<ServerHeatBean>>>> getServerMonitor();
 
-    @GET("/api/clouds/support")
+    @GET("/api/server/clouds")
     Observable<Response<JesResponse<List<ServerProviderBean>>>> getServerProvides();
 
-    @POST("/api/cloud/credential")
+    @POST("/api/server/clouds/credentials")
     Observable<Response<JesResponse<List<ServerBatchBean>>>> submitProviderCredential(@Body RequestBody body);
 }

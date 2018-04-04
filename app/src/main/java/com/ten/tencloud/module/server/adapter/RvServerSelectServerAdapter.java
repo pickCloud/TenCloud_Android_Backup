@@ -2,10 +2,12 @@ package com.ten.tencloud.module.server.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
@@ -21,7 +23,6 @@ import butterknife.ButterKnife;
 
 public class RvServerSelectServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBatchBean, RvServerSelectServerAdapter.ViewHolder> {
 
-
     private int selectPos = -1;
 
     public RvServerSelectServerAdapter(Context context) {
@@ -36,20 +37,44 @@ public class RvServerSelectServerAdapter extends CJSBaseRecyclerViewAdapter<Serv
     }
 
     @Override
-    protected void doOnBindViewHolder(ViewHolder holder, final int position) {
-        if (selectPos == position) {
-            holder.ivSelect.setVisibility(View.VISIBLE);
-        } else {
-            holder.ivSelect.setVisibility(View.INVISIBLE);
-        }
-//        EmployeeBean employee = datas.get(position);
+    protected void doOnBindViewHolder(final ViewHolder holder, final int position) {
+        ServerBatchBean bean = datas.get(position);
         if (position + 1 == datas.size()) {
             holder.line.setVisibility(View.INVISIBLE);
         } else {
             holder.line.setVisibility(View.VISIBLE);
         }
-//        holder.tvName.setText(employee.getName());
-//        holder.tvPhone.setText(Utils.hide4Phone(employee.getMobile()));
+        holder.tvName.setText(bean.getInstance_id());
+        holder.tvExist.setVisibility(bean.isIs_add() ? View.VISIBLE : View.INVISIBLE);
+        if (!TextUtils.isEmpty(bean.getInner_ip())) {
+            holder.tvPrivateIp.setText(bean.getInner_ip() + "（内）");
+        } else {
+            holder.tvPrivateIp.setText("");
+        }
+        if (!TextUtils.isEmpty(bean.getPublic_ip())) {
+            holder.tvPublicIp.setText(bean.getPublic_ip() + "（外）");
+        } else {
+            holder.tvPublicIp.setText("");
+        }
+        holder.tvDes.setText(bean.getRegion_id());
+        holder.tvName.setEnabled(!bean.isIs_add());
+        holder.tvDes.setEnabled(!bean.isIs_add());
+        if (bean.isIs_add()) {
+            holder.ivSelect.setSelected(true);
+            holder.ivSelect.setAlpha(0.5f);
+        } else {
+            holder.ivSelect.setSelected(false);
+            holder.ivSelect.setAlpha(0f);
+        }
+
+        if (!bean.isIs_add()) {
+            holder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.ivSelect.setSelected(!holder.ivSelect.isSelected());
+                }
+            });
+        }
     }
 
     /**
@@ -62,19 +87,31 @@ public class RvServerSelectServerAdapter extends CJSBaseRecyclerViewAdapter<Serv
         return datas.get(selectPos);
     }
 
-    public void setSelectPos(int pos){
+    public void setSelectPos(int pos) {
         selectPos = pos;
         notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.iv_provider)
-        ImageView ivProvider;
-        @BindView(R.id.tv_provider)
-        TextView tvProvider;
         @BindView(R.id.iv_select)
         ImageView ivSelect;
+        @BindView(R.id.tv_name)
+        TextView tvName;
+        @BindView(R.id.tv_exist)
+        TextView tvExist;
+        @BindView(R.id.ll_status)
+        LinearLayout llStatus;
+        @BindView(R.id.iv_status)
+        ImageView ivStatus;
+        @BindView(R.id.tv_status)
+        TextView tvStatus;
+        @BindView(R.id.tv_des)
+        TextView tvDes;
+        @BindView(R.id.tv_private_ip)
+        TextView tvPrivateIp;
+        @BindView(R.id.tv_public_ip)
+        TextView tvPublicIp;
         @BindView(R.id.layout)
         View layout;
         @BindView(R.id.line)

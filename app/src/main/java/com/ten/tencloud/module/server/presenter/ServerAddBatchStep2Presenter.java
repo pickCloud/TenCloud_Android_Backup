@@ -16,7 +16,7 @@ public class ServerAddBatchStep2Presenter extends BasePresenter<ServerAddBatchSt
         implements ServerAddBatchStep2Contract.Presenter<ServerAddBatchStep2Contract.View> {
 
     @Override
-    public void submitCredential(String cloudId, String access_key, String access_secret) {
+    public void submitCredential(int cloudId, String access_key, String access_secret) {
         mSubscriptions.add(ServerModel.getInstance().submitCloudCredential(cloudId, access_key, access_secret)
                 .subscribe(new JesSubscribe<List<ServerBatchBean>>(mView) {
                     @Override
