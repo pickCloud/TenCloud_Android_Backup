@@ -53,7 +53,7 @@
                     android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_server_status"
+                    android:background="@drawable/shape_server_status_running"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp" />
 

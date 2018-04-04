@@ -37,7 +37,12 @@ public class RvServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBean, RvSe
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         ServerBean serverBean = datas.get(position);
         holder.tvName.setText(serverBean.getName());
+        String status = serverBean.getMachine_status();
         holder.tvStatus.setText(serverBean.getMachine_status());
+        holder.tvStatus.setEnabled(!"已关机".equals(status));
+        if ("故障".equals(status) || ("异常").equals(status)) {
+            holder.tvStatus.setEnabled(false);
+        }
         holder.tvIp.setText(serverBean.getPublic_ip());
         float cpuPercent = Float.valueOf(serverBean.getCpu().getPercent() == null ? "0" : serverBean.getCpu().getPercent());
         holder.tvCPU.setText(cpuPercent + "");
