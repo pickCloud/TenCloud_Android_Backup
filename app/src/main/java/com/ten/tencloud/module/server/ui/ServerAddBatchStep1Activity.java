@@ -31,7 +31,14 @@ public class ServerAddBatchStep1Activity extends BaseActivity implements ServerA
         initTitleBar(true, "批量添加云主机", "下一步", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, ServerAddBatchStep2Activity.class));
+                ServerProviderBean object = mProviderAdapter.getSelectObject();
+                if (object == null) {
+                    showMessage("请选择云服务商");
+                    return;
+                }
+                Intent intent = new Intent(mContext, ServerAddBatchStep2Activity.class);
+                intent.putExtra("cloudId", object.getId());
+                startActivity(intent);
             }
         });
 
@@ -54,6 +61,6 @@ public class ServerAddBatchStep1Activity extends BaseActivity implements ServerA
 
     @Override
     public void showServerProviders(List<ServerProviderBean> providerBeans) {
-
+        mProviderAdapter.setDatas(providerBeans);
     }
 }

@@ -2,6 +2,7 @@ package com.ten.tencloud.module.server.ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,10 +59,12 @@ public class ServerAddActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_add);
-        initTitleBar(true, "添加主机", "批量", new View.OnClickListener() {
+        initTitleBar(true, "添加主机", R.menu.menu_add_server_import, new OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivityNoValue(mContext, ServerAddBatchStep1Activity.class);
+            public void onItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menu_add_server_import) {
+                    startActivityNoValue(mContext, ServerAddBatchStep1Activity.class);
+                }
             }
         });
 

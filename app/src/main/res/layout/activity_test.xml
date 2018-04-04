@@ -38,6 +38,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="delCloudCredentials"
+        android:text="删除服务商证书" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="joinCom"
         android:text="跳转到邀请流程" />
 

@@ -102,4 +102,18 @@ public class TestActivity extends BaseActivity {
         intent.putExtra("code", code);
         startActivity(intent);
     }
+
+    public void delCloudCredentials(View view) {
+        TenApp.getRetrofitClient().getTestApi()
+                .delCloudCredentials()
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        showMessage("删除成功");
+                    }
+                });
+    }
 }

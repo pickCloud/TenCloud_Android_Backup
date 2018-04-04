@@ -10,6 +10,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ServerBatchBean;
+import com.ten.tencloud.module.server.adapter.RvServerSelectServerAdapter;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class ServerAddBatchStep3Activity extends BaseActivity {
     RecyclerView mRvServer;
 
     private List<ServerBatchBean> mServers;
+    private RvServerSelectServerAdapter mServerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +44,11 @@ public class ServerAddBatchStep3Activity extends BaseActivity {
 
     private void initView() {
         mRvServer.setLayoutManager(new LinearLayoutManager(this));
-//        mRvServer.setAdapter();
+        mServerAdapter = new RvServerSelectServerAdapter(mContext);
+        mRvServer.setAdapter(mServerAdapter);
     }
 
     private void initData() {
-
+        mServerAdapter.setDatas(mServers);
     }
 }

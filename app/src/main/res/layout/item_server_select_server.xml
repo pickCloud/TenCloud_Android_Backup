@@ -18,7 +18,7 @@
             android:id="@+id/iv_select"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/selector_check_box" />
+            android:src="@drawable/selector_check_box_select" />
 
 
         <LinearLayout
@@ -43,6 +43,7 @@
                     android:id="@+id/tv_exist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
                     android:background="@drawable/shape_border_label"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
@@ -50,6 +51,29 @@
                     android:textColor="@color/text_color_566278"
                     android:textSize="10sp"
                     android:visibility="invisible" />
+
+                <LinearLayout
+                    android:id="@+id/ll_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
+
+                    <ImageView
+                        android:id="@+id/iv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/selector_server_import_status" />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="失败"
+                        android:textColor="@color/selector_server_import_status"
+                        android:textSize="10sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_des"

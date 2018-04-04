@@ -16,6 +16,6 @@ public class ServerAddBatchStep2Contract {
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
-        void submitCredential(String cloudId, String access_key, String access_secret);
+        void submitCredential(int cloudId, String access_key, String access_secret);
     }
 }
