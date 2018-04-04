@@ -9,12 +9,12 @@
         android:layout_height="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/selector_history_label_border"
+        android:background="@drawable/selector_history_label"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:text="基础服务"
         android:button="@null"
-        android:textColor="@color/select_server_label"
+        android:textColor="@color/select_app_history_label"
         android:textSize="12sp" />
 </FrameLayout>
 
