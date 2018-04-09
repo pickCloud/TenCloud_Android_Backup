@@ -105,7 +105,10 @@
         style="@style/ListItemLLFirst"
         android:layout_height="wrap_content">
 
-        <LinearLayout style="@style/ListItemLL2">
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/ll_label"
+            style="@style/ListItemLL2">
 
             <TextView
                 android:id="@+id/tv1"
@@ -134,7 +137,6 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
                 android:layout_marginStart="16dp"
-                android:visibility="gone"
                 app:flexWrap="wrap" />
 
         </LinearLayout>

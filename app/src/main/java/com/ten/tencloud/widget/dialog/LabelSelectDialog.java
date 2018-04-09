@@ -20,7 +20,11 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.listener.DialogListener;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,9 +37,9 @@ import butterknife.OnClick;
 public class LabelSelectDialog extends Dialog {
 
     @BindView(R.id.fbl_label_edit)
-    FlexboxLayout mFblLabelEdit;
+    FlexboxLayout mFblEditLabel;
     @BindView(R.id.fbl_label_list)
-    FlexboxLayout mFblLabelList;
+    FlexboxLayout mFblHistoryLabel;
     @BindView(R.id.tv_ok)
     TextView mTvOk;
 
@@ -47,6 +51,7 @@ public class LabelSelectDialog extends Dialog {
 
     private ArrayList<LabelBean> mHistoryLabels;
     private ArrayList<LabelBean> mEditLabels;
+    private Comparator<Object> mComparator = Collator.getInstance(java.util.Locale.CHINA);
 
     public LabelSelectDialog(@NonNull Context context, DialogListener<ArrayList<LabelBean>> dialogListener) {
         super(context, R.style.BottomSheetDialogStyle);
@@ -61,57 +66,85 @@ public class LabelSelectDialog extends Dialog {
         ButterKnife.bind(this);
         setCanceledOnTouchOutside(false);
 
-        mHistoryLabels = new ArrayList<>();
-        mEditLabels = new ArrayList<>();
-
-        mLabelEditView = View.inflate(context, R.layout.item_label_edit, null);
-        mEtLabelAdd = (EditText) mLabelEditView.findViewById(R.id.et_label_add);
-
+        mLabelEditView = View.inflate(context, R.layout.item_app_service_label_edit, null);
+        mEtLabelAdd = mLabelEditView.findViewById(R.id.et_label_add);
         mEtLabelAdd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 String label = mEtLabelAdd.getText().toString().trim();
                 if (actionId == EditorInfo.IME_ACTION_DONE && !TextUtils.isEmpty(label)) {
+                    //有重复标签置顶
+                    for (int i = 0; i < mEditLabels.size(); i++) {
+                        if (mEditLabels.get(i).getName().equals(label)) {
 
-                    for (int i = 0; i < mHistoryLabels.size(); i++) {
-                        if (mHistoryLabels.get(i).getName().equals(label)) {
-                            LabelBean labelBean = mHistoryLabels.get(i);
-                            mHistoryLabels.remove(i);
-                            mHistoryLabels.add(labelBean);
+                            KLog.e();
+                            LabelBean labelBean = mEditLabels.get(i);
+                            mEditLabels.remove(i);
+                            mEditLabels.add(labelBean);
                             createEditLabelView(mEditLabels);
                             return false;
                         }
                     }
 
-                    mEditLabels.add(new LabelBean(label, true));
+                    //历史标签里有就选中
+                    for (int i = 0; i < mHistoryLabels.size(); i++) {
+                        if (mHistoryLabels.get(i).getName().equals(label)) {
+                            mHistoryLabels.get(i).setCheck(true);
+                            createHistoryLabelView();
+                            mEditLabels.add(mHistoryLabels.get(i));
+                            createEditLabelView(mEditLabels);
+                            return false;
+                        }
+                    }
+
+                    mEditLabels.add(new LabelBean(label));
                     createEditLabelView(mEditLabels);
                 }
-                return false;   //返回true，保留软键盘。false，隐藏软键盘
+                return false;//返回true，保留软键盘。false，隐藏软键盘
             }
         });
 
-        mFblLabelEdit.addView(mLabelEditView);
+        mFblEditLabel.addView(mLabelEditView);
 
+        mHistoryLabels = new ArrayList<>();
+        mEditLabels = new ArrayList<>();
+
+        mHistoryLabels.add(new LabelBean("z"));
+        mHistoryLabels.add(new LabelBean("b"));
+        mHistoryLabels.add(new LabelBean("基础组件"));
+        mHistoryLabels.add(new LabelBean("应用服务"));
+        mHistoryLabels.add(new LabelBean("自定义标签"));
     }
 
-    public void setData(ArrayList<LabelBean> data) {
-        mHistoryLabels = data;
-        mEditLabels = data;
-        createHistoryLabelView(mHistoryLabels);
-        createEditLabelView(mEditLabels);
+    public void setHistoryLabelData(ArrayList<LabelBean> data) {
+        if (data != null && data.size() != 0) {
+            for (LabelBean label : data) {
+                Iterator<LabelBean> iterator = mHistoryLabels.iterator();
+                while (iterator.hasNext()) {
+                    if (label.getName().equals(iterator.next().getName())) {
+                        iterator.remove();
+                    }
+                }
+                label.setCheck(true);
+                mHistoryLabels.add(label);
+            }
+        }
+
+        Collections.sort(mHistoryLabels);
+
+        createHistoryLabelView();
     }
 
-    private void createHistoryLabelView(ArrayList<LabelBean> data) {
-        mHistoryLabels = data;
-        mFblLabelList.removeAllViews();
-        for (LabelBean label : data) {
+    private void createHistoryLabelView() {
+        mFblHistoryLabel.removeAllViews();
+        for (LabelBean label : mHistoryLabels) {
             createHistoryLableView(label);
         }
     }
 
     private void createHistoryLableView(final LabelBean label) {
-        View view = View.inflate(context, R.layout.item_app_service_label, null);
-        final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_label_name);
+        View view = View.inflate(context, R.layout.item_app_service_history_label, null);
+        final CheckBox checkBox = view.findViewById(R.id.cb_label_name);
         checkBox.setText(label.getName());
         checkBox.setChecked(label.isCheck());
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -127,82 +160,78 @@ public class LabelSelectDialog extends Dialog {
                 }
             }
         });
-        mFblLabelList.addView(view);
+        mFblHistoryLabel.addView(view);
     }
 
-    private void createEditLabelView(ArrayList<LabelBean> data) {
-        mFblLabelEdit.removeAllViews();
-        for (LabelBean label : data) {
-            createEditLableView(label);
+    public void createEditLabelView(ArrayList<LabelBean> data) {
+        mFblEditLabel.removeAllViews();
+        if (data != null && data.size() != 0) {
+            mEditLabels = data;
+            for (LabelBean label : mEditLabels) {
+                createEditLableView(label);
+            }
         }
         mEtLabelAdd.setText("");
-        mEtLabelAdd.setHint("输入");
+        mEtLabelAdd.setHint("输入  ");
         mEtLabelAdd.requestFocus();
-        mEtLabelAdd.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                KLog.e(keyCode+"---"+event);
-                String desc = "";
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    desc = String.format("%s输入的软按键编码是%d,动作是按下", desc, keyCode);
-                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                        desc = String.format("%s, 按键为回车键", desc);
-                    } else if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        desc = String.format("%s, 按键为删除键", desc);
-                    } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-                        desc = String.format("%s, 按键为搜索键", desc);
-                    } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        desc = String.format("%s, 按键为返回键", desc);
-                    } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-                        desc = String.format("%s, 按键为菜单键", desc);
-                    } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-                        desc = String.format("%s, 按键为加大音量键", desc);
-                    } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-                        desc = String.format("%s, 按键为减小音量键", desc);
-                    }else if (keyCode == KeyEvent.KEYCODE_A){
-                        desc = "字母按键";
-                    }
-                    KLog.e(desc);
-                    return true;
-                } else {
-                    //返回true表示处理完了不再输入该字符，返回false表示给你输入该字符吧
-                    return false;
-                }
-            }
-        });
-        mFblLabelEdit.addView(mLabelEditView);
+        mFblEditLabel.addView(mLabelEditView);
     }
 
     private void createEditLableView(final LabelBean label) {
-        View view = View.inflate(context, R.layout.item_app_service_label, null);
+        View view = View.inflate(context, R.layout.item_app_service_edit_label, null);
         view.setTag(label);
-        CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_label_name);
-        checkBox.setText(label.getName());
-        checkBox.setChecked(label.isCheck());
+        CheckBox checkBox = view.findViewById(R.id.cb_label_name);
+
+        checkBox.setChecked(label.isSelect());
+        if (label.isDelete()) {
+            checkBox.setText(label.getName() + " X");
+        } else {
+            checkBox.setText(label.getName());
+        }
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                label.setCheck(!label.isCheck());
-                if (!label.isCheck()) {
+
+                if (label.isDelete()) {
+                    label.setCheck(false);
+                    label.setDelete(false);
+                    label.setSelect(false);
                     mEditLabels.remove(label);
                     createEditLabelView(mEditLabels);
-                    createHistoryLabelView(mHistoryLabels);
+                    createHistoryLabelView();
+                } else {
+                    //设置单选
+                    for (int i = 0; i < mEditLabels.size(); i++) {
+                        mEditLabels.get(i).setSelect(label.isSelect());
+                        mEditLabels.get(i).setDelete(false);
+                    }
+                    label.setDelete(true);
+                    label.setSelect(!label.isSelect());
+                    createEditLabelView(mEditLabels);
                 }
+
             }
         });
-        mFblLabelEdit.addView(view);
+        mFblEditLabel.addView(view);
     }
-
 
     private void removeEditLabelView(LabelBean label) {
-        View view = mFblLabelEdit.findViewWithTag(label);
-        mFblLabelEdit.removeView(view);
+        View view = mFblEditLabel.findViewWithTag(label);
+        mFblEditLabel.removeView(view);
     }
-
 
     @OnClick(R.id.tv_ok)
     public void onClick() {
+        String currEditLabel = mEtLabelAdd.getText().toString().trim();
+        if (!TextUtils.isEmpty(currEditLabel)) mEditLabels.add(new LabelBean(currEditLabel));
+        for (int i = 0; i < mEditLabels.size(); i++) {
+            mEditLabels.get(i).setCheck(true);
+            mEditLabels.get(i).setSelect(false);
+            mEditLabels.get(i).setDelete(false);
+        }
+
         mDialogListener.onRefresh(mEditLabels);
         dismiss();
     }
+
 }

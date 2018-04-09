@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -85,7 +84,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private AppDetailPresenter mAppDetailPresenter;
     private LabelSelectDialog mLabelSelectDialog;
     private ArrayList<LabelBean> mLabelBeans;
-    private ArrayList<LabelBean> mDefaultLabels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,13 +119,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         options.cropWidth = 400;
         mPhotoHelper = new SelectPhotoHelper(options);
 
-        mDefaultLabels = new ArrayList<>();
-        mDefaultLabels.add(new LabelBean("基础组件", true));
-        mDefaultLabels.add(new LabelBean("应用服务", true));
-        mDefaultLabels.add(new LabelBean("自定义标签", true));
-        mDefaultLabels.add(new LabelBean("基础组件1", true));
-        mDefaultLabels.add(new LabelBean("应用服务1", true));
-        mDefaultLabels.add(new LabelBean("自定义标签1", true));
 
 //        createLabelView();
     }
@@ -140,10 +131,11 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     }
 
     private void createLableView(final LabelBean label) {
-        View view = View.inflate(this, R.layout.item_app_service_label, null);
+        View view = View.inflate(this, R.layout.item_app_service_history_label, null);
         final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_label_name);
         checkBox.setText(label.getName());
         checkBox.setEnabled(false);
+        checkBox.setClickable(false);
         mFlexboxLayout.addView(view);
     }
 
@@ -173,7 +165,11 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                     @Override
                     public void onRefresh(ArrayList<LabelBean> data) {
                         mLabelBeans = data;
-                        if (data != null && data.size() != 0) {
+                        if (data == null || data.size() == 0) {
+                            mTvLabelEdit.setVisibility(View.VISIBLE);
+                            mFlexboxLayout.setVisibility(View.GONE);
+                            mFlexboxLayout.removeAllViews();
+                        } else {
                             mTvLabelEdit.setVisibility(View.GONE);
                             mFlexboxLayout.setVisibility(View.VISIBLE);
                             createLabelView(data);
@@ -181,7 +177,8 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                     }
                 });
                 mLabelSelectDialog.show();
-                mLabelSelectDialog.setData(mLabelBeans == null ? mDefaultLabels : mLabelBeans);
+                mLabelSelectDialog.createEditLabelView(mLabelBeans);
+                mLabelSelectDialog.setHistoryLabelData(mLabelBeans);
                 break;
             case R.id.tv_repos:
                 startActivityForResult(new Intent(this, RepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
