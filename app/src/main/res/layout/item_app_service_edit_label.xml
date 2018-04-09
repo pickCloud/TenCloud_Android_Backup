@@ -9,7 +9,7 @@
         android:layout_height="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/selector_edit_label"
+        android:background="@drawable/selector_label_edit"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:text="基础服务"

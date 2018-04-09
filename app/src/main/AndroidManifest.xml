@@ -130,7 +130,8 @@
         <activity android:name=".module.server.ui.ServerMonitorActivity" />
         <activity
             android:name=".module.app.ui.AppAddActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.app.ui.RepositoryActivity"
             android:screenOrientation="portrait" />
@@ -158,6 +159,7 @@
         <activity android:name=".module.server.ui.ServerAddBatchStep1Activity" />
         <activity android:name=".module.server.ui.ServerAddBatchStep2Activity" />
         <activity android:name=".module.server.ui.ServerAddBatchStep3Activity"></activity>
+
     </application>
 
 </manifest>

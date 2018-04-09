@@ -8,14 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +26,15 @@ import butterknife.ButterKnife;
  * Created by chenxh@10.com on 2018/3/27.
  */
 public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapter.ViewHolder> {
+
+    private ArrayList<LabelBean> mHistoryLabels;
+
+    {
+        mHistoryLabels = new ArrayList<>();
+        mHistoryLabels.add(new LabelBean("基础组件"));
+        mHistoryLabels.add(new LabelBean("应用服务"));
+        mHistoryLabels.add(new LabelBean("自定义标签"));
+    }
 
     public RvAppAdapter(Context context) {
         super(context);
@@ -67,13 +78,12 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
                 break;
         }
 
-//        if (datas.get(position).getLabels() != null && datas.get(position).getLabels().size() != 0) {
-//            for (int i = 0; i < datas.get(position).getLabels().size(); i++) {
-//                View labelView = mLayoutInflater.inflate(R.layout.item_app_service_label, null, false);
-//                ((TextView) labelView.findViewById(R.id.tv_label_name)).setText(datas.get(position).getLabels().get(i));
-//                holder.mFblLabel.addView(labelView);
-//            }
-//        }
+        holder.mFblLabel.removeAllViews();
+        for (LabelBean labelBean : mHistoryLabels) {
+            View labelView = mLayoutInflater.inflate(R.layout.item_app_service_label, null, false);
+            ((TextView) labelView.findViewById(R.id.tv_label_name)).setText(labelBean.getName());
+            holder.mFblLabel.addView(labelView);
+        }
 
     }
 

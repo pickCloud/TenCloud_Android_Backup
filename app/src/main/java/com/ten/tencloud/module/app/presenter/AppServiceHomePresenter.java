@@ -7,6 +7,7 @@ import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
 import com.ten.tencloud.module.app.model.AppModel;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,13 +30,29 @@ public class AppServiceHomePresenter extends BasePresenter<AppServiceHomeContrac
 
     @Override
     public void getAppList() {
-        mSubscriptions.add(AppModel.getInstance().getAppListByPage(1, 2)
+//        mSubscriptions.add(AppModel.getInstance().getAppListByPage(1, 2)
+//                .subscribe(new JesSubscribe<List<AppBean>>(mView) {
+//                    @Override
+//                    public void _onSuccess(List<AppBean> appBeanList) {
+//                        if (appBeanList == null || appBeanList.size() == 0)
+//                            mView.showEmptyView(AppServiceHomeContract.APP_EMPTY_VIEW);
+//                        else mView.showAppList(appBeanList);
+//                    }
+//                }));
+
+        //根据更新时间来显示热门应用
+        mSubscriptions.add(AppModel.getInstance().getAppList()
                 .subscribe(new JesSubscribe<List<AppBean>>(mView) {
                     @Override
-                    public void _onSuccess(List<AppBean> appBeanList) {
-                        if (appBeanList == null || appBeanList.size() == 0)
+                    public void _onSuccess(List<AppBean> appBeans) {
+                        if (appBeans == null || appBeans.size() == 0) {
                             mView.showEmptyView(AppServiceHomeContract.APP_EMPTY_VIEW);
-                        else mView.showAppList(appBeanList);
+                            return;
+                        }
+                        Collections.sort(appBeans);
+                        if (appBeans.size() >= 2)
+                            appBeans = appBeans.subList(0, 2);
+                        mView.showAppList(appBeans);
                     }
                 }));
     }

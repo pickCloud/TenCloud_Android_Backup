@@ -106,15 +106,15 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:clickable="true"
             android:id="@+id/ll_label"
-            style="@style/ListItemLL2">
+            style="@style/ListItemLL2"
+            android:clickable="true">
 
             <TextView
                 android:id="@+id/tv1"
                 style="@style/ListItemTextKey"
-                android:layout_marginBottom="15dp"
                 android:layout_gravity="top"
+                android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:gravity="center_vertical"
                 android:text="标签" />
@@ -135,8 +135,9 @@
                 android:id="@+id/fbl_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
                 android:layout_marginStart="16dp"
+                android:paddingBottom="16dp"
+                android:paddingTop="8dp"
                 app:flexWrap="wrap" />
 
         </LinearLayout>

@@ -9,26 +9,26 @@
     android:paddingLeft="16dp">
 
     <TextView
-        android:id="@+id/tv_warehouse_name"
+        android:id="@+id/tv_repos_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_color_899ab6"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_warehouse_url"
+        app:layout_constraintBottom_toTopOf="@+id/tv_repos_url"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="不绑定" />
 
     <TextView
-        android:id="@+id/tv_warehouse_url"
+        android:id="@+id/tv_repos_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_color_556278"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/tv_warehouse_name"
-        app:layout_constraintTop_toBottomOf="@id/tv_warehouse_name"
+        app:layout_constraintLeft_toLeftOf="@id/tv_repos_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_repos_name"
         tools:text="@string/warehouse_path" />
 
 

@@ -1,14 +1,14 @@
 package com.ten.tencloud.bean;
 
 /**
- * Created by chenxinhai on 2018/3/27.
+ * Created by chenxh@10.com on 2018/3/27.
  */
-public class WareHouseBean {
+public class ReposBean {
 
     private String name;
     private String url;
 
-    public WareHouseBean(String name, String url) {
+    public ReposBean(String name, String url) {
         this.name = name;
         this.url = url;
     }

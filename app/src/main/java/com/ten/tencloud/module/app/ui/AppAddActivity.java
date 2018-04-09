@@ -119,8 +119,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         options.cropWidth = 400;
         mPhotoHelper = new SelectPhotoHelper(options);
 
-
-//        createLabelView();
     }
 
     public void createLabelView(ArrayList<LabelBean> data) {
@@ -131,11 +129,9 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     }
 
     private void createLableView(final LabelBean label) {
-        View view = View.inflate(this, R.layout.item_app_service_history_label, null);
-        final CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_label_name);
+        View view = View.inflate(this, R.layout.item_app_service_label, null);
+        final TextView checkBox = view.findViewById(R.id.tv_label_name);
         checkBox.setText(label.getName());
-        checkBox.setEnabled(false);
-        checkBox.setClickable(false);
         mFlexboxLayout.addView(view);
     }
 

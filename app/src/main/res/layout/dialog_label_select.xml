@@ -4,7 +4,6 @@
     android:layout_width="296dp"
     android:layout_height="370dp"
     android:background="@drawable/shape_dialog_server_add_bg"
-    android:orientation="vertical"
     android:paddingTop="18dp">
 
     <TextView

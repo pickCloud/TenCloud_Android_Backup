@@ -12,6 +12,7 @@
 
     <color name="translucence">#e0000000</color>
     <color name="transparency">#00000000</color>
+    <drawable name="transaction">#00000000</drawable>
 
     <color name="default_bg">#171A21</color>
     <color name="bg_1d202a">#1d202a</color>

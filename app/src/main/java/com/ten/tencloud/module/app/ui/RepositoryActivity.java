@@ -12,8 +12,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
-import com.ten.tencloud.bean.WareHouseBean;
-import com.ten.tencloud.module.app.adapter.RvWareHouseBindAdapter;
+import com.ten.tencloud.bean.ReposBean;
+import com.ten.tencloud.module.app.adapter.RvReposAdapter;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class RepositoryActivity extends BaseActivity {
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
 
-    private RvWareHouseBindAdapter mRvWareHouseBindAdapter;
+    private RvReposAdapter mRvReposAdapter;
     private String mWareHouseName;
     private String mWareHouseUrl;
 
@@ -55,14 +55,14 @@ public class RepositoryActivity extends BaseActivity {
 
     private void initView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRvWareHouseBindAdapter = new RvWareHouseBindAdapter(this);
-        mRecyclerView.setAdapter(mRvWareHouseBindAdapter);
-        mRvWareHouseBindAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<WareHouseBean>() {
+        mRvReposAdapter = new RvReposAdapter(this);
+        mRecyclerView.setAdapter(mRvReposAdapter);
+        mRvReposAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ReposBean>() {
             @Override
-            public void onObjectItemClicked(WareHouseBean wareHouseBean, int position) {
-                mRvWareHouseBindAdapter.setSelectPos(position);
-                mWareHouseName = wareHouseBean.getName();
-                mWareHouseUrl = wareHouseBean.getUrl();
+            public void onObjectItemClicked(ReposBean reposBean, int position) {
+                mRvReposAdapter.setSelectPos(position);
+                mWareHouseName = reposBean.getName();
+                mWareHouseUrl = reposBean.getUrl();
             }
         });
 
@@ -80,11 +80,11 @@ public class RepositoryActivity extends BaseActivity {
     }
 
     private void initData() {
-        ArrayList<WareHouseBean> beans = new ArrayList<>();
-        beans.add(new WareHouseBean("不绑定", null));
+        ArrayList<ReposBean> beans = new ArrayList<>();
+        beans.add(new ReposBean("不绑定", null));
         for (int i = 0; i < 5; i++) {
-            beans.add(new WareHouseBean("phyhhon-" + i, "https://github.com/AIUnicorn/TenCloud_Android" + i));
+            beans.add(new ReposBean("phyhhon-" + i, "https://github.com/AIUnicorn/TenCloud_Android" + i));
         }
-        mRvWareHouseBindAdapter.setDatas(beans);
+        mRvReposAdapter.setDatas(beans);
     }
 }

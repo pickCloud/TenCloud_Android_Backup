@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
-import com.ten.tencloud.bean.WareHouseBean;
+import com.ten.tencloud.bean.ReposBean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,11 +18,11 @@ import butterknife.ButterKnife;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class RvWareHouseBindAdapter extends CJSBaseRecyclerViewAdapter<WareHouseBean, RvWareHouseBindAdapter.ViewHolder> {
+public class RvReposAdapter extends CJSBaseRecyclerViewAdapter<ReposBean, RvReposAdapter.ViewHolder> {
 
     private int selectPos = -1;
 
-    public RvWareHouseBindAdapter(Context context) {
+    public RvReposAdapter(Context context) {
         super(context);
     }
 
@@ -33,23 +33,23 @@ public class RvWareHouseBindAdapter extends CJSBaseRecyclerViewAdapter<WareHouse
 
     @Override
     protected ViewHolder doOnCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_app_service_warehouse, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_app_service_repos, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
-        holder.mTvWarehouseName.setText(TextUtils.isEmpty(datas.get(position).getName()) ? "" : datas.get(position).getName());
-        holder.mTvWarehouseUrl.setText(TextUtils.isEmpty(datas.get(position).getUrl()) ? "" : datas.get(position).getUrl());
+        holder.mTvReposName.setText(TextUtils.isEmpty(datas.get(position).getName()) ? "" : datas.get(position).getName());
+        holder.mTvReposUrl.setText(TextUtils.isEmpty(datas.get(position).getUrl()) ? "" : datas.get(position).getUrl());
         holder.mIvSelect.setVisibility(position == selectPos ? View.VISIBLE : View.INVISIBLE);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.tv_warehouse_name)
-        TextView mTvWarehouseName;
-        @BindView(R.id.tv_warehouse_url)
-        TextView mTvWarehouseUrl;
+        @BindView(R.id.tv_repos_name)
+        TextView mTvReposName;
+        @BindView(R.id.tv_repos_url)
+        TextView mTvReposUrl;
         @BindView(R.id.iv_select)
         ImageView mIvSelect;
 

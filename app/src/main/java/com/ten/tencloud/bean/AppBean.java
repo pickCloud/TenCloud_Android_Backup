@@ -1,9 +1,11 @@
 package com.ten.tencloud.bean;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by chenxh@10.com on 2018/3/28.
  */
-public class AppBean {
+public class AppBean implements Comparable<AppBean> {
 
     /**
      * id : 1
@@ -137,5 +139,11 @@ public class AppBean {
 
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
+    }
+
+
+    @Override
+    public int compareTo(@NonNull AppBean o) {
+        return o.getUpdate_time().compareTo(this.getUpdate_time());
     }
 }
