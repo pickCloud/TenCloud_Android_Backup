@@ -15,9 +15,9 @@ import com.ten.tencloud.R;
  * Created by lxq on 2017/11/20.
  */
 
-public class ServerImportProgressDialog extends Dialog {
+public class ServerImportFailureDialog extends Dialog {
 
-    public ServerImportProgressDialog(@NonNull Context context) {
+    public ServerImportFailureDialog(@NonNull Context context) {
         super(context);
     }
 
@@ -26,7 +26,7 @@ public class ServerImportProgressDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE); // 去掉头
         Window window = getWindow();
         window.setGravity(Gravity.CENTER);
-        window.setContentView(R.layout.dialog_server_import_progress);
+        window.setContentView(R.layout.dialog_server_import_failure);
 
         window.setBackgroundDrawable(new BitmapDrawable());
         WindowManager.LayoutParams params = window.getAttributes();
