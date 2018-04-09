@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/default_bg"
     android:orientation="vertical"
-    tools:context="com.ten.tencloud.module.server.ui.ServerAddBatchStep1Activity">
+    tools:context="com.ten.tencloud.module.server.ui.ServerImportStep1Activity">
 
     <LinearLayout
         android:layout_width="match_parent"

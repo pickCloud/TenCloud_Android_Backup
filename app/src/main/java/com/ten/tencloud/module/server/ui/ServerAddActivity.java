@@ -63,7 +63,7 @@ public class ServerAddActivity extends BaseActivity {
             @Override
             public void onItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.menu_add_server_import) {
-                    startActivityNoValue(mContext, ServerAddBatchStep1Activity.class);
+                    startActivityNoValue(mContext, ServerImportStep1Activity.class);
                 }
             }
         });

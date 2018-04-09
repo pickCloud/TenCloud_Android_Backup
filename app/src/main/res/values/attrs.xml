@@ -39,6 +39,7 @@
         <attr name="pcv_ring_width" format="dimension" />
         <attr name="pcv_ring_bg_color" format="color" />
         <attr name="pcv_ring_color" format="color" />
+        <attr name="pcv_ring_anim" format="boolean" />
     </declare-styleable>
 
 </resources>

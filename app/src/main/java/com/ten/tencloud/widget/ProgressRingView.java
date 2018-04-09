@@ -24,11 +24,13 @@ public class ProgressRingView extends View {
     private Context mContext;
 
     private float mProgress;
-    private float mThreshold = 80f;//阈值
+    private float mThreshold = 101f;//阈值
 
     private int mStrokeWidth;//环形宽带
     private int mColor;//环形颜色
     private int mBackgroundColor;//背景颜色
+    private boolean isAnim;//是否开启动画
+
     private Paint mPaint;
     private RectF mRectF;
 
@@ -44,9 +46,10 @@ public class ProgressRingView extends View {
         super(context, attrs, defStyleAttr);
         mContext = context;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ProgressRingView, defStyleAttr, 0);
-
-
-
+        mBackgroundColor = a.getColor(R.styleable.ProgressRingView_pcv_ring_bg_color, getResources().getColor(R.color.bg_2f3543));
+        mColor = a.getColor(R.styleable.ProgressRingView_pcv_ring_bg_color, getResources().getColor(R.color.colorPrimary));
+        mStrokeWidth = (int) a.getDimension(R.styleable.ProgressRingView_pcv_ring_width, UiUtils.dip2px(mContext, 4));
+        isAnim = a.getBoolean(R.styleable.ProgressRingView_pcv_ring_anim, true);
         init();
     }
 
@@ -56,10 +59,6 @@ public class ProgressRingView extends View {
         mPaint.setColor(Color.BLACK);
         mPaint.setAntiAlias(true);
         mRectF = new RectF();
-
-        mStrokeWidth = UiUtils.dip2px(mContext, 4);
-        mBackgroundColor = getResources().getColor(R.color.bg_2f3543);
-        mColor = getResources().getColor(R.color.colorPrimary);
     }
 
     @Override
@@ -92,16 +91,21 @@ public class ProgressRingView extends View {
         } else {
             mColor = getResources().getColor(R.color.colorPrimary);
         }
-        ValueAnimator animator = ValueAnimator.ofInt(progress);
-        animator.setDuration(500);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                mProgress = (int) animation.getAnimatedValue();
-                invalidate();
-            }
-        });
-        animator.start();
+        if (isAnim) {
+            ValueAnimator animator = ValueAnimator.ofInt(progress);
+            animator.setDuration(500);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    mProgress = (int) animation.getAnimatedValue();
+                    invalidate();
+                }
+            });
+            animator.start();
+        } else {
+            mProgress = progress;
+            invalidate();
+        }
     }
 
     public void setThreshold(float threshold) {

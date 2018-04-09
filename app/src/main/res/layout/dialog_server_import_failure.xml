@@ -1,39 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="270dp"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_dialog_server_add_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="32dp">
-
-        <com.ten.tencloud.widget.ProgressRingView
-            android:id="@+id/prv_progress"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            app:pcv_ring_anim="false"
-            app:pcv_ring_bg_color="@color/bg_3f4656" />
-
-    </FrameLayout>
-
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="正在添加，请稍后..."
-        android:textColor="@color/text_color_899ab6"
-        android:textSize="14sp" />
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/icon_warning01_pink" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -49,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
-            android:text="3"
+            android:text="0"
             android:textColor="@color/text_color_566278"
             android:textSize="14sp" />
 
@@ -65,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
-            android:text="1"
+            android:text="0"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp" />
 
@@ -91,6 +74,44 @@
             android:text="台"
             android:textColor="@color/text_color_566278"
             android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/line_color_3f4656" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_ignore"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="忽略"
+            android:textColor="@color/text_color_566278"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/line_color_3f4656" />
+
+        <TextView
+            android:id="@+id/tv_import"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="重新导入"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

@@ -16,7 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ServerAddBatchStep3Activity extends BaseActivity {
+public class ServerImportStep3Activity extends BaseActivity {
 
 
     @BindView(R.id.rv_server)

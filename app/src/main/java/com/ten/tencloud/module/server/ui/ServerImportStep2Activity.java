@@ -16,7 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ServerAddBatchStep2Activity extends BaseActivity implements ServerAddBatchStep2Contract.View {
+public class ServerImportStep2Activity extends BaseActivity implements ServerAddBatchStep2Contract.View {
 
     @BindView(R.id.et_key)
     EditText mEtKey;
@@ -62,7 +62,7 @@ public class ServerAddBatchStep2Activity extends BaseActivity implements ServerA
     @Override
     public void showProviderServers(List<ServerBatchBean> servers) {
         String json = TenApp.getInstance().getGsonInstance().toJson(servers);
-        Intent intent = new Intent(mContext, ServerAddBatchStep3Activity.class);
+        Intent intent = new Intent(mContext, ServerImportStep3Activity.class);
         intent.putExtra("data", json);
         startActivity(intent);
     }
