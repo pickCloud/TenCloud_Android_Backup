@@ -62,7 +62,7 @@
         android:layout_width="30dp"
         android:layout_height="wrap_content" />
 
-    <com.ten.tencloud.widget.ProgressCircleView
+    <com.ten.tencloud.widget.ProgressRingView
         android:id="@+id/pcv_progress"
         android:layout_width="50dp"
         android:layout_height="wrap_content" />

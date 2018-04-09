@@ -35,4 +35,10 @@
         <attr name="civ_border_color" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="ProgressRingView">
+        <attr name="pcv_ring_width" format="dimension" />
+        <attr name="pcv_ring_bg_color" format="color" />
+        <attr name="pcv_ring_color" format="color" />
+    </declare-styleable>
+
 </resources>

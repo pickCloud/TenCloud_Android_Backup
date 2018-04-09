@@ -2,6 +2,7 @@ package com.ten.tencloud.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,7 +19,7 @@ import com.ten.tencloud.utils.UiUtils;
  * Created by lxq on 2018/3/27.
  */
 
-public class ProgressCircleView extends View {
+public class ProgressRingView extends View {
 
     private Context mContext;
 
@@ -31,17 +32,21 @@ public class ProgressCircleView extends View {
     private Paint mPaint;
     private RectF mRectF;
 
-    public ProgressCircleView(Context context) {
+    public ProgressRingView(Context context) {
         this(context, null);
     }
 
-    public ProgressCircleView(Context context, @Nullable AttributeSet attrs) {
+    public ProgressRingView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ProgressCircleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ProgressRingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ProgressRingView, defStyleAttr, 0);
+
+
+
         init();
     }
 
@@ -51,6 +56,7 @@ public class ProgressCircleView extends View {
         mPaint.setColor(Color.BLACK);
         mPaint.setAntiAlias(true);
         mRectF = new RectF();
+
         mStrokeWidth = UiUtils.dip2px(mContext, 4);
         mBackgroundColor = getResources().getColor(R.color.bg_2f3543);
         mColor = getResources().getColor(R.color.colorPrimary);

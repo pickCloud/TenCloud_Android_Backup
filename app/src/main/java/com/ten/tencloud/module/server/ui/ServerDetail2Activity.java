@@ -46,7 +46,7 @@ import com.ten.tencloud.module.server.presenter.ServerDetailPresenter;
 import com.ten.tencloud.module.server.presenter.ServerMonitorPresenter;
 import com.ten.tencloud.module.server.presenter.ServerSystemLoadPresenter;
 import com.ten.tencloud.utils.DateUtils;
-import com.ten.tencloud.widget.ProgressCircleView;
+import com.ten.tencloud.widget.ProgressRingView;
 import com.ten.tencloud.widget.ProgressPieView;
 import com.ten.tencloud.widget.ProgressRectView;
 import com.ten.tencloud.widget.ProgressSemiCircleView;
@@ -135,11 +135,11 @@ public class ServerDetail2Activity extends BaseActivity
     @BindView(R.id.tv_progress_disk_util)
     TextView mTvProgressDiskUtil;
     @BindView(R.id.pv_disk_util)
-    ProgressCircleView mPvDiskUtil;
+    ProgressRingView mPvDiskUtil;
     @BindView(R.id.tv_progress_disk_usage)
     TextView mTvProgressDiskUsage;
     @BindView(R.id.pv_disk_usage)
-    ProgressCircleView mPvDiskUsage;
+    ProgressRingView mPvDiskUsage;
     @BindView(R.id.tv_progress_net_in)
     TextView mTvProgressNetIn;
     @BindView(R.id.pv_net_in)
