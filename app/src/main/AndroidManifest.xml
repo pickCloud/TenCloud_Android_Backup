@@ -155,9 +155,9 @@
         <activity
             android:name=".module.server.ui.ServerToolBoxActivity"
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
-        <activity android:name=".module.server.ui.ServerAddBatchStep1Activity" />
-        <activity android:name=".module.server.ui.ServerAddBatchStep2Activity" />
-        <activity android:name=".module.server.ui.ServerAddBatchStep3Activity"></activity>
+        <activity android:name=".module.server.ui.ServerImportStep1Activity" />
+        <activity android:name=".module.server.ui.ServerImportStep2Activity" />
+        <activity android:name=".module.server.ui.ServerImportStep3Activity"></activity>
     </application>
 
 </manifest>

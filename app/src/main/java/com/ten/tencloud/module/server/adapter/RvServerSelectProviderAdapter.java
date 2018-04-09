@@ -42,13 +42,22 @@ public class RvServerSelectProviderAdapter extends CJSBaseRecyclerViewAdapter<Se
         } else {
             holder.ivSelect.setVisibility(View.INVISIBLE);
         }
-        ServerProviderBean employee = datas.get(position);
+        ServerProviderBean bean = datas.get(position);
         if (position + 1 == datas.size()) {
             holder.line.setVisibility(View.INVISIBLE);
         } else {
             holder.line.setVisibility(View.VISIBLE);
         }
-        holder.tvProvider.setText(employee.getName());
+        holder.tvProvider.setText(bean.getName());
+        String provider = bean.getName();
+        if ("阿里云".equals(provider)) {
+            holder.ivProvider.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_aliyun));
+        } else if ("亚马逊云".equals(provider)) {
+            holder.ivProvider.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_amazon));
+        } else if ("微软云".equals(provider)) {
+            holder.ivProvider.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_microyun));
+        }
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

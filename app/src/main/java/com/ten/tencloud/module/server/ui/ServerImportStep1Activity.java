@@ -17,7 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ServerAddBatchStep1Activity extends BaseActivity implements ServerAddBatchStep1Contract.View {
+public class ServerImportStep1Activity extends BaseActivity implements ServerAddBatchStep1Contract.View {
 
     @BindView(R.id.rv_provider)
     RecyclerView mRvProvider;
@@ -36,7 +36,7 @@ public class ServerAddBatchStep1Activity extends BaseActivity implements ServerA
                     showMessage("请选择云服务商");
                     return;
                 }
-                Intent intent = new Intent(mContext, ServerAddBatchStep2Activity.class);
+                Intent intent = new Intent(mContext, ServerImportStep2Activity.class);
                 intent.putExtra("cloudId", object.getId());
                 startActivity(intent);
             }
