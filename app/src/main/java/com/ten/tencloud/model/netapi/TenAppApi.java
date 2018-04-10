@@ -3,6 +3,7 @@ package com.ten.tencloud.model.netapi;
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
+import com.ten.tencloud.bean.ReposBean;
 
 import java.util.List;
 
@@ -43,7 +44,9 @@ public interface TenAppApi {
     @GET("/api/application")
     Observable<Response<JesResponse<List<AppBean>>>> getAppById(@Query("id") int id);
 
-
+    //获取仓库列表
+    @POST("/api/repos")
+    Observable<Response<JesResponse<List<ReposBean>>>> getReposList(@Query("url") String url);
 
 
 }

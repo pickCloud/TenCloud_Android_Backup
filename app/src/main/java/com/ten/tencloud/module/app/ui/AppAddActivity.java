@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,6 +25,7 @@ import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.listener.DialogListener;
+import com.ten.tencloud.listener.OnRefreshWithDataListener;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
@@ -84,6 +83,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private AppDetailPresenter mAppDetailPresenter;
     private LabelSelectDialog mLabelSelectDialog;
     private ArrayList<LabelBean> mLabelBeans;
+    private RefreshBroadCastHandler mImageRefreshHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +91,8 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_service_app_add);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        mAppDetailPresenter = new AppDetailPresenter();
+        mAppDetailPresenter.attachView(this);
 
         mId = getIntent().getIntExtra("id", -1);
         if (mId == -1) {
@@ -101,16 +101,22 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         } else {
             initTitleBar(true, "修改应用");
             mBtnSureAdd.setText("确定修改");
+            mAppDetailPresenter.getAppById(mId);
         }
 
         mAppRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
+        mImageRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.IMAGE_SOURCE_CHANGE_ACTION);
+        mImageRefreshHandler.registerReceiver(new OnRefreshWithDataListener() {
 
+            @Override
+            public void onRefresh(Bundle bundle) {
+                mTvRepos.setText(bundle.getString("url"));
+                mReposName = bundle.getString("name");
+                mReposUrl = bundle.getString("url");
+            }
+        });
         mQiniuPresenter = new QiniuPresenter();
         mQiniuPresenter.attachView(this);
-
-        mAppDetailPresenter = new AppDetailPresenter();
-        mAppDetailPresenter.attachView(this);
-        mAppDetailPresenter.getAppById(mId);
 
         SelectPhotoHelper.Options options = new SelectPhotoHelper.Options();
         options.isCrop = true;
@@ -177,7 +183,9 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                 mLabelSelectDialog.setHistoryLabelData(mLabelBeans);
                 break;
             case R.id.tv_repos:
-                startActivityForResult(new Intent(this, RepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
+
+//                startActivityForResult(new Intent(this, RepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
+                startActivityForResult(new Intent(this, WebViewActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
                 break;
             case R.id.btn_sure_add:
                 addOrUpdateApp();
@@ -341,6 +349,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void showAppDetail(AppBean appBean) {
+        KLog.e(appBean);
         if (!TextUtils.isEmpty(appBean.getLogo_url())) {
             GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
             mLogoUrl = appBean.getLogo_url();
@@ -356,5 +365,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         super.onDestroy();
         mQiniuPresenter.detachView();
         mAppDetailPresenter.detachView();
+        mImageRefreshHandler.unregisterReceiver();
     }
 }

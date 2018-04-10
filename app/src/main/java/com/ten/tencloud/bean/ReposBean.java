@@ -5,28 +5,43 @@ package com.ten.tencloud.bean;
  */
 public class ReposBean {
 
-    private String name;
-    private String url;
+    /**
+     * repos_name : str
+     * repos_url : str
+     * http_url : str
+     */
 
-    public ReposBean(String name, String url) {
-        this.name = name;
-        this.url = url;
+    private String repos_name;
+    private String repos_url;
+    private String http_url;
+
+    public ReposBean(String repos_name, String repos_url) {
+        this.repos_name = repos_name;
+        this.repos_url = repos_url;
     }
 
-    public String getName() {
-        return name;
+    public String getRepos_name() {
+        return repos_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRepos_name(String repos_name) {
+        this.repos_name = repos_name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getRepos_url() {
+        return repos_url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setRepos_url(String repos_url) {
+        this.repos_url = repos_url;
+    }
+
+    public String getHttp_url() {
+        return http_url;
+    }
+
+    public void setHttp_url(String http_url) {
+        this.http_url = http_url;
     }
 }
 

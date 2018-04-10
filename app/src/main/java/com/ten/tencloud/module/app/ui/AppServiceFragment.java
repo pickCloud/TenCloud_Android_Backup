@@ -100,6 +100,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
         mAppServiceHomePresenter.attachView(this);
         mAppServiceHomePresenter.getAppBrief();
         mAppServiceHomePresenter.getAppList();
+
     }
 
     private void initViewApp() {

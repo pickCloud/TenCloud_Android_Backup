@@ -3,6 +3,7 @@ package com.ten.tencloud.module.app.model;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
+import com.ten.tencloud.bean.ReposBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
@@ -91,6 +92,14 @@ public class AppModel {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getAppById(id)
                 .map(new HttpResultFunc<List<AppBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<ReposBean>> getReposList(String url){
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getReposList(url)
+                .map(new HttpResultFunc<List<ReposBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

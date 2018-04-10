@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/default_bg"
-    app:srlAccentColor="@color/text_color_899ab6"
-    app:srlDragRate="0.7"
-    app:srlEnableAutoLoadmore="true"
-    app:srlEnableLoadmore="true"
-    app:srlEnableNestedScrolling="true"
-    app:srlEnablePreviewInEditMode="true"
-    app:srlHeaderMaxDragRate="1.3">
+    android:layout_height="match_parent">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never" />
+        android:background="@color/default_bg"
+        app:srlAccentColor="@color/text_color_899ab6"
+        app:srlDragRate="0.7"
+        app:srlEnableAutoLoadmore="true"
+        app:srlEnableLoadmore="true"
+        app:srlEnableNestedScrolling="true"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlHeaderMaxDragRate="1.3">
 
 
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <include layout="@layout/layout_empty_view_default" />
+
+</FrameLayout>
 

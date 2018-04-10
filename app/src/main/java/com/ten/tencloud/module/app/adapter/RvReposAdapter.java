@@ -39,8 +39,8 @@ public class RvReposAdapter extends CJSBaseRecyclerViewAdapter<ReposBean, RvRepo
 
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
-        holder.mTvReposName.setText(TextUtils.isEmpty(datas.get(position).getName()) ? "" : datas.get(position).getName());
-        holder.mTvReposUrl.setText(TextUtils.isEmpty(datas.get(position).getUrl()) ? "" : datas.get(position).getUrl());
+        holder.mTvReposName.setText(TextUtils.isEmpty(datas.get(position).getRepos_name()) ? "" : datas.get(position).getRepos_name());
+        holder.mTvReposUrl.setText(TextUtils.isEmpty(datas.get(position).getRepos_url()) ? "" : datas.get(position).getRepos_url());
         holder.mIvSelect.setVisibility(position == selectPos ? View.VISIBLE : View.INVISIBLE);
     }
 
