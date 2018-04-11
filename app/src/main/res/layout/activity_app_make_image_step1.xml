@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    tools:context="com.ten.tencloud.module.app.ui.AppMakeImageStep1Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="镜像名称" />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    style="@style/ListItemEditValue"
+                    android:hint="支持字母和数字，需以字母开头" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="版本号" />
+
+                <EditText
+                    android:id="@+id/et_version"
+                    style="@style/ListItemEditValue"
+                    android:hint="请输入版本号" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_select_branch"
+            style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:layout_width="wrap_content"
+                    android:text="选择代码分支" />
+
+                <TextView
+                    android:id="@+id/tv_branch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_566278"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/icon_arrow_right" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+</LinearLayout>

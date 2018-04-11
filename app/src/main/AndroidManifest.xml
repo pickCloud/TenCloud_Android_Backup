@@ -161,6 +161,7 @@
         <activity
             android:name=".module.app.ui.WebViewActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".module.app.ui.AppMakeImageStep1Activity"></activity>
     </application>
 
 </manifest>

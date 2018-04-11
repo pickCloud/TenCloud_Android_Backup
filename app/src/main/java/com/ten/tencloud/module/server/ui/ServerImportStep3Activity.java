@@ -11,6 +11,7 @@ import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ServerBatchBean;
 import com.ten.tencloud.module.server.adapter.RvServerSelectServerAdapter;
+import com.ten.tencloud.widget.dialog.ServerImportProgressDialog;
 
 import java.util.List;
 
@@ -26,13 +27,15 @@ public class ServerImportStep3Activity extends BaseActivity {
     private RvServerSelectServerAdapter mServerAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_server_add_batch_step3);
         initTitleBar(true, "批量添加云主机", "导入", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ServerImportProgressDialog serverImportProgressDialog = new ServerImportProgressDialog(mContext);
+                serverImportProgressDialog.show();
+                serverImportProgressDialog.setProgress(80);
             }
         });
         String data = getIntent().getStringExtra("data");
