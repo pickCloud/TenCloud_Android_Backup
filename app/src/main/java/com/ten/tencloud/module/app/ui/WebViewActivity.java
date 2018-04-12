@@ -2,6 +2,7 @@ package com.ten.tencloud.module.app.ui;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -9,6 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.google.gson.reflect.TypeToken;
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
@@ -28,7 +30,9 @@ public class WebViewActivity extends BaseActivity {
         changeTitle("Github 授权登录");
 
         WebView webView = (WebView) findViewById(R.id.web_view);
-        webView.loadUrl(Url.GITHUB_OAUTH_URL);
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("url"))) {
+            webView.loadUrl(getIntent().getStringExtra("url"));
+        }
         WebSettings setting = webView.getSettings();
         setting.setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
@@ -68,18 +72,21 @@ public class WebViewActivity extends BaseActivity {
 
         @JavascriptInterface
         public void getSource(String html) {
+            KLog.e(html);
             Map<String, String> resultMap = TenApp.getInstance().getGsonInstance().fromJson(html,
-                    new TypeToken<Map<String, String>>() {}.getType());
+                    new TypeToken<Map<String, String>>() {
+                    }.getType());
 //            KLog.e(resultMap.get("status"));
 //            KLog.e(resultMap.get("message"));
 //            KLog.e(resultMap.get("data"));
 
             if (resultMap.get("status").equals("0")) {
                 startActivityNoValue(mContext, RepositoryActivity.class);
-                finish();
+                setResult(RESULT_OK);
             } else {
                 showToastMessage(resultMap.get("message"));
             }
+            finish();
         }
     }
 }

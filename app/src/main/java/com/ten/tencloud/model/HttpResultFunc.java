@@ -2,6 +2,7 @@ package com.ten.tencloud.model;
 
 
 import com.google.gson.Gson;
+import com.socks.library.KLog;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.LoginInfoBean;
@@ -43,9 +44,11 @@ public class HttpResultFunc<T> implements Func1<Response<JesResponse<T>>, T> {
             throw new JesException("服务器内部错误", Constants.NET_CODE_NO_MOTHED);
         } else {
             JesResponse jesResponse = null;
+            String result = null;
             try {
                 jesResponse = TenApp.getInstance().getGsonInstance()
                         .fromJson(response.errorBody().string(), JesResponse.class);
+                result = TenApp.getInstance().getGsonInstance().toJson(jesResponse);
                 if (jesResponse != null && jesResponse.getData() != null) {
                     Gson gson = TenApp.getInstance().getGsonInstance();
                     String json = gson.toJson(jesResponse.getData());
@@ -55,7 +58,8 @@ public class HttpResultFunc<T> implements Func1<Response<JesResponse<T>>, T> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            throw new JesException(jesResponse.getMessage(), jesResponse.getStatus());
+            throw new JesException(jesResponse.getMessage(), jesResponse.getStatus(), result);
+
         }
     }
 }

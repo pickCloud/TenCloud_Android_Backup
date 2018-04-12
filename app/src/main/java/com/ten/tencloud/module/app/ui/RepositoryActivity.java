@@ -1,25 +1,38 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
+import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ReposBean;
+import com.ten.tencloud.bean.ReposErrorBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.module.app.adapter.RvReposAdapter;
 import com.ten.tencloud.module.app.contract.ReposListContract;
 import com.ten.tencloud.module.app.presenter.ReposListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -34,6 +47,8 @@ public class RepositoryActivity extends BaseActivity implements ReposListContrac
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.empty_view)
     LinearLayout mEmptyView;
+    @BindView(R.id.web_view)
+    WebView webView;
 
     private RvReposAdapter mRvReposAdapter;
     private String mReposName;
@@ -61,9 +76,9 @@ public class RepositoryActivity extends BaseActivity implements ReposListContrac
         mReposListPresenter.attachView(this);
 
         initView();
-        initData();
 
         mReposListPresenter.getReposList("https://github.com/AIUnicorn");
+//        mReposListPresenter.getReposList("http://cd.10.com/");
     }
 
     private void initView() {
@@ -79,37 +94,93 @@ public class RepositoryActivity extends BaseActivity implements ReposListContrac
             }
         });
 
-        mRefreshLayout.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-
-            }
-
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-
-            }
-        });
     }
-
-    private void initData() {
-        ArrayList<ReposBean> beans = new ArrayList<>();
-        beans.add(new ReposBean("不绑定", null));
-        for (int i = 0; i < 5; i++) {
-            beans.add(new ReposBean("phyhhon-" + i, "https://github.com/AIUnicorn/TenCloud_Android" + i));
-        }
-        mRvReposAdapter.setDatas(beans);
-    }
-
 
     @Override
     public void showEmpty() {
         mEmptyView.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.GONE);
+        webView.setVisibility(View.GONE);
     }
 
     @Override
     public void showReposList(List<ReposBean> reposBeans) {
+        webView.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.GONE);
+        mRvReposAdapter.setDatas(reposBeans);
+    }
 
+    @Override
+    public void showError(JesException e) {
+        super.showError(e);
+        if (!TextUtils.isEmpty(e.getJson())) {
+            ReposErrorBean reposErrorBean = TenApp.getInstance().getGsonInstance().fromJson(e.getJson(), ReposErrorBean.class);
+            goWebView(reposErrorBean.getData().getUrl());
+//            startActivityForResult(new Intent(this, WebViewActivity.class).putExtra("url", reposErrorBean.getData().getUrl()),100);
+        }
+    }
+
+    private void goWebView(String url) {
+        if (TextUtils.isEmpty(url)) return;
+//
+//        Intent intent= new Intent();
+//        intent.setAction("android.intent.action.VIEW");
+//        intent.setData(Uri.parse(url));
+//        startActivity(intent);
+//
+//        Intent intent= new Intent();
+//        intent.setAction("android.intent.action.VIEW");
+//        Uri content_url = Uri.parse(url);
+//        intent.setData(content_url);
+//        intent.setClassName("com.android.browser","com.android.browser.BrowserActivity");
+//        startActivity(intent);
+
+
+        webView.setVisibility(View.VISIBLE);
+        webView.loadUrl(url);
+
+        WebSettings setting = webView.getSettings();
+        setting.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        setting.setJavaScriptEnabled(true);
+//        webView.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                //返回值是true的时候是控制网页在WebView中去打开，如果为false调用系统浏览器或第三方浏览器打开
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                showLoading();
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                KLog.e(url);
+                view.loadUrl("javascript:window.java_obj.getSource(document.getElementsByTagName('pre')[0].innerHTML);");
+                super.onPageFinished(view, url);
+                hideLoading();
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                changeTitle(title);
+            }
+
+        });
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        mReposListPresenter.getReposList("https://github.com/AIUnicorn");
     }
 
     @Override
@@ -117,4 +188,24 @@ public class RepositoryActivity extends BaseActivity implements ReposListContrac
         super.onDestroy();
         mReposListPresenter.detachView();
     }
+
+//    public final class InJavaScriptLocalObj {
+//
+//        @JavascriptInterface
+//        public void getSource(String html) {
+//            KLog.e(html);
+//            Map<String, String> resultMap = TenApp.getInstance().getGsonInstance().fromJson(html,
+//                    new TypeToken<Map<String, String>>() {
+//                    }.getType());
+////            KLog.e(resultMap.get("status"));
+////            KLog.e(resultMap.get("message"));
+////            KLog.e(resultMap.get("data"));
+//
+//            if (resultMap.get("status").equals("0")) {
+//                mReposListPresenter.getReposList("https://github.com/AIUnicorn");
+//            } else {
+//                showToastMessage(resultMap.get("message"));
+//            }
+//        }
+//    }
 }
