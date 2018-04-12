@@ -23,9 +23,7 @@ public class Url {
     public static String BASE_URL;
     public static String BASE_WEBSOCTET_URL;
 
-//    public static String GITHUB_OAUTH_URL="https://github.com/login/oauth/authorize?client_id=aeeadb59210d1576525f";
-//    public static String GITHUB_OAUTH_URL="https://github.com/login/oauth/authorize?client_id=aeeadb59210d1576525f&state=1&redirect_uri=http://cd.10.com/api/github/oauth/callback";
-    public static String GITHUB_OAUTH_URL="https://github.com/login/oauth/authorize?client_id=aeeadb59210d1576525f&state=1&redirect_uri=http%3A%2F%2Fcd.10.com%2Fapi%2Fgithub%2Foauth%2Fcallback";
+    public static String GITHUB_OAUTH_URL="https://github.com/login/oauth/authorize?client_id=aeeadb59210d1576525f";
 
     static {
         if (BuildConfig.DEBUG) {

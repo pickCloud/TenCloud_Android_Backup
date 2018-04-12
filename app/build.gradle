@@ -66,25 +66,25 @@ dependencies {
     compile "com.timehop.stickyheadersrecyclerview:library:${libs.stickyheadersrecyclerview}@aar"
 
     /**
-     *   butterknife
+     *    butterknife
      */
     compile "com.jakewharton:butterknife:${libs.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknife}"
 
     /**
-     *   运行时权限注解框架
+     *    运行时权限注解框架
      */
     compile "com.github.hotchemi:permissionsdispatcher:${libs.permissionsdispatcher}"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:${libs.permissionsdispatcher}"
 
     /**
-     *    RxJava
+     *     RxJava
      */
     compile "io.reactivex:rxjava:${libs.rxjava}"
     compile "io.reactivex:rxandroid:${libs.rxandroid}"
 
     /**
-     *    retrofit2
+     *     retrofit2
      */
     compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
     compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
@@ -94,24 +94,24 @@ dependencies {
     }
 
     /**
-     *   Glide
+     *    Glide
      */
     compile "com.github.bumptech.glide:glide:${libs.glide}"
     compile "com.github.bumptech.glide:okhttp3-integration:${libs.glide_okhttp3}"
     compile "jp.wasabeef:glide-transformations:${libs.glide_transformations}"
 
     /**
-     *   log
+     *    log
      */
     compile "com.github.zhaokaiqiang.klog:library:${libs.klog}"
 
     /**
-     *    流式布局
+     *     流式布局
      */
     compile "com.google.android:flexbox:${libs.flexbox}"
 
     /**
-     *   内存检测leakcanary
+     *    内存检测leakcanary
      */
     debugCompile "com.squareup.leakcanary:leakcanary-android:${libs.leakcanary}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
@@ -119,23 +119,20 @@ dependencies {
     compile "com.orhanobut:hawk:${libs.hawk}"
 
     /**
-     *   图表库
+     *    图表库
      */
     implementation "com.github.PhilJay:MPAndroidChart:${libs.MPAndroidChart}"
 
     /**
-     *   下拉刷新上拉加载
+     *    下拉刷新上拉加载
      */
     compile "com.scwang.smartrefresh:SmartRefreshLayout:${libs.SmartRefreshLayout}"
-
     compile "com.songhang:smart-headerfooter-recyclerview:${libs.RecycleViewHeaderView}"
-
     compile "com.github.hackware1993:MagicIndicator:${libs.MagicIndicator}"
-
     compile "com.github.mmin18:realtimeblurview:${libs.realtimeblurview}"
 
     /**
-     *   选择器
+     *    选择器
      */
     compile "com.contrarywind:Android-PickerView:${libs.PickerView}"
     compile "me.texy.treeview:treeview_lib:${libs.treeview}"
@@ -147,6 +144,7 @@ dependencies {
         compile 'com.umeng.sdk:common:latest.integration'
         compile 'com.umeng.sdk:analytics:latest.integration'
     }
-    compile "com.tencent.bugly:crashreport:latest.release"
-    compile "com.tencent.bugly:nativecrashreport:latest.release"
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
+    implementation files('libs/pinyin4j-2.5.0.jar')
 }

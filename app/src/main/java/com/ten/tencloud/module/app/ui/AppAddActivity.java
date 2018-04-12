@@ -179,12 +179,10 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                     }
                 });
                 mLabelSelectDialog.show();
-                mLabelSelectDialog.createEditLabelView(mLabelBeans);
+                mLabelSelectDialog.setEditLabelData(mLabelBeans);
                 mLabelSelectDialog.setHistoryLabelData(mLabelBeans);
                 break;
             case R.id.tv_repos:
-
-//                startActivityForResult(new Intent(this, RepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
                 startActivityForResult(new Intent(this, WebViewActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
                 break;
             case R.id.btn_sure_add:
