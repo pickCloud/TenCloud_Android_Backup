@@ -3,9 +3,11 @@ package com.ten.tencloud.model.netapi;
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
+import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
 
 import java.util.List;
+import java.util.TreeSet;
 
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -47,6 +49,14 @@ public interface TenAppApi {
     //获取仓库列表
     @POST("/api/repos")
     Observable<Response<JesResponse<List<ReposBean>>>> getReposList(@Query("url") String url);
+
+    //新建标签
+    @POST("/api/label/new")
+    Observable<Response<JesResponse<Object>>> newLabel(@Query("name") String name, @Query("type") int type);
+
+    //标签列表
+    @GET("/api/label/list")
+    Observable<Response<JesResponse<TreeSet<LabelBean>>>> getLabelList(@Query("type") int type);
 
 
 }

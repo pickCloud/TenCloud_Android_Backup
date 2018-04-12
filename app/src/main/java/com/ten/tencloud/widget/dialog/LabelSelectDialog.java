@@ -17,14 +17,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.listener.DialogListener;
+import com.ten.tencloud.model.JesException;
+import com.ten.tencloud.module.app.contract.LabelSelectContract;
+import com.ten.tencloud.module.app.presenter.LabelSelectPresenter;
 import com.ten.tencloud.utils.ToastUtils;
+import com.ten.tencloud.utils.UiUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +39,7 @@ import butterknife.OnClick;
  * Created by lxq on 2017/11/24.
  */
 
-public class LabelSelectDialog extends Dialog {
+public class LabelSelectDialog extends Dialog implements LabelSelectContract.View {
 
     @BindView(R.id.fbl_label_edit)
     FlexboxLayout mFblEditLabel;
@@ -51,8 +56,9 @@ public class LabelSelectDialog extends Dialog {
     private View mLabelEditView;
     private EditText mEtLabelAdd;
 
-    private ArrayList<LabelBean> mHistoryLabels;
+    private TreeSet<LabelBean> mHistoryLabels;
     private ArrayList<LabelBean> mEditLabels;
+    private LabelSelectPresenter mLabelSelectPresenter;
 
     public LabelSelectDialog(@NonNull Context context, DialogListener<ArrayList<LabelBean>> dialogListener) {
         super(context, R.style.BottomSheetDialogStyle);
@@ -69,14 +75,12 @@ public class LabelSelectDialog extends Dialog {
 
         initLabelAddEditText();
 
-        mHistoryLabels = new ArrayList<>();
+        mHistoryLabels = new TreeSet<>();
         mEditLabels = new ArrayList<>();
 
-        mHistoryLabels.add(new LabelBean("基础组件"));
-        mHistoryLabels.add(new LabelBean("java"));
-        mHistoryLabels.add(new LabelBean("应用服务"));
-        mHistoryLabels.add(new LabelBean("ios"));
-        mHistoryLabels.add(new LabelBean("自定义标签"));
+        mLabelSelectPresenter = new LabelSelectPresenter();
+        mLabelSelectPresenter.attachView(this);
+        mLabelSelectPresenter.getLabelList(1);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -109,7 +113,7 @@ public class LabelSelectDialog extends Dialog {
                     return true;
                 }
                 if (label.length() >= MAX_LABEL_LENGTH) {
-                    ToastUtils.showShortToast("应用标签长度不能超过8个字符");
+                    ToastUtils.showShortToast("应用标签长度不能超过" + MAX_LABEL_LENGTH + "个字符");
                     return true;
                 }
                 if (actionId == EditorInfo.IME_ACTION_DONE && !TextUtils.isEmpty(label)) {
@@ -126,17 +130,21 @@ public class LabelSelectDialog extends Dialog {
                     }
 
                     //历史标签里有就选中
-                    for (int i = 0; i < mHistoryLabels.size(); i++) {
-                        if (mHistoryLabels.get(i).getName().equals(label)) {
-                            mHistoryLabels.get(i).setCheck(true);
+                    Iterator<LabelBean> iterator = mHistoryLabels.iterator();
+                    while (iterator.hasNext()) {
+                        LabelBean labelBean = iterator.next();
+                        if (labelBean.getName().equals(label)) {
+                            labelBean.setCheck(true);
                             createHistoryLabelView();
-                            mEditLabels.add(mHistoryLabels.get(i));
+                            mEditLabels.add(labelBean);
                             createEditLabelView(mEditLabels);
                             return false;
                         }
                     }
 
                     mEditLabels.add(new LabelBean(label));
+                    mLabelSelectPresenter.newLabel(label, 1);
+
                     createEditLabelView(mEditLabels);
                 }
                 return false;//返回true，保留软键盘。false，隐藏软键盘
@@ -147,21 +155,8 @@ public class LabelSelectDialog extends Dialog {
     }
 
     public void setHistoryLabelData(ArrayList<LabelBean> data) {
-        if (data != null && data.size() != 0) {
-            for (LabelBean label : data) {
-                Iterator<LabelBean> iterator = mHistoryLabels.iterator();
-                while (iterator.hasNext()) {
-                    if (label.getName().equals(iterator.next().getName())) {
-                        iterator.remove();
-                    }
-                }
-                label.setCheck(true);
-                mHistoryLabels.add(label);
-            }
-        }
-
-        Collections.sort(mHistoryLabels);
-
+        if (data == null || data.size() == 0) return;
+        mHistoryLabels.addAll(data);
         createHistoryLabelView();
     }
 
@@ -182,7 +177,7 @@ public class LabelSelectDialog extends Dialog {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (mEditLabels != null && mEditLabels.size() >= MAX_LABEL_NUM) {
                     if (isChecked) {
-                        ToastUtils.showShortToast("最多只能添加三个标签");
+                        ToastUtils.showShortToast("最多只能添加" + MAX_LABEL_NUM + "个标签");
                         buttonView.setChecked(false);
                         return;
                     }
@@ -192,16 +187,16 @@ public class LabelSelectDialog extends Dialog {
                     mEditLabels.add(label);
                     createEditLabelView(mEditLabels);
                 } else {
-                    removeEditLabelView(label);
+//                    removeEditLabelView(label);
                     mEditLabels.remove(label);
+                    createEditLabelView(mEditLabels);
                 }
             }
         });
         mFblHistoryLabel.addView(view);
     }
 
-
-    public void createEditLabelView(ArrayList<LabelBean> data) {
+    public void setEditLabelData(ArrayList<LabelBean> data){
         if (data != null && data.size() != 0) {
             mFblEditLabel.removeAllViews();
             mEditLabels = data;
@@ -213,6 +208,22 @@ public class LabelSelectDialog extends Dialog {
             mEtLabelAdd.requestFocus();
             mFblEditLabel.addView(mLabelEditView);
         }
+    }
+
+    private void createEditLabelView(ArrayList<LabelBean> data) {
+        mFblEditLabel.removeAllViews();
+        if (data != null && data.size() != 0) {
+
+            mEditLabels = data;
+            for (LabelBean label : mEditLabels) {
+                createEditLableView(label);
+            }
+        }
+        mEtLabelAdd.setText("");
+        mEtLabelAdd.setHint("输入    ");
+        mEtLabelAdd.requestFocus();
+        mFblEditLabel.addView(mLabelEditView);
+
     }
 
     private void createEditLableView(final LabelBean label) {
@@ -261,8 +272,11 @@ public class LabelSelectDialog extends Dialog {
     @OnClick(R.id.tv_ok)
     public void onClick() {
         String currEditLabel = mEtLabelAdd.getText().toString().trim();
-        if (!TextUtils.isEmpty(currEditLabel) && mEditLabels.size() < MAX_LABEL_NUM)
+        if (!TextUtils.isEmpty(currEditLabel) && mEditLabels.size() < MAX_LABEL_NUM) {
             mEditLabels.add(new LabelBean(currEditLabel));
+            mLabelSelectPresenter.newLabel(currEditLabel, 1);
+        }
+
         for (int i = 0; i < mEditLabels.size(); i++) {
             mEditLabels.get(i).setCheck(true);
             mEditLabels.get(i).setSelect(false);
@@ -274,4 +288,51 @@ public class LabelSelectDialog extends Dialog {
     }
 
 
+    @Override
+    public void labelAddResult(boolean result) {
+        if (result) KLog.e("标签添加成功");
+        else KLog.e("标签添加失败");
+    }
+
+    @Override
+    public void showEmpty() {
+        TextView textView = new TextView(context);
+        textView.setText("暂无标签");
+        textView.setPadding(0, UiUtils.dip2px(context, 10), 0, 0);
+        textView.setTextColor(UiUtils.getColor(R.color.select_app_history_label));
+        mFblHistoryLabel.addView(textView);
+    }
+
+    @Override
+    public void showLabelList(TreeSet<LabelBean> labelBeans) {
+        KLog.e(labelBeans);
+        mFblHistoryLabel.removeAllViews();
+        mHistoryLabels.addAll(labelBeans);
+        createHistoryLabelView();
+    }
+
+    @Override
+    public void showMessage(@NonNull String message) {
+
+    }
+
+    @Override
+    public void showMessage(int messageId) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showError(JesException e) {
+
+    }
 }

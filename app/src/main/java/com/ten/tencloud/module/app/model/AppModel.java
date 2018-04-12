@@ -3,12 +3,15 @@ package com.ten.tencloud.module.app.model;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
+import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 import okhttp3.RequestBody;
 import rx.Observable;
@@ -55,7 +58,7 @@ public class AppModel {
     }
 
     public Observable<Object> updateApp(int id, String name, String description, String repos_name, String repos_ssh_url,
-                                     String repos_https_url, String logo_url) {
+                                        String repos_https_url, String logo_url) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", id);
         hashMap.put("name", name);
@@ -96,7 +99,7 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<ReposBean>> getReposList(String url){
+    public Observable<List<ReposBean>> getReposList(String url) {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getReposList(url)
                 .map(new HttpResultFunc<List<ReposBean>>())
@@ -104,5 +107,22 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<Object> newLabel(String name, int type) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .newLabel(name, type)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<TreeSet<LabelBean>> getLabelList(int type) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getLabelList(type)
+                .map(new HttpResultFunc<TreeSet<LabelBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+
+    }
 
 }
