@@ -28,6 +28,7 @@ import com.ten.tencloud.module.app.presenter.AppDetailPresenter;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
+import com.ten.tencloud.widget.blur.BlurBuilder;
 
 import java.util.ArrayList;
 
@@ -181,7 +182,8 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
 
     }
 
-    @OnClick({R.id.rl_basic_detail, R.id.tv_deploy_more, R.id.tv_service_more, R.id.tv_image_more, R.id.tv_task_more})
+    @OnClick({R.id.rl_basic_detail, R.id.tv_deploy_more, R.id.btn_toolbox,
+            R.id.tv_service_more, R.id.tv_image_more, R.id.tv_task_more})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_basic_detail:
@@ -198,6 +200,11 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
                 break;
             case R.id.tv_task_more:
                 startActivityNoValue(this, TaskListActivity.class);
+                break;
+            case R.id.btn_toolbox:
+                BlurBuilder.snapShotWithoutStatusBar(this);
+                startActivityNoValue(this, AppToolBoxActivity.class);
+                overridePendingTransition(0, 0);
                 break;
         }
     }
