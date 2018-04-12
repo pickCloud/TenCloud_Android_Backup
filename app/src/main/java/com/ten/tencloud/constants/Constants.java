@@ -30,6 +30,11 @@ public class Constants {
     public static final String NET_CATCH_DIR = CACHE_PATH + File.separator + "net" + File.separator + ".netcatch";
 
     /**
+     * 临时目录
+     */
+    public static final String TEMP_DIR = BASE_PATH + File.separator + "temp" + File.separator;
+
+    /**
      * 数字常量把值包含在名字之中
      */
     public static final int NET_TIMEOUT_30 = 30;

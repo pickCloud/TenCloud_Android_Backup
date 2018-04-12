@@ -1,0 +1,81 @@
+package com.ten.tencloud.module.app.ui;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.ten.tencloud.R;
+import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.utils.StatusBarUtils;
+import com.ten.tencloud.widget.blur.BlurBuilder;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+public class AppToolBoxActivity extends BaseActivity {
+
+    @BindView(R.id.iv_blur)
+    ImageView mIvBlur;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        createView(R.layout.activity_app_toolbox);
+        hideToolBar();
+        StatusBarUtils.setColor(this, Color.BLACK);
+        applyBlur();
+    }
+
+    @OnClick({R.id.btn_tool1, R.id.btn_tool2, R.id.btn_tool3, R.id.btn_tool4,
+            R.id.btn_tool5, R.id.btn_tool6, R.id.btn_tool7, R.id.btn_close})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_tool1:
+                startActivityNoValue(this, AppMakeImageStep1Activity.class);
+                break;
+            case R.id.btn_tool2:
+
+                break;
+            case R.id.btn_tool3:
+
+                break;
+            case R.id.btn_tool4:
+
+                break;
+            case R.id.btn_tool5:
+
+                break;
+            case R.id.btn_tool6:
+
+                break;
+            case R.id.btn_tool7:
+
+                break;
+            case R.id.btn_close:
+                finish();
+                break;
+        }
+    }
+
+
+    private void applyBlur() {
+        mIvBlur.setImageBitmap(BlurBuilder.blur(mIvBlur));
+        if (BlurBuilder.isBlurFlag()) {
+            mIvBlur.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BlurBuilder.recycle();
+    }
+}

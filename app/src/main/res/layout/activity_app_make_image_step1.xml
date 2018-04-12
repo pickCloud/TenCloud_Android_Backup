@@ -53,33 +53,29 @@
 
         <LinearLayout
             android:id="@+id/ll_select_branch"
-            style="@style/ListItemLLFirst">
+            style="@style/SettingItemLayout">
 
-            <LinearLayout style="@style/ListItemLL2">
 
-                <TextView
-                    style="@style/ListItemTextKey"
-                    android:layout_width="wrap_content"
-                    android:text="选择代码分支" />
+            <TextView
+                style="@style/ListItemTextKey"
+                android:layout_width="wrap_content"
+                android:text="选择代码分支" />
 
-                <TextView
-                    android:id="@+id/tv_branch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="请选择"
-                    android:textColor="@color/text_color_566278"
-                    android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_branch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="请选择"
+                android:textColor="@color/text_color_566278"
+                android:textSize="14sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="16dp"
-                    android:src="@mipmap/icon_arrow_right" />
-
-            </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:src="@mipmap/icon_arrow_right" />
 
         </LinearLayout>
 

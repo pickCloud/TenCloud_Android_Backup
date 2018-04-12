@@ -9,6 +9,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.model.HttpResultFunc;
+import com.ten.tencloud.module.app.ui.AppMakeImageStep1Activity;
 import com.ten.tencloud.module.login.ui.JoinComStep1Activity;
 import com.ten.tencloud.widget.ProgressRingView;
 import com.ten.tencloud.widget.ProgressPieView;
@@ -115,5 +116,9 @@ public class TestActivity extends BaseActivity {
                         showMessage("删除成功");
                     }
                 });
+    }
+
+    public void makeImage(View view) {
+        startActivityNoValue(this, AppMakeImageStep1Activity.class);
     }
 }

@@ -47,6 +47,12 @@
         android:onClick="joinCom"
         android:text="跳转到邀请流程" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="makeImage"
+        android:text="跳转到构建镜像" />
+
     <com.ten.tencloud.widget.StatusSelectPopView
         android:id="@+id/spv"
         android:layout_width="120dp"

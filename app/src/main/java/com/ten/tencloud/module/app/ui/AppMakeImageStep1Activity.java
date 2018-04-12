@@ -24,11 +24,17 @@ public class AppMakeImageStep1Activity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_make_image_step1);
+        initTitleBar(true, "构建镜像", "下一步", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityNoValue(mContext, AppMakeImageStep2Activity.class);
+            }
+        });
     }
 
     @OnClick({R.id.ll_select_branch})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.ll_select_branch:
 
                 break;
