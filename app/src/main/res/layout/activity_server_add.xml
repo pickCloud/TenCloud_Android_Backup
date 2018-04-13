@@ -26,7 +26,8 @@
 
     <LinearLayout
         android:id="@+id/ll_provider"
-        style="@style/ListItemLLFirst">
+        style="@style/ListItemLLFirst"
+        android:visibility="gone">
 
         <LinearLayout style="@style/ListItemLL2">
 
@@ -53,7 +54,9 @@
 
     </LinearLayout>
 
-    <LinearLayout style="@style/ListItemLLFirst">
+    <LinearLayout
+        style="@style/ListItemLLFirst"
+        android:visibility="gone">
 
         <LinearLayout style="@style/ListItemLL2">
 

@@ -12,12 +12,16 @@ public class Url {
 
     private static boolean isTest = false;
 
-    public static final String BASE_URL_DEBUG = "http://cd.10.com";
-    public static final String BASE_URL_RELEASE = "https://c.10.com";
+    public static final String BASE_URL_DEBUG = "http://47.75.159.100";
+//    public static final String BASE_URL_DEBUG = "http://cd.10.com";
+//    public static final String BASE_URL_RELEASE = "https://c.10.com";
+    public static final String BASE_URL_RELEASE = "http://47.75.159.100";
     public static final String BASE_URL_TEST = "http://ct.10.com";
 
-    public final static String WEBSOCKET_URL_DEBUG = "ws://cd.10.com";
-    public final static String WEBSOCKET_URL_RELEASE = "ws://c.10.com";
+    public final static String WEBSOCKET_URL_DEBUG = "ws://47.75.159.100";
+//    public final static String WEBSOCKET_URL_DEBUG = "ws://cd.10.com";
+//    public final static String WEBSOCKET_URL_RELEASE = "ws://c.10.com";
+    public final static String WEBSOCKET_URL_RELEASE = "ws://47.75.159.100";
     public final static String WEBSOCKET_URL_TEST = "ws://ct.10.com";
 
     public static String BASE_URL;

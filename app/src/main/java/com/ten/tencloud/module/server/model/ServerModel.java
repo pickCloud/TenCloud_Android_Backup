@@ -400,4 +400,15 @@ public class ServerModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Observable<Object> importServers(List<ServerBatchBean> list) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", list);
+        RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(map));
+        return TenApp.getRetrofitClient().getTenServerApi()
+                .importServers(body)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

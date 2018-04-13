@@ -24,6 +24,7 @@ android {
         targetSdkVersion cfg.targetSdk
         versionCode cfg.versionCode
         versionName cfg.versionName
+        multiDexEnabled true
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -138,6 +139,7 @@ dependencies {
     compile "me.texy.treeview:treeview_lib:${libs.treeview}"
     compile "com.qiniu:qiniu-android-sdk:${libs.qiniu}"
     compile "com.jph.takephoto:takephoto_library:${libs.takephoto}"
+    compile "com.android.support:multidex:${libs.multidex}"
     compile(name: 'gt3geetest_sdk', ext: 'aar')
     testCompile 'junit:junit:4.12'
     dependencies {

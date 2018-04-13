@@ -19,6 +19,15 @@
             app:pcv_ring_anim="false"
             app:pcv_ring_bg_color="@color/bg_3f4656" />
 
+        <TextView
+            android:id="@+id/tv_progress"
+            android:text="0%"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
+
     </FrameLayout>
 
     <TextView
@@ -45,11 +54,12 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
+            android:text="0"
             android:layout_marginRight="1dp"
-            android:text="3"
             android:textColor="@color/text_color_566278"
             android:textSize="14sp" />
 
@@ -61,11 +71,12 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_import"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
-            android:text="1"
+            android:text="0"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp" />
 

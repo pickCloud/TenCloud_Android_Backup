@@ -2,6 +2,7 @@ package com.ten.tencloud.module.server.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -23,8 +24,8 @@ public class ServerImportStep2Activity extends BaseActivity implements ServerAdd
     @BindView(R.id.et_secret)
     EditText mEtSecret;
 
-    private String key = "LTAIEouRscyh8evG";
-    private String secret = "D6sGmGSJhG53ZGZl0ptXTPqkm18HA3";
+    private String key = "";
+    private String secret = "";
 
     private ServerAddBatchStep2Presenter mPresenter;
     private int mCloudId;
@@ -43,7 +44,7 @@ public class ServerImportStep2Activity extends BaseActivity implements ServerAdd
         mPresenter = new ServerAddBatchStep2Presenter();
         mPresenter.attachView(this);
 
-        mCloudId = getIntent().getIntExtra("cloudId",0);
+        mCloudId = getIntent().getIntExtra("cloudId", 0);
 
         initView();
     }
@@ -56,14 +57,33 @@ public class ServerImportStep2Activity extends BaseActivity implements ServerAdd
     private void submit() {
         String key = mEtKey.getText().toString();
         String secret = mEtSecret.getText().toString();
+        if (TextUtils.isEmpty(key)){
+            showMessage("请填写Access Key");
+            return;
+        }
+        if (TextUtils.isEmpty(secret)){
+            showMessage("请填写Access Secret");
+            return;
+        }
         mPresenter.submitCredential(mCloudId, key, secret);
+    }
+
+    public void userDemoKey(View view) {
+        key = "LTAIEouRscyh8evG";
+        secret = "D6sGmGSJhG53ZGZl0ptXTPqkm18HA3";
+        initView();
     }
 
     @Override
     public void showProviderServers(List<ServerBatchBean> servers) {
+        for (ServerBatchBean server : servers) {
+            server.setCloud_type(mCloudId);
+        }
         String json = TenApp.getInstance().getGsonInstance().toJson(servers);
         Intent intent = new Intent(mContext, ServerImportStep3Activity.class);
         intent.putExtra("data", json);
         startActivity(intent);
     }
+
+
 }

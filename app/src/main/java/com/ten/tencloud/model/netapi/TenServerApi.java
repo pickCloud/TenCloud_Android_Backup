@@ -22,6 +22,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -95,4 +96,8 @@ public interface TenServerApi {
 
     @POST("/api/clouds/credentials")
     Observable<Response<JesResponse<List<ServerBatchBean>>>> submitProviderCredential(@Body RequestBody body);
+
+    @PUT("/api/clouds/credentials")
+    Observable<Response<JesResponse<Object>>> importServers(@Body RequestBody body);
+
 }

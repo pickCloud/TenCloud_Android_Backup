@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.widget.ProgressRingView;
@@ -23,6 +24,12 @@ public class ServerImportProgressDialog extends Dialog {
 
     @BindView(R.id.prv_progress)
     ProgressRingView mProgress;
+    @BindView(R.id.tv_progress)
+    TextView mTvProgress;
+    @BindView(R.id.tv_total)
+    TextView mTvTotal;
+    @BindView(R.id.tv_import)
+    TextView mTvImport;
 
     public ServerImportProgressDialog(@NonNull Context context) {
         super(context);
@@ -48,6 +55,12 @@ public class ServerImportProgressDialog extends Dialog {
 
     public void setProgress(int progress) {
         mProgress.setProgress(progress);
+        mTvProgress.setText(progress + "%");
+    }
+
+    public void setCount(int importCount, int total) {
+        mTvImport.setText(importCount + "");
+        mTvTotal.setText(total + "");
     }
 
 }

@@ -21,6 +21,9 @@ public class ServerBatchBean {
     private String inner_ip;
     private String net_type;
     private String region_id;
+    private String provider;
+    private int cloud_type;
+    private boolean isSelect;
 
     public boolean isIs_add() {
         return is_add;
@@ -68,5 +71,29 @@ public class ServerBatchBean {
 
     public void setRegion_id(String region_id) {
         this.region_id = region_id;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public int getCloud_type() {
+        return cloud_type;
+    }
+
+    public void setCloud_type(int cloud_type) {
+        this.cloud_type = cloud_type;
     }
 }

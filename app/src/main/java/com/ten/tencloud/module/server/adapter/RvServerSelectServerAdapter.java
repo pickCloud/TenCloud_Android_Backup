@@ -14,6 +14,9 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.ServerBatchBean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -38,7 +41,7 @@ public class RvServerSelectServerAdapter extends CJSBaseRecyclerViewAdapter<Serv
 
     @Override
     protected void doOnBindViewHolder(final ViewHolder holder, final int position) {
-        ServerBatchBean bean = datas.get(position);
+        final ServerBatchBean bean = datas.get(position);
         if (position + 1 == datas.size()) {
             holder.line.setVisibility(View.INVISIBLE);
         } else {
@@ -64,13 +67,14 @@ public class RvServerSelectServerAdapter extends CJSBaseRecyclerViewAdapter<Serv
             holder.ivSelect.setAlpha(0.5f);
         } else {
             holder.ivSelect.setSelected(false);
-            holder.ivSelect.setAlpha(0f);
+            holder.ivSelect.setAlpha(1f);
         }
 
         if (!bean.isIs_add()) {
             holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    bean.setSelect(!holder.ivSelect.isSelected());
                     holder.ivSelect.setSelected(!holder.ivSelect.isSelected());
                 }
             });
@@ -80,11 +84,14 @@ public class RvServerSelectServerAdapter extends CJSBaseRecyclerViewAdapter<Serv
     /**
      * @return
      */
-    public ServerBatchBean getSelectObject() {
-        if (selectPos == -1) {
-            return null;
+    public List<ServerBatchBean> getSelects() {
+        List<ServerBatchBean> selects = new ArrayList<>();
+        for (ServerBatchBean data : datas) {
+            if (data.isSelect()) {
+                selects.add(data);
+            }
         }
-        return datas.get(selectPos);
+        return selects;
     }
 
     public void setSelectPos(int pos) {

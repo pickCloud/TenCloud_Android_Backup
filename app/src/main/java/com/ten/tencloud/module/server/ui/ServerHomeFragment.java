@@ -231,6 +231,8 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
             mServerMonitorPresenter.getServerMonitorInfo(mSingleServer.getServerID() + "", ServerMonitorPresenter.STATE_HOUR);
             return;
         }
+        mRvHeat.setVisibility(View.VISIBLE);
+        mHlSingleLayout.setVisibility(View.GONE);
         int spanCount = 1;
         int type = 0;
         if (datas.size() >= 2 && datas.size() <= 4) {
