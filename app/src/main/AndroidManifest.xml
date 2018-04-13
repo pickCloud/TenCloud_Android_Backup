@@ -158,6 +158,9 @@
         <activity android:name=".module.server.ui.ServerImportStep1Activity" />
         <activity android:name=".module.server.ui.ServerImportStep2Activity" />
         <activity android:name=".module.server.ui.ServerImportStep3Activity" />
+        <activity
+            android:name=".module.app.ui.WebViewActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".module.app.ui.AppMakeImageStep1Activity" />
         <activity android:name=".module.app.ui.AppMakeImageStep2Activity" />
         <activity

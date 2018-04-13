@@ -89,7 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     private ActionBar mActionBar;
     private int menuRes = -1;
     private EditText et_search;
-    public TextView mTvRight;
+    private TextView mTvRight;
     private ImageView mIvLeft;
     private FrameLayout mFlRight;
 

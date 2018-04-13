@@ -83,7 +83,7 @@ public class TenApp extends Application {
     public void onCreate() {
         super.onCreate();
         //bugly
-//        CrashReport.initCrashReport(getApplicationContext(), "0537c3965d", BuildConfig.DEBUG);
+        CrashReport.initCrashReport(getApplicationContext(), "0537c3965d", BuildConfig.DEBUG);
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
