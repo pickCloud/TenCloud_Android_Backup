@@ -5,16 +5,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
-import com.ten.tencloud.bean.AppBean;
-import com.ten.tencloud.bean.ServiceBean;
+import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
-import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
-import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
+import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
+import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
@@ -26,8 +26,10 @@ import butterknife.OnClick;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class ServiceListActivity extends BaseActivity {
+public class AppDeploymentListActivity extends BaseActivity {
 
+    @BindView(R.id.rl_filter)
+    RelativeLayout mRlFilter;
     @BindView(R.id.tv_filter)
     TextView mTvFilter;
     @BindView(R.id.rv_app)
@@ -38,8 +40,7 @@ public class ServiceListActivity extends BaseActivity {
     FrameLayout mEmptyView;
 
     private RefreshBroadCastHandler mAppHandler;
-    private ArrayList<AppBean> mAppBeans;
-    private RvServiceAdapter mServiceAdapter;
+    private RvAppServiceDeploymentAdapter mAppServiceDeploymentAdapter;
 
     private AppFilterDialog mAppFilterDialog;
 
@@ -49,7 +50,8 @@ public class ServiceListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_service_app_list);
 
-        initTitleBar(true, "服务列表");
+        mRlFilter.setVisibility(View.GONE);
+        initTitleBar(true, "部署列表");
 
         mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
         mAppHandler.registerReceiver(new OnRefreshListener() {
@@ -65,9 +67,9 @@ public class ServiceListActivity extends BaseActivity {
 
     private void initView() {
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
-        mRvApp.addItemDecoration(new ServiceItemDecoration());
-        mServiceAdapter = new RvServiceAdapter(this);
-        mRvApp.setAdapter(mServiceAdapter);
+        mAppServiceDeploymentAdapter = new RvAppServiceDeploymentAdapter(this);
+        mRvApp.addItemDecoration(new Hor16Ver8ItemDecoration());
+        mRvApp.setAdapter(mAppServiceDeploymentAdapter);
 
         mAppFilterDialog = new AppFilterDialog(this);
         mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
@@ -85,11 +87,18 @@ public class ServiceListActivity extends BaseActivity {
     }
 
     private void initData() {
-        ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
-        serviceBeans.add(new ServiceBean("service-example1", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
-        serviceBeans.add(new ServiceBean("service-example2", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-16  18:15:12", 1));
-        serviceBeans.add(new ServiceBean("service-example3", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-17  18:15:12", 2));
-        mServiceAdapter.setDatas(serviceBeans);
+        ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
+            pods.add(new DeploymentBean.Pod("预设Pod", 1));
+            pods.add(new DeploymentBean.Pod("当前Pod", 1));
+            pods.add(new DeploymentBean.Pod("更新Pod", 1));
+            pods.add(new DeploymentBean.Pod("可用Pod", 1));
+            pods.add(new DeploymentBean.Pod("运行时间", 8));
+            deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", i, pods, "2018-02-15  18:15:12", "AIUnicorn"));
+        }
+        mAppServiceDeploymentAdapter.setDatas(deploymentBeans);
     }
 
     @OnClick({R.id.tv_filter, R.id.tv_add_app})

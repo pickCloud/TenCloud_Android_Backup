@@ -2,31 +2,27 @@ package com.ten.tencloud.module.app.contract;
 
 import com.ten.tencloud.base.presenter.IBasePresenter;
 import com.ten.tencloud.base.view.IBaseView;
-import com.ten.tencloud.bean.LabelBean;
+import com.ten.tencloud.bean.ReposBean;
 
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
  * Create by chenxh@10.com on 2018/4/2.
  */
-public class LabelSelectContract {
+public class AppReposListContract {
 
     public interface View extends IBaseView {
 
-        void labelAddResult(boolean result);
-
         void showEmpty();
 
-        void showLabelList(TreeSet<LabelBean> labelBeans);
+        void showReposList(List<ReposBean> reposBeans);
 
+        void goAuth(String url);
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
 
-        void newLabel(String name, int type);
-
-        void getLabelList(int type);
+        void getReposList(String url);
 
     }
 }

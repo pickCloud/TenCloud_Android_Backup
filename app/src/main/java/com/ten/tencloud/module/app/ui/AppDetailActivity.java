@@ -21,8 +21,8 @@ import com.ten.tencloud.bean.TaskBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
+import com.ten.tencloud.module.app.adapter.RvAppServiceAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
-import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
 import com.ten.tencloud.module.app.presenter.AppDetailPresenter;
 import com.ten.tencloud.utils.UiUtils;
@@ -72,7 +72,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     CircleImageView mIvLogo;
 
     private RvAppServiceDeploymentAdapter mDeploymentAdapter;
-    private RvServiceAdapter mServiceAdapter;
+    private RvAppServiceAdapter mServiceAdapter;
     private RvAppDetailImageAdapter mImageAdapter;
     private RvAppDetailTaskAdapter mTaskAdapter;
 
@@ -135,7 +135,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
                 return false;
             }
         });
-        mServiceAdapter = new RvServiceAdapter(this);
+        mServiceAdapter = new RvAppServiceAdapter(this);
         mRvAppDetailService.setAdapter(mServiceAdapter);
 
         mServiceBeans = new ArrayList<>();
@@ -190,16 +190,16 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
                 startActivity(new Intent(this, AppAddActivity.class).putExtra("id", mAppId));
                 break;
             case R.id.tv_deploy_more:
-                startActivityNoValue(this, DeploymentListActivity.class);
+                startActivityNoValue(this, AppDeploymentListActivity.class);
                 break;
             case R.id.tv_service_more:
-                startActivityNoValue(this, ServiceListActivity.class);
+                startActivityNoValue(this, AppServiceListActivity.class);
                 break;
             case R.id.tv_image_more:
-                startActivityNoValue(this, ImageListActivity.class);
+                startActivityNoValue(this, AppImageListActivity.class);
                 break;
             case R.id.tv_task_more:
-                startActivityNoValue(this, TaskListActivity.class);
+                startActivityNoValue(this, AppTaskListActivity.class);
                 break;
             case R.id.btn_toolbox:
                 BlurBuilder.snapShotWithoutStatusBar(this);

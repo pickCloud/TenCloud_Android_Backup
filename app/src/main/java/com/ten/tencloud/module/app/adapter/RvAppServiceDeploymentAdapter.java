@@ -66,9 +66,9 @@ public class RvAppServiceDeploymentAdapter extends CJSBaseRecyclerViewAdapter<De
                 return false;
             }
         });
-        RvPodAdapter rvPodAdapter = new RvPodAdapter(mContext);
-        rvPodAdapter.setDatas(datas.get(position).getPodList());
-        holder.mRvPod.setAdapter(rvPodAdapter);
+        RvAppPodAdapter rvAppPodAdapter = new RvAppPodAdapter(mContext);
+        rvAppPodAdapter.setDatas(datas.get(position).getPodList());
+        holder.mRvPod.setAdapter(rvAppPodAdapter);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

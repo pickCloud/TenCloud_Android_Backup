@@ -18,11 +18,11 @@ import butterknife.ButterKnife;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class RvReposAdapter extends CJSBaseRecyclerViewAdapter<ReposBean, RvReposAdapter.ViewHolder> {
+public class RvAppReposAdapter extends CJSBaseRecyclerViewAdapter<ReposBean, RvAppReposAdapter.ViewHolder> {
 
     private int selectPos = -1;
 
-    public RvReposAdapter(Context context) {
+    public RvAppReposAdapter(Context context) {
         super(context);
     }
 

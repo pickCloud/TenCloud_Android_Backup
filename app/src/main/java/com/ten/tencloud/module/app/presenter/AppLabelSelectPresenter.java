@@ -4,7 +4,7 @@ import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
-import com.ten.tencloud.module.app.contract.LabelSelectContract;
+import com.ten.tencloud.module.app.contract.AppLabelSelectContract;
 import com.ten.tencloud.module.app.model.AppModel;
 
 import java.util.TreeSet;
@@ -12,7 +12,7 @@ import java.util.TreeSet;
 /**
  * Create by chenxh@10.com on 2018/4/11.
  */
-public class LabelSelectPresenter extends BasePresenter<LabelSelectContract.View> implements LabelSelectContract.Presenter<LabelSelectContract.View> {
+public class AppLabelSelectPresenter extends BasePresenter<AppLabelSelectContract.View> implements AppLabelSelectContract.Presenter<AppLabelSelectContract.View> {
 
     @Override
     public void newLabel(String name, int type) {

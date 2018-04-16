@@ -22,7 +22,7 @@ import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
-import com.ten.tencloud.module.app.adapter.RvServiceAdapter;
+import com.ten.tencloud.module.app.adapter.RvAppServiceAdapter;
 import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
 import com.ten.tencloud.module.app.presenter.AppServiceHomePresenter;
 import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
@@ -69,7 +69,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
 
     private RvAppAdapter mAppAdapter;
     private RvAppServiceDeploymentAdapter mDeploymentAdapter;
-    private RvServiceAdapter mServiceAdapter;
+    private RvAppServiceAdapter mServiceAdapter;
     private AppServiceHomePresenter mAppServiceHomePresenter;
     private RefreshBroadCastHandler mRefreshBroadCastHandler;
 
@@ -150,7 +150,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
             }
         });
         mRvNewestService.addItemDecoration(new ServiceItemDecoration());
-        mServiceAdapter = new RvServiceAdapter(mActivity);
+        mServiceAdapter = new RvAppServiceAdapter(mActivity);
         mRvNewestService.setAdapter(mServiceAdapter);
 
         ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
@@ -173,10 +173,10 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
                 startActivity(new Intent(mActivity, AppListActivity.class));
                 break;
             case R.id.tv_deployment_more:
-                startActivity(new Intent(mActivity, DeploymentListActivity.class));
+                startActivity(new Intent(mActivity, AppDeploymentListActivity.class));
                 break;
             case R.id.tv_service_more:
-                startActivity(new Intent(mActivity, ServiceListActivity.class));
+                startActivity(new Intent(mActivity, AppServiceListActivity.class));
                 break;
         }
     }

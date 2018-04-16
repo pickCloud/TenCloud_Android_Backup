@@ -40,6 +40,7 @@ import com.ten.tencloud.widget.dialog.LabelSelectDialog;
 import com.ten.tencloud.widget.dialog.PhotoSelectDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -130,11 +131,11 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     public void createLabelView(ArrayList<LabelBean> data) {
         mFlexboxLayout.removeAllViews();
         for (LabelBean label : data) {
-            createLableView(label);
+            createLabelView(label);
         }
     }
 
-    private void createLableView(final LabelBean label) {
+    private void createLabelView(final LabelBean label) {
         View view = View.inflate(this, R.layout.item_app_service_label, null);
         final TextView checkBox = view.findViewById(R.id.tv_label_name);
         checkBox.setText(label.getName());
@@ -183,7 +184,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                 mLabelSelectDialog.setHistoryLabelData(mLabelBeans);
                 break;
             case R.id.tv_repos:
-//                startActivityForResult(new Intent(this, RepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
+                startActivityForResult(new Intent(this, AppRepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
                 break;
             case R.id.btn_sure_add:
                 addOrUpdateApp();
@@ -194,6 +195,10 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private void addOrUpdateApp() {
         mAppName = mEtName.getText().toString().trim();
         mDescription = mEtDescription.getText().toString().trim();
+        List<Integer> labels = new ArrayList<>();
+        for (LabelBean labelBean : mLabelBeans) {
+            labels.add(labelBean.getId());
+        }
         if (TextUtils.isEmpty(mAppName)) {
             showToastMessage(R.string.tips_verify_app_empty);
             return;
@@ -204,7 +209,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
         if (mId == -1) {
             AppModel.getInstance()
-                    .newApp(mAppName, mDescription, mReposName, "", "", mLogoUrl, 0)
+                    .newApp(mAppName, mDescription, mReposName, "", "", mLogoUrl, 0, labels)
                     .subscribe(new JesSubscribe<Object>(this) {
 
                         @Override
@@ -233,7 +238,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                     });
         } else {
             AppModel.getInstance()
-                    .updateApp(mId, mAppName, mDescription, mReposName, "", "", mLogoUrl)
+                    .updateApp(mId, mAppName, mDescription, mReposName, "", "", mLogoUrl, labels)
                     .subscribe(new JesSubscribe<Object>(this) {
 
                         @Override
@@ -309,7 +314,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void takeSuccess(TResult result) {
-        KLog.i("takeSuccess：" + result.getImage().getCompressPath());
         String path = result.getImage().getCompressPath();//压缩后的路径
         GlideUtils.getInstance().loadCircleImage(this, mIvLogo, path, R.mipmap.icon_app_photo);
         mQiniuPresenter.uploadFile(path);
@@ -336,7 +340,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void uploadSuccess(String path) {
-        KLog.e(path);
         mLogoUrl = path;
     }
 
@@ -347,7 +350,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void showAppDetail(AppBean appBean) {
-        KLog.e(appBean);
         if (!TextUtils.isEmpty(appBean.getLogo_url())) {
             GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
             mLogoUrl = appBean.getLogo_url();

@@ -8,8 +8,8 @@ import com.ten.tencloud.bean.ReposBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -40,7 +40,7 @@ public class AppModel {
     }
 
     public Observable<Object> newApp(String name, String description, String repos_name, String repos_ssh_url,
-                                     String repos_https_url, String logo_url, int image_id) {
+                                     String repos_https_url, String logo_url, int image_id, List<Integer> labels) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", name);
         hashMap.put("description", description);
@@ -49,6 +49,8 @@ public class AppModel {
         hashMap.put("repos_https_url", repos_https_url);
         hashMap.put("logo_url", logo_url);
         hashMap.put("image_id", image_id);
+        Collections.sort(labels);
+        hashMap.put("labels",labels);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
         return TenApp.getRetrofitClient().getTenAppApi()
                 .newApp(body)
@@ -58,7 +60,7 @@ public class AppModel {
     }
 
     public Observable<Object> updateApp(int id, String name, String description, String repos_name, String repos_ssh_url,
-                                        String repos_https_url, String logo_url) {
+                                        String repos_https_url, String logo_url, List<Integer> labels) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", id);
         hashMap.put("name", name);
@@ -67,6 +69,8 @@ public class AppModel {
         hashMap.put("repos_ssh_url", repos_ssh_url);
         hashMap.put("repos_https_url", repos_https_url);
         hashMap.put("logo_url", logo_url);
+        Collections.sort(labels);
+        hashMap.put("labels",labels);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
         return TenApp.getRetrofitClient().getTenAppApi()
                 .updateApp(body)

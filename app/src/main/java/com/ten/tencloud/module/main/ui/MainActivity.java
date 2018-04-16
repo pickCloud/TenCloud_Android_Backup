@@ -13,6 +13,7 @@ import com.ten.tencloud.base.view.TempFragment;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.module.app.ui.AppServiceFragment;
+import com.ten.tencloud.module.image.ui.ImageHomeFragment;
 import com.ten.tencloud.module.main.contract.MainContract;
 import com.ten.tencloud.module.main.presenter.MainPresenter;
 import com.ten.tencloud.module.server.ui.ServerHomeFragment;
@@ -82,7 +83,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         pagerAdapter.addFragment(new ServerHomeFragment());
         pagerAdapter.addFragment(new AppServiceFragment());
         pagerAdapter.addFragment(new TempFragment());
-        pagerAdapter.addFragment(new TempFragment());
+        pagerAdapter.addFragment(new ImageHomeFragment());
         pagerAdapter.addFragment(new MineFragment());
         mVpContent.setOffscreenPageLimit(titles.length);
         mVpContent.setAdapter(pagerAdapter);

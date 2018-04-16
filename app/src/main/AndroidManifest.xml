@@ -132,8 +132,20 @@
             android:name=".module.app.ui.AppAddActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.RepositoryActivity"
-            android:screenOrientation="portrait" />
+            android:name=".module.app.ui.AppRepositoryActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="repository"
+                    android:scheme="tencloud" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".module.app.ui.AppListActivity"
             android:screenOrientation="portrait" />
@@ -141,16 +153,16 @@
             android:name=".module.app.ui.AppDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.ServiceListActivity"
+            android:name=".module.app.ui.AppServiceListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.DeploymentListActivity"
+            android:name=".module.app.ui.AppDeploymentListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.ImageListActivity"
+            android:name=".module.app.ui.AppImageListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.TaskListActivity"
+            android:name=".module.app.ui.AppTaskListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.server.ui.ServerToolBoxActivity"

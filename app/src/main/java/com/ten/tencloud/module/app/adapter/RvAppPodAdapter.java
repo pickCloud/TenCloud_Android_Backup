@@ -16,10 +16,10 @@ import butterknife.ButterKnife;
 /**
  * Created by chenxh@10.com on 2018/3/28.
  */
-public class RvPodAdapter extends CJSBaseRecyclerViewAdapter<DeploymentBean.Pod, RvPodAdapter.ViewHolder> {
+public class RvAppPodAdapter extends CJSBaseRecyclerViewAdapter<DeploymentBean.Pod, RvAppPodAdapter.ViewHolder> {
 
 
-    public RvPodAdapter(Context context) {
+    public RvAppPodAdapter(Context context) {
         super(context);
     }
 

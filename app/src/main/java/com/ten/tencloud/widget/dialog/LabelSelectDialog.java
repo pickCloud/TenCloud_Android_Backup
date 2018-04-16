@@ -22,8 +22,8 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.listener.DialogListener;
 import com.ten.tencloud.model.JesException;
-import com.ten.tencloud.module.app.contract.LabelSelectContract;
-import com.ten.tencloud.module.app.presenter.LabelSelectPresenter;
+import com.ten.tencloud.module.app.contract.AppLabelSelectContract;
+import com.ten.tencloud.module.app.presenter.AppLabelSelectPresenter;
 import com.ten.tencloud.utils.ToastUtils;
 import com.ten.tencloud.utils.UiUtils;
 
@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * Created by lxq on 2017/11/24.
  */
 
-public class LabelSelectDialog extends Dialog implements LabelSelectContract.View {
+public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.View {
 
     @BindView(R.id.fbl_label_edit)
     FlexboxLayout mFblEditLabel;
@@ -58,7 +58,7 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
 
     private TreeSet<LabelBean> mHistoryLabels;
     private ArrayList<LabelBean> mEditLabels;
-    private LabelSelectPresenter mLabelSelectPresenter;
+    private AppLabelSelectPresenter mAppLabelSelectPresenter;
 
     public LabelSelectDialog(@NonNull Context context, DialogListener<ArrayList<LabelBean>> dialogListener) {
         super(context, R.style.BottomSheetDialogStyle);
@@ -78,9 +78,9 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
         mHistoryLabels = new TreeSet<>();
         mEditLabels = new ArrayList<>();
 
-        mLabelSelectPresenter = new LabelSelectPresenter();
-        mLabelSelectPresenter.attachView(this);
-        mLabelSelectPresenter.getLabelList(1);
+        mAppLabelSelectPresenter = new AppLabelSelectPresenter();
+        mAppLabelSelectPresenter.attachView(this);
+        mAppLabelSelectPresenter.getLabelList(1);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -143,7 +143,7 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
                     }
 
                     mEditLabels.add(new LabelBean(label));
-                    mLabelSelectPresenter.newLabel(label, 1);
+                    mAppLabelSelectPresenter.newLabel(label, 1);
 
                     createEditLabelView(mEditLabels);
                 }
@@ -163,11 +163,11 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
     private void createHistoryLabelView() {
         mFblHistoryLabel.removeAllViews();
         for (LabelBean label : mHistoryLabels) {
-            createHistoryLableView(label);
+            createHistoryLabelView(label);
         }
     }
 
-    private void createHistoryLableView(final LabelBean label) {
+    private void createHistoryLabelView(final LabelBean label) {
         View view = View.inflate(context, R.layout.item_app_service_history_label, null);
         final CheckBox checkBox = view.findViewById(R.id.cb_label_name);
         checkBox.setText(label.getName());
@@ -196,12 +196,12 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
         mFblHistoryLabel.addView(view);
     }
 
-    public void setEditLabelData(ArrayList<LabelBean> data){
+    public void setEditLabelData(ArrayList<LabelBean> data) {
         if (data != null && data.size() != 0) {
             mFblEditLabel.removeAllViews();
             mEditLabels = data;
             for (LabelBean label : mEditLabels) {
-                createEditLableView(label);
+                createEditLabelView(label);
             }
             mEtLabelAdd.setText("");
             mEtLabelAdd.setHint("输入    ");
@@ -213,10 +213,9 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
     private void createEditLabelView(ArrayList<LabelBean> data) {
         mFblEditLabel.removeAllViews();
         if (data != null && data.size() != 0) {
-
             mEditLabels = data;
             for (LabelBean label : mEditLabels) {
-                createEditLableView(label);
+                createEditLabelView(label);
             }
         }
         mEtLabelAdd.setText("");
@@ -226,7 +225,7 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
 
     }
 
-    private void createEditLableView(final LabelBean label) {
+    private void createEditLabelView(final LabelBean label) {
         View view = View.inflate(context, R.layout.item_app_service_edit_label, null);
         view.setTag(label);
         CheckBox checkBox = view.findViewById(R.id.cb_label_name);
@@ -274,7 +273,7 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
         String currEditLabel = mEtLabelAdd.getText().toString().trim();
         if (!TextUtils.isEmpty(currEditLabel) && mEditLabels.size() < MAX_LABEL_NUM) {
             mEditLabels.add(new LabelBean(currEditLabel));
-            mLabelSelectPresenter.newLabel(currEditLabel, 1);
+            mAppLabelSelectPresenter.newLabel(currEditLabel, 1);
         }
 
         for (int i = 0; i < mEditLabels.size(); i++) {
@@ -290,8 +289,12 @@ public class LabelSelectDialog extends Dialog implements LabelSelectContract.Vie
 
     @Override
     public void labelAddResult(boolean result) {
-        if (result) KLog.e("标签添加成功");
-        else KLog.e("标签添加失败");
+        if (result) {
+            KLog.e("标签添加成功");
+            mAppLabelSelectPresenter.getLabelList(1);
+        } else {
+            KLog.e("标签添加失败");
+        }
     }
 
     @Override

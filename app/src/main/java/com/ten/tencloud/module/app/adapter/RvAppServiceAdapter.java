@@ -18,10 +18,10 @@ import butterknife.ButterKnife;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class RvServiceAdapter extends CJSBaseRecyclerViewAdapter<ServiceBean, RvServiceAdapter.ViewHolder> {
+public class RvAppServiceAdapter extends CJSBaseRecyclerViewAdapter<ServiceBean, RvAppServiceAdapter.ViewHolder> {
 
 
-    public RvServiceAdapter(Context context) {
+    public RvAppServiceAdapter(Context context) {
         super(context);
     }
 

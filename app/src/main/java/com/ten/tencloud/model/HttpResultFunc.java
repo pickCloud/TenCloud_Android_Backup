@@ -2,7 +2,6 @@ package com.ten.tencloud.model;
 
 
 import com.google.gson.Gson;
-import com.socks.library.KLog;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.LoginInfoBean;
@@ -53,7 +52,9 @@ public class HttpResultFunc<T> implements Func1<Response<JesResponse<T>>, T> {
                     Gson gson = TenApp.getInstance().getGsonInstance();
                     String json = gson.toJson(jesResponse.getData());
                     LoginInfoBean loginInfo = gson.fromJson(json, LoginInfoBean.class);
-                    AppBaseCache.getInstance().saveUserInfoWithLogin(loginInfo);
+                    if (loginInfo != null && loginInfo.getUser() != null) {
+                        AppBaseCache.getInstance().saveUserInfoWithLogin(loginInfo);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

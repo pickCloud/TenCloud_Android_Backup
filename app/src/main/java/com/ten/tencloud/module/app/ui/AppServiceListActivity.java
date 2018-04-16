@@ -5,17 +5,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
-import com.ten.tencloud.bean.ImageBean;
+import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
-import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
-import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter1;
-import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
+import com.ten.tencloud.module.app.adapter.RvAppServiceAdapter;
+import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
@@ -27,10 +26,8 @@ import butterknife.OnClick;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class ImageListActivity extends BaseActivity {
+public class AppServiceListActivity extends BaseActivity {
 
-    @BindView(R.id.rl_filter)
-    RelativeLayout mRlFilter;
     @BindView(R.id.tv_filter)
     TextView mTvFilter;
     @BindView(R.id.rv_app)
@@ -41,7 +38,8 @@ public class ImageListActivity extends BaseActivity {
     FrameLayout mEmptyView;
 
     private RefreshBroadCastHandler mAppHandler;
-    private RvAppDetailImageAdapter1 mImageAdapter;
+    private ArrayList<AppBean> mAppBeans;
+    private RvAppServiceAdapter mServiceAdapter;
 
     private AppFilterDialog mAppFilterDialog;
 
@@ -51,8 +49,7 @@ public class ImageListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_service_app_list);
 
-        mRlFilter.setVisibility(View.GONE);
-        initTitleBar(true, "镜像列表");
+        initTitleBar(true, "服务列表");
 
         mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
         mAppHandler.registerReceiver(new OnRefreshListener() {
@@ -68,8 +65,9 @@ public class ImageListActivity extends BaseActivity {
 
     private void initView() {
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
-        mImageAdapter = new RvAppDetailImageAdapter1(this);
-        mRvApp.setAdapter(mImageAdapter);
+        mRvApp.addItemDecoration(new ServiceItemDecoration());
+        mServiceAdapter = new RvAppServiceAdapter(this);
+        mRvApp.setAdapter(mServiceAdapter);
 
         mAppFilterDialog = new AppFilterDialog(this);
         mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
@@ -87,11 +85,11 @@ public class ImageListActivity extends BaseActivity {
     }
 
     private void initData() {
-        ArrayList<ImageBean>  mImageBeans = new ArrayList<>();
-        mImageBeans.add(new ImageBean("Diango1", "V1.0.1", "2018-03-29  10:00:01"));
-        mImageBeans.add(new ImageBean("Diango2", "V1.0.2", "2018-03-29  10:00:10"));
-        mImageBeans.add(new ImageBean("Diango3", "V1.0.3", "2018-03-29  10:00:21"));
-        mImageAdapter.setDatas(mImageBeans);
+        ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
+        serviceBeans.add(new ServiceBean("service-example1", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
+        serviceBeans.add(new ServiceBean("service-example2", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-16  18:15:12", 1));
+        serviceBeans.add(new ServiceBean("service-example3", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-17  18:15:12", 2));
+        mServiceAdapter.setDatas(serviceBeans);
     }
 
     @OnClick({R.id.tv_filter, R.id.tv_add_app})
