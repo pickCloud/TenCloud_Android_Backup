@@ -40,6 +40,7 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
     private RvAppReposAdapter mRvAppReposAdapter;
     private String mReposName;
     private String mReposUrl;
+    private String mReposHttpUrl;
     private AppReposListPresenter mAppReposListPresenter;
 
     @Override
@@ -54,6 +55,7 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
                 Bundle bundle = new Bundle();
                 bundle.putString("url", mReposUrl);
                 bundle.putString("name", mReposName);
+                bundle.putString("httpUrl", mReposHttpUrl);
                 broadCastHandler.sendBroadCastWithData(bundle);
                 finish();
             }
@@ -83,6 +85,7 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
                 mRvAppReposAdapter.setSelectPos(position);
                 mReposName = reposBean.getRepos_name();
                 mReposUrl = reposBean.getRepos_url();
+                mReposHttpUrl = reposBean.getHttp_url();
             }
         });
 

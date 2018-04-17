@@ -78,6 +78,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private String mDescription;
     private String mReposName;
     private String mReposUrl;
+    private String mReposHttpUrl;
     private RefreshBroadCastHandler mAppRefreshHandler;
     private int mId;
 
@@ -114,6 +115,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                 mTvRepos.setText(bundle.getString("url"));
                 mReposName = bundle.getString("name");
                 mReposUrl = bundle.getString("url");
+                mReposHttpUrl = bundle.getString("httpUrl");
             }
         });
         mQiniuPresenter = new QiniuPresenter();
@@ -196,8 +198,10 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         mAppName = mEtName.getText().toString().trim();
         mDescription = mEtDescription.getText().toString().trim();
         List<Integer> labels = new ArrayList<>();
-        for (LabelBean labelBean : mLabelBeans) {
-            labels.add(labelBean.getId());
+        if (mLabelBeans != null){
+            for (LabelBean labelBean : mLabelBeans) {
+                labels.add(labelBean.getId());
+            }
         }
         if (TextUtils.isEmpty(mAppName)) {
             showToastMessage(R.string.tips_verify_app_empty);
@@ -209,7 +213,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
         if (mId == -1) {
             AppModel.getInstance()
-                    .newApp(mAppName, mDescription, mReposName, "", "", mLogoUrl, 0, labels)
+                    .newApp(mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, 0, labels)
                     .subscribe(new JesSubscribe<Object>(this) {
 
                         @Override
@@ -238,7 +242,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                     });
         } else {
             AppModel.getInstance()
-                    .updateApp(mId, mAppName, mDescription, mReposName, "", "", mLogoUrl, labels)
+                    .updateApp(mId, mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, labels)
                     .subscribe(new JesSubscribe<Object>(this) {
 
                         @Override
@@ -280,6 +284,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                 mTvRepos.setText(data.getStringExtra("url"));
                 mReposName = data.getStringExtra("name");
                 mReposUrl = data.getStringExtra("url");
+                mReposHttpUrl = data.getStringExtra("httpUrl");
             }
         }
     }
@@ -350,6 +355,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void showAppDetail(AppBean appBean) {
+        mTvRepos.setText(appBean.getRepos_ssh_url());
         if (!TextUtils.isEmpty(appBean.getLogo_url())) {
             GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
             mLogoUrl = appBean.getLogo_url();
@@ -358,6 +364,24 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
             mEtName.setText(appBean.getName());
         if (!TextUtils.isEmpty(appBean.getDescription()))
             mEtDescription.setText(appBean.getDescription());
+        String label_name = appBean.getLabel_name();
+        if (TextUtils.isEmpty(label_name)) {
+            return;
+        }
+        String[] labels = label_name.split(",");
+        mLabelBeans = new ArrayList<>();
+        for (String label : labels) {
+            mLabelBeans.add(new LabelBean(label));
+        }
+        if (mLabelBeans == null || mLabelBeans.size() == 0) {
+            mTvLabelEdit.setVisibility(View.VISIBLE);
+            mFlexboxLayout.setVisibility(View.GONE);
+            mFlexboxLayout.removeAllViews();
+        } else {
+            mTvLabelEdit.setVisibility(View.GONE);
+            mFlexboxLayout.setVisibility(View.VISIBLE);
+            createLabelView(mLabelBeans);
+        }
     }
 
     @Override

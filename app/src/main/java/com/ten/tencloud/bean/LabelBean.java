@@ -19,6 +19,11 @@ public class LabelBean implements Comparable {
         this.name = name;
     }
 
+    public LabelBean(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

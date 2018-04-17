@@ -15,18 +15,18 @@ import java.util.TreeSet;
 public class AppLabelSelectPresenter extends BasePresenter<AppLabelSelectContract.View> implements AppLabelSelectContract.Presenter<AppLabelSelectContract.View> {
 
     @Override
-    public void newLabel(String name, int type) {
+    public void newLabel(final String name, int type) {
         mSubscriptions.add(AppModel.getInstance().newLabel(name, type)
-                .subscribe(new JesSubscribe<Object>(mView) {
+                .subscribe(new JesSubscribe<LabelBean>(mView) {
                     @Override
-                    public void _onSuccess(Object o) {
-                        mView.labelAddResult(true);
+                    public void _onSuccess(LabelBean bean) {
+                        bean.setName(name);
+                        mView.labelAddResult(bean);
                     }
 
                     @Override
                     public void _onError(JesException e) {
                         super._onError(e);
-                        mView.labelAddResult(false);
                     }
                 }));
     }

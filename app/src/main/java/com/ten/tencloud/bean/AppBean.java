@@ -36,6 +36,7 @@ public class AppBean implements Comparable<AppBean> {
     private int form;
     private String create_time;
     private String update_time;
+    private String label_name;
 
     public int getId() {
         return id;
@@ -141,23 +142,12 @@ public class AppBean implements Comparable<AppBean> {
         this.update_time = update_time;
     }
 
-    @Override
-    public String toString() {
-        return "AppBean{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", repos_name='" + repos_name + '\'' +
-                ", repos_ssh_url='" + repos_ssh_url + '\'' +
-                ", repos_https_url='" + repos_https_url + '\'' +
-                ", logo_url='" + logo_url + '\'' +
-                ", image_id=" + image_id +
-                ", lord=" + lord +
-                ", form=" + form +
-                ", create_time='" + create_time + '\'' +
-                ", update_time='" + update_time + '\'' +
-                '}';
+    public String getLabel_name() {
+        return label_name;
+    }
+
+    public void setLabel_name(String label_name) {
+        this.label_name = label_name;
     }
 
     @Override

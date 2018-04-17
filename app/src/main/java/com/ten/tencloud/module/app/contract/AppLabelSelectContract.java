@@ -4,7 +4,6 @@ import com.ten.tencloud.base.presenter.IBasePresenter;
 import com.ten.tencloud.base.view.IBaseView;
 import com.ten.tencloud.bean.LabelBean;
 
-import java.util.HashSet;
 import java.util.TreeSet;
 
 /**
@@ -14,12 +13,11 @@ public class AppLabelSelectContract {
 
     public interface View extends IBaseView {
 
-        void labelAddResult(boolean result);
-
         void showEmpty();
 
         void showLabelList(TreeSet<LabelBean> labelBeans);
 
+        void labelAddResult(LabelBean bean);
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {

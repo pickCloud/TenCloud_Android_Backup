@@ -156,6 +156,7 @@ public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.
 
     public void setHistoryLabelData(ArrayList<LabelBean> data) {
         if (data == null || data.size() == 0) return;
+        mHistoryLabels.clear();
         mHistoryLabels.addAll(data);
         createHistoryLabelView();
     }
@@ -163,6 +164,11 @@ public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.
     private void createHistoryLabelView() {
         mFblHistoryLabel.removeAllViews();
         for (LabelBean label : mHistoryLabels) {
+            for (LabelBean editLabel : mEditLabels) {
+                if (label.getName().equals(editLabel.getName())) {
+                    label.setSelect(true);
+                }
+            }
             createHistoryLabelView(label);
         }
     }
@@ -288,13 +294,12 @@ public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.
 
 
     @Override
-    public void labelAddResult(boolean result) {
-        if (result) {
-            KLog.e("标签添加成功");
-            mAppLabelSelectPresenter.getLabelList(1);
-        } else {
-            KLog.e("标签添加失败");
-        }
+    public void labelAddResult(LabelBean bean) {
+        KLog.e(bean);
+        bean.setSelect(true);
+        bean.setCheck(true);
+        mHistoryLabels.add(bean);
+        createHistoryLabelView();
     }
 
     @Override
@@ -308,8 +313,7 @@ public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.
 
     @Override
     public void showLabelList(TreeSet<LabelBean> labelBeans) {
-        KLog.e(labelBeans);
-        mFblHistoryLabel.removeAllViews();
+        mHistoryLabels.clear();
         mHistoryLabels.addAll(labelBeans);
         createHistoryLabelView();
     }

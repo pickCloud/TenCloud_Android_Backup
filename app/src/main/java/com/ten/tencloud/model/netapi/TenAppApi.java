@@ -52,7 +52,7 @@ public interface TenAppApi {
 
     //新建标签
     @POST("/api/label/new")
-    Observable<Response<JesResponse<Object>>> newLabel(@Query("name") String name, @Query("type") int type);
+    Observable<Response<JesResponse<LabelBean>>> newLabel(@Query("name") String name, @Query("type") int type);
 
     //标签列表
     @GET("/api/label/list")

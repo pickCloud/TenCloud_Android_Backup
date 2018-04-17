@@ -111,10 +111,10 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<Object> newLabel(String name, int type) {
+    public Observable<LabelBean> newLabel(String name, int type) {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .newLabel(name, type)
-                .map(new HttpResultFunc<>())
+                .map(new HttpResultFunc<LabelBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
