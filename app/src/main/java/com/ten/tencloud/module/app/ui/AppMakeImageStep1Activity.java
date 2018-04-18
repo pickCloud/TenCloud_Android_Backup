@@ -1,12 +1,17 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.listener.OnRefreshWithDataListener;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -19,6 +24,10 @@ public class AppMakeImageStep1Activity extends BaseActivity {
     EditText mEtVersion;
     @BindView(R.id.tv_branch)
     TextView mTvBranch;
+    private AppBean mAppBean;
+    private RefreshBroadCastHandler mBranchRefreshHandler;
+
+    private String mBranch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +36,58 @@ public class AppMakeImageStep1Activity extends BaseActivity {
         initTitleBar(true, "构建镜像", "下一步", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityNoValue(mContext, AppMakeImageStep2Activity.class);
+                next();
             }
         });
+        mBranchRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_BRANCH_CHANGE_ACTION);
+        mBranchRefreshHandler.registerReceiver(new OnRefreshWithDataListener() {
+
+            @Override
+            public void onRefresh(Bundle bundle) {
+                mTvBranch.setText(bundle.getString("branchName"));
+                mBranch = bundle.getString("branchName");
+            }
+        });
+        mAppBean = getIntent().getParcelableExtra("appBean");
+    }
+
+    private void next() {
+        String imageVersion = mEtVersion.getText().toString().trim();
+        String imageName = mEtName.getText().toString().trim();
+        if (TextUtils.isEmpty(imageVersion)) {
+            showMessage("请填写版本号");
+            return;
+        }
+        if (TextUtils.isEmpty(imageName)) {
+            showMessage("请填写镜像名称");
+            return;
+        }
+        if (TextUtils.isEmpty(mBranch)) {
+            showMessage("请选择分支");
+            return;
+        }
+        Intent intent = new Intent(mContext, AppMakeImageStep2Activity.class);
+        intent.putExtra("imageVersion", imageVersion);
+        intent.putExtra("imageName", imageName);
+        intent.putExtra("branchName", mBranch);
+        intent.putExtra("appBean", mAppBean);
+        startActivity(intent);
     }
 
     @OnClick({R.id.ll_select_branch})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_select_branch:
-
+                Intent intent = new Intent(this, AppBranchesActivity.class);
+                intent.putExtra("reposName", mAppBean.getRepos_name());
+                startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBranchRefreshHandler.unregisterReceiver();
     }
 }

@@ -7,6 +7,7 @@ import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
 
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import okhttp3.RequestBody;
@@ -49,6 +50,10 @@ public interface TenAppApi {
     //获取仓库列表
     @POST("/api/repos")
     Observable<Response<JesResponse<List<ReposBean>>>> getReposList(@Query("url") String url);
+
+    //获取分支
+    @POST("/api/repos/branches")
+    Observable<Response<JesResponse<List<Map<String,String>>>>> getReposBranches(@Query("repos_name") String repos_name, @Query("url") String url);
 
     //新建标签
     @POST("/api/label/new")

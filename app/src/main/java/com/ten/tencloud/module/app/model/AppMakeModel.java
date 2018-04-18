@@ -45,14 +45,17 @@ public class AppMakeModel {
                 KLog.d("接收==>" + text);
                 if ("success".equals(text)) {
                     isSuccess = true;
-                    if (OnAppMakeListener != null)
+                    if (OnAppMakeListener != null) {
                         OnAppMakeListener.onSuccess();
+                    }
                 } else if ("failure".equals(text)) {
-                    if (OnAppMakeListener != null)
+                    if (OnAppMakeListener != null) {
                         OnAppMakeListener.onFailure("构建失败");
+                    }
                 } else if (!"open".equals(text)) {
-                    if (OnAppMakeListener != null)
+                    if (OnAppMakeListener != null) {
                         OnAppMakeListener.onMessage(text);
+                    }
                 }
             }
 

@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.utils.StatusBarUtils;
 import com.ten.tencloud.widget.blur.BlurBuilder;
 
@@ -18,12 +20,15 @@ public class AppToolBoxActivity extends BaseActivity {
     @BindView(R.id.iv_blur)
     ImageView mIvBlur;
 
+    private AppBean mAppBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_toolbox);
         hideToolBar();
         StatusBarUtils.setColor(this, Color.BLACK);
+        mAppBean = getIntent().getParcelableExtra("appBean");
         applyBlur();
     }
 
@@ -32,7 +37,9 @@ public class AppToolBoxActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_tool1:
-                startActivityNoValue(this, AppMakeImageStep1Activity.class);
+                Intent intent = new Intent(this, AppMakeImageStep1Activity.class);
+                intent.putExtra("appBean", mAppBean);
+                startActivity(intent);
                 break;
             case R.id.btn_tool2:
 

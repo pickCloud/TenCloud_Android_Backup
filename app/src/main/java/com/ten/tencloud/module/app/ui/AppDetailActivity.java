@@ -83,6 +83,8 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     private AppDetailPresenter mAppDetailPresenter;
     private int mAppId;
 
+    private AppBean mAppBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,7 +205,9 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
                 break;
             case R.id.btn_toolbox:
                 BlurBuilder.snapShotWithoutStatusBar(this);
-                startActivityNoValue(this, AppToolBoxActivity.class);
+                Intent intent = new Intent(this, AppToolBoxActivity.class);
+                intent.putExtra("appBean", mAppBean);
+                startActivity(intent);
                 overridePendingTransition(0, 0);
                 break;
         }
@@ -211,6 +215,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
 
     @Override
     public void showAppDetail(AppBean appBean) {
+        mAppBean = appBean;
         if (!TextUtils.isEmpty(appBean.getLogo_url()))
             GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
         if (!TextUtils.isEmpty(appBean.getName()))

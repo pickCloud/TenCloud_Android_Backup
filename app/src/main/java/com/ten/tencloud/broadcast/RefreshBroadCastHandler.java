@@ -51,6 +51,11 @@ public class RefreshBroadCastHandler {
      */
     public final static String IMAGE_SOURCE_CHANGE_ACTION = "IMAGE_SOURCE_CHANGE_ACTION";
 
+    /**
+     * 选择代码分支
+     */
+    public final static String APP_BRANCH_CHANGE_ACTION = "APP_BRANCH_CHANGE_ACTION";
+
     private LocalBroadcastManager mLocalBroadcastManager;
     private BroadcastReceiver mReceiver;
 

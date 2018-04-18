@@ -79,6 +79,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private String mReposName;
     private String mReposUrl;
     private String mReposHttpUrl;
+    private AppBean mAppBean;
     private RefreshBroadCastHandler mAppRefreshHandler;
     private int mId;
 
@@ -198,7 +199,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         mAppName = mEtName.getText().toString().trim();
         mDescription = mEtDescription.getText().toString().trim();
         List<Integer> labels = new ArrayList<>();
-        if (mLabelBeans != null){
+        if (mLabelBeans != null) {
             for (LabelBean labelBean : mLabelBeans) {
                 labels.add(labelBean.getId());
             }
@@ -355,6 +356,14 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void showAppDetail(AppBean appBean) {
+        mAppBean = appBean;
+        mAppName = appBean.getName();
+        mDescription = appBean.getDescription();
+        mReposName = appBean.getRepos_name();
+        mReposUrl = appBean.getRepos_ssh_url();
+        mReposHttpUrl = appBean.getRepos_https_url();
+        mLogoUrl = appBean.getLogo_url();
+
         mTvRepos.setText(appBean.getRepos_ssh_url());
         if (!TextUtils.isEmpty(appBean.getLogo_url())) {
             GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
@@ -365,13 +374,21 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         if (!TextUtils.isEmpty(appBean.getDescription()))
             mEtDescription.setText(appBean.getDescription());
         String label_name = appBean.getLabel_name();
-        if (TextUtils.isEmpty(label_name)) {
+        String labelId = appBean.getLabels();
+        if (TextUtils.isEmpty(label_name) || TextUtils.isEmpty(labelId)) {
             return;
         }
         String[] labels = label_name.split(",");
+        String[] labelIds;
+        if (labelId.startsWith("0,")) {
+            labelIds = labelId.replace("0,", "").split(",");
+        } else {
+            labelIds = labelId.split(",");
+        }
         mLabelBeans = new ArrayList<>();
-        for (String label : labels) {
-            mLabelBeans.add(new LabelBean(label));
+
+        for (int i = 0; i < labels.length; i++) {
+            mLabelBeans.add(new LabelBean(Integer.parseInt(labelIds[i]), labels[i]));
         }
         if (mLabelBeans == null || mLabelBeans.size() == 0) {
             mTvLabelEdit.setVisibility(View.VISIBLE);

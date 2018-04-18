@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -34,8 +33,6 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.empty_view)
     LinearLayout mEmptyView;
-    @BindView(R.id.web_view)
-    WebView webView;
 
     private RvAppReposAdapter mRvAppReposAdapter;
     private String mReposName;
@@ -95,13 +92,11 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
     public void showEmpty() {
         mEmptyView.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
-        webView.setVisibility(View.GONE);
     }
 
     @Override
     public void showReposList(List<ReposBean> reposBeans) {
         mTvRight.setVisibility(View.VISIBLE);
-        webView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
         mRvAppReposAdapter.setDatas(reposBeans);

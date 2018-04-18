@@ -8,14 +8,17 @@ import com.ten.tencloud.bean.ReposBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class AppModel {
@@ -107,6 +110,24 @@ public class AppModel {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getReposList(url)
                 .map(new HttpResultFunc<List<ReposBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<String>> getReposBranches(String repos_name,String url){
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getReposBranches(repos_name,url)
+                .map(new HttpResultFunc<List<Map<String,String>>>())
+                .map(new Func1<List<Map<String, String>>, List<String>>() {
+                    @Override
+                    public List<String> call(List<Map<String, String>> maps) {
+                        List<String> data =  new ArrayList<>();
+                        for (Map<String, String> map : maps) {
+                            data.add(map.get("branch_name"));
+                        }
+                        return data;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

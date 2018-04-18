@@ -1,11 +1,13 @@
 package com.ten.tencloud.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 /**
  * Created by chenxh@10.com on 2018/3/28.
  */
-public class AppBean implements Comparable<AppBean> {
+public class AppBean implements Comparable<AppBean>,Parcelable {
 
     /**
      * id : 1
@@ -37,6 +39,7 @@ public class AppBean implements Comparable<AppBean> {
     private String create_time;
     private String update_time;
     private String label_name;
+    private String labels;
 
     public int getId() {
         return id;
@@ -150,8 +153,74 @@ public class AppBean implements Comparable<AppBean> {
         this.label_name = label_name;
     }
 
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
+    }
+
     @Override
     public int compareTo(@NonNull AppBean o) {
         return o.getUpdate_time().compareTo(this.getUpdate_time());
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeInt(this.status);
+        dest.writeString(this.repos_name);
+        dest.writeString(this.repos_ssh_url);
+        dest.writeString(this.repos_https_url);
+        dest.writeString(this.logo_url);
+        dest.writeInt(this.image_id);
+        dest.writeInt(this.lord);
+        dest.writeInt(this.form);
+        dest.writeString(this.create_time);
+        dest.writeString(this.update_time);
+        dest.writeString(this.label_name);
+        dest.writeString(this.labels);
+    }
+
+    public AppBean() {
+    }
+
+    protected AppBean(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.status = in.readInt();
+        this.repos_name = in.readString();
+        this.repos_ssh_url = in.readString();
+        this.repos_https_url = in.readString();
+        this.logo_url = in.readString();
+        this.image_id = in.readInt();
+        this.lord = in.readInt();
+        this.form = in.readInt();
+        this.create_time = in.readString();
+        this.update_time = in.readString();
+        this.label_name = in.readString();
+        this.labels = in.readString();
+    }
+
+    public static final Parcelable.Creator<AppBean> CREATOR = new Parcelable.Creator<AppBean>() {
+        @Override
+        public AppBean createFromParcel(Parcel source) {
+            return new AppBean(source);
+        }
+
+        @Override
+        public AppBean[] newArray(int size) {
+            return new AppBean[size];
+        }
+    };
 }

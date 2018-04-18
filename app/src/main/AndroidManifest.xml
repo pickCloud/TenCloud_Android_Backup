@@ -175,6 +175,20 @@
         <activity
             android:name=".module.app.ui.AppToolBoxActivity"
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
+        <activity
+            android:name=".module.app.ui.AppBranchesActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="branches"
+                    android:scheme="tencloud" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
