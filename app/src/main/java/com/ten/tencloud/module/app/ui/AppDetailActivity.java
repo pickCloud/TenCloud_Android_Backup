@@ -6,6 +6,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -221,6 +222,17 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         if (!TextUtils.isEmpty(appBean.getName()))
             mTvName.setText(appBean.getName());
 
+        String label_name = appBean.getLabel_name();
+        if (!TextUtils.isEmpty(label_name)) {
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+            mFblLabel.removeAllViews();
+            String[] labels = label_name.split(",");
+            for (String label : labels) {
+                TextView tvLabel = (TextView) inflater.inflate(R.layout.item_app_service_label_default, mFblLabel, false);
+                tvLabel.setText(label);
+                mFblLabel.addView(tvLabel);
+            }
+        }
         switch (appBean.getStatus()) {
             case Constants.APP_STATUS_INIT:
                 mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
