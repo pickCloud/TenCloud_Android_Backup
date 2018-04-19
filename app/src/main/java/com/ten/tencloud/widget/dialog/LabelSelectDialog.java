@@ -166,7 +166,7 @@ public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.
         for (LabelBean label : mHistoryLabels) {
             for (LabelBean editLabel : mEditLabels) {
                 if (label.getName().equals(editLabel.getName())) {
-                    label.setSelect(true);
+                    label.setCheck(true);
                 }
             }
             createHistoryLabelView(label);
@@ -250,6 +250,13 @@ public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.
                     label.setCheck(false);
                     label.setDelete(false);
                     label.setSelect(false);
+                    for (LabelBean historyLabel : mHistoryLabels) {
+                        if (historyLabel.getName().equals(label.getName())) {
+                            historyLabel.setCheck(false);
+                            historyLabel.setDelete(false);
+                            historyLabel.setSelect(false);
+                        }
+                    }
                     mEditLabels.remove(label);
                     createEditLabelView(mEditLabels);
                     createHistoryLabelView();
