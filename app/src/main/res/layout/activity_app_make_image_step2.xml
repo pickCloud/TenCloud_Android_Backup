@@ -43,7 +43,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_images"
+            android:id="@+id/tv_include_images"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="镜像仓库"

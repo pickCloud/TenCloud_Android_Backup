@@ -151,6 +151,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.app.ui.AppDetailActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.app.ui.AppServiceListActivity"
@@ -189,6 +190,7 @@
                     android:scheme="tencloud" />
             </intent-filter>
         </activity>
+        <activity android:name=".module.app.ui.AppIncludeImageActivity"></activity>
     </application>
 
 </manifest>

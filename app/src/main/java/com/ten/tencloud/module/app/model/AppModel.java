@@ -3,6 +3,7 @@ package com.ten.tencloud.module.app.model;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
+import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
 import com.ten.tencloud.model.HttpResultFunc;
@@ -53,7 +54,7 @@ public class AppModel {
         hashMap.put("logo_url", logo_url);
         hashMap.put("image_id", image_id);
         Collections.sort(labels);
-        hashMap.put("labels",labels);
+        hashMap.put("labels", labels);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
         return TenApp.getRetrofitClient().getTenAppApi()
                 .newApp(body)
@@ -73,7 +74,7 @@ public class AppModel {
         hashMap.put("repos_https_url", repos_https_url);
         hashMap.put("logo_url", logo_url);
         Collections.sort(labels);
-        hashMap.put("labels",labels);
+        hashMap.put("labels", labels);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
         return TenApp.getRetrofitClient().getTenAppApi()
                 .updateApp(body)
@@ -114,14 +115,14 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<String>> getReposBranches(String repos_name,String url){
+    public Observable<List<String>> getReposBranches(String repos_name, String url) {
         return TenApp.getRetrofitClient().getTenAppApi()
-                .getReposBranches(repos_name,url)
-                .map(new HttpResultFunc<List<Map<String,String>>>())
+                .getReposBranches(repos_name, url)
+                .map(new HttpResultFunc<List<Map<String, String>>>())
                 .map(new Func1<List<Map<String, String>>, List<String>>() {
                     @Override
                     public List<String> call(List<Map<String, String>> maps) {
-                        List<String> data =  new ArrayList<>();
+                        List<String> data = new ArrayList<>();
                         for (Map<String, String> map : maps) {
                             data.add(map.get("branch_name"));
                         }
@@ -146,8 +147,14 @@ public class AppModel {
                 .map(new HttpResultFunc<TreeSet<LabelBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
 
-
+    public Observable<List<ImageBean>> getAppImages(String appId) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getAppImages(appId)
+                .map(new HttpResultFunc<List<ImageBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 }

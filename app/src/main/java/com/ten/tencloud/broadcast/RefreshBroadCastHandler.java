@@ -47,6 +47,11 @@ public class RefreshBroadCastHandler {
     public final static String APP_LIST_CHANGE_ACTION = "APP_LIST_CHANGE_ACTION";
 
     /**
+     * 应用详情变化
+     */
+    public final static String APP_INFO_CHANGE_ACTION = "APP_INFO_CHANGE_ACTION";
+
+    /**
      * 镜像来源变化
      */
     public final static String IMAGE_SOURCE_CHANGE_ACTION = "IMAGE_SOURCE_CHANGE_ACTION";

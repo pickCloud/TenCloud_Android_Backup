@@ -33,7 +33,7 @@ public class RvAppDetailImageAdapter extends CJSBaseRecyclerViewAdapter<ImageBea
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvName.setText(datas.get(position).getName());
         holder.mTvImageVersion.setText(datas.get(position).getVersion());
-        holder.mTvUpdateDate.setText(datas.get(position).getUpdateDate());
+        holder.mTvUpdateDate.setText(datas.get(position).getUpdate_time());
         holder.mLine.setVisibility(position == datas.size() - 1 ? View.INVISIBLE : View.VISIBLE);
     }
 

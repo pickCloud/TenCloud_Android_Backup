@@ -11,14 +11,12 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ImageBean;
-import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
-import com.ten.tencloud.listener.OnRefreshListener;
-import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter1;
-import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
+import com.ten.tencloud.module.app.contract.AppImageContract;
+import com.ten.tencloud.module.app.presenter.AppImagePresenter;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -27,7 +25,7 @@ import butterknife.OnClick;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class AppImageListActivity extends BaseActivity {
+public class AppImageListActivity extends BaseActivity implements AppImageContract.View {
 
     @BindView(R.id.rl_filter)
     RelativeLayout mRlFilter;
@@ -40,10 +38,11 @@ public class AppImageListActivity extends BaseActivity {
     @BindView(R.id.empty_view)
     FrameLayout mEmptyView;
 
-    private RefreshBroadCastHandler mAppHandler;
     private RvAppDetailImageAdapter1 mImageAdapter;
 
     private AppFilterDialog mAppFilterDialog;
+    private int mAppId;
+    private AppImagePresenter mAppImagePresenter;
 
 
     @Override
@@ -54,13 +53,9 @@ public class AppImageListActivity extends BaseActivity {
         mRlFilter.setVisibility(View.GONE);
         initTitleBar(true, "镜像列表");
 
-        mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
-        mAppHandler.registerReceiver(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-            }
-        });
+        mAppId = getIntent().getIntExtra("appId", -1);
+        mAppImagePresenter = new AppImagePresenter();
+        mAppImagePresenter.attachView(this);
 
         initView();
         initData();
@@ -87,11 +82,7 @@ public class AppImageListActivity extends BaseActivity {
     }
 
     private void initData() {
-        ArrayList<ImageBean>  mImageBeans = new ArrayList<>();
-        mImageBeans.add(new ImageBean("Diango1", "V1.0.1", "2018-03-29  10:00:01"));
-        mImageBeans.add(new ImageBean("Diango2", "V1.0.2", "2018-03-29  10:00:10"));
-        mImageBeans.add(new ImageBean("Diango3", "V1.0.3", "2018-03-29  10:00:21"));
-        mImageAdapter.setDatas(mImageBeans);
+        mAppImagePresenter.getAppImageById(mAppId + "");
     }
 
     @OnClick({R.id.tv_filter, R.id.tv_add_app})
@@ -108,9 +99,15 @@ public class AppImageListActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mAppHandler.unregisterReceiver();
-        mAppHandler = null;
+    public void showImages(List<ImageBean> images) {
+        mEmptyView.setVisibility(View.GONE);
+        mRvApp.setVisibility(View.VISIBLE);
+        mImageAdapter.setDatas(images);
+    }
+
+    @Override
+    public void showImageEmpty() {
+        mEmptyView.setVisibility(View.VISIBLE);
+        mRvApp.setVisibility(View.GONE);
     }
 }

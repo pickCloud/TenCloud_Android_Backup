@@ -3,12 +3,14 @@ package com.ten.tencloud.module.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -19,19 +21,24 @@ import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.bean.TaskBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
+import com.ten.tencloud.module.app.contract.AppImageContract;
 import com.ten.tencloud.module.app.presenter.AppDetailPresenter;
+import com.ten.tencloud.module.app.presenter.AppImagePresenter;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
 import com.ten.tencloud.widget.blur.BlurBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,7 +46,7 @@ import butterknife.OnClick;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class AppDetailActivity extends BaseActivity implements AppDetailContract.View {
+public class AppDetailActivity extends BaseActivity implements AppDetailContract.View, AppImageContract.View {
 
     @BindView(R.id.tv_name)
     TextView mTvName;
@@ -71,6 +78,10 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     ConstraintLayout mRlBasic;
     @BindView(R.id.iv_logo)
     CircleImageView mIvLogo;
+    @BindView(R.id.rl_image)
+    RelativeLayout mRlImage;
+    @BindView(R.id.scroll_view)
+    NestedScrollView mScrollView;
 
     private RvAppServiceDeploymentAdapter mDeploymentAdapter;
     private RvAppServiceAdapter mServiceAdapter;
@@ -85,6 +96,8 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     private int mAppId;
 
     private AppBean mAppBean;
+    private AppImagePresenter mAppImagePresenter;
+    private RefreshBroadCastHandler mInfoBroadCastHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +108,16 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         mAppId = getIntent().getIntExtra("id", -1);
         mAppDetailPresenter = new AppDetailPresenter();
         mAppDetailPresenter.attachView(this);
+        mAppImagePresenter = new AppImagePresenter();
+        mAppImagePresenter.attachView(this);
+
+        mInfoBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_INFO_CHANGE_ACTION);
+        mInfoBroadCastHandler.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
 
         initDeploymentView();
         initServiceView();
@@ -102,12 +125,6 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         initTaskView();
         initData();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mAppDetailPresenter.getAppById(mAppId);
     }
 
     private void initDeploymentView() {
@@ -155,12 +172,6 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         });
         mImageAdapter = new RvAppDetailImageAdapter(this);
         mRvImage.setAdapter(mImageAdapter);
-
-        mImageBeans = new ArrayList<>();
-        mImageBeans.add(new ImageBean("Diango1", "V1.0.1", "2018-03-29  10:00:01"));
-        mImageBeans.add(new ImageBean("Diango2", "V1.0.2", "2018-03-29  10:00:10"));
-        mImageBeans.add(new ImageBean("Diango3", "V1.0.3", "2018-03-29  10:00:21"));
-        mImageAdapter.setDatas(mImageBeans);
     }
 
     private void initTaskView() {
@@ -181,8 +192,16 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     }
 
     private void initData() {
+        mAppDetailPresenter.getAppById(mAppId);
+        mAppImagePresenter.getAppImageById(mAppId + "");
+    }
 
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent.getBooleanExtra("viewImage", false)) {
+            int top = mRlImage.getTop();
+            mScrollView.scrollTo(0, top);
+        }
     }
 
     @OnClick({R.id.rl_basic_detail, R.id.tv_deploy_more, R.id.btn_toolbox,
@@ -198,19 +217,23 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
             case R.id.tv_service_more:
                 startActivityNoValue(this, AppServiceListActivity.class);
                 break;
-            case R.id.tv_image_more:
-                startActivityNoValue(this, AppImageListActivity.class);
+            case R.id.tv_image_more: {
+                Intent intent = new Intent(this, AppImageListActivity.class);
+                intent.putExtra("appId", mAppId);
+                startActivity(intent);
                 break;
+            }
             case R.id.tv_task_more:
                 startActivityNoValue(this, AppTaskListActivity.class);
                 break;
-            case R.id.btn_toolbox:
+            case R.id.btn_toolbox: {
                 BlurBuilder.snapShotWithoutStatusBar(this);
                 Intent intent = new Intent(this, AppToolBoxActivity.class);
                 intent.putExtra("appBean", mAppBean);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
                 break;
+            }
         }
     }
 
@@ -253,8 +276,21 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     }
 
     @Override
+    public void showImages(List<ImageBean> images) {
+        mImageAdapter.setDatas(images);
+    }
+
+    @Override
+    public void showImageEmpty() {
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mAppDetailPresenter.detachView();
+        mAppImagePresenter.detachView();
+        mInfoBroadCastHandler.unregisterReceiver();
+        mInfoBroadCastHandler = null;
     }
 }

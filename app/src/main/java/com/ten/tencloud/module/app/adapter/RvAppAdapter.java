@@ -11,13 +11,10 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.AppBean;
-import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,15 +23,6 @@ import butterknife.ButterKnife;
  * Created by chenxh@10.com on 2018/3/27.
  */
 public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapter.ViewHolder> {
-
-    private ArrayList<LabelBean> mHistoryLabels;
-
-    {
-        mHistoryLabels = new ArrayList<>();
-        mHistoryLabels.add(new LabelBean("基础组件"));
-        mHistoryLabels.add(new LabelBean("应用服务"));
-        mHistoryLabels.add(new LabelBean("自定义标签"));
-    }
 
     public RvAppAdapter(Context context) {
         super(context);
@@ -49,16 +37,27 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
 
-        if (!TextUtils.isEmpty(datas.get(position).getLogo_url()))
-            GlideUtils.getInstance().loadCircleImage(mContext, holder.mIvLogo, datas.get(position).getLogo_url(), R.mipmap.icon_app_photo);
-        if (!TextUtils.isEmpty(datas.get(position).getName()))
+        GlideUtils.getInstance().loadCircleImage(mContext, holder.mIvLogo, datas.get(position).getLogo_url(), R.mipmap.icon_app_photo);
+        if (!TextUtils.isEmpty(datas.get(position).getName())) {
             holder.mTvName.setText(datas.get(position).getName());
-        if (!TextUtils.isEmpty(datas.get(position).getRepos_https_url()))
+        } else {
+            holder.mTvName.setText("");
+        }
+        if (!TextUtils.isEmpty(datas.get(position).getRepos_https_url())) {
             holder.mTvSource.setText(datas.get(position).getRepos_https_url());
-        if (!TextUtils.isEmpty(datas.get(position).getCreate_time()))
+        } else {
+            holder.mTvSource.setText("");
+        }
+        if (!TextUtils.isEmpty(datas.get(position).getCreate_time())) {
             holder.mTvCreateDate.setText(datas.get(position).getCreate_time());
-        if (!TextUtils.isEmpty(datas.get(position).getUpdate_time()))
+        } else {
+            holder.mTvCreateDate.setText("");
+        }
+        if (!TextUtils.isEmpty(datas.get(position).getUpdate_time())) {
             holder.mTvUpdateDate.setText(datas.get(position).getUpdate_time());
+        } else {
+            holder.mTvUpdateDate.setText("");
+        }
 
         switch (datas.get(position).getStatus()) {
             case Constants.APP_STATUS_INIT:
@@ -79,10 +78,14 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
         }
 
         holder.mFblLabel.removeAllViews();
-        for (LabelBean labelBean : mHistoryLabels) {
-            View labelView = mLayoutInflater.inflate(R.layout.item_app_service_label, null, false);
-            ((TextView) labelView.findViewById(R.id.tv_label_name)).setText(labelBean.getName());
-            holder.mFblLabel.addView(labelView);
+        String label_name = datas.get(position).getLabel_name();
+        if (!TextUtils.isEmpty(label_name)) {
+            String[] labels = label_name.split(",");
+            for (String labelBean : labels) {
+                View labelView = mLayoutInflater.inflate(R.layout.item_app_service_label, null, false);
+                ((TextView) labelView.findViewById(R.id.tv_label_name)).setText(labelBean);
+                holder.mFblLabel.addView(labelView);
+            }
         }
 
     }

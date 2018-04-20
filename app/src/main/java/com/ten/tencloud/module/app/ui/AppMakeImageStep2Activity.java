@@ -11,6 +11,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.module.app.model.AppMakeModel;
 import com.ten.tencloud.widget.dialog.AppMakeImageDialog;
 
@@ -50,7 +51,7 @@ public class AppMakeImageStep2Activity extends BaseActivity {
             "EXPOSE 80\n" +
             "\n" +
             "# Start Nginx and keep it running background and start php\n" +
-            "CMD sed -i \"s/ContainerID: /ContainerID: \"$(hostname)\"/g\" /usr/share/nginx/html/index.html && nginx -g \"daemon off;\"";
+            "CMD sed -i \"s/ContainerID: /ContainerID: \"$(hostname)\"/g\" /usr/share/nginx/html/index.html && nginx -g \"daemon off;\"\n";
     private AppMakeImageDialog mAppMakeImageDialog;
 
     @Override
@@ -64,6 +65,8 @@ public class AppMakeImageStep2Activity extends BaseActivity {
         mBranchName = intent.getStringExtra("branchName");
         mAppBean = intent.getParcelableExtra("appBean");
 
+        initTitleBar(true, "构建镜像");
+
         initView();
         initData();
     }
@@ -71,6 +74,7 @@ public class AppMakeImageStep2Activity extends BaseActivity {
     private void initView() {
         mBtnStart.setVisibility(View.VISIBLE);
         mEtCode.setText(dockerFile);
+        mEtCode.setSelection(mEtCode.getText().toString().length());
     }
 
     private void initData() {
@@ -112,7 +116,7 @@ public class AppMakeImageStep2Activity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_start, R.id.tv_view_log, R.id.tv_images, R.id.btn_view_image})
+    @OnClick({R.id.btn_start, R.id.tv_view_log, R.id.tv_include_images, R.id.btn_view_image})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
@@ -124,11 +128,17 @@ public class AppMakeImageStep2Activity extends BaseActivity {
             case R.id.tv_view_log:
                 showLogDialog("", false);
                 break;
-            case R.id.btn_view_image:
-            case R.id.tv_images:
-
+            case R.id.btn_view_image: {
+                Intent intent = new Intent(this, AppDetailActivity.class);
+                intent.putExtra("viewImage",true);
+                startActivity(intent);
                 break;
-
+            }
+            case R.id.tv_include_images: {
+                Intent intent = new Intent(this, AppIncludeImageActivity.class);
+                startActivityForResult(intent, 0);
+                break;
+            }
         }
     }
 
@@ -184,6 +194,16 @@ public class AppMakeImageStep2Activity extends BaseActivity {
         });
         mMakeStatus = -1;
         showLogDialog("正在构建中...请稍候...\n", true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_FINISH) {
+            String imageName = data.getStringExtra("imageName");
+            String imageVersion = data.getStringExtra("imageVersion");
+            mEtCode.append("FROM " + imageName + ":" + imageVersion + "\n");
+            mEtCode.setSelection(mEtCode.getText().toString().length());
+        }
     }
 
     @Override

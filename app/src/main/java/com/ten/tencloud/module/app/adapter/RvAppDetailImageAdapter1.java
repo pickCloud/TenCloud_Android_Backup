@@ -33,7 +33,7 @@ public class RvAppDetailImageAdapter1 extends CJSBaseRecyclerViewAdapter<ImageBe
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvName.setText(datas.get(position).getName());
         holder.mTvImageVersion.setText(datas.get(position).getVersion());
-        holder.mTvUpdateDate.setText(datas.get(position).getUpdateDate());
+        holder.mTvUpdateDate.setText(datas.get(position).getUpdate_time());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

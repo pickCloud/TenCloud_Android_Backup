@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
@@ -72,6 +73,8 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     private RvAppServiceAdapter mServiceAdapter;
     private AppServiceHomePresenter mAppServiceHomePresenter;
     private RefreshBroadCastHandler mRefreshBroadCastHandler;
+    private RefreshBroadCastHandler mSwitchCompanyHandler;
+    private RefreshBroadCastHandler mPermissionRefreshHandler;
 
     @Nullable
     @Override
@@ -83,23 +86,27 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
-        mRefreshBroadCastHandler.registerReceiver(new OnRefreshListener() {
+        OnRefreshListener onRefreshListener = new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mAppServiceHomePresenter.getAppList();
+                initData();
             }
-        });
+        };
+
+        mPermissionRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
+        mPermissionRefreshHandler.registerReceiver(onRefreshListener);
+        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
+        mRefreshBroadCastHandler.registerReceiver(onRefreshListener);
+        mSwitchCompanyHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
+        mSwitchCompanyHandler.registerReceiver(onRefreshListener);
+
+        mAppServiceHomePresenter = new AppServiceHomePresenter();
+        mAppServiceHomePresenter.attachView(this);
+
         initViewApp();
         initViewDeployment();
         initViewService();
         initData();
-
-        mAppServiceHomePresenter = new AppServiceHomePresenter();
-        mAppServiceHomePresenter.attachView(this);
-        mAppServiceHomePresenter.getAppBrief();
-        mAppServiceHomePresenter.getAppList();
 
     }
 
@@ -159,22 +166,27 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     }
 
     private void initData() {
-
-
+        KLog.e("====>");
+        mAppServiceHomePresenter.getAppBrief();
+        mAppServiceHomePresenter.getAppList();
     }
 
-    @OnClick({R.id.tv_add_app, R.id.tv_hot_app_more, R.id.tv_deployment_more, R.id.tv_service_more})
+    @OnClick({R.id.tv_add_app, R.id.tv_hot_app_more, R.id.tv_deployment_more,
+            R.id.tv_service_more, R.id.tv_app_count, R.id.tv_deploy_count, R.id.tv_service_count})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add_app:
                 startActivity(new Intent(mActivity, AppAddActivity.class));
                 break;
+            case R.id.tv_app_count:
             case R.id.tv_hot_app_more:
                 startActivity(new Intent(mActivity, AppListActivity.class));
                 break;
+            case R.id.tv_deploy_count:
             case R.id.tv_deployment_more:
                 startActivity(new Intent(mActivity, AppDeploymentListActivity.class));
                 break;
+            case R.id.tv_service_count:
             case R.id.tv_service_more:
                 startActivity(new Intent(mActivity, AppServiceListActivity.class));
                 break;
@@ -212,5 +224,9 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
     public void onDestroyView() {
         super.onDestroyView();
         mAppServiceHomePresenter.detachView();
+        mSwitchCompanyHandler.unregisterReceiver();
+        mSwitchCompanyHandler = null;
+        mRefreshBroadCastHandler.unregisterReceiver();
+        mRefreshBroadCastHandler = null;
     }
 }

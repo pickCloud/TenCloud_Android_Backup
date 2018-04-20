@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <com.ten.tencloud.widget.TenForbidAutoScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/default_bg">
@@ -139,6 +140,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/rl_image"
                 android:layout_width="wrap_content"
                 android:layout_height="41dp"
                 android:layout_marginLeft="16dp"

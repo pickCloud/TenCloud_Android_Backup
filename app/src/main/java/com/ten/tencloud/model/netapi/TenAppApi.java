@@ -3,6 +3,7 @@ package com.ten.tencloud.model.netapi;
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
+import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
 
@@ -53,7 +54,7 @@ public interface TenAppApi {
 
     //获取分支
     @POST("/api/repos/branches")
-    Observable<Response<JesResponse<List<Map<String,String>>>>> getReposBranches(@Query("repos_name") String repos_name, @Query("url") String url);
+    Observable<Response<JesResponse<List<Map<String, String>>>>> getReposBranches(@Query("repos_name") String repos_name, @Query("url") String url);
 
     //新建标签
     @POST("/api/label/new")
@@ -63,5 +64,7 @@ public interface TenAppApi {
     @GET("/api/label/list")
     Observable<Response<JesResponse<TreeSet<LabelBean>>>> getLabelList(@Query("type") int type);
 
-
+    //镜像列表
+    @GET("/api/image")
+    Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("app_id") String appId);
 }

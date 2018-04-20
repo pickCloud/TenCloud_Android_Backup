@@ -133,7 +133,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mPermissionRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
         mPermissionRefreshBroadCastHandler.registerReceiver(onRefreshListener);
         mSwitchCompanyRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
-        mSwitchCompanyRefreshBroadCastHandler.registerReceiver(onRefreshListener);
+//        mSwitchCompanyRefreshBroadCastHandler.registerReceiver(onRefreshListener);
         mServerRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SERVER_LIST_CHANGE_ACTION);
         mServerRefreshHandler.registerReceiver(onRefreshListener);
 

@@ -87,6 +87,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private LabelSelectDialog mLabelSelectDialog;
     private ArrayList<LabelBean> mLabelBeans;
     private RefreshBroadCastHandler mImageRefreshHandler;
+    private RefreshBroadCastHandler mAppInfoRefreshHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         }
 
         mAppRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
+        mAppInfoRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_INFO_CHANGE_ACTION);
         mImageRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.IMAGE_SOURCE_CHANGE_ACTION);
         mImageRefreshHandler.registerReceiver(new OnRefreshWithDataListener() {
 
@@ -259,6 +261,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                             mBtnSureAdd.setEnabled(true);
                             mBtnSureAdd.setText("确定修改");
                             mAppRefreshHandler.sendBroadCast();
+                            mAppInfoRefreshHandler.sendBroadCast();
                             finish();
                         }
 

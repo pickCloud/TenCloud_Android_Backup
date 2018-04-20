@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
-import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
@@ -170,5 +169,10 @@ public class AppListActivity extends BaseActivity implements AppListContract.Vie
         mAppHandler.unregisterReceiver();
         mAppHandler = null;
         mAppListPresenter.detachView();
+    }
+
+    @Override
+    public void showLoading() {
+
     }
 }
