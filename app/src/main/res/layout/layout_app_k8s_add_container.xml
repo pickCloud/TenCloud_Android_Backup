@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_232730"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_remove_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/bg_2f3543"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_del_opt" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="容器"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="名称" />
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/ListItemEditValue"
+                android:hint="请输入名称" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="镜像" />
+
+            <TextView
+                android:id="@+id/et_image"
+                style="@style/ListItemEditValue"
+                android:layout_weight="1"
+                android:text="镜像:V1.0" />
+
+            <Button
+                android:id="@+id/btn_send_code"
+                android:layout_width="73dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/selector_login_code"
+                android:text="重新选择"
+                android:textColor="@color/select_login_code"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_add_port"
+        style="@style/SettingItemLayout"
+        android:clickable="true"
+        android:focusable="true">
+
+
+        <TextView
+            style="@style/ListItemTextKey"
+            android:layout_width="wrap_content"
+            android:text="端口" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="添加端口"
+            android:textColor="@color/text_color_566278"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:src="@mipmap/icon_arrow_right" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal2f3543"
+        android:layout_marginLeft="16dp" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_top_config"
+        style="@style/SettingItemLayout"
+        android:clickable="true"
+        android:focusable="true">
+
+
+        <TextView
+            style="@style/ListItemTextKey"
+            android:layout_width="wrap_content"
+            android:text="高级配置" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textColor="@color/text_color_566278"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:src="@mipmap/icon_arrow_right" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

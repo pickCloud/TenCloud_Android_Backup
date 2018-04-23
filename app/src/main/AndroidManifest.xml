@@ -190,7 +190,10 @@
                     android:scheme="tencloud" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.app.ui.AppIncludeImageActivity"></activity>
+        <activity android:name=".module.app.ui.AppIncludeImageActivity" />
+        <activity android:name=".module.app.ui.AppK8sRegularDeployStep1Activity" />
+        <activity android:name=".module.app.ui.AppK8sRegularDeployStep2Activity" />
+        <activity android:name=".module.app.ui.AppK8sRegularDeployAddContainerActivity"></activity>
     </application>
 
 </manifest>

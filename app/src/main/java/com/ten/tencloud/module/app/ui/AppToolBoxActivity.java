@@ -36,14 +36,18 @@ public class AppToolBoxActivity extends BaseActivity {
             R.id.btn_tool5, R.id.btn_tool6, R.id.btn_tool7, R.id.btn_close})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_tool1:
+            case R.id.btn_tool1: {
                 Intent intent = new Intent(this, AppMakeImageStep1Activity.class);
                 intent.putExtra("appBean", mAppBean);
                 startActivity(intent);
                 break;
-            case R.id.btn_tool2:
-
+            }
+            case R.id.btn_tool2: {
+                Intent intent = new Intent(this, AppK8sRegularDeployStep1Activity.class);
+                intent.putExtra("appBean", mAppBean);
+                startActivity(intent);
                 break;
+            }
             case R.id.btn_tool3:
 
                 break;

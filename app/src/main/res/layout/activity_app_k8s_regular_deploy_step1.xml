@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical"
+    tools:context="com.ten.tencloud.module.app.ui.AppK8sRegularDeployStep1Activity">
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="部署名称" />
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/ListItemEditValue"
+                android:hint="支持字母和数字，需以字母开头" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/LineHorizontal2f3543" />
+
+</LinearLayout>
