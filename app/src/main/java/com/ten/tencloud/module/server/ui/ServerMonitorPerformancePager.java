@@ -11,9 +11,6 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
-import com.ten.tencloud.bean.ServerSystemLoadBean;
-import com.ten.tencloud.module.server.contract.ServerSystemLoadContract;
-import com.ten.tencloud.module.server.presenter.ServerSystemLoadPresenter;
 import com.ten.tencloud.widget.dialog.ServerSystemLoadDialog;
 
 import butterknife.BindView;
@@ -23,9 +20,8 @@ import butterknife.OnClick;
  * Created by lxq on 2017/11/29.
  */
 
-public class ServerMonitorPerformancePager extends BasePager implements ServerSystemLoadContract.View {
+public class ServerMonitorPerformancePager extends BasePager {
 
-    private ServerSystemLoadPresenter mServerSystemLoadPresenter;
     //资源概况
     @BindView(R.id.tv_os_time)
     TextView mTvOsTime;
@@ -55,8 +51,6 @@ public class ServerMonitorPerformancePager extends BasePager implements ServerSy
 
     public ServerMonitorPerformancePager(Context context) {
         super(context);
-        mServerSystemLoadPresenter = new ServerSystemLoadPresenter();
-        mServerSystemLoadPresenter.attachView(this);
     }
 
 
@@ -137,7 +131,7 @@ public class ServerMonitorPerformancePager extends BasePager implements ServerSy
     }
 
     private void initData() {
-        mServerSystemLoadPresenter.getServerSystemLoad(mId);
+
     }
 
     @OnClick({R.id.tv_load_des})
@@ -152,34 +146,5 @@ public class ServerMonitorPerformancePager extends BasePager implements ServerSy
             }
         }
     }
-
-    @Override
-    public void showServerSystemLoad(ServerSystemLoadBean systemLoadBean) {
-        isFirst = true;
-        if (systemLoadBean == null) {
-            return;
-        }
-        mTvOsTime.setText(systemLoadBean.getDate());
-        mTvLoginCount.setText(systemLoadBean.getLogin_users() + "");
-        mTvRunDuration.setText(systemLoadBean.getRun_time());
-        setMinuteLoadStyle(mTvLoad1, systemLoadBean.getOne_minute_load());
-        setMinuteLoadStyle(mTvLoad5, systemLoadBean.getFive_minute_load());
-        setMinuteLoadStyle(mTvLoad15, systemLoadBean.getFifth_minute_load());
-        mTvLoad1.setText(systemLoadBean.getOne_minute_load() + "");
-        mTvLoad5.setText(systemLoadBean.getFive_minute_load() + "");
-        mTvLoad15.setText(systemLoadBean.getFifth_minute_load() + "");
-    }
-
-    private void setMinuteLoadStyle(TextView tv, float value) {
-        tv.setEnabled(value < 0.8);
-        tv.setSelected(value < 0.8);
-    }
-
-    @Override
-    public void onActivityDestroy() {
-        super.onActivityDestroy();
-
-    }
-
 
 }

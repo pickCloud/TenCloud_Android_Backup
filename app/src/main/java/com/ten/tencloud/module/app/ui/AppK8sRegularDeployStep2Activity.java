@@ -35,9 +35,11 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity {
                 startActivityForResult(intent, 0);
                 break;
             }
-            case R.id.ll_select_node:
-
+            case R.id.ll_select_node: {
+                Intent intent = new Intent(this, AppK8sRegularDeployNodeTypeActivity.class);
+                startActivityForResult(intent, 0);
                 break;
+            }
         }
     }
 }

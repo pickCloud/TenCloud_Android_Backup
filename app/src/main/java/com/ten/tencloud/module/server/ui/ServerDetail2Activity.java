@@ -345,9 +345,9 @@ public class ServerDetail2Activity extends BaseActivity
             }
             case R.id.tv_res_more_:
             case R.id.tv_res_more: {
-//                Intent intent = new Intent(mContext, ServerMonitorActivity.class);
-//                intent.putExtra("serverId", mServerId);
-//                startActivity(intent);
+                Intent intent = new Intent(mContext, ServerMonitorActivity.class);
+                intent.putExtra("serverId", mServerId);
+                startActivity(intent);
                 break;
             }
         }

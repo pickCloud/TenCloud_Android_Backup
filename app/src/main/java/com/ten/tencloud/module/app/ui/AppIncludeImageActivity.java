@@ -20,6 +20,13 @@ import butterknife.BindView;
 
 public class AppIncludeImageActivity extends BaseActivity implements AppImageContract.View {
 
+    public static final int TYPE_DEFAULT = 0;
+    public static final int TYPE_ADD_CONTAINER = 1;
+
+    public static final int RESULT_CODE_ADD_CONTAINER = 10;
+
+    private int type;
+
     @BindView(R.id.rv_image)
     RecyclerView mRvImage;
     @BindView(R.id.empty_view)
@@ -37,9 +44,10 @@ public class AppIncludeImageActivity extends BaseActivity implements AppImageCon
                 includeAndFinish();
             }
         });
-
         mAppImagePresenter = new AppImagePresenter();
         mAppImagePresenter.attachView(this);
+
+        type = getIntent().getIntExtra("type", TYPE_DEFAULT);
 
         initView();
         initData();
@@ -55,7 +63,7 @@ public class AppIncludeImageActivity extends BaseActivity implements AppImageCon
         Intent data = new Intent();
         data.putExtra("imageName", selectObj.getName());
         data.putExtra("imageVersion", selectObj.getVersion());
-        setResult(Constants.ACTIVITY_RESULT_CODE_FINISH, data);
+        setResult(type == TYPE_DEFAULT ? Constants.ACTIVITY_RESULT_CODE_FINISH : RESULT_CODE_ADD_CONTAINER, data);
         finish();
     }
 

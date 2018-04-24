@@ -13,212 +13,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/selector_banner_bg"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="当前系统时间"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_os_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:text="暂无数据"
-                        android:textColor="@color/text_color_899ab6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="系统持续运行时长"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_run_duration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:text="暂无数据"
-                        android:textColor="@color/text_color_899ab6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="当前登录用户数"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_login_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:text="暂无数据"
-                        android:textColor="@color/text_color_899ab6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_load_des"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="4dp"
-                        android:drawableRight="@mipmap/icon_detail"
-                        android:text="平均负载"
-                        android:textColor="@color/text_color_566278"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_load_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/select_server_status"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:background="@drawable/shape_circular_2f3543"
-                            android:gravity="center"
-                            android:paddingBottom="2dp"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="2dp"
-                            android:text="1分钟"
-                            android:textColor="@color/text_color_566278"
-                            android:textSize="10sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_load_5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/select_server_status"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:background="@drawable/shape_circular_2f3543"
-                            android:gravity="center"
-                            android:paddingBottom="2dp"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="2dp"
-                            android:text="5分钟"
-                            android:textColor="@color/text_color_566278"
-                            android:textSize="10sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_load_15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/select_server_status"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:background="@drawable/shape_circular_2f3543"
-                            android:gravity="center"
-                            android:paddingBottom="2dp"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="2dp"
-                            android:text="15分钟"
-                            android:textColor="@color/text_color_566278"
-                            android:textSize="10sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
@@ -228,169 +22,355 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CPU信息"
+                    android:textColor="@color/text_color_899ab6"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(%)"
+                    android:textColor="@color/text_color_556278"
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
+
+                <RadioGroup
+                    android:id="@+id/rg_cpu_cycle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/btn_cpu_one_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/selector_server_monitor_cycle_button"
+                        android:button="@null"
+                        android:checked="true"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="1小时"
+                        android:textColor="@color/select_permission_check"
+                        android:textSize="10sp" />
+
+                    <RadioButton
+                        android:id="@+id/btn_cpu_one_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/selector_server_monitor_cycle_button"
+                        android:button="@null"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="24小时"
+                        android:textColor="@color/select_permission_check"
+                        android:textSize="10sp" />
+
+                    <RadioButton
+                        android:id="@+id/btn_cpu_one_week"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/selector_server_monitor_cycle_button"
+                        android:button="@null"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="1周"
+                        android:textColor="@color/select_permission_check"
+                        android:textSize="10sp" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lc_cpu"
+                android:layout_width="match_parent"
+                android:layout_height="190dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="运行用户进程(un-niced)的CPU占比(USER)"
+                android:textColor="@color/text_color_566278"
+                android:textSize="10sp" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/selector_check_cpu"
+                    android:button="@null"
+                    android:checked="true"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="CPU1"
+                    android:textColor="@color/select_cpu_check"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/selector_check_cpu"
+                    android:button="@null"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="CPU2"
+                    android:textColor="@color/select_cpu_check"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/selector_check_cpu"
+                    android:button="@null"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="CPU3"
+                    android:textColor="@color/select_cpu_check"
+                    android:textSize="10sp" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="16dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="进程信息"
+                        android:layout_height="match_parent"
+                        android:text="值获取时间"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="2018-01-24 19:14:18"
                         android:textColor="@color/text_color_899ab6"
-                        android:textSize="17sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="(%)"
-                        android:textColor="@color/text_color_556278"
-                        android:textSize="12sp"
-                        android:visibility="invisible" />
-
-                    <RadioGroup
-                        android:id="@+id/rg_progress_cycle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/btn_progress_one_hour"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:background="@drawable/selector_server_monitor_cycle_button"
-                            android:button="@null"
-                            android:checked="true"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:text="1小时"
-                            android:textColor="@color/select_permission_check"
-                            android:textSize="10sp" />
-
-                        <RadioButton
-                            android:id="@+id/btn_progress_one_day"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:background="@drawable/selector_server_monitor_cycle_button"
-                            android:button="@null"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:text="24小时"
-                            android:textColor="@color/select_permission_check"
-                            android:textSize="10sp" />
-
-                        <RadioButton
-                            android:id="@+id/btn_progress_one_week"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:background="@drawable/selector_server_monitor_cycle_button"
-                            android:button="@null"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:text="1周"
-                            android:textColor="@color/select_permission_check"
-                            android:textSize="10sp" />
-
-                    </RadioGroup>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lc_progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="190dp" />
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="20dp">
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CPU信息"
+                        android:layout_height="match_parent"
+                        android:text="运行内核进程的CPU占比"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="1.7"
                         android:textColor="@color/text_color_899ab6"
-                        android:textSize="17sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="(%)"
-                        android:textColor="@color/text_color_556278"
-                        android:textSize="12sp"
-                        android:visibility="invisible" />
-
-                    <RadioGroup
-                        android:id="@+id/rg_cpu_cycle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/btn_cpu_one_hour"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:background="@drawable/selector_server_monitor_cycle_button"
-                            android:button="@null"
-                            android:checked="true"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:text="1小时"
-                            android:textColor="@color/select_permission_check"
-                            android:textSize="10sp" />
-
-                        <RadioButton
-                            android:id="@+id/btn_cpu_one_day"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:background="@drawable/selector_server_monitor_cycle_button"
-                            android:button="@null"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:text="24小时"
-                            android:textColor="@color/select_permission_check"
-                            android:textSize="10sp" />
-
-                        <RadioButton
-                            android:id="@+id/btn_cpu_one_week"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:background="@drawable/selector_server_monitor_cycle_button"
-                            android:button="@null"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:text="1周"
-                            android:textColor="@color/select_permission_check"
-                            android:textSize="10sp" />
-
-                    </RadioGroup>
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lc_cpu"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="190dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="运行用户进程(un-niced)的CPU占比(user)"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="0.0"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="运行niced用户进程的CPU占比"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="0.0"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="内核空闲的CPU占比"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="93.0"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="等待IO完成的CPU占比"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="0.0"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="处理硬中断的CPU占比"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="0.3"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="处理软中断的CPU占比"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="0.0"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="虚拟机CPU占比"
+                        android:textColor="@color/text_color_566278"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="0.0"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -469,6 +449,87 @@
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/lc_memory"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="任务/进程情况"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(%)"
+                        android:textColor="@color/text_color_556278"
+                        android:textSize="12sp"
+                        android:visibility="invisible" />
+
+                    <RadioGroup
+                        android:id="@+id/rg_progress_cycle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/btn_progress_one_hour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/selector_server_monitor_cycle_button"
+                            android:button="@null"
+                            android:checked="true"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="1小时"
+                            android:textColor="@color/select_permission_check"
+                            android:textSize="10sp" />
+
+                        <RadioButton
+                            android:id="@+id/btn_progress_one_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/selector_server_monitor_cycle_button"
+                            android:button="@null"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="24小时"
+                            android:textColor="@color/select_permission_check"
+                            android:textSize="10sp" />
+
+                        <RadioButton
+                            android:id="@+id/btn_progress_one_week"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/selector_server_monitor_cycle_button"
+                            android:button="@null"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:text="1周"
+                            android:textColor="@color/select_permission_check"
+                            android:textSize="10sp" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lc_progress"
                     android:layout_width="match_parent"
                     android:layout_height="190dp" />
 
