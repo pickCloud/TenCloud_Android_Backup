@@ -1,8 +1,6 @@
 package com.ten.tencloud.module.server.ui;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -14,27 +12,12 @@ import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.widget.dialog.ServerSystemLoadDialog;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by lxq on 2017/11/29.
  */
 
 public class ServerMonitorPerformancePager extends BasePager {
-
-    //资源概况
-    @BindView(R.id.tv_os_time)
-    TextView mTvOsTime;
-    @BindView(R.id.tv_run_duration)
-    TextView mTvRunDuration;
-    @BindView(R.id.tv_login_count)
-    TextView mTvLoginCount;
-    @BindView(R.id.tv_load_1)
-    TextView mTvLoad1;
-    @BindView(R.id.tv_load_5)
-    TextView mTvLoad5;
-    @BindView(R.id.tv_load_15)
-    TextView mTvLoad15;
 
     @BindView(R.id.lc_progress)
     LineChart mLcProgress;
@@ -133,18 +116,4 @@ public class ServerMonitorPerformancePager extends BasePager {
     private void initData() {
 
     }
-
-    @OnClick({R.id.tv_load_des})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_load_des: {
-                if (mServerSystemLoadDialog == null) {
-                    mServerSystemLoadDialog = new ServerSystemLoadDialog(mContext);
-                }
-                mServerSystemLoadDialog.show();
-                break;
-            }
-        }
-    }
-
 }
