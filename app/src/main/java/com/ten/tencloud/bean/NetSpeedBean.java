@@ -17,6 +17,15 @@ public class NetSpeedBean {
     private String input;
     private String created_time;
 
+    public NetSpeedBean() {
+    }
+
+    public NetSpeedBean(String output, String input, String created_time) {
+        this.output = output;
+        this.input = input;
+        this.created_time = created_time;
+    }
+
     public String getRecv_speed() {
         return recv_speed;
     }

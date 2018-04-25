@@ -16,7 +16,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:text="连接情况"
+            android:text="网络I/O"
             android:textColor="@color/text_color_899ab6"
             android:textSize="12sp" />
 
@@ -27,95 +27,11 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="IP"
-                    android:textColor="@color/text_color_899ab6"
-                    android:textSize="17sp" />
-
-            </LinearLayout>
-
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lc_ip"
+                android:id="@+id/lc_net"
                 android:layout_width="match_parent"
                 android:layout_height="190dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TCP"
-                    android:textColor="@color/text_color_899ab6"
-                    android:textSize="17sp" />
-
-            </LinearLayout>
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lc_tcp"
-                android:layout_width="match_parent"
-                android:layout_height="190dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UDP"
-                    android:textColor="@color/text_color_899ab6"
-                    android:textSize="17sp" />
-
-            </LinearLayout>
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lc_udp"
-                android:layout_width="match_parent"
-                android:layout_height="190dp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ICMP"
-                    android:textColor="@color/text_color_899ab6"
-                    android:textSize="17sp" />
-
-            </LinearLayout>
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lc_icmp"
-                android:layout_width="match_parent"
-                android:layout_height="210dp"
-                android:layout_marginBottom="8dp" />
         </LinearLayout>
 
         <TextView
@@ -752,6 +668,80 @@
                     android:background="@color/line_color_2f3543" />
 
             </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="重要协议统计信息"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_1d202a"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tcp"
+                android:textColor="@color/text_color_899ab6"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="8dp"
+                android:text="90 active connections openings\n23 passive connection openings\n1 failed connection attempts\n3 connection resets received\n8 connections established\n9991 segments received\n6302 segments send out\n16 segments retransmitted\n0 bad segments received\n98 resets sent"
+                android:textColor="@color/text_color_566278"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Udp"
+                android:textColor="@color/text_color_899ab6"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="8dp"
+                android:text="189 packets received\n1 packets to unknown port received\n0 packet receive errors\n189 packets sent"
+                android:textColor="@color/text_color_566278"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Ip"
+                android:textColor="@color/text_color_899ab6"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="8dp"
+                android:text="10194 total packets received\n2 with invalid addresses\n0 forwarded\n0 incoming packets discarded\n10192 incoming packets delivered\n6489 requests sent out"
+                android:textColor="@color/text_color_566278"
+                android:textSize="12sp" />
 
         </LinearLayout>
 

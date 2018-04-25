@@ -65,8 +65,8 @@ public class ServerMonitorActivity extends BaseActivity {
         mPagers = new ArrayList<>();
         mPagers.add(new ServerMonitorPerformancePager(this).putArgument("id", mServerId));
         mPagers.add(new ServerMonitorNetPager(this).putArgument("id", mServerId));
-        mPagers.add(new ServerDetailDockerPager(this).putArgument("id", mServerId));
-        mPagers.add(new ServerDetailLogPager(this).putArgument("id", mServerId));
+        mPagers.add(new ServerMonitorDiskPager(this).putArgument("id", mServerId));
+        mPagers.add(new ServerMonitorSafetyPager(this).putArgument("id", mServerId));
         mAdapter = new CJSVpPagerAdapter(mTitles, mPagers);
         mVpContent.setAdapter(mAdapter);
         mPagers.get(0).init();

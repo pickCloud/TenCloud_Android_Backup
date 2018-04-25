@@ -20,6 +20,14 @@ public class ContentInfoBean {
     private String created_time;
     private String utilize;
 
+    public ContentInfoBean() {
+    }
+
+    public ContentInfoBean(String percent, String created_time) {
+        this.percent = percent;
+        this.created_time = created_time;
+    }
+
     public String getFree() {
         return free;
     }

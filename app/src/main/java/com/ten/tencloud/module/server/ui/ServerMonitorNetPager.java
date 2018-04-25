@@ -1,14 +1,31 @@
 package com.ten.tencloud.module.server.ui;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.Utils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BasePager;
+import com.ten.tencloud.bean.NetSpeedBean;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -18,14 +35,8 @@ import butterknife.BindView;
 
 public class ServerMonitorNetPager extends BasePager {
 
-    @BindView(R.id.lc_ip)
-    LineChart mLcIp;
-    @BindView(R.id.lc_tcp)
-    LineChart mLcTcp;
-    @BindView(R.id.lc_udp)
-    LineChart mLcUdp;
-    @BindView(R.id.lc_icmp)
-    LineChart mLcIcmp;
+    @BindView(R.id.lc_net)
+    LineChart mLcNet;
 
     private boolean isFirst = true;
     private String mId;
@@ -50,42 +61,25 @@ public class ServerMonitorNetPager extends BasePager {
     }
 
     private void initLineChart() {
-        mLcIp.setNoDataText("暂无数据");
-        mLcTcp.setNoDataText("暂无数据");
-        mLcUdp.setNoDataText("暂无数据");
-        mLcIcmp.setNoDataText("暂无数据");
+        mLcNet.setNoDataText("暂无数据");
 
-        mLcIp.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
-        mLcTcp.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
-        mLcUdp.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
-        mLcIcmp.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
+        mLcNet.setNoDataTextColor(getResources().getColor(R.color.text_color_899ab6));
 
-        mLcIp.setScaleEnabled(false);
-        mLcTcp.setScaleEnabled(false);
-        mLcUdp.setScaleEnabled(false);
-        mLcIcmp.setScaleEnabled(false);
+        mLcNet.setScaleEnabled(false);
 
         Description description = new Description();
         description.setText("");
-        mLcIp.setDescription(description);
-        mLcTcp.setDescription(description);
-        mLcUdp.setDescription(description);
-        mLcIcmp.setDescription(description);
+        mLcNet.setDescription(description);
 
-        mLcIp.getLegend().setEnabled(false);//标签设置
-        mLcTcp.getLegend().setEnabled(false);//标签设置
-        mLcUdp.getLegend().setEnabled(false);//标签设置
-        mLcIcmp.getLegend().setEnabled(true);//标签设置
-        mLcIcmp.getLegend().setTextSize(10);
-        mLcIcmp.getLegend().setForm(Legend.LegendForm.LINE);
-        mLcIcmp.getLegend().setFormSize(8);
-        mLcIcmp.getLegend().setFormToTextSpace(2);
-        mLcIcmp.getLegend().setTextColor(getResources().getColor(R.color.text_color_899ab6));
+        mLcNet.getLegend().setEnabled(true);//标签设置
+        mLcNet.getLegend().setTextSize(10);
+        mLcNet.getLegend().setForm(Legend.LegendForm.LINE);
+        mLcNet.getLegend().setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
+        mLcNet.getLegend().setFormSize(8);
+        mLcNet.getLegend().setFormToTextSpace(2);
+        mLcNet.getLegend().setTextColor(getResources().getColor(R.color.text_color_899ab6));
 
-        setLineChartAxisStyle(mLcIp);
-        setLineChartAxisStyle(mLcTcp);
-        setLineChartAxisStyle(mLcUdp);
-        setLineChartAxisStyle(mLcIcmp);
+        setLineChartAxisStyle(mLcNet);
     }
 
     /**
@@ -112,9 +106,97 @@ public class ServerMonitorNetPager extends BasePager {
     }
 
     private void initData() {
-
+        setNetData();
+        isFirst = false;
     }
 
+    private void setNetData() {
+        ArrayList<NetSpeedBean> info = new ArrayList<>();
+        Random random = new Random();
+        info.add(new NetSpeedBean(random.nextInt(100) + "", random.nextInt(100) + "", "14:30 11-27"));
+        info.add(new NetSpeedBean(random.nextInt(100) + "", random.nextInt(100) + "", "15:30 11-27"));
+        info.add(new NetSpeedBean(random.nextInt(100) + "", random.nextInt(100) + "", "16:30 11-27"));
+        info.add(new NetSpeedBean(random.nextInt(100) + "", random.nextInt(100) + "", "17:30 11-27"));
+        info.add(new NetSpeedBean(random.nextInt(100) + "", random.nextInt(100) + "", "18:30 11-27"));
+        info.add(new NetSpeedBean(random.nextInt(100) + "", random.nextInt(100) + "", "19:30 11-27"));
+        info.add(new NetSpeedBean(random.nextInt(100) + "", random.nextInt(100) + "", "20:30 11-27"));
+        info.add(new NetSpeedBean(random.nextInt(100) + "", random.nextInt(100) + "", "21:30 11-27"));
+        setDataWithNetView(info);
+    }
+
+    /**
+     * 设置网络数据
+     *
+     * @param netInfo
+     */
+    private void setDataWithNetView(List<NetSpeedBean> netInfo) {
+        List<Entry> recvValues = new ArrayList<>();
+        List<Entry> sendValues = new ArrayList<>();
+        final List<String> xValues = new ArrayList<>();
+        String format = "HH:mm MM-dd";
+        for (int i = 0; i < netInfo.size(); i++) {
+            recvValues.add(new Entry(i, Float.valueOf(netInfo.get(i).getInput())));
+            sendValues.add(new Entry(i, Float.valueOf(netInfo.get(i).getOutput())));
+            xValues.add(netInfo.get(i).getCreated_time());
+        }
+        mLcNet.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                if (((int) value) > xValues.size() - 1) {
+                    return "";
+                }
+                return xValues.get((int) value);
+            }
+        });
+        LineDataSet recvSet;
+        LineDataSet sendSet;
+
+        if (mLcNet.getData() != null &&
+                mLcNet.getData().getDataSetCount() > 1) {
+            recvSet = (LineDataSet) mLcNet.getData().getDataSetByIndex(0);
+            sendSet = (LineDataSet) mLcNet.getData().getDataSetByIndex(1);
+            recvSet.setValues(recvValues);
+            sendSet.setValues(sendValues);
+            mLcNet.getData().notifyDataChanged();
+            mLcNet.notifyDataSetChanged();
+        } else {
+            recvSet = setLineStyleWithNet(recvValues, "接收", R.color.color_eb6565, R.drawable.fade_ba5659);
+            sendSet = setLineStyleWithNet(sendValues, "发送", R.color.color_95c099, R.drawable.fade_80a487);
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+            dataSets.add(recvSet);
+            dataSets.add(sendSet);
+            LineData data = new LineData(dataSets);
+            mLcNet.setData(data);
+        }
+        mLcNet.invalidate();
+    }
+
+    private LineDataSet setLineStyleWithNet(List<Entry> values, String label, @ColorRes int color, @DrawableRes int fillDrawable) {
+        LineDataSet dataSet = new LineDataSet(values, label);
+        dataSet.setDrawIcons(false);
+        dataSet.setColor(getResources().getColor(color));
+        dataSet.setHighlightEnabled(false);
+        dataSet.setLineWidth(1f);
+        dataSet.setCircleColor(getResources().getColor(color));
+        dataSet.setCircleRadius(3f);
+        dataSet.setDrawCircleHole(true);//空心
+        dataSet.setCircleHoleRadius(1f);
+        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSet.setCubicIntensity(0.6f);//折线平滑度
+        dataSet.setValueTextSize(9f);
+        dataSet.setDrawValues(false);
+        dataSet.setDrawFilled(true);
+        dataSet.setFormLineWidth(5f);
+        dataSet.setFormSize(15.f);
+        //填充色
+        if (Utils.getSDKInt() >= 18) {
+            Drawable drawable = ContextCompat.getDrawable(mContext, fillDrawable);
+            dataSet.setFillDrawable(drawable);
+        } else {
+            dataSet.setFillColor(Color.TRANSPARENT);
+        }
+        return dataSet;
+    }
 
     @Override
     public void onActivityDestroy() {
