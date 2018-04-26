@@ -1,7 +1,10 @@
 package com.ten.tencloud.module.server.model;
 
+import com.google.gson.Gson;
 import com.ten.tencloud.TenApp;
+import com.ten.tencloud.bean.ClusterBean;
 import com.ten.tencloud.bean.ClusterInfoBean;
+import com.ten.tencloud.bean.K8sNodeBean;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServerBatchBean;
 import com.ten.tencloud.bean.ServerBean;
@@ -16,6 +19,8 @@ import com.ten.tencloud.bean.ServerThresholdBean;
 import com.ten.tencloud.model.AppBaseCache;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
+
+import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +52,33 @@ public class ServerModel {
             }
         }
         return INSTANCE;
+    }
+
+    /**
+     * 获取集群列表
+     *
+     * @return
+     */
+    public Observable<List<ClusterBean>> getClusters() {
+        return TenApp.getRetrofitClient().getTenServerApi().getClusterNode()
+                .map(new HttpResultFunc<List<ClusterBean>>())
+                .map(new Func1<List<ClusterBean>, List<ClusterBean>>() {
+                    @Override
+                    public List<ClusterBean> call(List<ClusterBean> clusterBeans) {
+                        Yaml yaml = new Yaml();
+                        Gson gson = TenApp.getInstance().getGsonInstance();
+                        for (ClusterBean bean : clusterBeans) {
+                            String k8sNode = bean.getK8s_node();
+                            Object load = yaml.load(k8sNode);
+                            String json = gson.toJson(load);
+                            K8sNodeBean k8sNodeBean = gson.fromJson(json, K8sNodeBean.class);
+                            bean.setK8sNodeBean(k8sNodeBean);
+                        }
+                        return clusterBeans;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**

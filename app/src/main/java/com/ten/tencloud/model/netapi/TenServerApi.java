@@ -1,6 +1,7 @@
 package com.ten.tencloud.model.netapi;
 
 import com.ten.tencloud.base.bean.JesResponse;
+import com.ten.tencloud.bean.ClusterBean;
 import com.ten.tencloud.bean.ClusterInfoBean;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServerBatchBean;
@@ -35,6 +36,12 @@ public interface TenServerApi {
 
     @GET("/api/cluster/{id}")
     Observable<Response<JesResponse<ClusterInfoBean>>> getServerList(@Path("id") int id);
+
+    @GET("/api/clusters")
+    Observable<Response<JesResponse<List<ClusterBean>>>> getClusters();
+
+    @GET("/api/cluster/node")
+    Observable<Response<JesResponse<List<ClusterBean>>>> getClusterNode();
 
     @GET("/api/cluster/warn/{id}")
     Observable<Response<JesResponse<List<ServerBean>>>> getWarnServerList(@Path("id") int id);

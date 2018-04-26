@@ -295,7 +295,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
                 startActivity(new Intent(mActivity, ServerListActivity.class));
                 break;
             case R.id.rl_cluster:
-
+                startActivity(new Intent(mActivity, ServerClusterListActivity.class));
                 break;
             case R.id.rl_alarm:
 

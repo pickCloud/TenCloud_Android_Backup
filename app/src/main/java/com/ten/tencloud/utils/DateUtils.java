@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by lxq on 2017/12/7.
@@ -20,6 +21,23 @@ public class DateUtils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
+    }
+
+    /**
+     * CST => 时间戳
+     *
+     * @param cst
+     * @return
+     */
+    public static Long cstToStamp(String cst) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss", Locale.US);
+        Date parse = null;
+        try {
+            parse = sdf.parse(cst);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return parse.getTime();
     }
 
     /**
@@ -91,5 +109,18 @@ public class DateUtils {
      */
     public static String dateToDefault(String date) {
         return date.substring(0, 10);
+    }
+
+    public static String between(long start, long end) {
+        long between = (end - start) / 1000;
+        long day = between / (24 * 3600);
+        long hour = between % (24 * 3600) / 3600;
+        long minute = between % 3600 / 60;
+        long second = between % 60 / 60;
+        if (day == 0) {
+            return hour + "h";
+        } else {
+            return day + "d";
+        }
     }
 }

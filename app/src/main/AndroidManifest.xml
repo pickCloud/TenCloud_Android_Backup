@@ -195,7 +195,9 @@
         <activity android:name=".module.app.ui.AppK8sRegularDeployStep2Activity" />
         <activity android:name=".module.app.ui.AppK8sRegularDeployAddContainerActivity" />
         <activity android:name=".module.app.ui.AppK8sRegularDeployAddPortActivity" />
-        <activity android:name=".module.app.ui.AppK8sRegularDeployNodeTypeActivity"></activity>
+        <activity android:name=".module.app.ui.AppK8sRegularDeployNodeTypeActivity" />
+        <activity android:name=".module.server.ui.ServerClusterListActivity" />
+        <activity android:name=".module.server.ui.ServerClusterNodeActivity"></activity>
     </application>
 
 </manifest>
