@@ -39,7 +39,7 @@ public class ServerClusterListActivity extends BaseActivity implements ServerClu
             @Override
             public void onItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.menu_create_cluster) {
-
+                    startActivityNoValue(mContext, ServerClusterCreateActivity.class);
                 }
             }
         });

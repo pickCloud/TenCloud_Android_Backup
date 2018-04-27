@@ -197,7 +197,10 @@
         <activity android:name=".module.app.ui.AppK8sRegularDeployAddPortActivity" />
         <activity android:name=".module.app.ui.AppK8sRegularDeployNodeTypeActivity" />
         <activity android:name=".module.server.ui.ServerClusterListActivity" />
-        <activity android:name=".module.server.ui.ServerClusterNodeActivity"></activity>
+        <activity android:name=".module.server.ui.ServerClusterNodeActivity" />
+        <activity android:name=".module.server.ui.ServerClusterCreateActivity" />
+        <activity android:name=".module.server.ui.ServerClusterCreateTypeActivity" />
+        <activity android:name=".module.server.ui.ServerClusterCreateServerActivity"></activity>
     </application>
 
 </manifest>

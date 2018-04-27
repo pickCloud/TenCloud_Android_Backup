@@ -4,6 +4,17 @@ package com.ten.tencloud.bean;
  * Created by lxq on 2017/11/23.
  */
 public class ServerBean {
+
+    public ServerBean() {
+
+    }
+
+    public ServerBean(String name, String public_ip, String provider) {
+        this.name = name;
+        this.public_ip = public_ip;
+        this.provider = provider;
+    }
+
     /**
      * id : int
      * name : str
@@ -17,6 +28,8 @@ public class ServerBean {
      * net : str
      */
 
+
+
     private String id;
     private String name;
     private String address;
@@ -28,6 +41,8 @@ public class ServerBean {
     private ContentInfoBean cpu;
     private NetSpeedBean net;
     private String provider;
+
+    private boolean isSelect;
 
 
     public String getId() {
@@ -118,4 +133,11 @@ public class ServerBean {
         this.provider = provider;
     }
 
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
 }

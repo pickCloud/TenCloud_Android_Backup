@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.server.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.ten.tencloud.base.adapter.CJSVpPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.base.view.BasePager;
 import com.ten.tencloud.utils.UiUtils;
+import com.ten.tencloud.widget.blur.BlurBuilder;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -121,10 +123,11 @@ public class ServerMonitorActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_toolbox: {
-//                if (mServerToolBoxActivity == null) {
-//                    mServerToolBoxActivity = new ServerToolBoxActivity(this);
-//                }
-//                mServerToolBoxActivity.show();
+                BlurBuilder.snapShotWithoutStatusBar(this);
+                Intent intent = new Intent(mContext, ServerToolBoxActivity.class);
+                intent.putExtra("serverId", mServerId);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
                 break;
             }
         }
