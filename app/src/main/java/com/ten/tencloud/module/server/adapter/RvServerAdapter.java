@@ -1,7 +1,6 @@
 package com.ten.tencloud.module.server.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,11 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.ServerBean;
+import com.ten.tencloud.utils.ToastUtils;
 import com.ten.tencloud.utils.Utils;
+import com.ten.tencloud.widget.SwipeMenuViewHolder;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by lxq on 2017/11/23.
@@ -63,6 +63,12 @@ public class RvServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBean, RvSe
         } else if ("微软云".equals(provider)) {
             holder.ivProviderIcon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_microyun));
         }
+        holder.llDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showLongToast("点击删除");
+            }
+        });
     }
 
     private boolean isAlarm(float value) {
@@ -78,7 +84,7 @@ public class RvServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBean, RvSe
         progressBar.setProgress(Math.round(value));
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends SwipeMenuViewHolder {
 
         @BindView(R.id.tv_name)
         TextView tvName;
@@ -102,10 +108,11 @@ public class RvServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBean, RvSe
         ProgressBar pbDisk;
         @BindView(R.id.tv_net)
         TextView tvNet;
+        @BindView(R.id.ll_del)
+        View llDel;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
     }
 
