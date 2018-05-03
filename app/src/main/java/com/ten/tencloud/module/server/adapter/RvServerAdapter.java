@@ -16,6 +16,7 @@ import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.widget.SwipeMenuViewHolder;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by lxq on 2017/11/23.
@@ -63,7 +64,7 @@ public class RvServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBean, RvSe
         } else if ("微软云".equals(provider)) {
             holder.ivProviderIcon.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.icon_microyun));
         }
-        holder.llDel.setOnClickListener(new View.OnClickListener() {
+        holder.swipeMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToastUtils.showLongToast("点击删除");
@@ -108,11 +109,10 @@ public class RvServerAdapter extends CJSBaseRecyclerViewAdapter<ServerBean, RvSe
         ProgressBar pbDisk;
         @BindView(R.id.tv_net)
         TextView tvNet;
-        @BindView(R.id.ll_del)
-        View llDel;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

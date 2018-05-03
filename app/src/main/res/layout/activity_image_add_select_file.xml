@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical"
+    tools:context="com.ten.tencloud.module.image.ui.ImageAddSelectFileActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_select_type"
+        style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/SettingItemLabel"
+                android:text="选择方式" />
+
+            <TextView
+                android:id="@+id/tv_select_type"
+                style="@style/SettingItemDes"
+                android:layout_marginEnd="16dp"
+                android:drawableEnd="@mipmap/icon_arrow_right"
+                android:drawablePadding="8dp"
+                android:text="请选择方式" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_local"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <View style="@style/LineHorizontal2f3543" />
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="版本号" />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    style="@style/ListItemEditValue"
+                    android:hint="输入版本号" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ListItemLLFirst"
+            android:layout_height="wrap_content">
+
+            <View style="@style/LineHorizontal2f3543" />
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="选择文件" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            style="@style/ListItemEditValue"
+                            android:layout_weight="1"
+                            android:hint="显示文件地址" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/selector_login_code"
+                            android:text="浏览本地文件"
+                            android:textColor="@color/select_login_code"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        style="@style/LineHorizontal2f3543"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp" />
+
+                    <Button
+                        android:layout_width="200dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/selector_login_code"
+                        android:text="上传"
+                        android:textColor="@color/select_login_code"
+                        android:textSize="13sp" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_cloud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <View style="@style/LineHorizontal2f3543" />
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="版本号" />
+
+                <EditText
+                    style="@style/ListItemEditValue"
+                    android:hint="输入版本号" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ListItemLLFirst"
+            android:layout_height="wrap_content">
+
+            <View style="@style/LineHorizontal2f3543" />
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:text="选择文件" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            style="@style/ListItemEditValue"
+                            android:layout_weight="1"
+                            android:hint="输入镜像地址" />
+
+                    </LinearLayout>
+
+                    <View
+                        style="@style/LineHorizontal2f3543"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="8dp" />
+
+                    <Button
+                        android:layout_width="200dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/selector_login_code"
+                        android:text="开始下载"
+                        android:textColor="@color/select_login_code"
+                        android:textSize="13sp" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/LineHorizontal2f3543" />
+
+</LinearLayout>

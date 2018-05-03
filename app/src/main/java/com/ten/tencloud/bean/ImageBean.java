@@ -26,10 +26,21 @@ public class ImageBean {
     private String update_time;
     private String label_name;
 
+    public ImageBean() {
+    }
+
     public ImageBean(String name, String version, String update_time) {
         this.name = name;
         this.version = version;
         this.update_time = update_time;
+    }
+
+    public ImageBean(String name, String version, int type, String update_time, String label_name) {
+        this.name = name;
+        this.version = version;
+        this.type = type;
+        this.update_time = update_time;
+        this.label_name = label_name;
     }
 
     public String getName() {

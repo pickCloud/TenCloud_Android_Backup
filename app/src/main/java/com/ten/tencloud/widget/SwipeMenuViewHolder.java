@@ -6,19 +6,15 @@ import android.widget.FrameLayout;
 
 import com.ten.tencloud.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by lxq on 2018/5/2.
  */
 
 public class SwipeMenuViewHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.swipe_menu)
-    FrameLayout swipeMenu;
+    public FrameLayout swipeMenu;
 
     public SwipeMenuViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(itemView);
+        swipeMenu = itemView.findViewById(R.id.swipe_menu);
     }
 }

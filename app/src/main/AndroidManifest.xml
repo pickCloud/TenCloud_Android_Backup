@@ -200,7 +200,10 @@
         <activity android:name=".module.server.ui.ServerClusterNodeActivity" />
         <activity android:name=".module.server.ui.ServerClusterCreateActivity" />
         <activity android:name=".module.server.ui.ServerClusterCreateTypeActivity" />
-        <activity android:name=".module.server.ui.ServerClusterCreateServerActivity"></activity>
+        <activity android:name=".module.server.ui.ServerClusterCreateServerActivity" />
+        <activity android:name=".module.image.ui.ImageListActivity" />
+        <activity android:name=".module.image.ui.ImageAddActivity" />
+        <activity android:name=".module.image.ui.ImageAddSelectFileActivity"></activity>
     </application>
 
 </manifest>
