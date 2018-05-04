@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.image.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.module.image.adapter.RvImagesAdapter;
@@ -45,6 +47,18 @@ public class ImageListActivity extends BaseActivity {
     private void initView() {
         mRvImage.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvImagesAdapter(this);
+        mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ImageBean>() {
+            @Override
+            public void onObjectItemClicked(ImageBean imageBean, int position) {
+                Intent intent = new Intent(mContext, ImageDetailActivity.class);
+                intent.putExtra("name", imageBean.getName());
+                intent.putExtra("logo", imageBean.getLogo_url());
+                intent.putExtra("label", imageBean.getLabel_name());
+                intent.putExtra("des", imageBean.getDescription());
+                intent.putExtra("type", imageBean.getType());
+                startActivity(intent);
+            }
+        });
         mRvImage.setAdapter(mAdapter);
     }
 

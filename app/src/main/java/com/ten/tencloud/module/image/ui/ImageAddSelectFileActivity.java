@@ -29,7 +29,10 @@ public class ImageAddSelectFileActivity extends BaseActivity {
     int mTextColor556278;
     @BindColor(R.color.colorPrimary)
     int mColorPrimary;
-    @BindColor(R.color.default_bg) int mDefaultBg;
+    @BindColor(R.color.default_bg)
+    int mDefaultBg;
+    @BindColor(R.color.line_color_2f3543)
+    int mLineColor2f3543;
     private List<String> mSelects;
     private OptionsPickerView mPvOptions;
 
@@ -71,8 +74,11 @@ public class ImageAddSelectFileActivity extends BaseActivity {
                 .setTitleBgColor(mDefaultBg)//标题背景颜色 Night mode
                 .setBgColor(mDefaultBg)//滚轮背景颜色 Night mode
                 .setTextColorCenter(mTextColor899ab6)
-                .setTextColorOut(mTextColor899ab6)
-                .setDividerColor(mTextColor899ab6)
+                .setTextColorOut(mTextColor556278)
+                .setContentTextSize(14)
+                .setTitleSize(14)
+                .setSubCalSize(14)
+                .setDividerColor(mLineColor2f3543)
                 .build();
     }
 
