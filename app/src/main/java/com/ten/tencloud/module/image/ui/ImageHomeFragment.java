@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.module.image.adapter.RvImagesAdapter;
@@ -35,6 +36,7 @@ public class ImageHomeFragment extends BaseFragment {
     View mEmptyView;
     @BindView(R.id.rv_image)
     RecyclerView mRvImage;
+
     private RvImagesAdapter mAdapter;
 
     @Nullable
@@ -52,6 +54,18 @@ public class ImageHomeFragment extends BaseFragment {
     private void initView() {
         mRvImage.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter = new RvImagesAdapter(mActivity);
+        mAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ImageBean>() {
+            @Override
+            public void onObjectItemClicked(ImageBean imageBean, int position) {
+                Intent intent = new Intent(mActivity, ImageDetailActivity.class);
+                intent.putExtra("name", imageBean.getName());
+                intent.putExtra("logo", imageBean.getLogo_url());
+                intent.putExtra("label", imageBean.getLabel_name());
+                intent.putExtra("des", imageBean.getDescription());
+                intent.putExtra("type", imageBean.getType());
+                startActivity(intent);
+            }
+        });
         mRvImage.setAdapter(mAdapter);
     }
 
@@ -63,10 +77,11 @@ public class ImageHomeFragment extends BaseFragment {
         mEmptyView.setVisibility(View.GONE);
     }
 
-    @OnClick({R.id.rl_image_private, R.id.rl_image_shop})
+    @OnClick({R.id.rl_image_private, R.id.rl_image_shop, R.id.tv_more})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_image_private:
+            case R.id.tv_more:
                 startActivity(new Intent(mActivity, ImageListActivity.class));
                 break;
             case R.id.rl_image_shop:

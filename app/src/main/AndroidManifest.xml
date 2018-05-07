@@ -204,7 +204,9 @@
         <activity android:name=".module.image.ui.ImageListActivity" />
         <activity android:name=".module.image.ui.ImageAddActivity" />
         <activity android:name=".module.image.ui.ImageAddSelectFileActivity" />
-        <activity android:name=".module.image.ui.ImageDetailActivity"></activity>
+        <activity android:name=".module.image.ui.ImageDetailActivity" />
+        <activity android:name=".module.image.ui.ImageVersionListActivity" />
+        <activity android:name=".module.app.ui.AppK8sRegularDeployStep3Activity"></activity>
     </application>
 
 </manifest>

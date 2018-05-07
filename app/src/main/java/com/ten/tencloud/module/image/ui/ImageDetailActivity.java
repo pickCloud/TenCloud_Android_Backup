@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.image.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.utils.glide.GlideUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ImageDetailActivity extends BaseActivity {
 
@@ -70,6 +72,20 @@ public class ImageDetailActivity extends BaseActivity {
                 ((TextView) labelView.findViewById(R.id.tv_label_name)).setText(labelBean);
                 mFblLabel.addView(labelView);
             }
+        }
+    }
+
+    @OnClick({R.id.btn_version_list, R.id.btn_create_app})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_version_list:
+                Intent intent = new Intent(this, ImageVersionListActivity.class);
+                intent.putExtra("type", mType);
+                startActivity(intent);
+                break;
+            case R.id.btn_create_app:
+
+                break;
         }
     }
 }

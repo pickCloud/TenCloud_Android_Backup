@@ -13,6 +13,7 @@ import butterknife.OnClick;
 public class AppK8sRegularDeployStep2Activity extends BaseActivity {
 
     private AppBean mAppBean;
+    private String mName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +26,10 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity {
             }
         });
         mAppBean = getIntent().getParcelableExtra("appBean");
+        mName = getIntent().getStringExtra("name");
     }
 
-    @OnClick({R.id.ll_add_container, R.id.ll_select_node})
+    @OnClick({R.id.ll_add_container, R.id.ll_select_node, R.id.tv_yaml})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_add_container: {
@@ -38,6 +40,13 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity {
             case R.id.ll_select_node: {
                 Intent intent = new Intent(this, AppK8sRegularDeployNodeTypeActivity.class);
                 startActivityForResult(intent, 0);
+                break;
+            }
+            case R.id.tv_yaml: {
+                Intent intent = new Intent(this, AppK8sRegularDeployStep3Activity.class);
+                intent.putExtra("appBean", mAppBean);
+                intent.putExtra("name", mName);
+                startActivity(intent);
                 break;
             }
         }
