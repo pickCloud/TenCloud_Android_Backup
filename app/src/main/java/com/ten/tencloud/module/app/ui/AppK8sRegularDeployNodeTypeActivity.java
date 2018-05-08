@@ -34,6 +34,13 @@ public class AppK8sRegularDeployNodeTypeActivity extends BaseActivity {
                 next();
             }
         });
+        initView();
+    }
+
+    private void initView() {
+        mIvSelect.setVisibility(View.INVISIBLE);
+        mIvSpecific.setVisibility(View.VISIBLE);
+        type = TYPE_NODE_SPECIFIC;
     }
 
     private void next() {
@@ -53,9 +60,10 @@ public class AppK8sRegularDeployNodeTypeActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cl_select:
-                mIvSelect.setVisibility(View.VISIBLE);
-                mIvSpecific.setVisibility(View.INVISIBLE);
-                type = TYPE_NODE_SELECT;
+                showMessage("暂未实现该方式");
+//                mIvSelect.setVisibility(View.VISIBLE);
+//                mIvSpecific.setVisibility(View.INVISIBLE);
+//                type = TYPE_NODE_SELECT;
                 break;
             case R.id.cl_specific:
                 mIvSelect.setVisibility(View.INVISIBLE);

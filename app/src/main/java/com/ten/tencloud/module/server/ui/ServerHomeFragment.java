@@ -281,7 +281,7 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         }
     }
 
-    @OnClick({R.id.tv_add_server, R.id.tv_more, R.id.rl_server,
+    @OnClick({R.id.tv_add_server, R.id.tv_more, R.id.rl_server, R.id.tv_cost_detail,
             R.id.rl_cluster, R.id.rl_alarm, R.id.hl_single_layout})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -302,6 +302,9 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
                 break;
             case R.id.hl_single_layout:
 
+                break;
+            case R.id.tv_cost_detail://费用详情
+                startActivity(new Intent(mActivity, CostDetailActivity.class));
                 break;
         }
     }

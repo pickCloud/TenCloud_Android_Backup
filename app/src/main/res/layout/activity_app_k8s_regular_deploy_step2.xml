@@ -125,9 +125,10 @@
                 <TextView
                     style="@style/ListItemTextKey"
                     android:layout_width="wrap_content"
-                    android:text="选择pod部署节点" />
+                    android:text="选择集群" />
 
                 <TextView
+                    android:id="@+id/tv_cluster"
                     style="@style/ListItemEditValue"
                     android:layout_weight="1"
                     android:gravity="right"

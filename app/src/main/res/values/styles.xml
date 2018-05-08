@@ -287,4 +287,30 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="TextColor899AB6Size12sp">
+        <item name="android:textColor">@color/text_color_899ab6</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextColor556278Size12sp">
+        <item name="android:textColor">@color/text_color_556278</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextColor48BBC0Size12sp">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextColor899AB6">
+        <item name="android:textColor">@color/text_color_899ab6</item>
+    </style>
+
+    <style name="TextColor899AB6.12sp">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextColor899AB6.14sp">
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>
