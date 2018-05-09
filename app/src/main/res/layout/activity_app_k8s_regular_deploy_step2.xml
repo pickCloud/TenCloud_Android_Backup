@@ -78,8 +78,7 @@
                 <EditText
                     android:id="@+id/et_pod_tag"
                     style="@style/ListItemEditValue"
-                    android:hint="key1=value1,key2=value2"
-                    android:inputType="number" />
+                    android:hint="key1=value1,key2=value2" />
 
             </LinearLayout>
 
@@ -99,6 +98,7 @@
                     android:text="配置pod模板容器" />
 
                 <TextView
+                    android:id="@+id/tv_container"
                     style="@style/ListItemEditValue"
                     android:layout_weight="1"
                     android:gravity="right"

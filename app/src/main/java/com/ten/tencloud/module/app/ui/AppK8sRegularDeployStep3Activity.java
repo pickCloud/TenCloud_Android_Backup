@@ -2,6 +2,7 @@ package com.ten.tencloud.module.app.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +58,8 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
             "        image: nginx:1.7.9\n" +
             "        ports:\n" +
             "        - containerPort: 80";
+    private String mYaml;
+    private int mServerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +67,21 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
         createView(R.layout.activity_app_k8s_regular_deploy_step3);
         initTitleBar(true, "kubernetes常规部署");
         mName = getIntent().getStringExtra("name");
+        mYaml = getIntent().getStringExtra("yaml");
+        mServerId = getIntent().getIntExtra("serverId", -1);
         mAppBean = getIntent().getParcelableExtra("appBean");
+
         initView();
         initData();
     }
 
     private void initView() {
         mBtnStart.setVisibility(View.VISIBLE);
-        mEtCode.setText(mYamlCode);
+        if (!TextUtils.isEmpty(mYaml)) {
+            mEtCode.setText(mYaml);
+        } else {
+            mEtCode.setText(mYamlCode);
+        }
         mEtCode.setSelection(mEtCode.getText().toString().length());
     }
 
@@ -130,8 +140,8 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
         String yaml = mEtCode.getText().toString();
         Map<String, Object> map = new HashMap<>();
         map.put("app_name", mAppBean.getName());
-        map.put("deployment_name", "nginx-deployment-0508");
-        map.put("server_id", 194);
+        map.put("deployment_name", mName);
+        map.put("server_id", mServerId);
         map.put("app_id", mAppBean.getId());
         map.put("yaml", yaml);
         String json = TenApp.getInstance().getGsonInstance().toJson(map);

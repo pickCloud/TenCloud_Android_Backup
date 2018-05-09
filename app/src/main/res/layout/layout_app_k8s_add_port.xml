@@ -80,6 +80,7 @@
             <EditText
                 android:id="@+id/et_port"
                 style="@style/ListItemEditValue"
+                android:inputType="number"
                 android:hint="请输入端口号" />
 
         </LinearLayout>

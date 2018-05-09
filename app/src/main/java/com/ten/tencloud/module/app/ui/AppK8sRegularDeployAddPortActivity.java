@@ -1,13 +1,18 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.AppContainerBean;
 import com.ten.tencloud.utils.UiUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,14 +34,35 @@ public class AppK8sRegularDeployAddPortActivity extends BaseActivity {
         initTitleBar(true, "添加端口", "确认", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                submit();
             }
         });
         initView();
         initData();
     }
 
+    private void submit() {
+        int childCount = mLlLayout.getChildCount();
+        ArrayList<AppContainerBean.Port> ports = new ArrayList<>();
+        for (int i = 0; i < childCount; i++) {
+            View childView = mLlLayout.getChildAt(i);
+            EditText etName = childView.findViewById(R.id.et_name);
+            EditText etProtocol = childView.findViewById(R.id.et_protocol);
+            EditText etPort = childView.findViewById(R.id.et_port);
+            AppContainerBean.Port port = new AppContainerBean.Port();
+            port.setName(etName.getText().toString().trim().toLowerCase());
+            port.setProtocol(etProtocol.getText().toString().trim().toUpperCase());
+            port.setContainerPort(Integer.parseInt(etPort.getText().toString().trim()));
+            ports.add(port);
+        }
+        Intent data = new Intent();
+        data.putParcelableArrayListExtra("ports", ports);
+        setResult(RESULT_CODE_ADD_PORT, data);
+        finish();
+    }
+
     private void initView() {
+        mLlLayout.removeAllViews();
         UiUtils.addTransitionAnim(mLlLayout);//添加动效
     }
 

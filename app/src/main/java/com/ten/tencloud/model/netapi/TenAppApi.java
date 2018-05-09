@@ -67,4 +67,12 @@ public interface TenAppApi {
     //镜像列表
     @GET("/api/image")
     Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("app_id") String appId);
+
+    //检查部署名称
+    @GET("/api/deployment/check_name")
+    Observable<Response<JesResponse<Object>>> checkDeployName(@Query("name") String name, @Query("app_id") int appId);
+
+    //生成YAML
+    @POST("/api/deployment/generate")
+    Observable<Response<JesResponse<String>>> generateYAML(@Body RequestBody body);
 }

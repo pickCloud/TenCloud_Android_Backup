@@ -3,6 +3,7 @@ package com.ten.tencloud.module.app.model;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
+import com.ten.tencloud.bean.AppContainerBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
@@ -153,6 +154,24 @@ public class AppModel {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getAppImages(appId)
                 .map(new HttpResultFunc<List<ImageBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<Object> checkDeployName(String name, int appId) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .checkDeployName(name, appId)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    public Observable<String> generateYAML(AppContainerBean bean) {
+        RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(bean));
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .generateYAML(body)
+                .map(new HttpResultFunc<String>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

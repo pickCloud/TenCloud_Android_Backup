@@ -9,15 +9,19 @@ import android.widget.EditText;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.module.app.contract.AppK8sDeployContract;
+import com.ten.tencloud.module.app.presenter.AppK8sDeployPresenter;
 
 import butterknife.BindView;
 
-public class AppK8sRegularDeployStep1Activity extends BaseActivity {
+public class AppK8sRegularDeployStep1Activity extends BaseActivity implements AppK8sDeployContract.View {
 
     @BindView(R.id.et_name)
     EditText mEtName;
 
     private AppBean mAppBean;
+    private AppK8sDeployPresenter mPresenter;
+    private String mName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +34,29 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity {
             }
         });
         mAppBean = getIntent().getParcelableExtra("appBean");
+        mPresenter = new AppK8sDeployPresenter();
+        mPresenter.attachView(this);
     }
 
     private void next() {
-        String name = mEtName.getText().toString().trim();
-        if (TextUtils.isEmpty(name)) {
+        mName = mEtName.getText().toString().trim().toLowerCase();
+        if (TextUtils.isEmpty(mName)) {
             showMessage("名称不能为空");
             return;
         }
+        mPresenter.checkDeployName(mName, mAppBean.getId());
+    }
+
+    @Override
+    public void checkResult() {
         Intent intent = new Intent(mContext, AppK8sRegularDeployStep2Activity.class);
-        intent.putExtra("name", name);
+        intent.putExtra("name", mName);
         intent.putExtra("appBean", mAppBean);
         startActivity(intent);
+    }
+
+    @Override
+    public void showYAML(String yaml) {
+
     }
 }

@@ -57,7 +57,7 @@
                 android:layout_marginTop="60dp"
                 android:visibility="invisible">
 
-                <include layout="@layout/layout_empty_view_app_servcie" />
+                <include layout="@layout/layout_empty_view_image" />
             </FrameLayout>
 
         </FrameLayout>

@@ -2,16 +2,21 @@ package com.ten.tencloud.module.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppContainerBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.utils.UiUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,11 +43,22 @@ public class AppK8sRegularDeployAddContainerActivity extends BaseActivity {
         initTitleBar(true, "添加容器", "确认", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                submit();
             }
         });
         initView();
         initData();
+    }
+
+    private void submit() {
+        // TODO: 2018/5/9 目前只有一个容器
+        View view = views.get(1000);
+        EditText etName = view.findViewById(R.id.et_name);
+        datas.get(1000).setContainer_name(etName.getText().toString().toLowerCase());
+        Intent data = new Intent();
+        data.putExtra("container",datas.get(1000));
+        setResult(Constants.ACTIVITY_RESULT_CODE_FINISH, data);
+        finish();
     }
 
     private void initView() {
@@ -62,14 +78,16 @@ public class AppK8sRegularDeployAddContainerActivity extends BaseActivity {
         View removeContainer = view.findViewById(R.id.ll_remove_container);
         View addPort = view.findViewById(R.id.ll_add_port);
         View btnImage = view.findViewById(R.id.btn_image);
-        removeContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLlLayout.removeView(view);
-                views.remove(key);
-                datas.remove(key);
-            }
-        });
+
+        // TODO: 2018/5/9  暂时移除删除的功能
+//        removeContainer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mLlLayout.removeView(view);
+//                views.remove(key);
+//                datas.remove(key);
+//            }
+//        });
         addPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +123,23 @@ public class AppK8sRegularDeployAddContainerActivity extends BaseActivity {
             TextView tvImage = view.findViewById(R.id.tv_image);
             String imageName = data.getStringExtra("imageName");
             String imageVersion = data.getStringExtra("imageVersion");
-            tvImage.setText(imageName + ": " + imageVersion);
+            datas.get(requestCode).setImage_name(imageName + ":" + imageVersion);
+            tvImage.setText(imageName + ":" + imageVersion);
+        }
+        if (resultCode == AppK8sRegularDeployAddPortActivity.RESULT_CODE_ADD_PORT) {
+            ArrayList<AppContainerBean.Port> ports = data.getParcelableArrayListExtra("ports");
+            View view = views.get(requestCode);
+            TextView tvPort = view.findViewById(R.id.tv_port);
+            String port = "";
+            for (int i = 0; i < ports.size(); i++) {
+                port = port + "," + ports.get(i).getName();
+            }
+            port = port.replaceFirst(",", "");
+            if (TextUtils.isEmpty(port)) {
+                return;
+            }
+            tvPort.setText(port);
+            datas.get(requestCode).setPorts(ports);
         }
     }
 }
