@@ -199,6 +199,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     @Override
     protected void onNewIntent(Intent intent) {
         if (intent.getBooleanExtra("viewImage", false)) {
+            mAppImagePresenter.getAppImageById(mAppId + "");
             int top = mRlImage.getTop();
             mScrollView.scrollTo(0, top);
         }

@@ -101,6 +101,9 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
     @BindView(R.id.ll_heat)
     LinearLayout mLlHeat;
 
+    @BindView(R.id.ll_cost)
+    View mLlCost;
+
     private RvServerAdapter mServerAdapter;
     private ServerHomePresenter mPresenter;
     private ServerMonitorPresenter mServerMonitorPresenter;
@@ -325,12 +328,14 @@ public class ServerHomeFragment extends BaseFragment implements ServerHomeContra
         mServerAdapter.setDatas(servers);
         mLlHeat.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
+        mLlCost.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showEmptyView() {
         mEmptyView.setVisibility(View.VISIBLE);
         mLlHeat.setVisibility(View.GONE);
+        mLlCost.setVisibility(View.GONE);
         mServerAdapter.clear();
     }
 

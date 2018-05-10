@@ -297,6 +297,26 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="TextColor556278">
+        <item name="android:textColor">@color/text_color_556278</item>
+    </style>
+
+    <style name="TextColor556278.10sp">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextColor556278.12sp">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextColor556278.14sp">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextColor556278.16sp">
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="TextColor48BBC0Size12sp">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">12sp</item>
@@ -306,11 +326,59 @@
         <item name="android:textColor">@color/text_color_899ab6</item>
     </style>
 
+    <style name="TextColor899AB6.10sp">
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="TextColor899AB6.12sp">
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextColor899AB6.14sp">
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextColor899AB6.16sp">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextColor3F4656">
+        <item name="android:textColor">@color/text_color_3F4656</item>
+    </style>
+
+    <style name="TextColor3F4656.10sp">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextColor3F4656.12sp">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextColor3F4656.14sp">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextColor3F4656.16sp">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextColor287db6">
+        <item name="android:textColor">@color/text_color_287db6</item>
+    </style>
+
+    <style name="TextColor287db6.10sp">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextColor287db6.12sp">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextColor287db6.14sp">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextColor287db6.16sp">
+        <item name="android:textSize">16sp</item>
     </style>
 </resources>

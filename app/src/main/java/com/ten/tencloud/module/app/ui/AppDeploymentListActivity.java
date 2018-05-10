@@ -34,8 +34,6 @@ public class AppDeploymentListActivity extends BaseActivity {
     TextView mTvFilter;
     @BindView(R.id.rv_app)
     RecyclerView mRvApp;
-    @BindView(R.id.tv_add_app)
-    TextView mTvAddApp;
     @BindView(R.id.empty_view)
     FrameLayout mEmptyView;
 
@@ -101,16 +99,16 @@ public class AppDeploymentListActivity extends BaseActivity {
         mAppServiceDeploymentAdapter.setDatas(deploymentBeans);
     }
 
-    @OnClick({R.id.tv_filter, R.id.tv_add_app})
+    @OnClick({R.id.tv_filter})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_filter:
                 mAppFilterDialog = new AppFilterDialog(this);
                 mAppFilterDialog.show();
                 break;
-            case R.id.tv_add_app:
-                startActivityNoValue(this, AppAddActivity.class);
-                break;
+//            case R.id.tv_add_app:
+//                startActivityNoValue(this, AppAddActivity.class);
+//                break;
         }
     }
 
