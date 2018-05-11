@@ -1,0 +1,45 @@
+package com.ten.tencloud.widget.dialog;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.ten.tencloud.R;
+
+/**
+ * Created by lxq on 2017/11/24.
+ */
+
+public class EventFilterDialog extends Dialog {
+
+    public EventFilterDialog(@NonNull Context context) {
+        super(context, R.style.RightDialog);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // 去掉头
+        Window window = getWindow();
+        window.setGravity(Gravity.RIGHT);
+        window.setContentView(R.layout.dialog_event_filter);
+
+        window.findViewById(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
+
+        window.setBackgroundDrawable(new BitmapDrawable());
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+    }
+
+}

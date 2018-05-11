@@ -209,7 +209,8 @@
         <activity android:name=".module.app.ui.AppK8sRegularDeployStep3Activity" />
         <activity android:name=".module.app.ui.AppK8sRegularDeployNodeSpecificActivity" />
         <activity android:name=".module.server.ui.CostDetailActivity" />
-        <activity android:name=".module.server.ui.CostInfoActivity"></activity>
+        <activity android:name=".module.server.ui.CostInfoActivity" />
+        <activity android:name=".module.event.ui.EventListActivity"></activity>
     </application>
 
 </manifest>

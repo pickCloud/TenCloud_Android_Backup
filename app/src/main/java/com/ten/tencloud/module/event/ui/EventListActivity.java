@@ -1,16 +1,12 @@
 package com.ten.tencloud.module.event.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.ten.tencloud.R;
-import com.ten.tencloud.base.view.BaseFragment;
+import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.EventBean;
 import com.ten.tencloud.module.event.adapter.RvEventAdapter;
 import com.ten.tencloud.widget.dialog.EventFilterDialog;
@@ -22,67 +18,37 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * Created by lxq on 2018/4/16.
- */
+public class EventListActivity extends BaseActivity {
 
-public class EventHomeFragment extends BaseFragment {
-
-    @BindView(R.id.empty_view)
-    View mEmptyView;
-    @BindView(R.id.rv_docker_content)
-    RecyclerView mRvDocker;
-    @BindView(R.id.rv_operation_content)
-    RecyclerView mRvOperation;
-    @BindView(R.id.rv_system_content)
-    RecyclerView mRvSystem;
-    private RvEventAdapter mDockerAdapter;
-    private RvEventAdapter mOperationAdapter;
-    private RvEventAdapter mSystemAdapter;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return createView(inflater, container, R.layout.fragment_event_home);
-    }
+    @BindView(R.id.rv_event)
+    RecyclerView mRvEvent;
+    private String mTitle;
+    private RvEventAdapter mAdapter;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        createView(R.layout.activity_event_list);
+        mTitle = getIntent().getStringExtra("title");
+        initTitleBar(true, mTitle);
         initView();
         initData();
     }
 
     private void initView() {
-        mRvDocker.setLayoutManager(new LinearLayoutManager(mActivity) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        mRvOperation.setLayoutManager(new LinearLayoutManager(mActivity) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        mRvSystem.setLayoutManager(new LinearLayoutManager(mActivity) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        mDockerAdapter = new RvEventAdapter(mActivity);
-        mRvDocker.setAdapter(mDockerAdapter);
-        mOperationAdapter = new RvEventAdapter(mActivity);
-        mRvOperation.setAdapter(mOperationAdapter);
-        mSystemAdapter = new RvEventAdapter(mActivity);
-        mRvSystem.setAdapter(mSystemAdapter);
+        mRvEvent.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new RvEventAdapter(this);
+        mRvEvent.setAdapter(mAdapter);
     }
 
     private void initData() {
-        initDockerData();
-        initOperationData();
-        initSystemData();
+        if ("容器事件".equals(mTitle)) {
+            initDockerData();
+        } else if ("操作日志".equals(mTitle)) {
+            initOperationData();
+        } else {
+            initSystemData();
+        }
     }
 
     private void initDockerData() {
@@ -123,7 +89,7 @@ public class EventHomeFragment extends BaseFragment {
                     .setEffectObj(effectObj)
                     .setDes(des));
         }
-        mDockerAdapter.setDatas(data);
+        mAdapter.setDatas(data);
     }
 
     private void initOperationData() {
@@ -156,7 +122,7 @@ public class EventHomeFragment extends BaseFragment {
                     .setEffectObj(effectObj)
                     .setDes(des));
         }
-        mOperationAdapter.setDatas(data);
+        mAdapter.setDatas(data);
     }
 
     private void initSystemData() {
@@ -194,34 +160,15 @@ public class EventHomeFragment extends BaseFragment {
                     .setEffectObj(effectObj)
                     .setDes(des));
         }
-        mSystemAdapter.setDatas(data);
+        mAdapter.setDatas(data);
     }
 
-    @OnClick({R.id.tv_filter, R.id.tv_docker_more, R.id.tv_operation_more, R.id.tv_system_more})
+    @OnClick({R.id.tv_filter})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_filter: {
-                new EventFilterDialog(mActivity).show();
+            case R.id.tv_filter:
+                new EventFilterDialog(this).show();
                 break;
-            }
-            case R.id.tv_docker_more: {
-                Intent intent = new Intent(mActivity, EventListActivity.class);
-                intent.putExtra("title", "容器事件");
-                startActivity(intent);
-                break;
-            }
-            case R.id.tv_operation_more: {
-                Intent intent = new Intent(mActivity, EventListActivity.class);
-                intent.putExtra("title", "操作日志");
-                startActivity(intent);
-                break;
-            }
-            case R.id.tv_system_more: {
-                Intent intent = new Intent(mActivity, EventListActivity.class);
-                intent.putExtra("title", "系统事件");
-                startActivity(intent);
-                break;
-            }
         }
     }
 }

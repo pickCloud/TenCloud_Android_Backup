@@ -149,4 +149,5 @@ public class ServerHistoryTimeDialog extends Dialog {
         return DateUtils.strToCalendar(string, TIME_FORMAT);
     }
 
+
 }
