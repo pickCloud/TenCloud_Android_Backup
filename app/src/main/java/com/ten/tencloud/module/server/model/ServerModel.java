@@ -1,5 +1,7 @@
 package com.ten.tencloud.module.server.model;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.ClusterBean;
@@ -68,11 +70,13 @@ public class ServerModel {
                         Yaml yaml = new Yaml();
                         Gson gson = TenApp.getInstance().getGsonInstance();
                         for (ClusterBean bean : clusterBeans) {
-                            String k8sNode = bean.getK8s_node();
-                            Object load = yaml.load(k8sNode);
-                            String json = gson.toJson(load);
-                            K8sNodeBean k8sNodeBean = gson.fromJson(json, K8sNodeBean.class);
-                            bean.setK8sNodeBean(k8sNodeBean);
+                            String k8sNode = bean.getNode();
+                            if (!TextUtils.isEmpty(k8sNode)) {
+                                Object load = yaml.load(k8sNode);
+                                String json = gson.toJson(load);
+                                K8sNodeBean k8sNodeBean = gson.fromJson(json, K8sNodeBean.class);
+                                bean.setK8sNodeBean(k8sNodeBean);
+                            }
                         }
                         return clusterBeans;
                     }

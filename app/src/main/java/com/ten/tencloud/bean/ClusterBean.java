@@ -17,7 +17,7 @@ public class ClusterBean {
     private String name;
     private String description;
     private int type;
-    private String k8s_node;
+    private String node;
     private K8sNodeBean k8sNodeBean;
     private int master_server_id;
     private String public_ip;
@@ -55,12 +55,12 @@ public class ClusterBean {
         this.type = type;
     }
 
-    public String getK8s_node() {
-        return k8s_node;
+    public String getNode() {
+        return node;
     }
 
-    public void setK8s_node(String k8s_node) {
-        this.k8s_node = k8s_node;
+    public void setNode(String node) {
+        this.node = node;
     }
 
     public K8sNodeBean getK8sNodeBean() {

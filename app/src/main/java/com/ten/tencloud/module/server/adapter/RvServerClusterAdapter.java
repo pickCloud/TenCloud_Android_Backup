@@ -56,7 +56,9 @@ public class RvServerClusterAdapter extends CJSBaseRecyclerViewAdapter<ClusterBe
         holder.mLlNodes2.setVisibility(View.GONE);
         holder.mLlNodes1.removeAllViews();
         holder.mLlNodes2.removeAllViews();
-        createNodeView(holder, k8sNodeBean);
+        if (k8sNodeBean != null) {
+            createNodeView(holder, k8sNodeBean);
+        }
     }
 
     //创建K8s节点视图

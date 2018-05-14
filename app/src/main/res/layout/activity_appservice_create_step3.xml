@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical"
+    tools:context="com.ten.tencloud.module.app.ui.AppK8sRegularDeployStep2Activity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/bg_2f3543"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置端口和IP信息"
+            android:textColor="@color/text_color_566278"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_232730"
+        android:orientation="vertical">
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:layout_width="wrap_content"
+                    android:text="集群IP" />
+
+                <EditText
+                    android:id="@+id/et_cluster_ip"
+                    style="@style/ListItemEditValue"
+                    android:hint="集群内访问IP,可不设置,由service指派" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:layout_width="wrap_content"
+                    android:text="外部IP" />
+
+                <EditText
+                    android:id="@+id/et_public_ip"
+                    style="@style/ListItemEditValue"
+                    android:hint="可通过外部IP (作为目的IP地址)" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:layout_width="wrap_content"
+                    android:text="负载均衡器(用户定义)" />
+
+                <EditText
+                    android:id="@+id/et_balance_user"
+                    style="@style/ListItemEditValue"
+                    android:hint="选填" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+        <LinearLayout style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:layout_width="wrap_content"
+                    android:text="负载均衡器(云服务商)" />
+
+                <EditText
+                    android:id="@+id/et_balance_provider"
+                    style="@style/ListItemEditValue"
+                    android:hint="选填" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_port"
+            style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:layout_width="wrap_content"
+                    android:text="端口" />
+
+                <TextView
+                    android:id="@+id/tv_port"
+                    style="@style/ListItemEditValue"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:hint="去添加" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/icon_arrow_right" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+</LinearLayout>

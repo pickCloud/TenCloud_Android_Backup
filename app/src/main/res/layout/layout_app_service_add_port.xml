@@ -42,7 +42,7 @@
             <EditText
                 android:id="@+id/et_name"
                 style="@style/ListItemEditValue"
-                android:hint="请输入名称" />
+                android:hint="请输入端口名称" />
 
         </LinearLayout>
 
@@ -61,7 +61,7 @@
             <EditText
                 android:id="@+id/et_protocol"
                 style="@style/ListItemEditValue"
-                android:hint="请输入协议" />
+                android:hint="支持TCP/UDP,默认TCP" />
 
         </LinearLayout>
 
@@ -78,10 +78,48 @@
                 android:text="端口号" />
 
             <EditText
-                android:id="@+id/et_port"
+                android:id="@+id/et_public_port"
                 style="@style/ListItemEditValue"
-                android:hint="请输入端口号"
+                android:hint="对外暴露的端口号,1~65535"
                 android:inputType="number" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="目标端口" />
+
+            <EditText
+                android:id="@+id/et_target_port"
+                style="@style/ListItemEditValue"
+                android:hint="1~65535,要和访问的pod端口对应" />
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/ListItemLLFirst">
+
+        <LinearLayout style="@style/ListItemLL2">
+
+            <TextView
+                style="@style/ListItemTextKey"
+                android:text="节点端口" />
+
+            <EditText
+                android:id="@+id/et_node_port"
+                style="@style/ListItemEditValue"
+                android:hint="'仅集群内访问' 类型不用填" />
 
         </LinearLayout>
 

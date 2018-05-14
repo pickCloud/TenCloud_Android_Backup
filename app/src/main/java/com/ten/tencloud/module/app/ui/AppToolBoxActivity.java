@@ -57,9 +57,12 @@ public class AppToolBoxActivity extends BaseActivity {
             case R.id.btn_tool5:
 
                 break;
-            case R.id.btn_tool6:
-
+            case R.id.btn_tool6: {
+                Intent intent = new Intent(this, APPServiceCreateStep1Activity.class);
+                intent.putExtra("appBean", mAppBean);
+                startActivity(intent);
                 break;
+            }
             case R.id.btn_tool7:
 
                 break;
