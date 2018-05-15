@@ -4,6 +4,7 @@ import com.ten.tencloud.TenApp;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
 import com.ten.tencloud.bean.AppContainerBean;
+import com.ten.tencloud.bean.AppServiceYAMLBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
@@ -167,10 +168,19 @@ public class AppModel {
     }
 
 
-    public Observable<String> generateYAML(AppContainerBean bean) {
+    public Observable<String> generateDeployYAML(AppContainerBean bean) {
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(bean));
         return TenApp.getRetrofitClient().getTenAppApi()
-                .generateYAML(body)
+                .generateDeployYAML(body)
+                .map(new HttpResultFunc<String>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<String> generateServiceYAML(AppServiceYAMLBean bean) {
+        RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(bean));
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .generateServiceYAML(body)
                 .map(new HttpResultFunc<String>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

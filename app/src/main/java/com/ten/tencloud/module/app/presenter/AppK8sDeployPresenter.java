@@ -24,7 +24,7 @@ public class AppK8sDeployPresenter extends BasePresenter<AppK8sDeployContract.Vi
 
     @Override
     public void generateYAML(AppContainerBean bean) {
-        mSubscriptions.add(AppModel.getInstance().generateYAML(bean)
+        mSubscriptions.add(AppModel.getInstance().generateDeployYAML(bean)
                 .subscribe(new JesSubscribe<Object>(mView) {
                     @Override
                     public void _onSuccess(Object o) {

@@ -11,6 +11,7 @@ import java.util.Map;
  */
 
 public class AppContainerBean implements Parcelable {
+    private int app_id;
     private String app_name;
     private String deployment_name;
     private int replica_num;
@@ -18,6 +19,15 @@ public class AppContainerBean implements Parcelable {
     private String container_name;
     private String image_name;
     private List<Port> ports;
+
+    public int getApp_id() {
+        return app_id;
+    }
+
+    public AppContainerBean setApp_id(int app_id) {
+        this.app_id = app_id;
+        return this;
+    }
 
     public String getApp_name() {
         return app_name;

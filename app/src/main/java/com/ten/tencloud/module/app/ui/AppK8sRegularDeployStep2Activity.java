@@ -54,6 +54,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
                     showMessage("请添加容器");
                     return;
                 }
+                mContainerBean.setApp_id(mAppBean.getId());
                 mContainerBean.setDeployment_name(mName);
                 mContainerBean.setApp_name(mAppBean.getName());
                 String count = mEtPodCount.getText().toString();

@@ -215,7 +215,8 @@
         <activity android:name=".module.app.ui.APPServiceCreateStep2Activity" />
         <activity android:name=".module.app.ui.APPServiceCreatePodLabelActivity" />
         <activity android:name=".module.app.ui.APPServiceCreateStep3Activity" />
-        <activity android:name=".module.app.ui.APPServiceCreateAddPortActivity"></activity>
+        <activity android:name=".module.app.ui.APPServiceCreateAddPortActivity" />
+        <activity android:name=".module.app.ui.APPServiceCreateStep4Activity"></activity>
     </application>
 
 </manifest>

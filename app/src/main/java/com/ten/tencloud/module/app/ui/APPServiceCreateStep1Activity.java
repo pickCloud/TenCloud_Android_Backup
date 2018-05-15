@@ -43,6 +43,7 @@ public class APPServiceCreateStep1Activity extends BaseActivity implements AppCh
     private int mSourceType = -1; //（1.内部服务，2.外部服务）
     private AppBean mAppBean;
     private AppCheckNamePresenter mCheckNamePresenter;
+    private String mName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,13 +100,13 @@ public class APPServiceCreateStep1Activity extends BaseActivity implements AppCh
             showMessage("请选择服务来源");
             return;
         }
-        String name = mEtName.getText().toString();
-        if (TextUtils.isEmpty(name)) {
+        mName = mEtName.getText().toString();
+        if (TextUtils.isEmpty(mName)) {
             showMessage("请输入服务名称");
             return;
         }
         //验证名称
-        mCheckNamePresenter.checkDeployName(name, mAppBean.getId());
+        mCheckNamePresenter.checkDeployName(mName, mAppBean.getId());
     }
 
     @OnClick({R.id.ll_select_source, R.id.tv_yaml})
@@ -125,6 +126,7 @@ public class APPServiceCreateStep1Activity extends BaseActivity implements AppCh
         Intent intent = new Intent(this, APPServiceCreateStep2Activity.class);
         intent.putExtra("sourceType", mSourceType + 1);
         intent.putExtra("appBean", mAppBean);
+        intent.putExtra("serviceName", mName);
         startActivity(intent);
     }
 }

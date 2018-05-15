@@ -100,7 +100,8 @@
             <EditText
                 android:id="@+id/et_target_port"
                 style="@style/ListItemEditValue"
-                android:hint="1~65535,要和访问的pod端口对应" />
+                android:hint="1~65535,要和访问的pod端口对应"
+                android:inputType="number" />
 
         </LinearLayout>
 
@@ -119,7 +120,8 @@
             <EditText
                 android:id="@+id/et_node_port"
                 style="@style/ListItemEditValue"
-                android:hint="'仅集群内访问' 类型不用填" />
+                android:hint="'仅集群内访问' 类型不用填"
+                android:inputType="number" />
 
         </LinearLayout>
 

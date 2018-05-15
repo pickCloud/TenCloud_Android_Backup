@@ -72,7 +72,11 @@ public interface TenAppApi {
     @GET("/api/deployment/check_name")
     Observable<Response<JesResponse<Object>>> checkDeployName(@Query("name") String name, @Query("app_id") int appId);
 
-    //生成YAML
+    //生成部署YAML
     @POST("/api/deployment/generate")
-    Observable<Response<JesResponse<String>>> generateYAML(@Body RequestBody body);
+    Observable<Response<JesResponse<String>>> generateDeployYAML(@Body RequestBody body);
+
+    //生成ServiceYAML
+    @POST("/api/service/generate")
+    Observable<Response<JesResponse<String>>> generateServiceYAML(@Body RequestBody body);
 }

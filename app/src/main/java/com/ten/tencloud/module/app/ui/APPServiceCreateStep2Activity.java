@@ -3,6 +3,7 @@ package com.ten.tencloud.module.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -21,8 +22,10 @@ public class APPServiceCreateStep2Activity extends BaseActivity {
 
     @BindView(R.id.tv_service_type)
     TextView mTvSourceType;
-    @BindView(R.id.tv_pod)
-    TextView mTvPodLabel;
+    //    @BindView(R.id.tv_pod)
+//    TextView mTvPodLabel;
+    @BindView(R.id.et_pod_tag)
+    EditText metPodTag;
 
     @BindColor(R.color.text_color_899ab6)
     int mTextColor899ab6;
@@ -40,6 +43,7 @@ public class APPServiceCreateStep2Activity extends BaseActivity {
     private AppBean mAppBean;
     private OptionsPickerView mPvOptions;
     private List<String> mSelects;
+    private String mServiceName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class APPServiceCreateStep2Activity extends BaseActivity {
         mAppBean = getIntent().getParcelableExtra("appBean");
         //服务来源
         mSourceType = getIntent().getIntExtra("sourceType", 0);
+        mServiceName = getIntent().getStringExtra("serviceName");
 
         initTitleBar(true, "创建服务", "下一步", new View.OnClickListener() {
             @Override
@@ -64,7 +69,7 @@ public class APPServiceCreateStep2Activity extends BaseActivity {
         mPvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                mServiceType = options1;
+                mServiceType = options1 + 1;
                 mTvSourceType.setText(mSelects.get(options1));
             }
         })
@@ -93,10 +98,12 @@ public class APPServiceCreateStep2Activity extends BaseActivity {
     }
 
     private void next() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, APPServiceCreateStep3Activity.class);
         intent.putExtra("sourceType", mSourceType);
         intent.putExtra("serviceType", mServiceType);
+        intent.putExtra("serviceName", mServiceName);
         intent.putExtra("appBean", mAppBean);
+        intent.putExtra("podTag", metPodTag.getText().toString());
         startActivity(intent);
     }
 
@@ -106,11 +113,11 @@ public class APPServiceCreateStep2Activity extends BaseActivity {
             case R.id.ll_select_type:
                 mPvOptions.show();
                 break;
-            case R.id.ll_select_pod:
-                Intent intent = new Intent(this, APPServiceCreatePodLabelActivity.class);
-
-                startActivityForResult(intent, 0);
-                break;
+//            case R.id.ll_select_pod:
+//                Intent intent = new Intent(this, APPServiceCreatePodLabelActivity.class);
+//
+//                startActivityForResult(intent, 0);
+//                break;
         }
     }
 
