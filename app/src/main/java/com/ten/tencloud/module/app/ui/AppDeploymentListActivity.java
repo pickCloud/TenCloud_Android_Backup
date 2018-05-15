@@ -18,7 +18,6 @@ import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -69,19 +68,6 @@ public class AppDeploymentListActivity extends BaseActivity {
         mRvApp.addItemDecoration(new Hor16Ver8ItemDecoration());
         mRvApp.setAdapter(mAppServiceDeploymentAdapter);
 
-        mAppFilterDialog = new AppFilterDialog(this);
-        mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
-            @Override
-            public void getFilterData() {
-
-            }
-
-            @Override
-            public void onOkClick(Map<String, Map<String, Boolean>> select) {
-
-            }
-
-        });
     }
 
     private void initData() {
@@ -106,9 +92,6 @@ public class AppDeploymentListActivity extends BaseActivity {
                 mAppFilterDialog = new AppFilterDialog(this);
                 mAppFilterDialog.show();
                 break;
-//            case R.id.tv_add_app:
-//                startActivityNoValue(this, AppAddActivity.class);
-//                break;
         }
     }
 

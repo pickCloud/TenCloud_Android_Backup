@@ -5,6 +5,7 @@ import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
 import com.ten.tencloud.bean.AppContainerBean;
 import com.ten.tencloud.bean.AppServiceYAMLBean;
+import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
@@ -182,6 +183,14 @@ public class AppModel {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .generateServiceYAML(body)
                 .map(new HttpResultFunc<String>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<DeploymentBean>> getDeployList(int id, int page) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getDeployList(id, page, 20)
+                .map(new HttpResultFunc<List<DeploymentBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

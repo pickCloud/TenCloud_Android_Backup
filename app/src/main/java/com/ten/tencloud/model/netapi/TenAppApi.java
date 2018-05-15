@@ -3,6 +3,7 @@ package com.ten.tencloud.model.netapi;
 import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
+import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
@@ -79,4 +80,7 @@ public interface TenAppApi {
     //生成ServiceYAML
     @POST("/api/service/generate")
     Observable<Response<JesResponse<String>>> generateServiceYAML(@Body RequestBody body);
+
+    @GET("/api/deployment/list")
+    Observable<Response<JesResponse<List<DeploymentBean>>>> getDeployList(@Query("app_id") int id, @Query("page") int page, @Query("page_num") int pageNum);
 }
