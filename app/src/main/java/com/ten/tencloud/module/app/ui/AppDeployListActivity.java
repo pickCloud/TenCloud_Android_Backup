@@ -25,7 +25,7 @@ import butterknife.OnClick;
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class AppDeploymentListActivity extends BaseActivity {
+public class AppDeployListActivity extends BaseActivity {
 
     @BindView(R.id.rl_filter)
     RelativeLayout mRlFilter;

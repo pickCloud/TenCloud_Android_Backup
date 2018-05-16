@@ -33,8 +33,6 @@ public class AppTaskListActivity extends BaseActivity {
     TextView mTvFilter;
     @BindView(R.id.rv_app)
     RecyclerView mRvApp;
-    @BindView(R.id.tv_add_app)
-    TextView mTvAddApp;
     @BindView(R.id.empty_view)
     FrameLayout mEmptyView;
 
@@ -87,21 +85,18 @@ public class AppTaskListActivity extends BaseActivity {
     private void initData() {
         ArrayList<TaskBean> mTaskBeans = new ArrayList<>();
         mTaskBeans = new ArrayList<>();
-        mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5","80%","2018-03-29  10:00:01","2018-03-29  10:00:11",0));
-        mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5","100%","2018-03-29  11:00:01","2018-03-29  11:00:11",1));
-        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5","XX%","2018-03-29  12:00:01","2018-03-29  12:00:11",2));
+        mTaskBeans.add(new TaskBean("构建镜像 - Djago v1.0.5", "80%", "2018-03-29  10:00:01", "2018-03-29  10:00:11", 0));
+        mTaskBeans.add(new TaskBean("kubernests部署 - Djago v1.0.5", "100%", "2018-03-29  11:00:01", "2018-03-29  11:00:11", 1));
+        mTaskBeans.add(new TaskBean("docker原生部署 - Djago v1.0.5", "XX%", "2018-03-29  12:00:01", "2018-03-29  12:00:11", 2));
         mTaskAdapter.setDatas(mTaskBeans);
     }
 
-    @OnClick({R.id.tv_filter, R.id.tv_add_app})
+    @OnClick({R.id.tv_filter})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_filter:
                 mAppFilterDialog = new AppFilterDialog(this);
                 mAppFilterDialog.show();
-                break;
-            case R.id.tv_add_app:
-                startActivityNoValue(this, AppAddActivity.class);
                 break;
         }
     }

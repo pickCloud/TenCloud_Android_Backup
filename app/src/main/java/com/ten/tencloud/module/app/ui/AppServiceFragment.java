@@ -184,7 +184,7 @@ public class AppServiceFragment extends BaseFragment implements AppServiceHomeCo
                 break;
             case R.id.tv_deploy_count:
             case R.id.tv_deployment_more:
-                startActivity(new Intent(mActivity, AppDeploymentListActivity.class));
+                startActivity(new Intent(mActivity, AppDeployListActivity.class));
                 break;
             case R.id.tv_service_count:
             case R.id.tv_service_more:
