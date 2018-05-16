@@ -213,7 +213,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
                 startActivity(new Intent(this, AppAddActivity.class).putExtra("id", mAppId));
                 break;
             case R.id.tv_deploy_more:
-                startActivityNoValue(this, AppDeploymentListActivity.class);
+                startActivityNoValue(this, AppDeployListActivity.class);
                 break;
             case R.id.tv_service_more:
                 startActivityNoValue(this, AppServiceListActivity.class);

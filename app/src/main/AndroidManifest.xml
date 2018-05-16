@@ -157,7 +157,7 @@
             android:name=".module.app.ui.AppServiceListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.AppDeploymentListActivity"
+            android:name=".module.app.ui.AppDeployListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.app.ui.AppImageListActivity"
