@@ -17,7 +17,7 @@ android {
 
 
     compileSdkVersion cfg.compileVersion
-    buildToolsVersion cfg.buildToolsVersion
+//    buildToolsVersion cfg.buildToolsVersion
     defaultConfig {
         applicationId "com.ten.tencloud"
         minSdkVersion cfg.minSdk
