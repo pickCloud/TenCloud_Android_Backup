@@ -81,8 +81,8 @@ dependencies {
     /**
      *      RxJava
      */
-    compile "io.reactivex:rxjava:${libs.rxjava}"
-    compile "io.reactivex:rxandroid:${libs.rxandroid}"
+    compile "io.reactivex.rxjava2:rxjava:${libs.rxjava}"
+    compile "io.reactivex.rxjava2:rxandroid:${libs.rxandroid}"
 
     /**
      *      retrofit2
@@ -148,6 +148,12 @@ dependencies {
     }
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
+
+    /**
+     * rec适配器
+     */
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:${libs.recyclerViewAdapterHelper}"
+
     implementation files('libs/pinyin4j-2.5.0.jar')
     implementation files('libs/snakeyaml-1.21.jar')
 }
