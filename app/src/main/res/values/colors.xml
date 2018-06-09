@@ -104,4 +104,6 @@
     <color name="dark_blue">#262a35</color>
     <color name="dark_blue_pressed">#1e222a</color>
 
+    <color name="line_color">#FF2F3543</color>
+
 </resources>

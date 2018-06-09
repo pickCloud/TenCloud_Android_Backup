@@ -68,18 +68,18 @@ public class AppTaskListActivity extends BaseActivity {
         mRvApp.setAdapter(mTaskAdapter);
 
         mAppFilterDialog = new AppFilterDialog(this);
-        mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
-            @Override
-            public void getFilterData() {
-
-            }
-
-            @Override
-            public void onOkClick(Map<String, Map<String, Boolean>> select) {
-
-            }
-
-        });
+//        mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
+//            @Override
+//            public void getFilterData() {
+//
+//            }
+//
+//            @Override
+//            public void onOkClick(Map<String, Map<String, Boolean>> select) {
+//
+//            }
+//
+//        });
     }
 
     private void initData() {

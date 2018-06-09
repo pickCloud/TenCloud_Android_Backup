@@ -3,6 +3,7 @@ package com.ten.tencloud.module.main.ui;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +12,8 @@ import com.ten.tencloud.base.adapter.CJSFragmentPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.model.AppBaseCache;
+import com.ten.tencloud.module.app.ui.AppAddActivity;
+import com.ten.tencloud.module.app.ui.AppDeployDetailsActivity;
 import com.ten.tencloud.module.app.ui.AppServiceFragment;
 import com.ten.tencloud.module.event.ui.EventHomeFragment;
 import com.ten.tencloud.module.image.ui.ImageHomeFragment;
@@ -79,7 +82,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 .setMarginTop(UiUtils.dip2px(this, 1))
                 .setTextSize(10)
                 .setSelected(0);
-        CJSFragmentPagerAdapter pagerAdapter = new CJSFragmentPagerAdapter(getFragmentManager(), titles);
+        CJSFragmentPagerAdapter pagerAdapter = new CJSFragmentPagerAdapter(getSupportFragmentManager(), titles);
         pagerAdapter.addFragment(new ServerHomeFragment());
         pagerAdapter.addFragment(new AppServiceFragment());
         pagerAdapter.addFragment(new EventHomeFragment());
@@ -92,6 +95,25 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             public void onPageSelected(int position) {
                 mNavLayout.setSelected(position);
                 changeTitle(titles[position]);
+                if (position == 1){
+                    initTitleBar(false, "应用列表", R.menu.menu_add_app, new OnMenuItemClickListener() {
+                        @Override
+                        public void onItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.menu_add_app:
+                                    startActivityNoValue(mContext, AppDeployDetailsActivity.class);
+                                    break;
+                            }
+                        }
+                    });
+                }else {
+                    initTitleBar(false, getResources().getString(R.string.nav_01), mMsgView, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivityNoValue(mContext, MsgActivity.class);
+                        }
+                    });
+                }
             }
         });
         mNavLayout.setOnItemSelectedListener(new NavLayout.OnItemSelectedListener() {
@@ -150,5 +172,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     protected void onDestroy() {
         super.onDestroy();
         mMainPresenter.detachView();
+
     }
 }

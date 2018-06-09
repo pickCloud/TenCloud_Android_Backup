@@ -17,11 +17,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.flexbox.FlexboxLayout;
 import com.ten.tencloud.R;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.utils.UiUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,8 @@ public class AppFilterDialog extends Dialog {
     private FlexboxLayout mFblLabel;
     private LinearLayout mLlStatus;
     private Button mBtnOk;
+    private List<ProviderBean> providerBeans = new ArrayList<>();
+    private ProviderBean selecBean;
 
     public AppFilterDialog(@NonNull Context context) {
         super(context, R.style.RightDialog);
@@ -53,8 +57,14 @@ public class AppFilterDialog extends Dialog {
         mBtnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (selecBean == null){
+                    mAppFilterListener.onOkClick(null);
+                    cancel();
+                    return;
+                }
                 if (mAppFilterListener != null) {
-                    mAppFilterListener.onOkClick(selects);
+                    mAppFilterListener.onOkClick(selecBean.getId());
+                    selecBean = null;
                 }
                 cancel();
             }
@@ -77,7 +87,7 @@ public class AppFilterDialog extends Dialog {
     public interface AppFilterListener {
         void getFilterData();
 
-        void onOkClick(Map<String, Map<String, Boolean>> select);
+        void onOkClick(Integer select);
     }
 
     private AppFilterListener mAppFilterListener;
@@ -92,11 +102,14 @@ public class AppFilterDialog extends Dialog {
      * @param providers
      */
     public void setData(List<ProviderBean> providers) {
+        mFblLabel.removeAllViews();
+
         for (ProviderBean provider : providers) {
             createProviderView(provider);
         }
+        providerBeans.clear();
+        providerBeans.addAll(providers);
     }
-
 
     /**
      * 动态创建服务商
@@ -109,21 +122,38 @@ public class AppFilterDialog extends Dialog {
         final ImageView ivStatus = view.findViewById(R.id.iv_status);
         final FrameLayout flItem = view.findViewById(R.id.fl_item);
         tvName.setText(provider.getProvider());
+        view.setTag(provider);
+        if (provider.isSelect()) {
+            ivStatus.setVisibility(View.VISIBLE);
+        } else {
+            ivStatus.setVisibility(View.GONE);
+
+        }
+        tvName.setSelected(provider.isSelect());
+        flItem.setSelected(provider.isSelect());
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                provider.setSelect(!provider.isSelect());
-                tvName.setSelected(provider.isSelect());
-                flItem.setSelected(provider.isSelect());
-                ivStatus.setVisibility(provider.isSelect() ? View.VISIBLE : View.INVISIBLE);
-                if (provider.isSelect()) {
-                    createAreaView(provider);
-                } else {
-                    removeAreaView(provider);
+                selecBean = provider;
+                provider.setSelect(true);
+                for (ProviderBean labelBean : providerBeans) {
+                    if (!labelBean.equals(provider)){
+                        labelBean.setSelect(false);
+                    }
                 }
+                checkLabeel();
+
             }
         });
         mFblLabel.addView(view);
+    }
+
+    private void checkLabeel() {
+        mFblLabel.removeAllViews();
+        for (ProviderBean labelBean : providerBeans) {
+            createProviderView(labelBean);
+        }
     }
 
     private void removeAreaView(ProviderBean provider) {

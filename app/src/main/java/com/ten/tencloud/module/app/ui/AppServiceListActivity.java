@@ -67,19 +67,19 @@ public class AppServiceListActivity extends BaseActivity {
         mServiceAdapter = new RvAppServiceAdapter(this);
         mRvApp.setAdapter(mServiceAdapter);
 
-        mAppFilterDialog = new AppFilterDialog(this);
-        mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
-            @Override
-            public void getFilterData() {
-
-            }
-
-            @Override
-            public void onOkClick(Map<String, Map<String, Boolean>> select) {
-
-            }
-
-        });
+//        mAppFilterDialog = new AppFilterDialog(this);
+//        mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
+//            @Override
+//            public void getFilterData() {
+//
+//            }
+//
+//            @Override
+//            public void onOkClick(Map<String, Map<String, Boolean>> select) {
+//
+//            }
+//
+//        });
     }
 
     private void initData() {

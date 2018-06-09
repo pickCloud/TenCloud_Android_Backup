@@ -29,9 +29,9 @@ public class AppListPresenter extends BasePresenter<AppListContract.View> implem
     }
 
     @Override
-    public void getAppListByPage(final boolean isLoadMore) {
+    public void getAppListByPage(final boolean isLoadMore, Integer label) {
         handleLoadMore(isLoadMore);
-        mSubscriptions.add(AppModel.getInstance().getAppListByPage(page, page_num)
+        mSubscriptions.add(AppModel.getInstance().getAppListByPage(page, page_num, label)
                 .subscribe(new JesSubscribe<List<AppBean>>(mView) {
                     @Override
                     public void _onSuccess(List<AppBean> appBeans) {

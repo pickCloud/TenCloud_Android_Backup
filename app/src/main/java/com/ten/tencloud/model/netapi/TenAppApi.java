@@ -43,7 +43,7 @@ public interface TenAppApi {
 
     //应用列表，分页
     @GET("/api/application")
-    Observable<Response<JesResponse<List<AppBean>>>> getAppListByPage(@Query("page") int page, @Query("page_num") int page_num);
+    Observable<Response<JesResponse<List<AppBean>>>> getAppListByPage(@Query("page") int page, @Query("page_num") int page_num, @Query("label") Integer label);
 
     //指定应用
     @GET("/api/application")
@@ -65,7 +65,7 @@ public interface TenAppApi {
     @GET("/api/label/list")
     Observable<Response<JesResponse<TreeSet<LabelBean>>>> getLabelList(@Query("type") int type);
 
-    //镜像列表
+    //镜像部署列表
     @GET("/api/image")
     Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("app_id") String appId);
 

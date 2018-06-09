@@ -15,6 +15,16 @@ public class ProviderBean {
      */
 
     private String provider;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private boolean isSelect;
     private List<String> regions;
 

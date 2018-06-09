@@ -94,9 +94,9 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<AppBean>> getAppListByPage(int page, int page_num) {
+    public Observable<List<AppBean>> getAppListByPage(int page, int page_num, Integer label) {
         return TenApp.getRetrofitClient().getTenAppApi()
-                .getAppListByPage(page, page_num)
+                .getAppListByPage(page, page_num, label)
                 .map(new HttpResultFunc<List<AppBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

@@ -3,14 +3,18 @@ package com.ten.tencloud.module.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.module.app.contract.AppK8sDeployContract;
 import com.ten.tencloud.module.app.presenter.AppK8sDeployPresenter;
+import com.ten.tencloud.module.server.ui.ServerClusterListActivity;
 
 import butterknife.BindView;
 
@@ -18,10 +22,14 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
 
     @BindView(R.id.et_name)
     EditText mEtName;
+    @BindView(R.id.tv_cluster)
+    TextView mTvCluster;
 
     private AppBean mAppBean;
     private AppK8sDeployPresenter mPresenter;
     private String mName;
+    public static final int REQUEST_CODE_SELECT_NODE = 1000;
+    private int mMasterServerId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +41,19 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
                 next();
             }
         });
+
         mAppBean = getIntent().getParcelableExtra("appBean");
         mPresenter = new AppK8sDeployPresenter();
         mPresenter.attachView(this);
+
+        findViewById(R.id.ll_select_node).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ServerClusterListActivity.class);
+                intent.putExtra("select", true);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_NODE);
+            }
+        });
     }
 
     private void next() {
@@ -44,6 +62,11 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
             showMessage("名称不能为空");
             return;
         }
+        if (mMasterServerId == -1) {
+            showMessage("请选择集群");
+            return;
+        }
+
         mPresenter.checkDeployName(mName, mAppBean.getId());
     }
 
@@ -52,11 +75,24 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
         Intent intent = new Intent(mContext, AppK8sRegularDeployStep2Activity.class);
         intent.putExtra("name", mName);
         intent.putExtra("appBean", mAppBean);
+        intent.putExtra("masterServerId", mMasterServerId);
         startActivity(intent);
     }
 
     @Override
     public void showYAML(String yaml) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Constants.ACTIVITY_RESULT_CODE_FINISH) {
+            if (requestCode == REQUEST_CODE_SELECT_NODE) {
+                mMasterServerId = data.getIntExtra("master_server_id", -1);
+                String clusterName = data.getStringExtra("clusterName");
+                mTvCluster.setText(clusterName);
+            }
+        }
 
     }
 }

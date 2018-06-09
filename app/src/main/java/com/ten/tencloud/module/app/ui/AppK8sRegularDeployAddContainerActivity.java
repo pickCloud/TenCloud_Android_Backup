@@ -63,10 +63,11 @@ public class AppK8sRegularDeployAddContainerActivity extends BaseActivity {
 
     private void initView() {
         UiUtils.addTransitionAnim(mLlLayout);//添加动效
+        createLayoutView();
+
     }
 
     private void initData() {
-
     }
 
     private void createLayoutView() {

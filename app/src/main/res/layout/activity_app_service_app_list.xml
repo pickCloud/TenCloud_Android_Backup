@@ -6,11 +6,21 @@
     android:background="@color/default_bg"
     android:orientation="vertical">
 
+
     <RelativeLayout
         android:id="@+id/rl_filter"
         android:layout_width="match_parent"
         android:layout_height="41dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:text="主应用列表"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="12sp" />
         <TextView
             android:id="@+id/tv_filter"
             android:layout_width="wrap_content"

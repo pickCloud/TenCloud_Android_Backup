@@ -58,10 +58,11 @@
                 style="@style/ListItemTextKey"
                 android:text="协议" />
 
-            <EditText
-                android:id="@+id/et_protocol"
+            <TextView
+                android:id="@+id/tv_protocol"
+                android:drawableRight="@mipmap/icon_arrow_right"
                 style="@style/ListItemEditValue"
-                android:hint="请输入协议" />
+                android:hint="请选择协议" />
 
         </LinearLayout>
 

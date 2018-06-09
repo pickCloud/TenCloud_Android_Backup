@@ -217,6 +217,12 @@
         <activity android:name=".module.app.ui.APPServiceCreateStep3Activity" />
         <activity android:name=".module.app.ui.APPServiceCreateAddPortActivity" />
         <activity android:name=".module.app.ui.APPServiceCreateStep4Activity"></activity>
+
+
+        <activity
+            android:name=".module.app.ui.AppDeployDetailsActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

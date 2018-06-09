@@ -21,7 +21,7 @@ public class WelcomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_welcome);
         hideToolBar();
-        CJSFragmentPagerAdapter adapter = new CJSFragmentPagerAdapter(getFragmentManager(), titles);
+        CJSFragmentPagerAdapter adapter = new CJSFragmentPagerAdapter(getSupportFragmentManager(), titles);
         adapter.addFragment(new WelcomeFragment().putArgument("page", 0));
         adapter.addFragment(new WelcomeFragment().putArgument("page", 1));
         adapter.addFragment(new WelcomeFragment().putArgument("page", 2));

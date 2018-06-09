@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ObjectUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
@@ -18,19 +23,28 @@ import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
 import com.ten.tencloud.bean.DeploymentBean;
+import com.ten.tencloud.bean.LabelBean;
+import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceAdapter;
+import com.ten.tencloud.module.app.contract.AppLabelSelectContract;
+import com.ten.tencloud.module.app.contract.AppListContract;
 import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
+import com.ten.tencloud.module.app.presenter.AppLabelSelectPresenter;
+import com.ten.tencloud.module.app.presenter.AppListPresenter;
 import com.ten.tencloud.module.app.presenter.AppServiceHomePresenter;
 import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
 import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
+import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,195 +52,182 @@ import butterknife.OnClick;
 /**
  * Created by chenxh@10.com on 2018/3/26.
  */
-public class AppServiceFragment extends BaseFragment implements AppServiceHomeContract.View {
+public class AppServiceFragment extends BaseFragment implements AppListContract.View, AppLabelSelectContract.View {
 
-    @BindView(R.id.tv_hot_app_more)
-    TextView mTvHotAppMore;
-    @BindView(R.id.rv_hot_app)
-    RecyclerView mRvHotApp;
-    @BindView(R.id.tv_add_app)
-    TextView mTvAddServer;
-    @BindView(R.id.app_empty_view)
-    FrameLayout mAppEmptyView;
-    @BindView(R.id.tv_deployment_more)
-    TextView mTvNewestDeploymentMore;
-    @BindView(R.id.rv_newest_deployment)
-    RecyclerView mRvNewestDeployment;
-    @BindView(R.id.tv_service_more)
-    TextView mTvNewestServiceMore;
-    @BindView(R.id.rv_service)
-    RecyclerView mRvNewestService;
-    @BindView(R.id.deployment_empty_view)
-    FrameLayout mDeploymentEmptyView;
-    @BindView(R.id.service_empty_view)
-    FrameLayout mServiceEmptyView;
-    @BindView(R.id.tv_app_count)
-    TextView mTvAppCount;
-    @BindView(R.id.tv_deploy_count)
-    TextView mTvDeployCount;
-    @BindView(R.id.tv_service_count)
-    TextView mTvServiceCount;
+    @BindView(R.id.tv_filter)
+    TextView mTvFilter;
+    @BindView(R.id.rv_app)
+    RecyclerView mRvApp;
+    @BindView(R.id.empty_view)
+    FrameLayout mEmptyView;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout mRefresh;
 
-
+    private RefreshBroadCastHandler mAppHandler;
+    private ArrayList<LabelBean> mLabelBeans;
     private RvAppAdapter mAppAdapter;
-    private RvAppServiceDeploymentAdapter mDeploymentAdapter;
-    private RvAppServiceAdapter mServiceAdapter;
-    private AppServiceHomePresenter mAppServiceHomePresenter;
-    private RefreshBroadCastHandler mRefreshBroadCastHandler;
-    private RefreshBroadCastHandler mSwitchCompanyHandler;
-    private RefreshBroadCastHandler mPermissionRefreshHandler;
+
+    private AppFilterDialog mAppFilterDialog;
+    private AppListPresenter mAppListPresenter;
+    private AppLabelSelectPresenter mAppLabelSelectPresenter;
+    private Integer label = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = createView(inflater, container, R.layout.fragment_app_service);
+        View view = createView(inflater, container, R.layout.activity_app_service_app_list);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        OnRefreshListener onRefreshListener = new OnRefreshListener() {
+        mAppListPresenter = new AppListPresenter();
+        mAppListPresenter.attachView(this);
+
+        mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
+        mAppHandler.registerReceiver(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initData();
+                mAppListPresenter.getAppListByPage(false, label);
             }
-        };
+        });
 
-        mPermissionRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.PERMISSION_REFRESH_ACTION);
-        mPermissionRefreshHandler.registerReceiver(onRefreshListener);
-        mRefreshBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
-        mRefreshBroadCastHandler.registerReceiver(onRefreshListener);
-        mSwitchCompanyHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.SWITCH_COMPANY_REFRESH_ACTION);
-        mSwitchCompanyHandler.registerReceiver(onRefreshListener);
+        mAppLabelSelectPresenter = new AppLabelSelectPresenter();
+        mAppLabelSelectPresenter.attachView(this);
 
-        mAppServiceHomePresenter = new AppServiceHomePresenter();
-        mAppServiceHomePresenter.attachView(this);
-
-        initViewApp();
-        initViewDeployment();
-        initViewService();
-        initData();
+        initView();
 
     }
 
-    private void initViewApp() {
-        mRvHotApp.setLayoutManager(new LinearLayoutManager(mActivity) {
+    private void initView() {
+        mRefresh.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
             @Override
-            public boolean canScrollVertically() {
-                return false;
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mAppListPresenter.getAppListByPage(false, label);
+            }
+
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                mAppListPresenter.getAppListByPage(true, label);
+
             }
         });
-        mAppAdapter = new RvAppAdapter(mActivity);
-        mRvHotApp.setAdapter(mAppAdapter);
+        mRefresh.autoRefresh();
+
+        mRvApp.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAppAdapter = new RvAppAdapter(getActivity());
         mAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
             @Override
             public void onObjectItemClicked(AppBean appBean, int position) {
-                startActivity(new Intent(mActivity, AppDetailActivity.class).putExtra("id", appBean.getId()));
+                startActivity(new Intent(getActivity(), AppDetailActivity.class).putExtra("id", appBean.getId()));
             }
         });
-    }
+        mRvApp.setAdapter(mAppAdapter);
 
-    private void initViewDeployment() {
-        mRvNewestDeployment.addItemDecoration(new Hor16Ver8ItemDecoration());
-        mRvNewestDeployment.setLayoutManager(new LinearLayoutManager(mActivity) {
+        mAppFilterDialog = new AppFilterDialog(getActivity());
+        mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
             @Override
-            public boolean canScrollVertically() {
-                return false;
+            public void getFilterData() {
+
             }
-        });
-        mDeploymentAdapter = new RvAppServiceDeploymentAdapter(mActivity);
-        mRvNewestDeployment.setAdapter(mDeploymentAdapter);
 
-        ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
-        pods.add(new DeploymentBean.Pod("预设Pod", 1));
-        pods.add(new DeploymentBean.Pod("当前Pod", 1));
-        pods.add(new DeploymentBean.Pod("更新Pod", 1));
-        pods.add(new DeploymentBean.Pod("可用Pod", 1));
-        pods.add(new DeploymentBean.Pod("运行时间", 8));
-        ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
-        deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-02-15  18:15:12", "AIUnicorn"));
-        mDeploymentAdapter.setDatas(deploymentBeans);
-    }
-
-    private void initViewService() {
-        mRvNewestService.setLayoutManager(new LinearLayoutManager(mActivity) {
             @Override
-            public boolean canScrollVertically() {
-                return false;
+            public void onOkClick(Integer id) {
+                label = id;
+                mRefresh.autoRefresh();
+
             }
+
         });
-        mRvNewestService.addItemDecoration(new ServiceItemDecoration());
-        mServiceAdapter = new RvAppServiceAdapter(mActivity);
-        mRvNewestService.setAdapter(mServiceAdapter);
-
-        ArrayList<ServiceBean> serviceBeans = new ArrayList<>();
-        serviceBeans.add(new ServiceBean("service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
-        mServiceAdapter.setDatas(serviceBeans);
     }
 
-    private void initData() {
-        KLog.e("====>");
-        mAppServiceHomePresenter.getAppBrief();
-        mAppServiceHomePresenter.getAppList();
-    }
-
-    @OnClick({R.id.tv_add_app, R.id.tv_hot_app_more, R.id.tv_deployment_more,
-            R.id.tv_service_more, R.id.tv_app_count, R.id.tv_deploy_count, R.id.tv_service_count})
+    @OnClick({R.id.tv_filter, R.id.empty_view})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_add_app:
-                startActivity(new Intent(mActivity, AppAddActivity.class));
+            case R.id.tv_filter:
+                if (ObjectUtils.isEmpty(mLabelBeans)){
+                    mAppLabelSelectPresenter.getLabelList(1);
+
+                }
+                else {
+                    List<ProviderBean> providerBeans = new ArrayList<>();
+                    for (LabelBean labelBean:mLabelBeans){
+                        ProviderBean bean = new ProviderBean();
+                        bean.setProvider(labelBean.getName());
+                        bean.setId(labelBean.getId());
+                        providerBeans.add(bean);
+                    }
+                    mAppFilterDialog.show();
+                    mAppFilterDialog.setData(providerBeans);
+                }
+
                 break;
-            case R.id.tv_app_count:
-            case R.id.tv_hot_app_more:
-                startActivity(new Intent(mActivity, AppListActivity.class));
-                break;
-            case R.id.tv_deploy_count:
-            case R.id.tv_deployment_more:
-                startActivity(new Intent(mActivity, AppDeployListActivity.class));
-                break;
-            case R.id.tv_service_count:
-            case R.id.tv_service_more:
-                startActivity(new Intent(mActivity, AppServiceListActivity.class));
+            case R.id.empty_view:
+                ActivityUtils.startActivity(AppAddActivity.class);
                 break;
         }
     }
 
     @Override
-    public void showEmptyView(int type) {
-        if (type == AppServiceHomeContract.APP_EMPTY_VIEW) {
-            mAppEmptyView.setVisibility(View.VISIBLE);
-            mRvHotApp.setVisibility(View.GONE);
-        } else if (type == AppServiceHomeContract.DEPLOY_EMPTY_VIEW) {
-            mDeploymentEmptyView.setVisibility(View.VISIBLE);
-            mRvNewestDeployment.setVisibility(View.GONE);
+    public void showEmpty(boolean isLoadMore) {
+        if (isLoadMore) {
+            showMessage("暂无更多数据");
+            mRefresh.finishLoadmore();
         } else {
-            mServiceEmptyView.setVisibility(View.VISIBLE);
-            mRvNewestService.setVisibility(View.GONE);
+            mAppAdapter.clear();
+            mRefresh.finishRefresh();
+            mEmptyView.setVisibility(View.VISIBLE);
+            mRvApp.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void showAppBfief(AppBrief appBrief) {
-        mTvAppCount.setText(String.valueOf(appBrief.getApp_num()));
-        mTvDeployCount.setText(String.valueOf(appBrief.getDeploy_num()));
-        mTvServiceCount.setText(String.valueOf(appBrief.getService_num()));
-    }
-
-    @Override
-    public void showAppList(List<AppBean> appBeanList) {
-        mAppEmptyView.setVisibility(View.GONE);
-        mAppAdapter.setDatas(appBeanList);
+    public void showAppList(List<AppBean> msg, boolean isLoadMore) {
+        mEmptyView.setVisibility(View.GONE);
+        mRvApp.setVisibility(View.VISIBLE);
+        if (isLoadMore) {
+            mAppAdapter.addData(msg);
+            mRefresh.finishLoadmore();
+        } else {
+            mAppAdapter.setDatas(msg);
+            mRefresh.finishRefresh();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mAppServiceHomePresenter.detachView();
-        mSwitchCompanyHandler.unregisterReceiver();
-        mSwitchCompanyHandler = null;
-        mRefreshBroadCastHandler.unregisterReceiver();
-        mRefreshBroadCastHandler = null;
+        mAppHandler.unregisterReceiver();
+        mAppHandler = null;
+        mAppListPresenter.detachView();
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void showEmpty() {
+
+    }
+
+    @Override
+    public void showLabelList(TreeSet<LabelBean> labelBeans) {
+        List<ProviderBean> providerBeans = new ArrayList<>();
+        for (LabelBean labelBean:labelBeans){
+            ProviderBean bean = new ProviderBean();
+            bean.setProvider(labelBean.getName());
+            bean.setId(labelBean.getId());
+            providerBeans.add(bean);
+        }
+        mAppFilterDialog.show();
+        mAppFilterDialog.setData(providerBeans);
+    }
+
+    @Override
+    public void labelAddResult(LabelBean bean) {
+
     }
 }

@@ -8,9 +8,19 @@
     android:orientation="vertical"
     tools:context="com.ten.tencloud.module.app.ui.AppK8sRegularDeployStep1Activity">
 
-    <LinearLayout style="@style/ListItemLLFirst">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout style="@style/ListItemLL2">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/bg_232730"
+            android:gravity="center_vertical"
+
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/sp_16">
 
             <TextView
                 style="@style/ListItemTextKey"
@@ -23,6 +33,37 @@
 
         </LinearLayout>
 
+        <View style="@style/LineHorizontal2f3543" />
+
+        <LinearLayout
+            android:id="@+id/ll_select_node"
+            style="@style/ListItemLLFirst">
+
+            <LinearLayout style="@style/ListItemLL2">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:layout_width="wrap_content"
+                    android:text="选择集群" />
+
+                <TextView
+                    android:id="@+id/tv_cluster"
+                    style="@style/ListItemEditValue"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:hint="去选择" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/icon_arrow_right" />
+
+            </LinearLayout>
+
+            <View style="@style/LineHorizontal2f3543" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <View style="@style/LineHorizontal2f3543" />

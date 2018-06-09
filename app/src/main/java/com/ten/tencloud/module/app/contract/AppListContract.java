@@ -24,7 +24,7 @@ public class AppListContract {
 
         void getAppList();
 
-        void getAppListByPage(boolean isLoadMore);
+        void getAppListByPage(boolean isLoadMore, Integer label);
 
     }
 }

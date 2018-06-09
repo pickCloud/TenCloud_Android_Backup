@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.blankj.utilcode.util.Utils;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
@@ -90,7 +91,7 @@ public class TenApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         //bugly
-        CrashReport.initCrashReport(getApplicationContext(), "0537c3965d", BuildConfig.DEBUG);
+        CrashReport.initCrashReport(getApplicationContext(), "08a478d515", false);
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
@@ -105,6 +106,9 @@ public class TenApp extends MultiDexApplication {
 
         //日志打印
         KLog.init(BuildConfig.DEBUG, Constants.PROJECT_NAME);
+
+        Utils.init(this);
+
     }
 
     /**

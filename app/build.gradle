@@ -53,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -156,4 +156,7 @@ dependencies {
 
     implementation files('libs/pinyin4j-2.5.0.jar')
     implementation files('libs/snakeyaml-1.21.jar')
+
+    implementation 'com.blankj:utilcode:1.16.4'
+
 }
