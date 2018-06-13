@@ -4,18 +4,21 @@ import com.ten.tencloud.base.presenter.IBasePresenter;
 import com.ten.tencloud.base.view.IBaseView;
 import com.ten.tencloud.bean.DeploymentBean;
 
+import java.util.List;
+
 /**
  * Create by chenxh@10.com on 2018/4/3.
  */
-public interface AppDeployListContract {
+public class AppDeployListContract {
 
-    interface View extends IBaseView {
+    public interface View extends IBaseView {
+        void showEmpty();
 
-        void showList(DeploymentBean data);
+        void showList(List<DeploymentBean> data);
     }
 
-    interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
+   public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
 
-        void getDeployList(int id, int page);
+        void getDeployList(Integer app_id, Integer status, Integer deployment_id, Integer show_yaml, Integer show_log, Integer id, int page);
     }
 }

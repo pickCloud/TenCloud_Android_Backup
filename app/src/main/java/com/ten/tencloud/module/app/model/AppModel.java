@@ -6,9 +6,11 @@ import com.ten.tencloud.bean.AppBrief;
 import com.ten.tencloud.bean.AppContainerBean;
 import com.ten.tencloud.bean.AppServiceYAMLBean;
 import com.ten.tencloud.bean.DeploymentBean;
+import com.ten.tencloud.bean.DeploymentInfoBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
+import com.ten.tencloud.bean.ServiceBriefBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
@@ -102,6 +104,14 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<List<ServiceBriefBean>> getAppServiceBriefById(int app_id) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getAppServiceBriefById(app_id)
+                .map(new HttpResultFunc<List<ServiceBriefBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public Observable<List<AppBean>> getAppById(int id) {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getAppById(id)
@@ -187,10 +197,44 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<DeploymentBean>> getDeployList(int id, int page) {
+    public Observable<List<DeploymentBean>> getDeployList(Integer app_id, Integer status, Integer deployment_id, Integer show_yaml, Integer show_log, int page) {
         return TenApp.getRetrofitClient().getTenAppApi()
-                .getDeployList(id, page, 20)
+                .getDeployList(app_id, status, deployment_id, show_yaml, show_log, page, 20)
                 .map(new HttpResultFunc<List<DeploymentBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<DeploymentInfoBean>> deploymentPods(Integer app_id, Integer show_verbose) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .deploymentPods(app_id, show_verbose)
+                .map(new HttpResultFunc<List<DeploymentInfoBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<DeploymentInfoBean>> deploymentReplicas(Integer app_id, Integer show_verbose) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .deploymentReplicas(app_id, show_verbose)
+                .map(new HttpResultFunc<List<DeploymentInfoBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //子应用列表
+    public Observable<List<AppBean>> getAppSubApplicationList(int master_app) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getAppSubApplicationList(master_app)
+                .map(new HttpResultFunc<List<AppBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //指定子应用
+    public Observable<List<AppBean>> getAppSubApplicationById(int master_app, int id) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getAppSubApplicationById(master_app, id)
+                .map(new HttpResultFunc<List<AppBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

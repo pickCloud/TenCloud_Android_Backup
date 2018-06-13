@@ -22,6 +22,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.LabelBean;
+import com.ten.tencloud.bean.ServiceBriefBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.listener.DialogListener;
@@ -402,6 +403,11 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
             mFlexboxLayout.setVisibility(View.VISIBLE);
             createLabelView(mLabelBeans);
         }
+    }
+
+    @Override
+    public void showServiceBriefDetails(ServiceBriefBean serverBatchBean) {
+
     }
 
     @Override

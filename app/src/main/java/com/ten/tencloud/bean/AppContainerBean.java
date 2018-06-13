@@ -20,6 +20,8 @@ public class AppContainerBean implements Parcelable {
     private String image_name;
     private List<Port> ports;
 
+    public List<AppContainerBean> containers;
+
     public int getApp_id() {
         return app_id;
     }

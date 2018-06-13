@@ -59,8 +59,7 @@
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_name"
         app:layout_constraintLeft_toRightOf="@id/tv_name"
-        app:layout_constraintTop_toTopOf="@id/tv_name"
-        tools:text="正常" />
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
 
 
     <ImageView

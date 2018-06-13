@@ -4,6 +4,7 @@ import com.ten.tencloud.base.presenter.IBasePresenter;
 import com.ten.tencloud.base.view.IBaseView;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.MessageBean;
+import com.ten.tencloud.bean.ServiceBriefBean;
 
 import java.util.List;
 

@@ -220,7 +220,18 @@
 
 
         <activity
+            android:name=".module.app.ui.MainPageToolBoxActivity"
+            android:theme="@style/AppTheme.NoAction.NotAnimation" />
+
+        <activity
+            android:name=".module.app.ui.DeployDetailsToolBoxActivity"
+            android:theme="@style/AppTheme.NoAction.NotAnimation" />
+
+        <activity
             android:name=".module.app.ui.AppDeployDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppMainPageDetailsActivity"
             android:screenOrientation="portrait" />
 
     </application>

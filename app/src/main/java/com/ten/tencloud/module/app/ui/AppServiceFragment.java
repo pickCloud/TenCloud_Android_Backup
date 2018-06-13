@@ -120,7 +120,8 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
         mAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
             @Override
             public void onObjectItemClicked(AppBean appBean, int position) {
-                startActivity(new Intent(getActivity(), AppDetailActivity.class).putExtra("id", appBean.getId()));
+//                startActivity(new Intent(getActivity(), AppDetailActivity.class).putExtra("id", appBean.getId()));
+                startActivity(new Intent(getActivity(), AppMainPageDetailsActivity.class).putExtra("id", appBean.getId()));
             }
         });
         mRvApp.setAdapter(mAppAdapter);

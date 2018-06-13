@@ -22,6 +22,7 @@ import com.ten.tencloud.utils.UiUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -58,7 +59,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
     //保存View
     private SparseArray<View> views = new SparseArray<>();
 
-    private AppContainerBean mContainerBean;
+    private AppContainerBean mContainerBean = new AppContainerBean();
     private AppK8sDeployPresenter mAppK8sDeployPresenter;
 
     @Override
@@ -70,7 +71,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
         initTitleBar(true, "kubernetes常规部署", "下一步", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mContainerBean == null) {
+                if (mContainerBean == null || datas.size() == 0) {
                     showMessage("请添加容器");
                     return;
                 }
@@ -90,6 +91,12 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
                     }
                     mContainerBean.setPod_label(map);
                 }
+                List<AppContainerBean> containerBeans = new ArrayList<>();
+                for (int i = 1000; i < initKey; i++) {
+                    AppContainerBean appContainerBean = datas.get(i);
+                    containerBeans.add(appContainerBean);
+                }
+                mContainerBean.containers = containerBeans;
                 mAppK8sDeployPresenter.generateYAML(mContainerBean);
             }
         });
@@ -106,9 +113,9 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_add_container: {
-                Intent intent = new Intent(this, AppK8sRegularDeployAddContainerActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_ADD_CONTAINER);
-//                createLayoutView();
+//                Intent intent = new Intent(this, AppK8sRegularDeployAddContainerActivity.class);
+//                startActivityForResult(intent, REQUEST_CODE_ADD_CONTAINER);
+                createLayoutView();
 
                 break;
             }
@@ -170,13 +177,14 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
 //                String clusterName = data.getStringExtra("clusterName");
 //                mTvCluster.setText(clusterName);
 //            }
-//            else if (requestCode == REQUEST_CODE_ADD_CONTAINER) {
-////                mContainerBean = data.getParcelableExtra("container");
-////                if (mContainerBean != null) {
-////                    mTvContainer.setText(mContainerBean.getContainer_name());
-////                }
-//            }
-//
+//            else
+ if (requestCode == REQUEST_CODE_ADD_CONTAINER) {
+                mContainerBean = data.getParcelableExtra("container");
+                if (mContainerBean != null) {
+//                    mTvContainer.setText(mContainerBean.getContainer_name());
+                }
+            }
+
 //        }
         if (resultCode == AppIncludeImageActivity.RESULT_CODE_ADD_CONTAINER) {
             View view = views.get(requestCode);

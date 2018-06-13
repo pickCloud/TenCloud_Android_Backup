@@ -71,14 +71,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="kubernetes"
-                    android:textColor="@color/selector_text_566278"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
                     android:text="常规部署"
                     android:textColor="@color/selector_text_566278"
                     android:textSize="10sp" />
@@ -101,14 +94,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="kubernetes"
-                    android:textColor="@color/selector_text_566278"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
                     android:text="蓝绿部署"
                     android:textColor="@color/selector_text_566278"
                     android:textSize="10sp" />
@@ -141,14 +127,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="kubernetes"
-                    android:textColor="@color/selector_text_566278"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
                     android:text="灰度部署"
                     android:textColor="@color/selector_text_566278"
                     android:textSize="10sp" />
@@ -166,84 +145,13 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/selector_app_tool03" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="Docker"
-                    android:textColor="@color/selector_text_566278"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="原生部署"
-                    android:textColor="@color/selector_text_566278"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/btn_tool6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/selector_app_tool04" />
-
+                    android:src="@mipmap/ic_delete" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="构建服务"
-                    android:textColor="@color/selector_text_566278"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <LinearLayout
-                android:id="@+id/btn_tool7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/selector_app_tool05" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="创建"
-                    android:textColor="@color/selector_text_566278"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="kubernetes集群"
+                    android:text="删除应用"
                     android:textColor="@color/selector_text_566278"
                     android:textSize="10sp" />
 

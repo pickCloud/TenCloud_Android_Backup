@@ -4,9 +4,11 @@ import com.ten.tencloud.base.bean.JesResponse;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
 import com.ten.tencloud.bean.DeploymentBean;
+import com.ten.tencloud.bean.DeploymentInfoBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
+import com.ten.tencloud.bean.ServiceBriefBean;
 
 import java.util.List;
 import java.util.Map;
@@ -25,9 +27,14 @@ import rx.Observable;
  */
 public interface TenAppApi {
 
-    //应用概述信息
+    //应用信息
     @GET("/api/application/brief")
     Observable<Response<JesResponse<AppBrief>>> getAppBrief();
+
+    //应用信息
+    @GET("/api/application/brief")
+    Observable<Response<JesResponse<AppBrief>>> getAppBrief(@Query("id") Integer id, @Query("master_app") Integer master_app,
+                                                            @Query("page") Integer page, @Query("page_num") Integer page_num, @Query("label") Integer label);
 
     //添加应用
     @POST("/api/application/new")
@@ -38,16 +45,28 @@ public interface TenAppApi {
     Observable<Response<JesResponse<Object>>> updateApp(@Body RequestBody body);
 
     //应用列表，获取所有
-    @GET("/api/application")
+    @GET("/api/application/brief")
     Observable<Response<JesResponse<List<AppBean>>>> getAppList();
 
     //应用列表，分页
-    @GET("/api/application")
+    @GET("/api/application/brief")
     Observable<Response<JesResponse<List<AppBean>>>> getAppListByPage(@Query("page") int page, @Query("page_num") int page_num, @Query("label") Integer label);
 
     //指定应用
-    @GET("/api/application")
+    @GET("/api/application/brief")
     Observable<Response<JesResponse<List<AppBean>>>> getAppById(@Query("id") int id);
+
+    //服务概况
+    @GET("/api/service/brief")
+    Observable<Response<JesResponse<List<ServiceBriefBean>>>> getAppServiceBriefById(@Query("app_id") int app_id);
+
+    //获取所有子应用
+    @GET("/api/sub_application/brief")
+    Observable<Response<JesResponse<List<AppBean>>>> getAppSubApplicationList(@Query("master_app") int master_app);
+
+    //获取指定子应用
+    @GET("/api/sub_application/brief")
+    Observable<Response<JesResponse<List<AppBean>>>> getAppSubApplicationById(@Query("master_app") int master_app, @Query("id") int id);
 
     //获取仓库列表
     @POST("/api/repos")
@@ -82,5 +101,15 @@ public interface TenAppApi {
     Observable<Response<JesResponse<String>>> generateServiceYAML(@Body RequestBody body);
 
     @GET("/api/deployment/list")
-    Observable<Response<JesResponse<List<DeploymentBean>>>> getDeployList(@Query("app_id") int id, @Query("page") int page, @Query("page_num") int pageNum);
+    Observable<Response<JesResponse<List<DeploymentBean>>>> getDeployList(@Query("app_id") Integer id, @Query("status") Integer status, @Query("deployment_id") Integer deployment_id,
+                                                                          @Query("show_yaml") Integer show_yaml, @Query("show_log") Integer show_log, @Query("page") int page, @Query("page_num") int pageNum);
+    //部署的Pod信息
+    @GET("/api/deployment/pods")
+    Observable<Response<JesResponse<List<DeploymentInfoBean>>>> deploymentPods(@Query("deployment_id") int deployment_id, @Query("show_verbose") Integer show_verbose);
+
+    //部署的ReplicasSet信息
+    @GET("/api/deployment/replicas")
+    Observable<Response<JesResponse<List<DeploymentInfoBean>>>> deploymentReplicas(@Query("deployment_id") int deployment_id, @Query("show_verbose") Integer show_verbose);
+
 }
+

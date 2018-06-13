@@ -2,6 +2,7 @@ package com.ten.tencloud.module.app.presenter;
 
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.bean.ServiceBriefBean;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.app.contract.AppListContract;
 import com.ten.tencloud.module.app.model.AppModel;

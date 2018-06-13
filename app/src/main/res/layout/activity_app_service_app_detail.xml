@@ -27,21 +27,40 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/to_zxbs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="资源"
+                    android:text="最新部署"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/text_color_899ab6"
                     android:textSize="12sp" />
 
-
                 <TextView
-                    android:id="@+id/tv_check_time"
+                    android:id="@+id/tv_status_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:text="检测时间：2018-3-26  10:10:10"
-                    android:textColor="@color/text_color_566278"
-                    android:textSize="10sp" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/to_zxbs"
+                    android:drawableLeft="@mipmap/icon_detail_blue"
+                    android:drawablePadding="@dimen/dp_4"
+                    android:gravity="center"
+                    android:text="状态说明"
+                    android:textColor="#FF48BBC0"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_deploy_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableEnd="@mipmap/icon_more"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:text="历史部署"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
+
+
 
             </RelativeLayout>
 
@@ -55,86 +74,12 @@
                 app:cardCornerRadius="2dp"
                 app:cardPreventCornerOverlap="true">
 
-                <LinearLayout
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_app_detail_deployment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content" />
 
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:background="@color/bg_2f3543"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="部署"
-                            android:textColor="@color/text_color_566278"
-                            android:textSize="12sp" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tv_deploy_more"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:drawableEnd="@mipmap/icon_more"
-                            android:gravity="center"
-                            android:text="更多"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_app_detail_deployment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:background="@color/bg_2f3543"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="服务"
-                            android:textColor="@color/text_color_566278"
-                            android:textSize="12sp" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tv_service_more"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:drawableEnd="@mipmap/icon_more"
-                            android:gravity="center"
-                            android:text="更多"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_app_detail_service"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -223,27 +168,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-8dp" />
 
-
         </LinearLayout>
 
     </com.ten.tencloud.widget.TenForbidAutoScrollView>
 
-
-    <Button
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="right|bottom"
-        android:layout_marginBottom="96dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="right|center"
         android:layout_marginRight="16dp"
-        android:background="@drawable/selector_question" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btn_toolbox"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="right|bottom"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/selector_toolbox" />
+        <Button
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/selector_question" />
+
+        <Button
+            android:id="@+id/btn_toolbox"
+            android:layout_width="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_height="48dp"
+            android:background="@drawable/selector_toolbox" />
+
+    </LinearLayout>
 
 </FrameLayout>

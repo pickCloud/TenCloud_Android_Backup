@@ -33,7 +33,7 @@ public class AppToolBoxActivity extends BaseActivity {
     }
 
     @OnClick({R.id.btn_tool1, R.id.btn_tool2, R.id.btn_tool3, R.id.btn_tool4,
-            R.id.btn_tool5, R.id.btn_tool6, R.id.btn_tool7, R.id.btn_close})
+            R.id.btn_tool5, /*R.id.btn_tool6, R.id.btn_tool7,*/ R.id.btn_close})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_tool1: {
@@ -52,20 +52,23 @@ public class AppToolBoxActivity extends BaseActivity {
 
                 break;
             case R.id.btn_tool4:
+                Intent intent = new Intent(this, APPServiceCreateStep1Activity.class);
+                intent.putExtra("appBean", mAppBean);
+                startActivity(intent);
 
                 break;
             case R.id.btn_tool5:
 
                 break;
-            case R.id.btn_tool6: {
-                Intent intent = new Intent(this, APPServiceCreateStep1Activity.class);
-                intent.putExtra("appBean", mAppBean);
-                startActivity(intent);
-                break;
-            }
-            case R.id.btn_tool7:
-
-                break;
+//            case R.id.btn_tool6: {
+//                Intent intent = new Intent(this, APPServiceCreateStep1Activity.class);
+//                intent.putExtra("appBean", mAppBean);
+//                startActivity(intent);
+//                break;
+//            }
+//            case R.id.btn_tool7:
+//
+//                break;
             case R.id.btn_close:
                 finish();
                 break;

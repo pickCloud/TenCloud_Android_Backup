@@ -12,4 +12,9 @@ public class DeploymentInfoBean {
     public String create_time;
     public String update_time;
 
+    //部署的ReplicasSet信息
+    public int replicas;
+    public int availableReplicas;
+    public int readyReplicas;
+
 }

@@ -41,6 +41,16 @@ public class AppBean implements Comparable<AppBean>,Parcelable {
     private String label_name;
     private String labels;
 
+    private int master_app;
+
+
+    public int getMaster_app() {
+        return master_app;
+    }
+
+    public void setMaster_app(int master_app) {
+        this.master_app = master_app;
+    }
     public int getId() {
         return id;
     }

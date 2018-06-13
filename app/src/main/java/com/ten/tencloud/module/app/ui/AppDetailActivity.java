@@ -1,14 +1,21 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +27,7 @@ import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.ServiceBean;
+import com.ten.tencloud.bean.ServiceBriefBean;
 import com.ten.tencloud.bean.TaskBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
@@ -36,6 +44,7 @@ import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
 import com.ten.tencloud.widget.blur.BlurBuilder;
+import com.ten.tencloud.widget.dialog.ServerSystemLoadDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +53,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
+ * 子应用详情
  * Created by chenxh@10.com on 2018/3/27.
  */
 public class AppDetailActivity extends BaseActivity implements AppDetailContract.View, AppImageContract.View {
@@ -56,16 +66,16 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     TextView mTvStatus;
     @BindView(R.id.iv_arrow)
     ImageView mIvArrow;
-    @BindView(R.id.tv_check_time)
-    TextView mTvCheckTime;
+//    @BindView(R.id.tv_check_time)
+//    TextView mTvCheckTime;
     @BindView(R.id.tv_deploy_more)
     TextView mTvDeployMore;
     @BindView(R.id.rv_app_detail_deployment)
     RecyclerView mRvAppDetailDeploy;
-    @BindView(R.id.tv_service_more)
-    TextView mTvServiceMore;
-    @BindView(R.id.rv_app_detail_service)
-    RecyclerView mRvAppDetailService;
+//    @BindView(R.id.tv_service_more)
+//    TextView mTvServiceMore;
+//    @BindView(R.id.rv_app_detail_service)
+//    RecyclerView mRvAppDetailService;
     @BindView(R.id.tv_image_more)
     TextView mTvImageMore;
     @BindView(R.id.rv_image)
@@ -98,6 +108,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     private AppBean mAppBean;
     private AppImagePresenter mAppImagePresenter;
     private RefreshBroadCastHandler mInfoBroadCastHandler;
+    private StatusDialog mStatusDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +131,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         });
 
         initDeploymentView();
-        initServiceView();
+//        initServiceView();
         initImageView();
         initTaskView();
         initData();
@@ -147,21 +158,21 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-02-15  18:15:12", "AIUnicorn"));
         mDeploymentAdapter.setDatas(deploymentBeans);
     }
-
-    private void initServiceView() {
-        mRvAppDetailService.setLayoutManager(new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        mServiceAdapter = new RvAppServiceAdapter(this);
-        mRvAppDetailService.setAdapter(mServiceAdapter);
-
-        mServiceBeans = new ArrayList<>();
-        mServiceBeans.add(new ServiceBean("service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
-        mServiceAdapter.setDatas(mServiceBeans);
-    }
+//
+//    private void initServiceView() {
+//        mRvAppDetailService.setLayoutManager(new LinearLayoutManager(this) {
+//            @Override
+//            public boolean canScrollVertically() {
+//                return false;
+//            }
+//        });
+//        mServiceAdapter = new RvAppServiceAdapter(this);
+//        mRvAppDetailService.setAdapter(mServiceAdapter);
+//
+//        mServiceBeans = new ArrayList<>();
+//        mServiceBeans.add(new ServiceBean("service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
+//        mServiceAdapter.setDatas(mServiceBeans);
+//    }
 
     private void initImageView() {
         mRvImage.setLayoutManager(new LinearLayoutManager(this) {
@@ -206,7 +217,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     }
 
     @OnClick({R.id.rl_basic_detail, R.id.tv_deploy_more, R.id.btn_toolbox,
-            R.id.tv_service_more, R.id.tv_image_more, R.id.tv_task_more})
+            /*R.id.tv_service_more,*/ R.id.tv_image_more, R.id.tv_task_more, R.id.tv_status_description})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_basic_detail:
@@ -215,9 +226,9 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
             case R.id.tv_deploy_more:
                 startActivityNoValue(this, AppDeployListActivity.class);
                 break;
-            case R.id.tv_service_more:
-                startActivityNoValue(this, AppServiceListActivity.class);
-                break;
+//            case R.id.tv_service_more:
+//                startActivityNoValue(this, AppServiceListActivity.class);
+//                break;
             case R.id.tv_image_more: {
                 Intent intent = new Intent(this, AppImageListActivity.class);
                 intent.putExtra("appId", mAppId);
@@ -235,6 +246,12 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
                 overridePendingTransition(0, 0);
                 break;
             }
+            case R.id.tv_status_description:
+                if (mStatusDialog == null) {
+                    mStatusDialog = new StatusDialog(mContext);
+                }
+                mStatusDialog.show();
+                break;
         }
     }
 
@@ -277,6 +294,11 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     }
 
     @Override
+    public void showServiceBriefDetails(ServiceBriefBean serverBatchBean) {
+
+    }
+
+    @Override
     public void showImages(List<ImageBean> images) {
         mImageAdapter.setDatas(images);
     }
@@ -293,5 +315,35 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         mAppImagePresenter.detachView();
         mInfoBroadCastHandler.unregisterReceiver();
         mInfoBroadCastHandler = null;
+    }
+
+
+    public class StatusDialog extends Dialog {
+
+        public StatusDialog(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE); // 去掉头
+            Window window = getWindow();
+            window.setGravity(Gravity.CENTER);
+            window.setContentView(R.layout.dialog_statements);
+
+            window.findViewById(R.id.tv_ok).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cancel();
+                }
+            });
+
+            window.setBackgroundDrawable(new BitmapDrawable());
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            setCancelable(false);
+            setCanceledOnTouchOutside(false);
+        }
     }
 }
