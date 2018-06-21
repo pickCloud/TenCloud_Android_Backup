@@ -11,6 +11,7 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.module.app.contract.AppCheckNameContract;
 import com.ten.tencloud.module.app.presenter.AppCheckNamePresenter;
 
@@ -49,7 +50,7 @@ public class APPServiceCreateStep1Activity extends BaseActivity implements AppCh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_appservice_create_step1);
-        mAppBean = getIntent().getParcelableExtra("appBean");
+        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
         initTitleBar(true, "创建服务", "下一步", new View.OnClickListener() {
             @Override
             public void onClick(View v) {

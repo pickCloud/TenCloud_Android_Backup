@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppContainerBean;
@@ -68,6 +70,23 @@ public class AppK8sRegularDeployAddPortActivity extends BaseActivity {
             EditText etName = childView.findViewById(R.id.et_name);
             TextView tvProtocol = childView.findViewById(R.id.tv_protocol);
             EditText etPort = childView.findViewById(R.id.et_port);
+            String name = etName.getText().toString();
+            String protocol = tvProtocol.getText().toString();
+            String portStr = etPort.getText().toString();
+
+            if (ObjectUtils.isEmpty(name)){
+                showMessage("请输入名称");
+                return;
+            }
+            if (ObjectUtils.isEmpty(protocol)){
+                showMessage("请选择协议");
+                return;
+            }
+            if (ObjectUtils.isEmpty(portStr)){
+                showMessage("请输入端口号");
+                return;
+            }
+
             AppContainerBean.Port port = new AppContainerBean.Port();
             port.setName(etName.getText().toString().trim().toLowerCase());
             port.setProtocol(tvProtocol.getText().toString().trim().toUpperCase());
@@ -132,6 +151,7 @@ public class AppK8sRegularDeployAddPortActivity extends BaseActivity {
         tvProtocol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                KeyboardUtils.hideSoftInput(AppK8sRegularDeployAddPortActivity.this);
                 currentPostion = (int) v.getTag();
                 mPvOptions.show();
             }

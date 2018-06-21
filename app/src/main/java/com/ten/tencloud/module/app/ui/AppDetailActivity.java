@@ -20,8 +20,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.google.android.flexbox.FlexboxLayout;
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.DeploymentBean;
@@ -31,6 +33,8 @@ import com.ten.tencloud.bean.ServiceBriefBean;
 import com.ten.tencloud.bean.TaskBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.even.DeployEven;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
@@ -38,13 +42,18 @@ import com.ten.tencloud.module.app.adapter.RvAppServiceAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
 import com.ten.tencloud.module.app.contract.AppImageContract;
+import com.ten.tencloud.module.app.contract.SubApplicationContract;
 import com.ten.tencloud.module.app.presenter.AppDetailPresenter;
 import com.ten.tencloud.module.app.presenter.AppImagePresenter;
+import com.ten.tencloud.module.app.presenter.SubApplicationPresenter;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
 import com.ten.tencloud.widget.blur.BlurBuilder;
 import com.ten.tencloud.widget.dialog.ServerSystemLoadDialog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +65,7 @@ import butterknife.OnClick;
  * 子应用详情
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class AppDetailActivity extends BaseActivity implements AppDetailContract.View, AppImageContract.View {
+public class AppDetailActivity extends BaseActivity implements SubApplicationContract.View, AppImageContract.View{
 
     @BindView(R.id.tv_name)
     TextView mTvName;
@@ -102,23 +111,35 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     private ArrayList<ServiceBean> mServiceBeans;
     private ArrayList<ImageBean> mImageBeans;
     private ArrayList<TaskBean> mTaskBeans;
-    private AppDetailPresenter mAppDetailPresenter;
+//    private AppDetailPresenter mAppDetailPresenter;
     private int mAppId;
 
     private AppBean mAppBean;
     private AppImagePresenter mAppImagePresenter;
     private RefreshBroadCastHandler mInfoBroadCastHandler;
     private StatusDialog mStatusDialog;
+    private SubApplicationPresenter mSubApplicationPresenter;
+    private int mMasterAppId;
+
+    @Override
+    protected boolean isBindEventBus() {
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_service_app_detail);
-        initTitleBar(true, "应用详情");
+        initTitleBar(true, "子应用详情");
 
         mAppId = getIntent().getIntExtra("id", -1);
-        mAppDetailPresenter = new AppDetailPresenter();
-        mAppDetailPresenter.attachView(this);
+        mMasterAppId = getIntent().getIntExtra("master_app", -1);
+
+        mSubApplicationPresenter = new SubApplicationPresenter();
+        mSubApplicationPresenter.attachView(this);
+
+//        mAppDetailPresenter = new AppDetailPresenter();
+//        mAppDetailPresenter.attachView(this);
         mAppImagePresenter = new AppImagePresenter();
         mAppImagePresenter.attachView(this);
 
@@ -147,32 +168,17 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         });
         mDeploymentAdapter = new RvAppServiceDeploymentAdapter(this);
         mRvAppDetailDeploy.setAdapter(mDeploymentAdapter);
+        mDeploymentAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<DeploymentBean>() {
+            @Override
+            public void onObjectItemClicked(DeploymentBean deploymentBean, int position) {
+                Intent intent = new Intent(mContext, AppDeployDetailsActivity.class);
+                intent.putExtra(IntentKey.APP_ID, deploymentBean.getApp_id());
+                intent.putExtra(IntentKey.DEPLOYMENT_ID, deploymentBean.getId());
+                startActivity(intent);
+            }
+        });
 
-        ArrayList<DeploymentBean.Pod> pods = new ArrayList<>();
-        pods.add(new DeploymentBean.Pod("预设Pod", 1));
-        pods.add(new DeploymentBean.Pod("当前Pod", 1));
-        pods.add(new DeploymentBean.Pod("更新Pod", 1));
-        pods.add(new DeploymentBean.Pod("可用Pod", 1));
-        pods.add(new DeploymentBean.Pod("运行时间", 6));
-        ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
-        deploymentBeans.add(new DeploymentBean("kubernets-bootcamp", 1, pods, "2018-02-15  18:15:12", "AIUnicorn"));
-        mDeploymentAdapter.setDatas(deploymentBeans);
     }
-//
-//    private void initServiceView() {
-//        mRvAppDetailService.setLayoutManager(new LinearLayoutManager(this) {
-//            @Override
-//            public boolean canScrollVertically() {
-//                return false;
-//            }
-//        });
-//        mServiceAdapter = new RvAppServiceAdapter(this);
-//        mRvAppDetailService.setAdapter(mServiceAdapter);
-//
-//        mServiceBeans = new ArrayList<>();
-//        mServiceBeans.add(new ServiceBean("service-example", "ClusterIp", "10.23.123.9", "<none>", "xxxx", "80/TCP，443/TCP", "2018-02-15  18:15:12", 0));
-//        mServiceAdapter.setDatas(mServiceBeans);
-//    }
 
     private void initImageView() {
         mRvImage.setLayoutManager(new LinearLayoutManager(this) {
@@ -203,14 +209,16 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     }
 
     private void initData() {
-        mAppDetailPresenter.getAppById(mAppId);
-        mAppImagePresenter.getAppImageById(mAppId + "");
+        mSubApplicationPresenter.getDeploymentLatestById(mAppId);//获取最新部署
+        mAppImagePresenter.getAppImageById(mAppId);//获取镜像
+        mSubApplicationPresenter.getSubApplicationListById(mMasterAppId, mAppId);//获取子应用详情
+
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         if (intent.getBooleanExtra("viewImage", false)) {
-            mAppImagePresenter.getAppImageById(mAppId + "");
+            mAppImagePresenter.getAppImageById(mAppId);
             int top = mRlImage.getTop();
             mScrollView.scrollTo(0, top);
         }
@@ -219,19 +227,22 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     @OnClick({R.id.rl_basic_detail, R.id.tv_deploy_more, R.id.btn_toolbox,
             /*R.id.tv_service_more,*/ R.id.tv_image_more, R.id.tv_task_more, R.id.tv_status_description})
     public void onClick(View view) {
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.rl_basic_detail:
-                startActivity(new Intent(this, AppAddActivity.class).putExtra("id", mAppId));
+                startActivity(new Intent(this, AppAddActivity.class).putExtra("id", mAppId).putExtra("master_app", mMasterAppId).putExtra("type", 1));
                 break;
             case R.id.tv_deploy_more:
-                startActivityNoValue(this, AppDeployListActivity.class);
+                intent = new Intent(this, AppDeployListActivity.class);
+                intent.putExtra(IntentKey.APP_ID, mAppId);
+                startActivity(intent);
                 break;
 //            case R.id.tv_service_more:
 //                startActivityNoValue(this, AppServiceListActivity.class);
 //                break;
             case R.id.tv_image_more: {
-                Intent intent = new Intent(this, AppImageListActivity.class);
-                intent.putExtra("appId", mAppId);
+                intent = new Intent(this, AppImageListActivity.class);
+                intent.putExtra(IntentKey.APP_ID, mAppId);
                 startActivity(intent);
                 break;
             }
@@ -240,9 +251,9 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
                 break;
             case R.id.btn_toolbox: {
                 BlurBuilder.snapShotWithoutStatusBar(this);
-                Intent intent = new Intent(this, AppToolBoxActivity.class);
-                intent.putExtra("appBean", mAppBean);
-                startActivity(intent);
+                intent = new Intent(this, AppToolBoxActivity.class);
+                intent.putExtra(IntentKey.APP_ITEM, mAppBean);
+                startActivityForResult(intent, Constants.SUB_APP_DEL);
                 overridePendingTransition(0, 0);
                 break;
             }
@@ -255,8 +266,74 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         }
     }
 
+//    @Override
+//    public void showAppDetail(AppBean appBean) {
+//        mAppBean = appBean;
+//        if (!TextUtils.isEmpty(appBean.getLogo_url()))
+//            GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
+//        if (!TextUtils.isEmpty(appBean.getName()))
+//            mTvName.setText(appBean.getName());
+//
+//        String label_name = appBean.getLabel_name();
+//        if (!TextUtils.isEmpty(label_name)) {
+//            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+//            mFblLabel.removeAllViews();
+//            String[] labels = label_name.split(",");
+//            for (String label : labels) {
+//                TextView tvLabel = (TextView) inflater.inflate(R.layout.item_app_service_label_default, mFblLabel, false);
+//                tvLabel.setText(label);
+//                mFblLabel.addView(tvLabel);
+//            }
+//        }
+//        switch (appBean.getStatus()) {
+//            case Constants.APP_STATUS_INIT:
+//                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
+//                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
+//                mTvStatus.setText("初创建");
+//                break;
+//            case Constants.APP_STATUS_NORMAL:
+//                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
+//                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
+//                mTvStatus.setText("正常");
+//                break;
+//            case Constants.APP_STATUS_ERROR:
+//                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
+//                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+//                mTvStatus.setText("异常");
+//                break;
+//        }
+//    }
+//
+//    @Override
+//    public void showServiceBriefDetails(ServiceBriefBean serverBatchBean) {
+//
+//    }
+//
+//    @Override
+//    public void showImages(List<ImageBean> images) {
+//        mImageAdapter.setDatas(images);
+//    }
+//
+//    @Override
+//    public void showImageEmpty() {
+//
+//    }
+
     @Override
-    public void showAppDetail(AppBean appBean) {
+    protected void onDestroy() {
+        super.onDestroy();
+        mSubApplicationPresenter.detachView();
+        mInfoBroadCastHandler.unregisterReceiver();
+        mInfoBroadCastHandler = null;
+    }
+
+    @Override
+    public void showSubApplicationList(List<AppBean> appBeans) {
+
+    }
+
+    @Override
+    public void showSubApplicationDetails(AppBean appBean) {
         mAppBean = appBean;
         if (!TextUtils.isEmpty(appBean.getLogo_url()))
             GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
@@ -274,27 +351,15 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
                 mFblLabel.addView(tvLabel);
             }
         }
-        switch (appBean.getStatus()) {
-            case Constants.APP_STATUS_INIT:
-                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
-                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
-                mTvStatus.setText("初创建");
-                break;
-            case Constants.APP_STATUS_NORMAL:
-                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
-                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
-                mTvStatus.setText("正常");
-                break;
-            case Constants.APP_STATUS_ERROR:
-                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
-                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
-                mTvStatus.setText("异常");
-                break;
-        }
     }
 
     @Override
-    public void showServiceBriefDetails(ServiceBriefBean serverBatchBean) {
+    public void showDeploymentLatestDetails(DeploymentBean deploymentBean) {
+        if (!ObjectUtils.isEmpty(deploymentBean)){
+            List<DeploymentBean> deploymentBeans = new ArrayList<>();
+            deploymentBeans.add(deploymentBean);
+            mDeploymentAdapter.setDatas(deploymentBeans);
+        }
 
     }
 
@@ -306,15 +371,6 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     @Override
     public void showImageEmpty() {
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mAppDetailPresenter.detachView();
-        mAppImagePresenter.detachView();
-        mInfoBroadCastHandler.unregisterReceiver();
-        mInfoBroadCastHandler = null;
     }
 
 
@@ -345,5 +401,23 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
             setCancelable(false);
             setCanceledOnTouchOutside(false);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (requestCode == Constants.SUB_APP_DEL){
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateLastDeploy(DeployEven deployEven){
+        mSubApplicationPresenter.getDeploymentLatestById(mAppId);//获取最新部署
+
     }
 }

@@ -14,6 +14,8 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppContainerBean;
+import com.ten.tencloud.bean.AppServiceYAMLBean;
+import com.ten.tencloud.bean.ContainersBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.module.app.contract.AppK8sDeployContract;
 import com.ten.tencloud.module.app.presenter.AppK8sDeployPresenter;
@@ -55,7 +57,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
     //初始化Key，用于记录动态创建的View
     private int initKey = 1000;
     //保存数据
-    private SparseArray<AppContainerBean> datas = new SparseArray<>();
+    private SparseArray<ContainersBean> datas = new SparseArray<>();
     //保存View
     private SparseArray<View> views = new SparseArray<>();
 
@@ -68,7 +70,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
         createView(R.layout.activity_app_k8s_regular_deploy_step2);
         mInflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
-        initTitleBar(true, "kubernetes常规部署", "下一步", new View.OnClickListener() {
+        initTitleBar(true, "常规部署", "下一步", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mContainerBean == null || datas.size() == 0) {
@@ -82,6 +84,10 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
                 mContainerBean.setReplica_num(Integer.parseInt(count));
                 String podTag = mEtPodTag.getText().toString();
 
+                if (TextUtils.isEmpty(podTag) || !podTag.contains("=")){
+                    showMessage("Pod模板标签格式错误");
+                    return;
+                }
                 if (!TextUtils.isEmpty(podTag)) {
                     String[] split = podTag.split(",");
                     Map<String, String> map = new HashMap<>();
@@ -91,9 +97,32 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
                     }
                     mContainerBean.setPod_label(map);
                 }
-                List<AppContainerBean> containerBeans = new ArrayList<>();
+                List<ContainersBean> containerBeans = new ArrayList<>();
                 for (int i = 1000; i < initKey; i++) {
-                    AppContainerBean appContainerBean = datas.get(i);
+                    ContainersBean appContainerBean = datas.get(i);
+
+                    View childView = views.get(i);
+                    EditText etName = childView.findViewById(R.id.et_name);
+                    TextView tvImage = childView.findViewById(R.id.tv_image);
+                    TextView tvPort = childView.findViewById(R.id.tv_port);
+
+                    String name = etName.getText().toString();
+                    String image = tvImage.getText().toString();
+
+                    if (TextUtils.isEmpty(name)) {
+                        showMessage("请输入名称");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(image)) {
+                        showMessage("请选择镜像");
+                        return;
+                    }
+                    if (TextUtils.isEmpty(tvPort.getText().toString())) {
+                        showMessage("请添加端口");
+                        return;
+                    }
+                    appContainerBean.name = name;
+
                     containerBeans.add(appContainerBean);
                 }
                 mContainerBean.containers = containerBeans;
@@ -132,7 +161,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
 
     private void createLayoutView() {
         final int key = initKey;
-        AppContainerBean value = new AppContainerBean();
+        ContainersBean value = new ContainersBean();
         datas.put(key, value);
         final View view = mInflater.inflate(R.layout.layout_app_k8s_add_container, mLlLayout, false);
         views.put(key, view);
@@ -141,14 +170,15 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
         View btnImage = view.findViewById(R.id.btn_image);
 
         // TODO: 2018/5/9  暂时移除删除的功能
-//        removeContainer.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mLlLayout.removeView(view);
-//                views.remove(key);
-//                datas.remove(key);
-//            }
-//        });
+        removeContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLlLayout.removeView(view);
+                views.remove(key);
+                datas.remove(key);
+                initKey -- ;
+            }
+        });
         addPort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//端口
@@ -178,12 +208,12 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
 //                mTvCluster.setText(clusterName);
 //            }
 //            else
- if (requestCode == REQUEST_CODE_ADD_CONTAINER) {
-                mContainerBean = data.getParcelableExtra("container");
-                if (mContainerBean != null) {
-//                    mTvContainer.setText(mContainerBean.getContainer_name());
-                }
-            }
+// if (requestCode == REQUEST_CODE_ADD_CONTAINER) {
+//                mContainerBean = data.getParcelableExtra("container");
+//                if (mContainerBean != null) {
+////                    mTvContainer.setText(mContainerBean.getContainer_name());
+//                }
+//            }
 
 //        }
         if (resultCode == AppIncludeImageActivity.RESULT_CODE_ADD_CONTAINER) {
@@ -191,7 +221,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
             TextView tvImage = view.findViewById(R.id.tv_image);
             String imageName = data.getStringExtra("imageName");
             String imageVersion = data.getStringExtra("imageVersion");
-            datas.get(requestCode).setImage_name(imageName + ":" + imageVersion);
+            datas.get(requestCode).image = imageName + ":" + imageVersion;
             tvImage.setText(imageName + ":" + imageVersion);
         }
         if (resultCode == AppK8sRegularDeployAddPortActivity.RESULT_CODE_ADD_PORT) {
@@ -207,7 +237,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
                 return;
             }
             tvPort.setText(port);
-            datas.get(requestCode).setPorts(ports);
+            datas.get(requestCode).ports = ports;
         }
 
     }
@@ -229,5 +259,6 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
         intent.putExtra("appBean", mAppBean);
         intent.putExtra("name", mName);
         startActivity(intent);
+        finish();
     }
 }

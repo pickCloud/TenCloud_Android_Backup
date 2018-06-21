@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.app.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,8 +12,12 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.even.DeployEven;
 import com.ten.tencloud.module.app.model.AppK8sDeployModel;
 import com.ten.tencloud.widget.dialog.AppK8sDeployDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,12 +65,13 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
             "        - containerPort: 80";
     private String mYaml;
     private int mServerId;
+    private String mDeploymentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_k8s_regular_deploy_step3);
-        initTitleBar(true, "kubernetes常规部署");
+        initTitleBar(true, "常规部署");
         mName = getIntent().getStringExtra("name");
         mYaml = getIntent().getStringExtra("yaml");
         mServerId = getIntent().getIntExtra("serverId", -1);
@@ -83,16 +89,31 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
             mEtCode.setText(mYamlCode);
         }
         mEtCode.setSelection(mEtCode.getText().toString().length());
+
+        findViewById(R.id.btn_view_image).setOnClickListener(new View.OnClickListener() {//查看部署
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AppDeployDetailsActivity.class);
+                intent.putExtra(IntentKey.APP_ID, mAppBean.getId());
+                intent.putExtra(IntentKey.DEPLOYMENT_ID, Integer.valueOf(mDeploymentId));
+                startActivity(intent);
+                finish();
+                EventBus.getDefault().post(new DeployEven());
+
+            }
+        });
     }
 
     private void initData() {
         mAppK8sDeployModel = new AppK8sDeployModel(new AppK8sDeployModel.OnAppK8sDeployListener() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(final String deployment_id) {
                 showLogDialog("部署成功", true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        mDeploymentId = deployment_id.substring(deployment_id.indexOf(":") + 1, deployment_id.length());
                         mMakeStatus = 0;
                         mAppK8sDeployDialog.setStatus(true);
                         mBtnStart.setVisibility(View.GONE);

@@ -20,6 +20,6 @@ public interface AppImageContract {
 
     interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
 
-        void getAppImageById(String appId);
+        void getAppImageById(int appId);
     }
 }

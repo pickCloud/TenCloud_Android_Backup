@@ -1,12 +1,15 @@
 package com.ten.tencloud.bean;
 
+import java.util.List;
+import java.util.Map;
+
 public class DeploymentInfoBean {
 
-    public String id;
+    public int id;
     public String name;
-    public String deployment_id;
+    public int deployment_id;
     public String readyStatus;
-    public int podStatus;
+    public String podStatus;
     public int restartStatus;
     public String verbose;
     public String create_time;
@@ -16,5 +19,8 @@ public class DeploymentInfoBean {
     public int replicas;
     public int availableReplicas;
     public int readyReplicas;
+
+    public Map<String, String> labels;
+
 
 }

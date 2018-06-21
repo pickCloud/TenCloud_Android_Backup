@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,14 +10,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
 import com.ten.tencloud.module.app.contract.AppDeployListContract;
@@ -56,13 +60,16 @@ public class AppDeployListActivity extends BaseActivity implements AppDeployList
     private AppFilterDialog mAppFilterDialog;
     private DeployListPresenter mDeployListPresenter;
 
-    ArrayList<DeploymentBean> deploymentBeans = new ArrayList<>();
     private boolean isRefrsh;
+    private int mAppId;
+    private int mPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_service_app_list);
+
+        mAppId = getIntent().getIntExtra(IntentKey.APP_ID, 0);
 
         mRlFilter.setVisibility(View.GONE);
         initTitleBar(true, "部署列表");
@@ -89,12 +96,22 @@ public class AppDeployListActivity extends BaseActivity implements AppDeployList
         mAppServiceDeploymentAdapter = new RvAppServiceDeploymentAdapter(this);
         mRvApp.addItemDecoration(new Hor16Ver8ItemDecoration());
         mRvApp.setAdapter(mAppServiceDeploymentAdapter);
-        ActivityUtils.startActivity(AppDeployDetailsActivity.class);
+        mAppServiceDeploymentAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<DeploymentBean>() {
+            @Override
+            public void onObjectItemClicked(DeploymentBean deploymentBean, int position) {
+                Intent intent = new Intent(mContext, AppDeployDetailsActivity.class);
+                intent.putExtra(IntentKey.APP_ID, deploymentBean.getApp_id());
+                intent.putExtra(IntentKey.DEPLOYMENT_ID, deploymentBean.getId());
+                startActivity(intent);
+
+            }
+        });
 
     }
 
     private void initData() {
-//        mDeployListPresenter.getDeployList();
+
+        mDeployListPresenter.getDeployList(mAppId, null, null, null, null, null, mPage, isRefrsh? false: true);
 //        mAppServiceDeploymentAdapter.setDatas(deploymentBeans);
     }
 
@@ -120,16 +137,30 @@ public class AppDeployListActivity extends BaseActivity implements AppDeployList
 
     @Override
     public void showEmpty() {
+        if (!isRefrsh){
+            showMessage("暂无更多数据");
+            mRefresh.finishLoadmore();
+
+        }else {
+
+        }
 
     }
 
     @Override
     public void showList(List<DeploymentBean> data) {
-        if (isRefrsh)
-            mAppServiceDeploymentAdapter.setDatas(deploymentBeans);
-        else
-            mAppServiceDeploymentAdapter.addData(deploymentBeans);
+        if (isRefrsh){
+            mRefresh.finishRefresh();
+            mAppServiceDeploymentAdapter.setDatas(data);
+        }
+        else{
+            if (!ObjectUtils.isEmpty(data))
+                mPage ++ ;
 
+            mAppServiceDeploymentAdapter.addData(data);
+            mRefresh.finishLoadmore();
+
+        }
 
     }
 
@@ -143,6 +174,7 @@ public class AppDeployListActivity extends BaseActivity implements AppDeployList
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         isRefrsh = true;
+        mPage = 1;
         initData();
 
     }

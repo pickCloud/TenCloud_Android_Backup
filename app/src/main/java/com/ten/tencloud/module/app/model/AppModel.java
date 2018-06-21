@@ -49,7 +49,7 @@ public class AppModel {
     }
 
     public Observable<Object> newApp(String name, String description, String repos_name, String repos_ssh_url,
-                                     String repos_https_url, String logo_url, int image_id, List<Integer> labels) {
+                                     String repos_https_url, String logo_url, int image_id, List<Integer> labels, String master_app) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", name);
         hashMap.put("description", description);
@@ -58,6 +58,10 @@ public class AppModel {
         hashMap.put("repos_https_url", repos_https_url);
         hashMap.put("logo_url", logo_url);
         hashMap.put("image_id", image_id);
+        if (master_app != null){
+            hashMap.put("master_app", master_app);
+
+        }
         Collections.sort(labels);
         hashMap.put("labels", labels);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
@@ -78,6 +82,10 @@ public class AppModel {
         hashMap.put("repos_ssh_url", repos_ssh_url);
         hashMap.put("repos_https_url", repos_https_url);
         hashMap.put("logo_url", logo_url);
+//        if (master_app != null){
+//            hashMap.put("master_app", master_app);
+//
+//        }
         Collections.sort(labels);
         hashMap.put("labels", labels);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
@@ -162,7 +170,7 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<ImageBean>> getAppImages(String appId) {
+    public Observable<List<ImageBean>> getAppImages(int appId) {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getAppImages(appId)
                 .map(new HttpResultFunc<List<ImageBean>>())
@@ -197,6 +205,7 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    //获取部署列表
     public Observable<List<DeploymentBean>> getDeployList(Integer app_id, Integer status, Integer deployment_id, Integer show_yaml, Integer show_log, int page) {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getDeployList(app_id, status, deployment_id, show_yaml, show_log, page, 20)
@@ -205,6 +214,16 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    //获取部署列表
+    public Observable<List<DeploymentBean>> getDeployList(Integer app_id, Integer deployment_id, Integer show_yaml) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getDeployList(app_id, deployment_id, show_yaml)
+                .map(new HttpResultFunc<List<DeploymentBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //获取部署详情
     public Observable<List<DeploymentInfoBean>> deploymentPods(Integer app_id, Integer show_verbose) {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .deploymentPods(app_id, show_verbose)
@@ -235,6 +254,25 @@ public class AppModel {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .getAppSubApplicationById(master_app, id)
                 .map(new HttpResultFunc<List<AppBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //最新的部署-子应用详情
+    public Observable<DeploymentBean> getDeploymentLatestById(int id) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getDeploymentLatestById(id)
+                .map(new HttpResultFunc<DeploymentBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //删除应用
+    public Observable<Object> applicationDel(int id) {
+
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .applicationDel(id)
+                .map(new HttpResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

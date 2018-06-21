@@ -11,6 +11,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.listener.OnRefreshWithDataListener;
 
 import butterknife.BindView;
@@ -48,7 +49,7 @@ public class AppMakeImageStep1Activity extends BaseActivity {
                 mBranch = bundle.getString("branchName");
             }
         });
-        mAppBean = getIntent().getParcelableExtra("appBean");
+        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
     }
 
     private void next() {

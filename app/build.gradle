@@ -104,7 +104,8 @@ dependencies {
     /**
      *     log
      */
-    compile "com.github.zhaokaiqiang.klog:library:${libs.klog}"
+//    compile "com.github.zhaokaiqiang.klog:library:${libs.klog}"
+    implementation 'com.orhanobut:logger:2.2.0'
 
     /**
      *      流式布局
@@ -158,5 +159,6 @@ dependencies {
     implementation files('libs/snakeyaml-1.21.jar')
 
     implementation 'com.blankj:utilcode:1.16.4'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
 }

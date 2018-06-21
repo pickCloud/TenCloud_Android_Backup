@@ -1,5 +1,6 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +17,6 @@ import com.blankj.utilcode.util.ObjectUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
-import com.socks.library.KLog;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
@@ -27,6 +27,7 @@ import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
@@ -120,8 +121,10 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
         mAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
             @Override
             public void onObjectItemClicked(AppBean appBean, int position) {
+                Intent intent = new Intent(getActivity(), AppMainPageDetailsActivity.class);
+                intent.putExtra("id", appBean.getId());
+                startActivityForResult(intent, Constants.APP_DETAILS);
 //                startActivity(new Intent(getActivity(), AppDetailActivity.class).putExtra("id", appBean.getId()));
-                startActivity(new Intent(getActivity(), AppMainPageDetailsActivity.class).putExtra("id", appBean.getId()));
             }
         });
         mRvApp.setAdapter(mAppAdapter);
@@ -230,5 +233,16 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
     @Override
     public void labelAddResult(LabelBean bean) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == Constants.APP_DETAILS){
+                mAppListPresenter.getAppListByPage(false, label);
+
+            }
+        }
     }
 }

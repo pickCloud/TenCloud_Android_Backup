@@ -12,9 +12,14 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.even.DeployEven;
 import com.ten.tencloud.module.app.contract.AppK8sDeployContract;
 import com.ten.tencloud.module.app.presenter.AppK8sDeployPresenter;
 import com.ten.tencloud.module.server.ui.ServerClusterListActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -24,6 +29,11 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
     EditText mEtName;
     @BindView(R.id.tv_cluster)
     TextView mTvCluster;
+
+    @Override
+    protected boolean isBindEventBus() {
+        return true;
+    }
 
     private AppBean mAppBean;
     private AppK8sDeployPresenter mPresenter;
@@ -35,14 +45,14 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_k8s_regular_deploy_step1);
-        initTitleBar(true, "kubernetes常规部署", "下一步", new View.OnClickListener() {
+        initTitleBar(true, "常规部署", "下一步", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 next();
             }
         });
 
-        mAppBean = getIntent().getParcelableExtra("appBean");
+        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
         mPresenter = new AppK8sDeployPresenter();
         mPresenter.attachView(this);
 
@@ -95,4 +105,11 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
         }
 
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void finish(DeployEven deployEven){
+        finish();
+
+    }
+
 }

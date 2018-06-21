@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSFragmentPagerAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
@@ -101,7 +102,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                         public void onItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.menu_add_app:
-                                    startActivityNoValue(mContext, AppDeployDetailsActivity.class);
+                                    ActivityUtils.startActivity(AppAddActivity.class);
                                     break;
                             }
                         }

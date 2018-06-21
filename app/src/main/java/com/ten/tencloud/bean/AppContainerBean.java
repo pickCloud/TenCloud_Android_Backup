@@ -3,6 +3,8 @@ package com.ten.tencloud.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,10 +19,29 @@ public class AppContainerBean implements Parcelable {
     private int replica_num;
     private Map<String,String> pod_label;
     private String container_name;
-    private String image_name;
+    private String name;
+    private String image;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     private List<Port> ports;
 
-    public List<AppContainerBean> containers;
+
+    public List<ContainersBean> containers;
 
     public int getApp_id() {
         return app_id;
@@ -69,14 +90,6 @@ public class AppContainerBean implements Parcelable {
 
     public void setContainer_name(String container_name) {
         this.container_name = container_name;
-    }
-
-    public String getImage_name() {
-        return image_name;
-    }
-
-    public void setImage_name(String image_name) {
-        this.image_name = image_name;
     }
 
     public List<Port> getPorts() {
@@ -150,6 +163,9 @@ public class AppContainerBean implements Parcelable {
         };
     }
 
+    public AppContainerBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -157,21 +173,43 @@ public class AppContainerBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.app_id);
+        dest.writeString(this.app_name);
+        dest.writeString(this.deployment_name);
+        dest.writeInt(this.replica_num);
+        dest.writeInt(this.pod_label.size());
+        for (Map.Entry<String, String> entry : this.pod_label.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeString(entry.getValue());
+        }
         dest.writeString(this.container_name);
-        dest.writeString(this.image_name);
+        dest.writeString(this.name);
+        dest.writeString(this.image);
         dest.writeTypedList(this.ports);
-    }
-
-    public AppContainerBean() {
+        dest.writeList(this.containers);
     }
 
     protected AppContainerBean(Parcel in) {
+        this.app_id = in.readInt();
+        this.app_name = in.readString();
+        this.deployment_name = in.readString();
+        this.replica_num = in.readInt();
+        int pod_labelSize = in.readInt();
+        this.pod_label = new HashMap<String, String>(pod_labelSize);
+        for (int i = 0; i < pod_labelSize; i++) {
+            String key = in.readString();
+            String value = in.readString();
+            this.pod_label.put(key, value);
+        }
         this.container_name = in.readString();
-        this.image_name = in.readString();
+        this.name = in.readString();
+        this.image = in.readString();
         this.ports = in.createTypedArrayList(Port.CREATOR);
+        this.containers = new ArrayList<ContainersBean>();
+        in.readList(this.containers, ContainersBean.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<AppContainerBean> CREATOR = new Parcelable.Creator<AppContainerBean>() {
+    public static final Creator<AppContainerBean> CREATOR = new Creator<AppContainerBean>() {
         @Override
         public AppContainerBean createFromParcel(Parcel source) {
             return new AppContainerBean(source);

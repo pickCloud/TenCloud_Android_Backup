@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/selector_banner_bg"
+        android:padding="15dp"
+        android:layout_height="100dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_above="@+id/tv_ip"
+            android:layout_marginBottom="6dp"
+            android:textColor="#899AB6"
+            android:text="dfsf"/>
+
+        <TextView
+            android:id="@+id/tv_ip"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#556278"
+            android:textSize="10sp"
+            android:text="ip地址：123123"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="4dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="访问规则"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_check_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="配置"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/selector_banner_bg"
+        app:cardCornerRadius="2dp"
+        app:cardPreventCornerOverlap="true"
+        app:contentPaddingBottom="16dp"
+        app:contentPaddingLeft="16dp"
+        app:contentPaddingTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

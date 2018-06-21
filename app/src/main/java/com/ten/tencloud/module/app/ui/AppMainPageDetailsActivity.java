@@ -15,10 +15,16 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.ten.tencloud.R;
+import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.MicroserviceBean;
 import com.ten.tencloud.bean.ServiceBriefBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.MicroserviceAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
@@ -72,19 +78,38 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_main_page_details);
+        createView(R.layout.activity_app_main_page_details);
+
         ButterKnife.bind(this);
+        initTitleBar(true, "主应用详情");
 
         mAppId = getIntent().getIntExtra("id", -1);
 
+        RefreshBroadCastHandler mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
+        mAppHandler.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSubApplicationPresenter.getAppSubApplicationList(mAppId);
+            }
+        });
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        mRecMicroservice.setLayoutManager(gridLayoutManager);
+        mRecMicroservice.setLayoutManager(new LinearLayoutManager(this));
         mMicroserviceAdapter = new MicroserviceAdapter();
         mRecMicroservice.setAdapter(mMicroserviceAdapter);
 
         mRecChildApp.setLayoutManager(new LinearLayoutManager(this));
         mRvAppAdapter = new RvAppAdapter(this);
         mRecChildApp.setAdapter(mRvAppAdapter);
+        mRvAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
+            @Override
+            public void onObjectItemClicked(AppBean appBean, int position) {
+                Intent intent = new Intent(mContext, AppDetailActivity.class);
+                intent.putExtra("id", appBean.getId());
+                intent.putExtra("master_app", appBean.getMaster_app());
+                startActivityForResult(intent, Constants.SUB_APP_DETAILS);
+            }
+        });
 
 
         mAppDetailPresenter = new AppDetailPresenter();
@@ -97,20 +122,31 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
         mAppDetailPresenter.getAppById(mAppId);
         mAppDetailPresenter.getAppServiceBriefById(mAppId);
 
+
+        //测试
+        mMicroserviceAdapter.addData(new MicroserviceBean());
+        mMicroserviceAdapter.addData(new MicroserviceBean());
+        mMicroserviceAdapter.addData(new MicroserviceBean());
+
     }
 
     @OnClick({R.id.rl_basic_detail, R.id.tv_check_time, R.id.btn_toolbox})
     public void onViewClicked(View view) {
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.rl_basic_detail:
+                intent = new Intent(this, AppAddActivity.class);
+                intent.putExtra("id", mAppBean.getId());
+                startActivity(intent);
                 break;
             case R.id.tv_check_time:
                 break;
             case R.id.btn_toolbox:
                 BlurBuilder.snapShotWithoutStatusBar(this);
-                Intent intent = new Intent(this, MainPageToolBoxActivity.class);
-//                intent.putExtra("appBean", mAppBean);
-                startActivity(intent);
+                intent = new Intent(this, MainPageToolBoxActivity.class);
+                intent.putExtra(IntentKey.APP_ITEM, mAppBean);
+//                startActivity(intent);
+                startActivityForResult(intent, Constants.APP_DETAILS_DEL);
                 overridePendingTransition(0, 0);
                 break;
         }
@@ -150,5 +186,31 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
     @Override
     public void showSubApplicationDetails(AppBean appBean) {
 
+    }
+
+    @Override
+    public void showDeploymentLatestDetails(DeploymentBean appBean) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAppDetailPresenter.detachView();
+        mSubApplicationPresenter.detachView();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (requestCode ==  Constants.SUB_APP_DETAILS){
+                mSubApplicationPresenter.getAppSubApplicationList(mAppId);
+
+            }else if (requestCode == Constants.APP_DETAILS_DEL){
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 }

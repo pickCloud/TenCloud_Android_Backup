@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.socks.library.KLog;
+import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.utils.ToastUtils;
 import com.ten.tencloud.utils.Utils;
@@ -97,7 +97,7 @@ public class ShareDialog extends BottomSheetDialog {
             @Override
             public void onClick(View v) {
                 String url = "http" + mContent.split("http")[1];
-                KLog.e(url);
+                Logger.e(url);
                 UMWeb umWeb = new UMWeb(url);
                 umWeb.setTitle("拾云");
                 umWeb.setDescription(mContent);

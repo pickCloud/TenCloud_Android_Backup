@@ -14,7 +14,7 @@ import java.util.List;
 public class AppImagePresenter extends BasePresenter<AppImageContract.View> implements AppImageContract.Presenter<AppImageContract.View> {
 
     @Override
-    public void getAppImageById(String appId) {
+    public void getAppImageById(int appId) {
         mSubscriptions.add(AppModel.getInstance().getAppImages(appId)
                 .subscribe(new JesSubscribe<List<ImageBean>>(mView) {
                     @Override

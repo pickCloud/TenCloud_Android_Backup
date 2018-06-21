@@ -3,6 +3,7 @@ package com.ten.tencloud.module.app.contract;
 import com.ten.tencloud.base.presenter.IBasePresenter;
 import com.ten.tencloud.base.view.IBaseView;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.bean.DeploymentBean;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class SubApplicationContract {
 
         void showSubApplicationList(List<AppBean> appBeans);
         void showSubApplicationDetails(AppBean appBean);
+        void showDeploymentLatestDetails(DeploymentBean appBean);
 
     }
 
@@ -22,6 +24,7 @@ public class SubApplicationContract {
         void getAppSubApplicationList(int master_app);
 
         void getSubApplicationListById(int master_app, int id);
+        void getDeploymentLatestById(int id);
 
     }
 }

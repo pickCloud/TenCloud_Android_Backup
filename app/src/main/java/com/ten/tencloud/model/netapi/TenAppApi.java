@@ -68,6 +68,16 @@ public interface TenAppApi {
     @GET("/api/sub_application/brief")
     Observable<Response<JesResponse<List<AppBean>>>> getAppSubApplicationById(@Query("master_app") int master_app, @Query("id") int id);
 
+
+    //最新的部署-子应用详情
+    @GET("/api/deployment/latest")
+    Observable<Response<JesResponse<DeploymentBean>>> getDeploymentLatestById(@Query("app_id") int app_id);
+
+
+    //应用删除
+    @POST("/api/application/del")
+    Observable<Response<JesResponse<Object>>> applicationDel(@Query("id") int app_id);
+
     //获取仓库列表
     @POST("/api/repos")
     Observable<Response<JesResponse<List<ReposBean>>>> getReposList(@Query("url") String url);
@@ -86,7 +96,7 @@ public interface TenAppApi {
 
     //镜像部署列表
     @GET("/api/image")
-    Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("app_id") String appId);
+    Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("id") int appId);
 
     //检查部署名称
     @GET("/api/deployment/check_name")
@@ -100,9 +110,13 @@ public interface TenAppApi {
     @POST("/api/service/generate")
     Observable<Response<JesResponse<String>>> generateServiceYAML(@Body RequestBody body);
 
-    @GET("/api/deployment/list")
+    @GET("/api/deployment/brief")
     Observable<Response<JesResponse<List<DeploymentBean>>>> getDeployList(@Query("app_id") Integer id, @Query("status") Integer status, @Query("deployment_id") Integer deployment_id,
                                                                           @Query("show_yaml") Integer show_yaml, @Query("show_log") Integer show_log, @Query("page") int page, @Query("page_num") int pageNum);
+
+    @GET("/api/deployment/brief")
+    Observable<Response<JesResponse<List<DeploymentBean>>>> getDeployList(@Query("app_id") Integer app_id, @Query("deployment_id") Integer deployment_id, @Query("show_yaml") Integer show_yaml);
+
     //部署的Pod信息
     @GET("/api/deployment/pods")
     Observable<Response<JesResponse<List<DeploymentInfoBean>>>> deploymentPods(@Query("deployment_id") int deployment_id, @Query("show_verbose") Integer show_verbose);

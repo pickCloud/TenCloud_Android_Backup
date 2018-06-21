@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ImageBean;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter1;
 import com.ten.tencloud.module.app.contract.AppImageContract;
 import com.ten.tencloud.module.app.presenter.AppImagePresenter;
@@ -51,7 +52,7 @@ public class AppImageListActivity extends BaseActivity implements AppImageContra
         mRlFilter.setVisibility(View.GONE);
         initTitleBar(true, "镜像列表");
 
-        mAppId = getIntent().getIntExtra("appId", -1);
+        mAppId = getIntent().getIntExtra(IntentKey.APP_ID, -1);
         mAppImagePresenter = new AppImagePresenter();
         mAppImagePresenter.attachView(this);
 
@@ -80,7 +81,7 @@ public class AppImageListActivity extends BaseActivity implements AppImageContra
     }
 
     private void initData() {
-        mAppImagePresenter.getAppImageById(mAppId + "");
+        mAppImagePresenter.getAppImageById(mAppId);
     }
 
     @OnClick({R.id.tv_filter})

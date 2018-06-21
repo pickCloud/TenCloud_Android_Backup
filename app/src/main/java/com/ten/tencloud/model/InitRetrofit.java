@@ -49,7 +49,7 @@ public class InitRetrofit {
         //日志打印
         newBuilder.addInterceptor(new LoggingInterceptor.Builder()
                 .loggable(BuildConfig.DEBUG)
-                .setLevel(Level.BASIC)
+                .setLevel(Level.BODY)
                 .log(Platform.INFO)
                 .request("Request")
                 .response("Response")

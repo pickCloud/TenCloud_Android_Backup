@@ -5,24 +5,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
+import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.DeploymentInfoBean;
 import com.ten.tencloud.bean.UpdateRecordBean;
+import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.module.app.adapter.OperationAdapter;
 import com.ten.tencloud.module.app.adapter.UpdateRecordAdapter;
 import com.ten.tencloud.module.app.contract.AppDeployInfoContract;
+import com.ten.tencloud.module.app.contract.AppDeployListContract;
 import com.ten.tencloud.module.app.presenter.DeployInfoPresenter;
+import com.ten.tencloud.module.app.presenter.DeployListPresenter;
+import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.widget.blur.BlurBuilder;
 
 import java.util.ArrayList;
@@ -32,7 +41,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AppDeployDetailsActivity extends BaseActivity implements AppDeployInfoContract.View {
+/**
+ * 部署详情
+ */
+public class AppDeployDetailsActivity extends BaseActivity implements AppDeployInfoContract.View, AppDeployListContract.View {
 
     @BindView(R.id.tv_name)
     TextView mTvName;
@@ -60,6 +72,8 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
     TextView mTvDeployment;
     @BindView(R.id.tv_task_more)
     TextView mTvTaskMore;
+    @BindView(R.id.tv_reason)
+    TextView mTvReason;
     @BindView(R.id.rec_record)
     RecyclerView mRecRecord;
     //    @BindView(R.id.scroll_view)
@@ -71,12 +85,23 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
     private UpdateRecordAdapter mUpdateRecordAdapter;
     private DeployInfoPresenter mDeployInfoPresenter;
     private DeployDialog mDeployDialog;
+    private DeploymentBean mDeploymentBean;
+    private DeployListPresenter mDeployListPresenter;
+    private int mAppId;
+    private int mDeploymentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_deploy_details);
+        createView(R.layout.activity_app_deploy_details);
         ButterKnife.bind(this);
+        initTitleBar(true, "部署详情");
+
+        mDeploymentBean = getIntent().getParcelableExtra("deploymentBean");
+
+        mAppId = getIntent().getIntExtra(IntentKey.APP_ID, 0);
+        mDeploymentId = getIntent().getIntExtra(IntentKey.DEPLOYMENT_ID, 0);
+
 
         mRecOperation.setLayoutManager(new LinearLayoutManager(this));
         mOperationAdapter = new OperationAdapter();
@@ -89,10 +114,12 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
         mDeployInfoPresenter = new DeployInfoPresenter();
         mDeployInfoPresenter.attachView(this);
 
+        mDeployListPresenter = new DeployListPresenter();
+        mDeployListPresenter.attachView(this);
 
-        mOperationAdapter.addData(new DeploymentInfoBean());
-        mOperationAdapter.addData(new DeploymentInfoBean());
-        mOperationAdapter.addData(new DeploymentInfoBean());
+        mDeployInfoPresenter.deploymentPods(mDeploymentId, null);//获取部署详情
+
+        mDeployListPresenter.getDeployList(mAppId, mDeploymentId,  1);
 
         mUpdateRecordAdapter.addData(new UpdateRecordBean());
         mUpdateRecordAdapter.addData(new UpdateRecordBean());
@@ -101,13 +128,61 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
 
     }
 
+    void initData(){
+        if (!ObjectUtils.isEmpty(mDeploymentBean)){
+            mTvName.setText(mDeploymentBean.getName());
+            mTvRelevanceApplication.setText("关联应用   应用名称 " + mDeploymentBean.getApp_name());
+            mTvDate.setText("创建时间 " + mDeploymentBean.getCreate_time());
+
+            switch (mDeploymentBean.getStatus()) {
+                case Constants.DEPLOYMENT_STATUS_INIT:
+                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
+                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_green), null, null, null);
+                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
+                    mTvStatus.setText("进行中");
+                    break;
+                case Constants.DEPLOYMENT_STATUS_NORMAL:
+                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
+                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
+                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
+                    mTvStatus.setText("已完成");
+                    break;
+                case Constants.DEPLOYMENT_STATUS_ERROR:
+                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
+                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_pink), null, null, null);
+                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+                    mTvStatus.setText("失败");
+                    break;
+            }
+
+            mTvYsyy.setText(mDeploymentBean.getReplicas() + "");
+            mTvDqyy.setText(mDeploymentBean.getReadyReplicas() + "");
+            mTvKyyy.setText(mDeploymentBean.getAvailableReplicas() + "");
+            mTvGxyy.setText(mDeploymentBean.getUpdatedReplicas() + "");
+            mTvDeployment.setText(mDeploymentBean.getYaml());
+        }
+    }
     @Override
     public void showEmpty() {
 
     }
 
     @Override
+    public void showList(List<DeploymentBean> data) {
+        if (!ObjectUtils.isEmpty(data) && data.size() > 0){
+            mDeploymentBean = data.get(0);
+            initData();
+
+        }
+
+    }
+
+    @Override
     public void showDeploymentPodsList(List<DeploymentInfoBean> data) {
+        if (ObjectUtils.isEmpty(data))
+            mOperationAdapter.setEmptyView(LayoutInflater.from(this).inflate(R.layout.include_empty, null));
+        else
+            mOperationAdapter.setNewData(data);
 
     }
 
@@ -126,6 +201,8 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_refresh:
+                mDeployInfoPresenter.deploymentPods(mDeploymentBean.getId(), null);//获取部署详情
+
                 break;
             case R.id.tv_desc:
                 if (mDeployDialog == null) {

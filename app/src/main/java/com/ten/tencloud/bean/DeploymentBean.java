@@ -1,12 +1,26 @@
 package com.ten.tencloud.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class DeploymentBean {
+public class DeploymentBean implements Parcelable {
     private int id;
+
+    public int getApp_id() {
+        return app_id;
+    }
+
+    public void setApp_id(int app_id) {
+        this.app_id = app_id;
+    }
+
+    private int app_id;
 
     private String name;
     private int status;
@@ -23,8 +37,83 @@ public class DeploymentBean {
     private int image_id;
     private int form;
     private int lord;
-    private long create_time;
-    private long update_time;
+    private String create_time;
+    private String update_time;
+
+    private int readyReplicas;
+    private int updatedReplicas;
+    private int availableReplicas;
+    private int type;
+    private int server_id;
+
+    private String app_name;
+    private String yaml;
+
+    public String getYaml() {
+        return yaml;
+    }
+
+    public void setYaml(String yaml) {
+        this.yaml = yaml;
+    }
+
+    public String getApp_name() {
+        return app_name;
+    }
+
+    public void setApp_name(String app_name) {
+        this.app_name = app_name;
+    }
+
+    public int getReadyReplicas() {
+        return readyReplicas;
+    }
+
+    public void setReadyReplicas(int readyReplicas) {
+        this.readyReplicas = readyReplicas;
+    }
+
+    public int getUpdatedReplicas() {
+        return updatedReplicas;
+    }
+
+    public void setUpdatedReplicas(int updatedReplicas) {
+        this.updatedReplicas = updatedReplicas;
+    }
+
+    public int getAvailableReplicas() {
+        return availableReplicas;
+    }
+
+    public void setAvailableReplicas(int availableReplicas) {
+        this.availableReplicas = availableReplicas;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getServer_id() {
+        return server_id;
+    }
+
+    public void setServer_id(int server_id) {
+        this.server_id = server_id;
+    }
+
+    public int getReplicas() {
+        return replicas;
+    }
+
+    public void setReplicas(int replicas) {
+        this.replicas = replicas;
+    }
+
+    private int replicas;
 
     public List<Pod> getmPodList() {
         return mPodList;
@@ -106,23 +195,23 @@ public class DeploymentBean {
         this.lord = lord;
     }
 
-    public long getCreate_time() {
+    public String getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(long create_time) {
+    public void setCreate_time(String create_time) {
         this.create_time = create_time;
     }
 
-    public long getUpdate_time() {
+    public String getUpdate_time() {
         return update_time;
     }
 
-    public void setUpdate_time(long update_time) {
+    public void setUpdate_time(String update_time) {
         this.update_time = update_time;
     }
 
-    public static class Pod{
+    public static class Pod implements Parcelable {
         private String name;
         private int count;
 
@@ -146,6 +235,34 @@ public class DeploymentBean {
         public void setCount(int count) {
             this.count = count;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.name);
+            dest.writeInt(this.count);
+        }
+
+        protected Pod(Parcel in) {
+            this.name = in.readString();
+            this.count = in.readInt();
+        }
+
+        public static final Creator<Pod> CREATOR = new Creator<Pod>() {
+            @Override
+            public Pod createFromParcel(Parcel source) {
+                return new Pod(source);
+            }
+
+            @Override
+            public Pod[] newArray(int size) {
+                return new Pod[size];
+            }
+        };
     }
 
     public DeploymentBean(String name, int status, List<Pod> podList, String createDate, String linkApp) {
@@ -203,4 +320,79 @@ public class DeploymentBean {
         this.id = id;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.app_id);
+        dest.writeString(this.name);
+        dest.writeInt(this.status);
+        dest.writeTypedList(this.mPodList);
+        dest.writeString(this.createDate);
+        dest.writeString(this.linkApp);
+        dest.writeString(this.description);
+        dest.writeString(this.repos_name);
+        dest.writeString(this.epos_ssh_url);
+        dest.writeString(this.repos_https_url);
+        dest.writeString(this.labels);
+        dest.writeString(this.logo_url);
+        dest.writeInt(this.image_id);
+        dest.writeInt(this.form);
+        dest.writeInt(this.lord);
+        dest.writeString(this.create_time);
+        dest.writeString(this.update_time);
+        dest.writeInt(this.readyReplicas);
+        dest.writeInt(this.updatedReplicas);
+        dest.writeInt(this.availableReplicas);
+        dest.writeInt(this.type);
+        dest.writeInt(this.server_id);
+        dest.writeString(this.app_name);
+        dest.writeString(this.yaml);
+        dest.writeInt(this.replicas);
+    }
+
+    protected DeploymentBean(Parcel in) {
+        this.id = in.readInt();
+        this.app_id = in.readInt();
+        this.name = in.readString();
+        this.status = in.readInt();
+        this.mPodList = in.createTypedArrayList(Pod.CREATOR);
+        this.createDate = in.readString();
+        this.linkApp = in.readString();
+        this.description = in.readString();
+        this.repos_name = in.readString();
+        this.epos_ssh_url = in.readString();
+        this.repos_https_url = in.readString();
+        this.labels = in.readString();
+        this.logo_url = in.readString();
+        this.image_id = in.readInt();
+        this.form = in.readInt();
+        this.lord = in.readInt();
+        this.create_time = in.readString();
+        this.update_time = in.readString();
+        this.readyReplicas = in.readInt();
+        this.updatedReplicas = in.readInt();
+        this.availableReplicas = in.readInt();
+        this.type = in.readInt();
+        this.server_id = in.readInt();
+        this.app_name = in.readString();
+        this.yaml = in.readString();
+        this.replicas = in.readInt();
+    }
+
+    public static final Creator<DeploymentBean> CREATOR = new Creator<DeploymentBean>() {
+        @Override
+        public DeploymentBean createFromParcel(Parcel source) {
+            return new DeploymentBean(source);
+        }
+
+        @Override
+        public DeploymentBean[] newArray(int size) {
+            return new DeploymentBean[size];
+        }
+    };
 }

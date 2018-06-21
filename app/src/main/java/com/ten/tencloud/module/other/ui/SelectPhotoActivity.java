@@ -7,7 +7,7 @@ import android.view.View;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
-import com.socks.library.KLog;
+import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.utils.SelectPhotoHelper;
 
@@ -51,7 +51,7 @@ public class SelectPhotoActivity extends TakePhotoActivity {
     }
 
     private void showImg(ArrayList<TImage> images) {
-        KLog.e(images);
+        Logger.e(images.toString());
 //        Intent intent=new Intent(this,ResultActivity.class);
 //        intent.putExtra("images",images);
 //        startActivity(intent);

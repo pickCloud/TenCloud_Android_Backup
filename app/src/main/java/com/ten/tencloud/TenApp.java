@@ -8,6 +8,8 @@ import android.support.multidex.MultiDexApplication;
 
 import com.blankj.utilcode.util.Utils;
 import com.google.gson.Gson;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -16,7 +18,6 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.socks.library.KLog;
 import com.squareup.leakcanary.LeakCanary;
 import com.ten.tencloud.bean.MyObjectBox;
 import com.ten.tencloud.constants.Constants;
@@ -105,7 +106,8 @@ public class TenApp extends MultiDexApplication {
         UMShareAPI.get(this);
 
         //日志打印
-        KLog.init(BuildConfig.DEBUG, Constants.PROJECT_NAME);
+//        KLog.init(BuildConfig.DEBUG, Constants.PROJECT_NAME);
+        Logger.addLogAdapter(new AndroidLogAdapter());
 
         Utils.init(this);
 

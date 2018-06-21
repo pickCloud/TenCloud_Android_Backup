@@ -116,4 +116,17 @@ public class Constants {
     public static final int APP_STATUS_NORMAL = 1;
     public static final int APP_STATUS_ERROR = 2;
 
+    public static final int DEPLOYMENT_STATUS_INIT = 1;//进行中
+    public static final int DEPLOYMENT_STATUS_NORMAL = 2;//已完成
+    public static final int DEPLOYMENT_STATUS_ERROR = 3;//失败
+
+    /**
+     * 应用状态码
+     */
+    public static final int SUB_APP_DEL = 20088;
+    public static final int SUB_APP_DETAILS = SUB_APP_DEL + 1;
+    public static final int APP_DETAILS = SUB_APP_DETAILS + 1;
+    public static final int APP_DETAILS_DEL = APP_DETAILS + 1;
+
+
 }

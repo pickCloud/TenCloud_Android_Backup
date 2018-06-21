@@ -124,7 +124,7 @@ public class AppK8sRegularDeployAddContainerActivity extends BaseActivity {
             TextView tvImage = view.findViewById(R.id.tv_image);
             String imageName = data.getStringExtra("imageName");
             String imageVersion = data.getStringExtra("imageVersion");
-            datas.get(requestCode).setImage_name(imageName + ":" + imageVersion);
+            datas.get(requestCode).setName(imageName + ":" + imageVersion);
             tvImage.setText(imageName + ":" + imageVersion);
         }
         if (resultCode == AppK8sRegularDeployAddPortActivity.RESULT_CODE_ADD_PORT) {

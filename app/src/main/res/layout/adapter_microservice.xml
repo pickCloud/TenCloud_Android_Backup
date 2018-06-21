@@ -41,16 +41,24 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="预期实例数量"
+                    android:text="检测状态"
                     android:textColor="#556278"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_expect_count"
+                    android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="1个"
+                    android:text="成功"
+                    android:textColor="#09BB07"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="通过检查"
                     android:textColor="#899AB6"
                     android:textSize="12sp" />
 
@@ -64,18 +72,43 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="当前运行中"
+                    android:text="服务来源"
                     android:textColor="#556278"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_current_count"
+                    android:id="@+id/tv_service_sourcing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="1个"
+                    android:text="集群内应用，通过标签选择"
                     android:textColor="#899AB6"
                     android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暴露方式"
+                    android:textColor="#556278"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:id="@+id/tv_exposure_chamber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="通过集群IP，仅集群内部访问"
+                    android:textColor="#899AB6"
+                    android:textSize="12sp" />
+
             </LinearLayout>
 
         </LinearLayout>

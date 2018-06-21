@@ -1,7 +1,7 @@
 package com.ten.tencloud.model.cache;
 
 import com.orhanobut.hawk.Hawk;
-import com.socks.library.KLog;
+import com.orhanobut.logger.Logger;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -44,7 +44,7 @@ public class RetrofitCache {
             fromNetwork = fromNetwork.map(new Func1<T, T>() {
                 @Override
                 public T call(T result) {
-                    KLog.d(result);
+                    Logger.d(result);
                     Hawk.put(cacheKey, result);
                     return result;
                 }

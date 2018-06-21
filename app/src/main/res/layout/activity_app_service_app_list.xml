@@ -42,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_10"
         app:srlAccentColor="@color/text_color_899ab6"
         app:srlDragRate="0.7"
         app:srlEnableAutoLoadmore="true"

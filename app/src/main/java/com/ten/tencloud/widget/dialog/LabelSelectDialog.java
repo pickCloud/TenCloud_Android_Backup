@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.socks.library.KLog;
+import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.listener.DialogListener;
@@ -302,7 +302,7 @@ public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.
 
     @Override
     public void labelAddResult(LabelBean bean) {
-        KLog.e(bean);
+        Logger.e(bean.toString());
         bean.setSelect(true);
         bean.setCheck(true);
         mHistoryLabels.add(bean);

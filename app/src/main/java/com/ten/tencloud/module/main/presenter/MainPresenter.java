@@ -26,33 +26,49 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
 
 
     @Override
-    public void getMsgCount() {
-        mSubscriptions.add(Observable.interval(0, 10, TimeUnit.SECONDS)
-                .flatMap(new Func1<Long, Observable<Map<String, Integer>>>() {
-                    @Override
-                    public Observable<Map<String, Integer>> call(Long aLong) {
-                        return MsgModel.getInstance().getMsgCountByStatus(0);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new JesSubscribe<Map<String, Integer>>(mView) {
-                    @Override
-                    public void _onSuccess(Map<String, Integer> stringIntegerMap) {
-                        mView.showMsgCount(stringIntegerMap.get("num") + "");
-                        Integer permission_changed = stringIntegerMap.get("permission_changed");
-                        Integer admin_changed = stringIntegerMap.get("admin_changed");
-                        if (permission_changed != 0) {
-                            mView.updatePermission();
-                        }
-                        if (admin_changed != 0) {
-                            mView.updateAdminInfo();
-                        }
-                    }
+    public void getMsgCount() {//******************一直循环我擦
+//        mSubscriptions.add(Observable.interval(0, 10, TimeUnit.SECONDS)
+//                .flatMap(new Func1<Long, Observable<Map<String, Integer>>>() {
+//                    @Override
+//                    public Observable<Map<String, Integer>> call(Long aLong) {
+//                        return MsgModel.getInstance().getMsgCountByStatus(0);
+//                    }
+//                })
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new JesSubscribe<Map<String, Integer>>(mView) {
+//                    @Override
+//                    public void _onSuccess(Map<String, Integer> stringIntegerMap) {
+//                        mView.showMsgCount(stringIntegerMap.get("num") + "");
+//                        Integer permission_changed = stringIntegerMap.get("permission_changed");
+//                        Integer admin_changed = stringIntegerMap.get("admin_changed");
+//                        if (permission_changed != 0) {
+//                            mView.updatePermission();
+//                        }
+//                        if (admin_changed != 0) {
+//                            mView.updateAdminInfo();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onStart() {
+//                    }
+//                }));
 
-                    @Override
-                    public void onStart() {
-                    }
-                }));
+        mSubscriptions.add(MsgModel.getInstance().getMsgCountByStatus(0)
+        .subscribe(new JesSubscribe<Map<String, Integer>>(mView) {
+            @Override
+            public void _onSuccess(Map<String, Integer> stringIntegerMap) {
+                mView.showMsgCount(stringIntegerMap.get("num") + "");
+                Integer permission_changed = stringIntegerMap.get("permission_changed");
+                Integer admin_changed = stringIntegerMap.get("admin_changed");
+                if (permission_changed != 0) {
+                    mView.updatePermission();
+                }
+                if (admin_changed != 0) {
+                    mView.updateAdminInfo();
+                }
+            }
+        }));
     }
 
     @Override

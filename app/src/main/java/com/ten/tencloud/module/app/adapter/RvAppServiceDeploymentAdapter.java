@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.TimeUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.bean.DeploymentBean;
@@ -14,6 +15,7 @@ import com.ten.tencloud.utils.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.internal.Utils;
 
 /**
  * Created by chenxh@10.com on 2018/3/27.
@@ -37,27 +39,35 @@ public class RvAppServiceDeploymentAdapter extends CJSBaseRecyclerViewAdapter<De
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvName.setText(datas.get(position).getName());
         switch (datas.get(position).getStatus()) {
-            case Constants.APP_STATUS_INIT:
+            case Constants.DEPLOYMENT_STATUS_INIT:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
                 holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_green), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
-                holder.mTvStatus.setText("初创建");
+                holder.mTvStatus.setText("进行中");
                 break;
-            case Constants.APP_STATUS_NORMAL:
+            case Constants.DEPLOYMENT_STATUS_NORMAL:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
                 holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
-                holder.mTvStatus.setText("运行中");
+                holder.mTvStatus.setText("已完成");
                 break;
-            case Constants.APP_STATUS_ERROR:
+            case Constants.DEPLOYMENT_STATUS_ERROR:
                 holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
                 holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_pink), null, null, null);
                 holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
-                holder.mTvStatus.setText("异常");
+                holder.mTvStatus.setText("失败");
                 break;
         }
-        holder.mTvLinkApp.setText(datas.get(position).getLinkApp());
-        holder.mTvCreateDate.setText(datas.get(position).getCreateDate());
+//        holder.mTvLinkApp.setText(datas.get(position).getLinkApp());
+//        holder.mTvCreateDate.setText(datas.get(position).getCreateDate());
+
+        holder.mTvYsyy.setText(datas.get(position).getReplicas() + "");
+        holder.mTvDqyy.setText(datas.get(position).getReadyReplicas() + "");
+        holder.mTvKyyy.setText(datas.get(position).getAvailableReplicas() + "");
+        holder.mTvGxyy.setText(datas.get(position).getUpdatedReplicas() + "");
+        holder.mTvLinkApp.setText(datas.get(position).getApp_name());
+        holder.mTvCreateDate.setText(datas.get(position).getCreate_time());
+//        holder.mTvRunningTime = Utils.findRequiredViewAsType(source, R.id.tv_running_time, "field 'mTvRunningTime'", TextView.class);
 
 //        holder.mRvPod.setLayoutManager(new GridLayoutManager(mContext, 5) {
 //

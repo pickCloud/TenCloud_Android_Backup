@@ -12,7 +12,7 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
-import com.socks.library.KLog;
+import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.module.other.contract.QiniuContract;
@@ -136,12 +136,12 @@ public class ImageAddActivity extends BaseActivity implements QiniuContract.View
 
     @Override
     public void takeFail(TResult result, String msg) {
-        KLog.i("takeFail:" + msg);
+        Logger.i("takeFail:" + msg);
     }
 
     @Override
     public void takeCancel() {
-        KLog.i(getResources().getString(com.jph.takephoto.R.string.msg_operation_canceled));
+        Logger.i(getResources().getString(com.jph.takephoto.R.string.msg_operation_canceled));
     }
 
     @Override

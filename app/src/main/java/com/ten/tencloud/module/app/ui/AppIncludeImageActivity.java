@@ -74,7 +74,7 @@ public class AppIncludeImageActivity extends BaseActivity implements AppImageCon
     }
 
     private void initData() {
-        mAppImagePresenter.getAppImageById(null);
+        mAppImagePresenter.getAppImageById(0);
     }
 
     @Override

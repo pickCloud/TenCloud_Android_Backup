@@ -3,6 +3,7 @@ package com.ten.tencloud.module.app.presenter;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.base.presenter.BasePresenter;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
 import com.ten.tencloud.module.app.contract.SubApplicationContract;
@@ -35,5 +36,17 @@ public class SubApplicationPresenter extends BasePresenter<SubApplicationContrac
                 }
             }
         }));
+    }
+
+    @Override
+    public void getDeploymentLatestById(int id) {
+        mSubscriptions.add(AppModel.getInstance().getDeploymentLatestById(id)
+                .subscribe(new JesSubscribe<DeploymentBean>(mView) {
+                    @Override
+                    public void _onSuccess(DeploymentBean appBeans) {
+                        mView.showDeploymentLatestDetails(appBeans);
+
+                    }
+                }));
     }
 }

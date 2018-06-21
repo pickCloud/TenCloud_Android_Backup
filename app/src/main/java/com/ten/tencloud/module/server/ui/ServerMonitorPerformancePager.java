@@ -189,6 +189,38 @@ public class ServerMonitorPerformancePager extends BasePager {
         infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "19:30 11-27"));
         infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "10:30 11-27"));
         infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "21:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "14:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "15:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "16:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "17:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "18:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "19:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "10:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "21:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "14:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "15:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "16:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "17:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "18:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "19:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "10:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "21:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "14:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "15:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "16:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "17:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "18:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "19:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "10:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "21:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "14:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "15:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "16:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "17:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "18:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "19:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "10:30 11-27"));
+        infoBeans.add(new ContentInfoBean(random.nextInt(100) + "", "21:30 11-27"));
         setDataWithCPUView(infoBeans);
     }
 

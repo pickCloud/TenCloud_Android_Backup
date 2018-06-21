@@ -43,6 +43,8 @@ import com.ten.tencloud.utils.ToastUtils;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.widget.dialog.LoadDialog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 
 
@@ -101,6 +103,19 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         filter.addAction(Constants.LOGON_ACTION);
         filter.addAction(Constants.MAIN_ACTION);
         registerReceiver(mLoginReceiver, filter);
+
+        if (isBindEventBus()) {//evenbus
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    /**
+     * 当前Activity是否需要绑定EventBus
+     *
+     * @return
+     */
+    protected boolean isBindEventBus() {
+        return false;
     }
 
     protected void createView(@LayoutRes int layoutId) {
@@ -472,6 +487,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
             mLoadDialog.cancel();
         }
         mLoadDialog = null;
+
+        if (isBindEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
+
     }
 
     public void hideKeyboard() {

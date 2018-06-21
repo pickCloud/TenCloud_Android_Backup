@@ -30,6 +30,16 @@ public class AppBean implements Comparable<AppBean>,Parcelable {
     private String description;
     private int status;
     private String repos_name;
+    private String app_id;
+
+    public String getApp_id() {
+        return app_id;
+    }
+
+    public void setApp_id(String app_id) {
+        this.app_id = app_id;
+    }
+
     private String repos_ssh_url;
     private String repos_https_url;
     private String logo_url;
@@ -177,6 +187,9 @@ public class AppBean implements Comparable<AppBean>,Parcelable {
     }
 
 
+    public AppBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -189,6 +202,7 @@ public class AppBean implements Comparable<AppBean>,Parcelable {
         dest.writeString(this.description);
         dest.writeInt(this.status);
         dest.writeString(this.repos_name);
+        dest.writeString(this.app_id);
         dest.writeString(this.repos_ssh_url);
         dest.writeString(this.repos_https_url);
         dest.writeString(this.logo_url);
@@ -199,9 +213,7 @@ public class AppBean implements Comparable<AppBean>,Parcelable {
         dest.writeString(this.update_time);
         dest.writeString(this.label_name);
         dest.writeString(this.labels);
-    }
-
-    public AppBean() {
+        dest.writeInt(this.master_app);
     }
 
     protected AppBean(Parcel in) {
@@ -210,6 +222,7 @@ public class AppBean implements Comparable<AppBean>,Parcelable {
         this.description = in.readString();
         this.status = in.readInt();
         this.repos_name = in.readString();
+        this.app_id = in.readString();
         this.repos_ssh_url = in.readString();
         this.repos_https_url = in.readString();
         this.logo_url = in.readString();
@@ -220,9 +233,10 @@ public class AppBean implements Comparable<AppBean>,Parcelable {
         this.update_time = in.readString();
         this.label_name = in.readString();
         this.labels = in.readString();
+        this.master_app = in.readInt();
     }
 
-    public static final Parcelable.Creator<AppBean> CREATOR = new Parcelable.Creator<AppBean>() {
+    public static final Creator<AppBean> CREATOR = new Creator<AppBean>() {
         @Override
         public AppBean createFromParcel(Parcel source) {
             return new AppBean(source);

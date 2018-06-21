@@ -17,10 +17,11 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
-import com.socks.library.KLog;
+import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ServiceBriefBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
@@ -30,8 +31,10 @@ import com.ten.tencloud.listener.OnRefreshWithDataListener;
 import com.ten.tencloud.model.JesException;
 import com.ten.tencloud.model.subscribe.JesSubscribe;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
+import com.ten.tencloud.module.app.contract.SubApplicationContract;
 import com.ten.tencloud.module.app.model.AppModel;
 import com.ten.tencloud.module.app.presenter.AppDetailPresenter;
+import com.ten.tencloud.module.app.presenter.SubApplicationPresenter;
 import com.ten.tencloud.module.other.contract.QiniuContract;
 import com.ten.tencloud.module.other.presenter.QiniuPresenter;
 import com.ten.tencloud.utils.SelectPhotoHelper;
@@ -50,7 +53,7 @@ import butterknife.OnClick;
  * Created by chenxh@10.com on 2018/3/26.
  */
 public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResultListener, InvokeListener,
-        QiniuContract.View, AppDetailContract.View {
+        QiniuContract.View, AppDetailContract.View, SubApplicationContract.View {
 
     @BindView(R.id.iv_logo)
     CircleImageView mIvLogo;
@@ -89,6 +92,9 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private ArrayList<LabelBean> mLabelBeans;
     private RefreshBroadCastHandler mImageRefreshHandler;
     private RefreshBroadCastHandler mAppInfoRefreshHandler;
+    private int mMasterAppId;
+    private int mType;//0-创建主应用，1-创建子应用
+    private SubApplicationPresenter mSubApplicationPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,15 +105,33 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         mAppDetailPresenter = new AppDetailPresenter();
         mAppDetailPresenter.attachView(this);
 
+        mSubApplicationPresenter = new SubApplicationPresenter();
+        mSubApplicationPresenter.attachView(this);
+
         mId = getIntent().getIntExtra("id", -1);
-        if (mId == -1) {
-            initTitleBar(true, "添加应用");
-            mBtnSureAdd.setText("确定添加");
-        } else {
-            initTitleBar(true, "修改应用");
-            mBtnSureAdd.setText("确定修改");
-            mAppDetailPresenter.getAppById(mId);
+        mMasterAppId = getIntent().getIntExtra("master_app", -1);
+        mType = getIntent().getIntExtra("type", 0);
+
+        if (mMasterAppId == -1){//主应用
+            if (mId == -1) {
+                initTitleBar(true, "添加应用");
+                mBtnSureAdd.setText("确定添加");
+            } else {
+                initTitleBar(true, "修改应用");
+                mBtnSureAdd.setText("确定修改");
+                mAppDetailPresenter.getAppById(mId);
+            }
+        }else{//子应用
+            if (mId == -1) {
+                initTitleBar(true, "添加应用");
+                mBtnSureAdd.setText("确定添加");
+            } else {
+                initTitleBar(true, "修改应用");
+                mBtnSureAdd.setText("确定修改");
+                mSubApplicationPresenter.getSubApplicationListById(mMasterAppId, mId);
+            }
         }
+
 
         mAppRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
         mAppInfoRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_INFO_CHANGE_ACTION);
@@ -214,67 +238,131 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
             showToastMessage(R.string.tips_verify_app_decription_empty);
             return;
         }
+        if (mType == 0) {//主应用
+            if (mId == -1) {
+                AppModel.getInstance()
+                        .newApp(mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, 0, labels, "0")
+                        .subscribe(new JesSubscribe<Object>(this) {
 
-        if (mId == -1) {
-            AppModel.getInstance()
-                    .newApp(mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, 0, labels)
-                    .subscribe(new JesSubscribe<Object>(this) {
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                mBtnSureAdd.setEnabled(false);
+                                mBtnSureAdd.setText("正在添加应用...请稍候...");
+                            }
 
-                        @Override
-                        public void onStart() {
-                            super.onStart();
-                            mBtnSureAdd.setEnabled(false);
-                            mBtnSureAdd.setText("正在添加应用...请稍候...");
-                        }
+                            @Override
+                            public void _onSuccess(Object o) {
+                                showToastMessage("应用添加成功");
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定添加");
+                                mAppRefreshHandler.sendBroadCast();
+                                finish();
+                            }
 
-                        @Override
-                        public void _onSuccess(Object o) {
-                            showToastMessage("应用添加成功");
-                            mBtnSureAdd.setEnabled(true);
-                            mBtnSureAdd.setText("确定添加");
-                            mAppRefreshHandler.sendBroadCast();
-                            finish();
-                        }
+                            @Override
+                            public void _onError(JesException e) {
+                                super._onError(e);
+                                showToastMessage(e.getMessage());
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定添加");
+                            }
+                        });
+            } else {
+                AppModel.getInstance()
+                        .updateApp(mId, mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, labels)
+                        .subscribe(new JesSubscribe<Object>(this) {
 
-                        @Override
-                        public void _onError(JesException e) {
-                            super._onError(e);
-                            showToastMessage(e.getMessage());
-                            mBtnSureAdd.setEnabled(true);
-                            mBtnSureAdd.setText("确定添加");
-                        }
-                    });
-        } else {
-            AppModel.getInstance()
-                    .updateApp(mId, mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, labels)
-                    .subscribe(new JesSubscribe<Object>(this) {
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                mBtnSureAdd.setEnabled(false);
+                                mBtnSureAdd.setText("正在修改应用...请稍候...");
+                            }
 
-                        @Override
-                        public void onStart() {
-                            super.onStart();
-                            mBtnSureAdd.setEnabled(false);
-                            mBtnSureAdd.setText("正在修改应用...请稍候...");
-                        }
+                            @Override
+                            public void _onSuccess(Object o) {
+                                showToastMessage("应用修改成功");
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定修改");
+                                mAppRefreshHandler.sendBroadCast();
+                                mAppInfoRefreshHandler.sendBroadCast();
+                                finish();
+                            }
 
-                        @Override
-                        public void _onSuccess(Object o) {
-                            showToastMessage("应用修改成功");
-                            mBtnSureAdd.setEnabled(true);
-                            mBtnSureAdd.setText("确定修改");
-                            mAppRefreshHandler.sendBroadCast();
-                            mAppInfoRefreshHandler.sendBroadCast();
-                            finish();
-                        }
+                            @Override
+                            public void _onError(JesException e) {
+                                super._onError(e);
+                                showToastMessage(e.getMessage());
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定修改");
+                            }
+                        });
+            }
+        }else if (mType == 1) {//子应用
+            if (mId == -1) {
+                AppModel.getInstance()
+                        .newApp(mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, 0, labels, mMasterAppId + "")
+                        .subscribe(new JesSubscribe<Object>(this) {
 
-                        @Override
-                        public void _onError(JesException e) {
-                            super._onError(e);
-                            showToastMessage(e.getMessage());
-                            mBtnSureAdd.setEnabled(true);
-                            mBtnSureAdd.setText("确定修改");
-                        }
-                    });
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                mBtnSureAdd.setEnabled(false);
+                                mBtnSureAdd.setText("正在添加应用...请稍候...");
+                            }
+
+                            @Override
+                            public void _onSuccess(Object o) {
+                                showToastMessage("应用添加成功");
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定添加");
+                                mAppRefreshHandler.sendBroadCast();
+                                finish();
+                            }
+
+                            @Override
+                            public void _onError(JesException e) {
+                                super._onError(e);
+                                showToastMessage(e.getMessage());
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定添加");
+                            }
+                        });
+            } else {
+                AppModel.getInstance()
+                        .updateApp(mMasterAppId, mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, labels)
+                        .subscribe(new JesSubscribe<Object>(this) {
+
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                mBtnSureAdd.setEnabled(false);
+                                mBtnSureAdd.setText("正在修改应用...请稍候...");
+                            }
+
+                            @Override
+                            public void _onSuccess(Object o) {
+                                showToastMessage("应用修改成功");
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定修改");
+                                mAppRefreshHandler.sendBroadCast();
+                                mAppInfoRefreshHandler.sendBroadCast();
+                                finish();
+                            }
+
+                            @Override
+                            public void _onError(JesException e) {
+                                super._onError(e);
+                                showToastMessage(e.getMessage());
+                                mBtnSureAdd.setEnabled(true);
+                                mBtnSureAdd.setText("确定修改");
+                            }
+                        });
+            }
         }
+
+
     }
 
 
@@ -331,12 +419,12 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void takeFail(TResult result, String msg) {
-        KLog.i("takeFail:" + msg);
+        Logger.i("takeFail:" + msg);
     }
 
     @Override
     public void takeCancel() {
-        KLog.i(getResources().getString(com.jph.takephoto.R.string.msg_operation_canceled));
+        Logger.i(getResources().getString(com.jph.takephoto.R.string.msg_operation_canceled));
     }
 
     @Override
@@ -415,6 +503,22 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         super.onDestroy();
         mQiniuPresenter.detachView();
         mAppDetailPresenter.detachView();
+        mSubApplicationPresenter.detachView();
         mImageRefreshHandler.unregisterReceiver();
+    }
+
+    @Override
+    public void showSubApplicationList(List<AppBean> appBeans) {
+
+    }
+
+    @Override
+    public void showSubApplicationDetails(AppBean appBean) {
+        showAppDetail(appBean);
+    }
+
+    @Override
+    public void showDeploymentLatestDetails(DeploymentBean appBean) {
+
     }
 }

@@ -19,6 +19,7 @@ public class AppDeployListContract {
 
    public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
 
-        void getDeployList(Integer app_id, Integer status, Integer deployment_id, Integer show_yaml, Integer show_log, Integer id, int page);
+        void getDeployList(Integer app_id, Integer status, Integer deployment_id, Integer show_yaml, Integer show_log, Integer id, int page, boolean isMore);
+        void getDeployList(Integer app_id, Integer deployment_id, Integer show_yaml);
     }
 }
