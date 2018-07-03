@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.ten.tencloud.BuildConfig;
@@ -47,11 +48,20 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_splash);
+
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) > 0){
+            Log.d("SplashActivity", "首次打开app，按Home键");
+            finish();
+            return;
+        }
+
         hideToolBar();
         StatusBarUtils.setTransparent(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+
+
 
         if (BuildConfig.DEBUG) {
             ToastUtils.showLongToast("测试版，当前服务器地址:" + Url.BASE_URL);

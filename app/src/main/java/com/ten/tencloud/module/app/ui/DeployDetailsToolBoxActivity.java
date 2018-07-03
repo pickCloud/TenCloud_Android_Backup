@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.utils.StatusBarUtils;
 import com.ten.tencloud.widget.blur.BlurBuilder;
 
@@ -27,7 +28,7 @@ public class DeployDetailsToolBoxActivity extends BaseActivity {
         createView(R.layout.activity_deploy_details_toolbox);
         hideToolBar();
         StatusBarUtils.setColor(this, Color.BLACK);
-        mAppBean = getIntent().getParcelableExtra("appBean");
+        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
         applyBlur();
     }
 

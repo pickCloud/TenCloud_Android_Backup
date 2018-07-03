@@ -15,9 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <include layout="@layout/include_app_service_app_detail_header" />
-
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -59,8 +57,6 @@
                     android:text="历史部署"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp" />
-
-
 
             </RelativeLayout>
 

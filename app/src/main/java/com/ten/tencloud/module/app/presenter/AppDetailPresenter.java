@@ -36,7 +36,6 @@ public class AppDetailPresenter extends BasePresenter<AppDetailContract.View> im
                         if (!ObjectUtils.isEmpty(serviceBriefBeans) && serviceBriefBeans.size() > 0)
                             mView.showServiceBriefDetails(serviceBriefBeans.get(0));
 
-
                     }
                 }));
     }

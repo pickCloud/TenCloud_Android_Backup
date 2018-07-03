@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_bg"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@drawable/selector_banner_bg"
-        android:padding="15dp"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:background="@color/bg_232730"
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
             android:layout_above="@+id/tv_ip"
             android:layout_marginBottom="6dp"
+            android:text="dfsf"
             android:textColor="#899AB6"
-            android:text="dfsf"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_ip"
-            android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="ip地址：123123"
             android:textColor="#556278"
-            android:textSize="10sp"
-            android:text="ip地址：123123"/>
+            android:textSize="10sp" />
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="4dp"
         android:layout_marginRight="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingBottom="13dp"
+        android:paddingTop="16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,20 +50,22 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_check_time"
+            android:id="@+id/tv_rule_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="配置"
             android:textColor="@color/colorPrimary"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
 
     </RelativeLayout>
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/selector_banner_bg"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:cardBackgroundColor="@color/bg_232730"
         app:cardCornerRadius="2dp"
         app:cardPreventCornerOverlap="true"
         app:contentPaddingBottom="16dp"
@@ -70,8 +73,182 @@
         app:contentPaddingTop="16dp">
 
         <TextView
+            android:id="@+id/tv_access_rule"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="234234"
+            android:textColor="#899AB6"
+            android:textSize="12sp" />
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="13dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="默认后端"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:cardBackgroundColor="@color/bg_232730"
+        app:cardCornerRadius="2dp"
+        app:cardPreventCornerOverlap="true"
+        app:contentPaddingBottom="16dp"
+        app:contentPaddingLeft="16dp"
+        app:contentPaddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="服务"
+                    android:textColor="#556278"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="集群内应用，通过标签选择"
+                    android:textColor="#287DB6"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="子应用"
+                    android:textColor="#556278"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_sub_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="集群内应用，通过标签选择"
+                    android:textColor="#287DB6"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:id="@+id/rl_kzq"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="13dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="控制器"
+            android:textColor="@color/text_color_899ab6"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_kzq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:cardBackgroundColor="@color/bg_232730"
+        app:cardCornerRadius="2dp"
+        app:cardPreventCornerOverlap="true"
+        app:contentPaddingBottom="16dp"
+        app:contentPaddingLeft="16dp"
+        app:contentPaddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="服务"
+                    android:textColor="#556278"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_kzq_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="集群内应用，通过标签选择"
+                    android:textColor="#287DB6"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="子应用"
+                    android:textColor="#556278"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_kzq_sub_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="集群内应用，通过标签选择"
+                    android:textColor="#287DB6"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

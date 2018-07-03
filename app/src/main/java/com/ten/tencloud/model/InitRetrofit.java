@@ -55,7 +55,7 @@ public class InitRetrofit {
                 .response("Response")
                 .build());
         //设置缓存路径跟大小
-        newBuilder.cache(new Cache(new File(Constants.NET_CATCH_DIR), Constants.NET_CATCH_SIZE_52428800));
+//        newBuilder.cache(new Cache(new File(Constants.NET_CATCH_DIR), Constants.NET_CATCH_SIZE_52428800));
         newBuilder.connectTimeout(Constants.NET_TIMEOUT_60, TimeUnit.SECONDS);
         newBuilder.readTimeout(Constants.NET_TIMEOUT_60, TimeUnit.SECONDS);
         newBuilder.writeTimeout(Constants.NET_TIMEOUT_120, TimeUnit.SECONDS);

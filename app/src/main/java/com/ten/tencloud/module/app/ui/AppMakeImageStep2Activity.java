@@ -129,7 +129,7 @@ public class AppMakeImageStep2Activity extends BaseActivity {
                 showLogDialog("", false);
                 break;
             case R.id.btn_view_image: {
-                Intent intent = new Intent(this, AppDetailActivity.class);
+                Intent intent = new Intent(this, AppSubDetailActivity.class);
                 intent.putExtra("viewImage",true);
                 startActivity(intent);
                 break;

@@ -29,7 +29,7 @@ public class AppToolBoxActivity extends BaseActivity implements ApplicationDelCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createView(R.layout.activity_app_toolbox);
+        createView(R.layout.activity_app_sub_toolbox);
         hideToolBar();
         StatusBarUtils.setColor(this, Color.BLACK);
         mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);

@@ -29,7 +29,6 @@ import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.ServiceBean;
-import com.ten.tencloud.bean.ServiceBriefBean;
 import com.ten.tencloud.bean.TaskBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
@@ -40,17 +39,13 @@ import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
-import com.ten.tencloud.module.app.contract.AppDetailContract;
 import com.ten.tencloud.module.app.contract.AppImageContract;
 import com.ten.tencloud.module.app.contract.SubApplicationContract;
-import com.ten.tencloud.module.app.presenter.AppDetailPresenter;
 import com.ten.tencloud.module.app.presenter.AppImagePresenter;
 import com.ten.tencloud.module.app.presenter.SubApplicationPresenter;
-import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
 import com.ten.tencloud.widget.blur.BlurBuilder;
-import com.ten.tencloud.widget.dialog.ServerSystemLoadDialog;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -65,7 +60,7 @@ import butterknife.OnClick;
  * 子应用详情
  * Created by chenxh@10.com on 2018/3/27.
  */
-public class AppDetailActivity extends BaseActivity implements SubApplicationContract.View, AppImageContract.View{
+public class AppSubDetailActivity extends BaseActivity implements SubApplicationContract.View, AppImageContract.View{
 
     @BindView(R.id.tv_name)
     TextView mTvName;
@@ -111,15 +106,14 @@ public class AppDetailActivity extends BaseActivity implements SubApplicationCon
     private ArrayList<ServiceBean> mServiceBeans;
     private ArrayList<ImageBean> mImageBeans;
     private ArrayList<TaskBean> mTaskBeans;
-//    private AppDetailPresenter mAppDetailPresenter;
-    private int mAppId;
+    private int mMasterAppId;
 
     private AppBean mAppBean;
     private AppImagePresenter mAppImagePresenter;
     private RefreshBroadCastHandler mInfoBroadCastHandler;
     private StatusDialog mStatusDialog;
     private SubApplicationPresenter mSubApplicationPresenter;
-    private int mMasterAppId;
+    private int mAppSubId;
 
     @Override
     protected boolean isBindEventBus() {
@@ -129,11 +123,11 @@ public class AppDetailActivity extends BaseActivity implements SubApplicationCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createView(R.layout.activity_app_service_app_detail);
+        createView(R.layout.activity_app_sub_detail);
         initTitleBar(true, "子应用详情");
 
-        mAppId = getIntent().getIntExtra("id", -1);
-        mMasterAppId = getIntent().getIntExtra("master_app", -1);
+        mMasterAppId = getIntent().getIntExtra(IntentKey.APP_ID, -1);
+        mAppSubId = getIntent().getIntExtra(IntentKey.APP_SUB_ID, -1);
 
         mSubApplicationPresenter = new SubApplicationPresenter();
         mSubApplicationPresenter.attachView(this);
@@ -209,16 +203,16 @@ public class AppDetailActivity extends BaseActivity implements SubApplicationCon
     }
 
     private void initData() {
-        mSubApplicationPresenter.getDeploymentLatestById(mAppId);//获取最新部署
-        mAppImagePresenter.getAppImageById(mAppId);//获取镜像
-        mSubApplicationPresenter.getSubApplicationListById(mMasterAppId, mAppId);//获取子应用详情
+        mSubApplicationPresenter.getDeploymentLatestById(mAppSubId);//获取最新部署
+        mAppImagePresenter.getAppImageById(mAppSubId);//获取镜像
+        mSubApplicationPresenter.getSubApplicationListById(mMasterAppId, mAppSubId);//获取子应用详情
 
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         if (intent.getBooleanExtra("viewImage", false)) {
-            mAppImagePresenter.getAppImageById(mAppId);
+            mAppImagePresenter.getAppImageById(mAppSubId);
             int top = mRlImage.getTop();
             mScrollView.scrollTo(0, top);
         }
@@ -230,11 +224,11 @@ public class AppDetailActivity extends BaseActivity implements SubApplicationCon
         Intent intent = null;
         switch (view.getId()) {
             case R.id.rl_basic_detail:
-                startActivity(new Intent(this, AppAddActivity.class).putExtra("id", mAppId).putExtra("master_app", mMasterAppId).putExtra("type", 1));
+                startActivity(new Intent(this, AppAddActivity.class).putExtra(IntentKey.APP_SUB_ID, mAppSubId).putExtra(IntentKey.APP_ID, mMasterAppId).putExtra("type", 1));
                 break;
             case R.id.tv_deploy_more:
                 intent = new Intent(this, AppDeployListActivity.class);
-                intent.putExtra(IntentKey.APP_ID, mAppId);
+                intent.putExtra(IntentKey.APP_ID, mAppSubId);
                 startActivity(intent);
                 break;
 //            case R.id.tv_service_more:
@@ -242,7 +236,7 @@ public class AppDetailActivity extends BaseActivity implements SubApplicationCon
 //                break;
             case R.id.tv_image_more: {
                 intent = new Intent(this, AppImageListActivity.class);
-                intent.putExtra(IntentKey.APP_ID, mAppId);
+                intent.putExtra(IntentKey.APP_ID, mAppSubId);
                 startActivity(intent);
                 break;
             }
@@ -373,7 +367,6 @@ public class AppDetailActivity extends BaseActivity implements SubApplicationCon
 
     }
 
-
     public class StatusDialog extends Dialog {
 
         public StatusDialog(@NonNull Context context) {
@@ -417,7 +410,7 @@ public class AppDetailActivity extends BaseActivity implements SubApplicationCon
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateLastDeploy(DeployEven deployEven){
-        mSubApplicationPresenter.getDeploymentLatestById(mAppId);//获取最新部署
+        mSubApplicationPresenter.getDeploymentLatestById(mAppSubId);//获取最新部署
 
     }
 }

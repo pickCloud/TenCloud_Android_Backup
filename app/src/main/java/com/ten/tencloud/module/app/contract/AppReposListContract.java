@@ -18,11 +18,14 @@ public class AppReposListContract {
         void showReposList(List<ReposBean> reposBeans);
 
         void goAuth(String url);
+
+        void githubClearSuc();
     }
 
     public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
 
         void getReposList(String url);
+        void githubClear();
 
     }
 }

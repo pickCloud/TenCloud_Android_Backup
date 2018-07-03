@@ -135,7 +135,31 @@ public class AppK8sRegularDeployAddPortActivity extends BaseActivity {
         mSelects.add("TCP");//2
         mSelects.add("UDP");//3
         mPvOptions.setPicker(mSelects);
+
+        ArrayList<AppContainerBean.Port> ports = getIntent().getParcelableArrayListExtra("ports");
+        if (!ObjectUtils.isEmpty(ports)){
+            for (int i = 0; i < ports.size(); i++) {
+
+                createLayoutView();
+
+                View childView = mLlLayout.getChildAt(i);
+                EditText etName = childView.findViewById(R.id.et_name);
+                TextView tvProtocol = childView.findViewById(R.id.tv_protocol);
+                EditText etPort = childView.findViewById(R.id.et_port);
+//                String name = etName.getText().toString();
+//                String protocol = tvProtocol.getText().toString();
+//                String portStr = etPort.getText().toString();
+
+                AppContainerBean.Port port = ports.get(i);
+                etName.setText(port.getName());
+                tvProtocol.setText(port.getProtocol());
+                etPort.setText(port.getContainerPort() + "");
+            }
+        }
+
+
     }
+
     //保存View
     private SparseArray<View> views = new SparseArray<>();
     //初始化Key，用于记录动态创建的View

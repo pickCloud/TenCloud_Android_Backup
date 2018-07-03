@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.listener.DialogListener;
@@ -302,7 +302,7 @@ public class LabelSelectDialog extends Dialog implements AppLabelSelectContract.
 
     @Override
     public void labelAddResult(LabelBean bean) {
-        Logger.e(bean.toString());
+        Log.e("", bean.toString());
         bean.setSelect(true);
         bean.setCheck(true);
         mHistoryLabels.add(bean);

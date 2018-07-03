@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.blankj.utilcode.constant.TimeConstants;
 import com.blankj.utilcode.util.TimeUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
@@ -40,21 +41,21 @@ public class RvAppServiceDeploymentAdapter extends CJSBaseRecyclerViewAdapter<De
         holder.mTvName.setText(datas.get(position).getName());
         switch (datas.get(position).getStatus()) {
             case Constants.DEPLOYMENT_STATUS_INIT:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
-                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_green), null, null, null);
-                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
+//                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
+//                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_green), null, null, null);
+//                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
                 holder.mTvStatus.setText("进行中");
                 break;
             case Constants.DEPLOYMENT_STATUS_NORMAL:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
-                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
-                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
+//                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
+//                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
+//                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                 holder.mTvStatus.setText("已完成");
                 break;
             case Constants.DEPLOYMENT_STATUS_ERROR:
-                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
-                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_pink), null, null, null);
-                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+//                holder.mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
+//                holder.mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_pink), null, null, null);
+//                holder.mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
                 holder.mTvStatus.setText("失败");
                 break;
         }
@@ -67,6 +68,10 @@ public class RvAppServiceDeploymentAdapter extends CJSBaseRecyclerViewAdapter<De
         holder.mTvGxyy.setText(datas.get(position).getUpdatedReplicas() + "");
         holder.mTvLinkApp.setText(datas.get(position).getApp_name());
         holder.mTvCreateDate.setText(datas.get(position).getCreate_time());
+        long sec = -TimeUtils.getTimeSpanByNow(datas.get(position).getCreate_time(), TimeConstants.SEC);
+
+
+        holder.mTvRunningTime.setText(com.ten.tencloud.utils.Utils.formatTime(sec * 1000));
 //        holder.mTvRunningTime = Utils.findRequiredViewAsType(source, R.id.tv_running_time, "field 'mTvRunningTime'", TextView.class);
 
 //        holder.mRvPod.setLayoutManager(new GridLayoutManager(mContext, 5) {

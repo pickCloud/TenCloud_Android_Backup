@@ -150,7 +150,7 @@
             android:name=".module.app.ui.AppListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.AppDetailActivity"
+            android:name=".module.app.ui.AppSubDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -228,10 +228,31 @@
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
 
         <activity
+            android:name=".module.app.ui.ServiceToolBoxActivity"
+            android:theme="@style/AppTheme.NoAction.NotAnimation" />
+
+
+
+        <activity
             android:name=".module.app.ui.AppDeployDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.app.ui.AppMainPageDetailsActivity"
+            android:name=".module.app.ui.AppMainDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.WebviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppServiceExampleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppServiceDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.IngressDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.IngressModificationRuleActivity"
             android:screenOrientation="portrait" />
 
     </application>

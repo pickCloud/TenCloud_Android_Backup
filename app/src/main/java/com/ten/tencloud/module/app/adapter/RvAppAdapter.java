@@ -43,8 +43,8 @@ public class RvAppAdapter extends CJSBaseRecyclerViewAdapter<AppBean, RvAppAdapt
         } else {
             holder.mTvName.setText("");
         }
-        if (!TextUtils.isEmpty(datas.get(position).getRepos_https_url())) {
-            holder.mTvSource.setText(datas.get(position).getRepos_https_url());
+        if (!TextUtils.isEmpty(datas.get(position).getDescription())) {
+            holder.mTvSource.setText(datas.get(position).getDescription());
         } else {
             holder.mTvSource.setText("");
         }

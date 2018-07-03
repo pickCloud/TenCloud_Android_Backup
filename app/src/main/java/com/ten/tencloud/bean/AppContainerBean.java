@@ -129,6 +129,9 @@ public class AppContainerBean implements Parcelable {
             this.containerPort = containerPort;
         }
 
+        public Port() {
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -141,16 +144,13 @@ public class AppContainerBean implements Parcelable {
             dest.writeInt(this.containerPort);
         }
 
-        public Port() {
-        }
-
         protected Port(Parcel in) {
             this.name = in.readString();
             this.protocol = in.readString();
             this.containerPort = in.readInt();
         }
 
-        public static final Parcelable.Creator<Port> CREATOR = new Parcelable.Creator<Port>() {
+        public static final Creator<Port> CREATOR = new Creator<Port>() {
             @Override
             public Port createFromParcel(Parcel source) {
                 return new Port(source);
@@ -186,7 +186,7 @@ public class AppContainerBean implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.image);
         dest.writeTypedList(this.ports);
-        dest.writeList(this.containers);
+        dest.writeTypedList(this.containers);
     }
 
     protected AppContainerBean(Parcel in) {
@@ -205,8 +205,7 @@ public class AppContainerBean implements Parcelable {
         this.name = in.readString();
         this.image = in.readString();
         this.ports = in.createTypedArrayList(Port.CREATOR);
-        this.containers = new ArrayList<ContainersBean>();
-        in.readList(this.containers, ContainersBean.class.getClassLoader());
+        this.containers = in.createTypedArrayList(ContainersBean.CREATOR);
     }
 
     public static final Creator<AppContainerBean> CREATOR = new Creator<AppContainerBean>() {

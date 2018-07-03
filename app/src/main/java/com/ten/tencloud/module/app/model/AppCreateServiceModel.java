@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.app.model;
 
-import com.orhanobut.logger.Logger;
+import android.util.Log;
+
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.constants.Url;
 import com.ten.tencloud.model.AppBaseCache;
@@ -18,7 +19,7 @@ import okhttp3.WebSocketListener;
 public class AppCreateServiceModel {
 
     // TODO: 2018/5/15
-    public final static String addUrl = "/api/k8s_deploy";
+    public final static String addUrl = "/api/k8s_service";
 
     private WebSocketListener mWebSocketListener;
     private OkHttpClient mClient;
@@ -26,8 +27,8 @@ public class AppCreateServiceModel {
 
     private boolean isSuccess = false;
 
-    public AppCreateServiceModel(OnAppK8sDeployListener OnAppK8sDeployListener) {
-        this.OnAppK8sDeployListener = OnAppK8sDeployListener;
+    public AppCreateServiceModel(OnAppServiceListener OnAppServiceListener) {
+        this.OnAppServiceListener = OnAppServiceListener;
         initSocket();
     }
 
@@ -38,40 +39,40 @@ public class AppCreateServiceModel {
         mWebSocketListener = new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
-                Logger.d("连接成功");
+                Log.d("接收","连接成功");
             }
 
             @Override
             public void onMessage(WebSocket webSocket, String text) {
-                Logger.d("接收==>" + text);
+                Log.d("接收", "接收==>" + text);
                 if ("success".equals(text)) {
                     isSuccess = true;
-                    if (OnAppK8sDeployListener != null) {
-                        OnAppK8sDeployListener.onSuccess();
+                    if (OnAppServiceListener != null) {
+                        OnAppServiceListener.onSuccess();
                     }
                 } else if ("failure".equals(text)) {
-                    if (OnAppK8sDeployListener != null) {
-                        OnAppK8sDeployListener.onFailure("构建失败");
+                    if (OnAppServiceListener != null) {
+                        OnAppServiceListener.onFailure("创建失败");
                     }
                 } else if (!"open".equals(text)) {
-                    if (OnAppK8sDeployListener != null) {
-                        OnAppK8sDeployListener.onMessage(text);
+                    if (OnAppServiceListener != null) {
+                        OnAppServiceListener.onMessage(text);
                     }
                 }
             }
 
             @Override
             public void onClosed(WebSocket webSocket, int code, String reason) {
-                Logger.d("关闭");
+                Log.d("接收", "关闭");
             }
 
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 t.printStackTrace();
-                Logger.e(t.getMessage());
+                Log.e("接收",t.getMessage());
                 if (!isSuccess) {
-                    if (OnAppK8sDeployListener != null)
-                        OnAppK8sDeployListener.onFailure(t.getMessage());
+                    if (OnAppServiceListener != null)
+                        OnAppServiceListener.onFailure(t.getMessage());
                 }
             }
         };
@@ -108,11 +109,11 @@ public class AppCreateServiceModel {
     }
 
     public void onDestroy() {
-        OnAppK8sDeployListener = null;
+        OnAppServiceListener = null;
         mWebSocket = null;
     }
 
-    public interface OnAppK8sDeployListener {
+    public interface OnAppServiceListener {
 
         void onSuccess();
 
@@ -121,6 +122,6 @@ public class AppCreateServiceModel {
         void onMessage(String text);
     }
 
-    private OnAppK8sDeployListener OnAppK8sDeployListener;
+    private OnAppServiceListener OnAppServiceListener;
 }
 

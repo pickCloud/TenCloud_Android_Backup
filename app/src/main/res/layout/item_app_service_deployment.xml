@@ -68,13 +68,30 @@
                 android:orientation="vertical"
                 android:paddingTop="15dp">
 
-                <TextView
-                    android:id="@+id/tv_ysyy"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textColor="#FF48BBC0"
-                    android:textSize="16sp" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_ysyy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#FF48BBC0"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="2dp"
+                        android:text="个"
+                        android:textColor="#556278"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,7 +99,7 @@
                     android:layout_marginTop="6dp"
                     android:text="预设应用\n实例数量"
                     android:textColor="#FF556278"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="10sp" />
 
 
             </LinearLayout>
@@ -95,13 +112,28 @@
                 android:orientation="vertical"
                 android:paddingTop="15dp">
 
-                <TextView
-                    android:id="@+id/tv_dqyy"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textColor="#FF48BBC0"
-                    android:textSize="16sp" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_dqyy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#FF48BBC0"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="2dp"
+                        android:text="个"
+                        android:textColor="#556278"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,7 +141,7 @@
                     android:layout_marginTop="6dp"
                     android:text="当前应用\n实例数量"
                     android:textColor="#FF556278"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="10sp" />
 
 
             </LinearLayout>
@@ -122,13 +154,29 @@
                 android:orientation="vertical"
                 android:paddingTop="15dp">
 
-                <TextView
-                    android:id="@+id/tv_kyyy"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textColor="#FF48BBC0"
-                    android:textSize="16sp" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_kyyy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#FF48BBC0"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="2dp"
+                        android:text="个"
+                        android:textColor="#556278"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -136,7 +184,7 @@
                     android:layout_marginTop="6dp"
                     android:text="可用应用\n实例数量"
                     android:textColor="#FF556278"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="10sp" />
 
 
             </LinearLayout>
@@ -149,13 +197,28 @@
                 android:orientation="vertical"
                 android:paddingTop="15dp">
 
-                <TextView
-                    android:id="@+id/tv_gxyy"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textColor="#FF48BBC0"
-                    android:textSize="16sp" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_gxyy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#FF48BBC0"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="2dp"
+                        android:text="个"
+                        android:textColor="#556278"
+                        android:textSize="10sp" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -163,7 +226,7 @@
                     android:layout_marginTop="6dp"
                     android:text="更新应用\n实例数量"
                     android:textColor="#FF556278"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="10sp" />
 
 
             </LinearLayout>
@@ -190,7 +253,7 @@
                     android:layout_marginTop="6dp"
                     android:text="运行时间"
                     android:textColor="#FF556278"
-                    android:textSize="@dimen/sp_12" />
+                    android:textSize="10sp" />
 
 
             </LinearLayout>

@@ -3,6 +3,7 @@ package com.ten.tencloud.module.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,6 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
-import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
@@ -26,6 +26,7 @@ import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ServiceBriefBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.listener.DialogListener;
 import com.ten.tencloud.listener.OnRefreshWithDataListener;
 import com.ten.tencloud.model.JesException;
@@ -83,9 +84,8 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private String mReposName;
     private String mReposUrl;
     private String mReposHttpUrl;
-    private AppBean mAppBean;
     private RefreshBroadCastHandler mAppRefreshHandler;
-    private int mId;
+//    private int mId;
 
     private AppDetailPresenter mAppDetailPresenter;
     private LabelSelectDialog mLabelSelectDialog;
@@ -95,6 +95,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
     private int mMasterAppId;
     private int mType;//0-创建主应用，1-创建子应用
     private SubApplicationPresenter mSubApplicationPresenter;
+    private int mAppSubId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,29 +109,36 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
         mSubApplicationPresenter = new SubApplicationPresenter();
         mSubApplicationPresenter.attachView(this);
 
-        mId = getIntent().getIntExtra("id", -1);
-        mMasterAppId = getIntent().getIntExtra("master_app", -1);
+        mAppSubId = getIntent().getIntExtra(IntentKey.APP_SUB_ID, -1);
+        mMasterAppId = getIntent().getIntExtra(IntentKey.APP_ID, -1);
         mType = getIntent().getIntExtra("type", 0);
 
-        if (mMasterAppId == -1){//主应用
-            if (mId == -1) {
-                initTitleBar(true, "添加应用");
+        if (mType == 0){//主应用
+            if (mMasterAppId == -1) {
+                initTitleBar(true, "添加主应用");
                 mBtnSureAdd.setText("确定添加");
+                findViewById(R.id.ll_mirror_image).setVisibility(View.GONE);
+
             } else {
-                initTitleBar(true, "修改应用");
+                initTitleBar(true, "修改主应用");
                 mBtnSureAdd.setText("确定修改");
-                mAppDetailPresenter.getAppById(mId);
+                findViewById(R.id.ll_mirror_image).setVisibility(View.GONE);
+                mAppDetailPresenter.getAppById(mMasterAppId);
             }
-        }else{//子应用
-            if (mId == -1) {
-                initTitleBar(true, "添加应用");
+        }else if(mType == 1){//子应用
+            if (mAppSubId == -1) {
+                initTitleBar(true, "添加子应用");
                 mBtnSureAdd.setText("确定添加");
+                findViewById(R.id.ll_tag).setVisibility(View.GONE);
+
             } else {
-                initTitleBar(true, "修改应用");
+                initTitleBar(true, "修改子应用");
                 mBtnSureAdd.setText("确定修改");
-                mSubApplicationPresenter.getSubApplicationListById(mMasterAppId, mId);
+                findViewById(R.id.ll_tag).setVisibility(View.GONE);
+                mSubApplicationPresenter.getSubApplicationListById(mMasterAppId, mAppSubId);
             }
         }
+
 
 
         mAppRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
@@ -239,9 +247,9 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
             return;
         }
         if (mType == 0) {//主应用
-            if (mId == -1) {
+            if (mMasterAppId == -1) {
                 AppModel.getInstance()
-                        .newApp(mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, 0, labels, "0")
+                        .newApp(mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, 0, labels, null)
                         .subscribe(new JesSubscribe<Object>(this) {
 
                             @Override
@@ -270,7 +278,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                         });
             } else {
                 AppModel.getInstance()
-                        .updateApp(mId, mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, labels)
+                        .updateApp(mMasterAppId, mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, labels, mMasterAppId)
                         .subscribe(new JesSubscribe<Object>(this) {
 
                             @Override
@@ -300,9 +308,9 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                         });
             }
         }else if (mType == 1) {//子应用
-            if (mId == -1) {
+            if (mAppSubId == -1) {
                 AppModel.getInstance()
-                        .newApp(mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, 0, labels, mMasterAppId + "")
+                        .newApp(mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, 0, labels, mMasterAppId)
                         .subscribe(new JesSubscribe<Object>(this) {
 
                             @Override
@@ -331,7 +339,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                         });
             } else {
                 AppModel.getInstance()
-                        .updateApp(mMasterAppId, mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, labels)
+                        .updateApp(mAppSubId, mAppName, mDescription, mReposName, mReposUrl, mReposHttpUrl, mLogoUrl, labels, mMasterAppId)
                         .subscribe(new JesSubscribe<Object>(this) {
 
                             @Override
@@ -360,8 +368,8 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                             }
                         });
             }
-        }
 
+        }
 
     }
 
@@ -419,12 +427,10 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void takeFail(TResult result, String msg) {
-        Logger.i("takeFail:" + msg);
     }
 
     @Override
     public void takeCancel() {
-        Logger.i(getResources().getString(com.jph.takephoto.R.string.msg_operation_canceled));
     }
 
     @Override
@@ -448,7 +454,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
 
     @Override
     public void showAppDetail(AppBean appBean) {
-        mAppBean = appBean;
+//        mAppBean = appBean;
         mAppName = appBean.getName();
         mDescription = appBean.getDescription();
         mReposName = appBean.getRepos_name();

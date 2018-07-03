@@ -16,7 +16,6 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
-import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.User;
@@ -233,19 +232,16 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
 
     @Override
     public void takeSuccess(TResult result) {
-        Logger.i("takeSuccess：" + result.getImage().getCompressPath());
         String path = result.getImage().getCompressPath();//压缩后的路径
         mQiniuPresenter.uploadFile(path);
     }
 
     @Override
     public void takeFail(TResult result, String msg) {
-        Logger.i("takeFail:" + msg);
     }
 
     @Override
     public void takeCancel() {
-        Logger.i(getResources().getString(com.jph.takephoto.R.string.msg_operation_canceled));
     }
 
     @Override

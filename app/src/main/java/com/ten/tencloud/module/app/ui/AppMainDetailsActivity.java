@@ -2,7 +2,6 @@ package com.ten.tencloud.module.app.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.flexbox.FlexboxLayout;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
@@ -45,7 +45,7 @@ import butterknife.OnClick;
 /**
  * 主应用详情
  */
-public class AppMainPageDetailsActivity extends BaseActivity implements AppDetailContract.View, SubApplicationContract.View{
+public class AppMainDetailsActivity extends BaseActivity implements AppDetailContract.View, SubApplicationContract.View {
 
     @BindView(R.id.iv_logo)
     CircleImageView mIvLogo;
@@ -67,10 +67,13 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
     RecyclerView mRecChildApp;
     @BindView(R.id.btn_toolbox)
     Button mBtnToolbox;
+    @BindView(R.id.tv_ingress_name)
+    TextView mTvIngressName;
+    @BindView(R.id.tv_ingress_rule)
+    TextView mTvIngressRule;
     private RvAppAdapter mRvAppAdapter;
     private MicroserviceAdapter mMicroserviceAdapter;
     private int mAppId;
-    private AppListContract mAppListContract;
     private AppDetailPresenter mAppDetailPresenter;
     private AppBean mAppBean;
     private SubApplicationPresenter mSubApplicationPresenter;
@@ -78,12 +81,12 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createView(R.layout.activity_app_main_page_details);
+        createView(R.layout.activity_app_main_details);
 
         ButterKnife.bind(this);
         initTitleBar(true, "主应用详情");
 
-        mAppId = getIntent().getIntExtra("id", -1);
+        mAppId = getIntent().getIntExtra(IntentKey.APP_ID, -1);
 
         RefreshBroadCastHandler mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
         mAppHandler.registerReceiver(new OnRefreshListener() {
@@ -93,10 +96,19 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
             }
         });
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mRecMicroservice.setLayoutManager(new LinearLayoutManager(this));
         mMicroserviceAdapter = new MicroserviceAdapter();
         mRecMicroservice.setAdapter(mMicroserviceAdapter);
+        mMicroserviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext, AppServiceDetailsActivity.class);
+//                intent.putExtra(IntentKey.APP_SUB_ID, appBean.getId());
+//                intent.putExtra(IntentKey.APP_ID, appBean.getMaster_app());
+                startActivity(intent);
+            }
+        });
 
         mRecChildApp.setLayoutManager(new LinearLayoutManager(this));
         mRvAppAdapter = new RvAppAdapter(this);
@@ -104,13 +116,12 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
         mRvAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
             @Override
             public void onObjectItemClicked(AppBean appBean, int position) {
-                Intent intent = new Intent(mContext, AppDetailActivity.class);
-                intent.putExtra("id", appBean.getId());
-                intent.putExtra("master_app", appBean.getMaster_app());
+                Intent intent = new Intent(mContext, AppSubDetailActivity.class);
+                intent.putExtra(IntentKey.APP_SUB_ID, appBean.getId());
+                intent.putExtra(IntentKey.APP_ID, appBean.getMaster_app());
                 startActivityForResult(intent, Constants.SUB_APP_DETAILS);
             }
         });
-
 
         mAppDetailPresenter = new AppDetailPresenter();
         mAppDetailPresenter.attachView(this);
@@ -122,7 +133,6 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
         mAppDetailPresenter.getAppById(mAppId);
         mAppDetailPresenter.getAppServiceBriefById(mAppId);
 
-
         //测试
         mMicroserviceAdapter.addData(new MicroserviceBean());
         mMicroserviceAdapter.addData(new MicroserviceBean());
@@ -130,13 +140,13 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
 
     }
 
-    @OnClick({R.id.rl_basic_detail, R.id.tv_check_time, R.id.btn_toolbox})
+    @OnClick({R.id.rl_basic_detail, R.id.tv_check_time, R.id.btn_toolbox, R.id.tv_ingress_details})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.rl_basic_detail:
                 intent = new Intent(this, AppAddActivity.class);
-                intent.putExtra("id", mAppBean.getId());
+                intent.putExtra(IntentKey.APP_ID, mAppBean.getId());
                 startActivity(intent);
                 break;
             case R.id.tv_check_time:
@@ -145,9 +155,12 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
                 BlurBuilder.snapShotWithoutStatusBar(this);
                 intent = new Intent(this, MainPageToolBoxActivity.class);
                 intent.putExtra(IntentKey.APP_ITEM, mAppBean);
-//                startActivity(intent);
                 startActivityForResult(intent, Constants.APP_DETAILS_DEL);
                 overridePendingTransition(0, 0);
+                break;
+            case R.id.tv_ingress_details:
+                intent = new Intent(this, IngressDetailsActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -203,14 +216,15 @@ public class AppMainPageDetailsActivity extends BaseActivity implements AppDetai
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK){
-            if (requestCode ==  Constants.SUB_APP_DETAILS){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constants.SUB_APP_DETAILS) {
                 mSubApplicationPresenter.getAppSubApplicationList(mAppId);
 
-            }else if (requestCode == Constants.APP_DETAILS_DEL){
+            } else if (requestCode == Constants.APP_DETAILS_DEL) {
                 setResult(RESULT_OK);
                 finish();
             }
         }
     }
+
 }

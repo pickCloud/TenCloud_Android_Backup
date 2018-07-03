@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.utils.UiUtils;
 
@@ -22,11 +23,16 @@ import com.ten.tencloud.utils.UiUtils;
 
 public class AppK8sDeployDialog extends Dialog {
 
+    private String mTip;
     private TextView mTvLog;
     private TextView mTvStatus;
 
     public AppK8sDeployDialog(@NonNull Context context) {
         super(context);
+    }
+    public AppK8sDeployDialog(@NonNull Context context, String tip) {
+        super(context);
+        this.mTip = tip;
     }
 
     @Override
@@ -38,6 +44,8 @@ public class AppK8sDeployDialog extends Dialog {
 
         mTvLog = window.findViewById(R.id.tv_log);
         mTvStatus = window.findViewById(R.id.tv_status);
+        if (!ObjectUtils.isEmpty(mTip))
+            mTvStatus.setText(mTip);
         //设置滚动
         mTvLog.setMovementMethod(ScrollingMovementMethod.getInstance());
         View tvClose = window.findViewById(R.id.tv_close);

@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.server.model;
 
-import com.orhanobut.logger.Logger;
+
+import android.util.Log;
 
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.constants.Url;
@@ -38,12 +39,12 @@ public class ServerAddModel {
         mWebSocketListener = new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
-                Logger.d("连接成功");
+                Log.d("接收", "连接成功");
             }
 
             @Override
             public void onMessage(WebSocket webSocket, String text) {
-                Logger.d("接收==>" + text);
+                Log.d("接收" ,"接收==>" + text);
                 if ("success".equals(text)) {
                     isSuccess = true;
                     if (onServerAddListener != null)
@@ -60,14 +61,14 @@ public class ServerAddModel {
             @Override
             public void onClosed(WebSocket webSocket, int code, String reason) {
 //                KLog.d("关闭");
-                Logger.d("hello");
+                Log.d("接收", "hello");
 
             }
 
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 t.printStackTrace();
-                Logger.e(t.getMessage());
+                Log.e("接收", t.getMessage());
 
                 if (!isSuccess) {
                     if (onServerAddListener != null)

@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.OptionsPickerView;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.widget.StatusSelectPopView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +23,12 @@ import butterknife.OnClick;
 
 public class APPServiceCreateStep2Activity extends BaseActivity {
 
-    @BindView(R.id.tv_service_type)
-    TextView mTvSourceType;
+    //    @BindView(R.id.tv_service_type)
+//    TextView mTvSourceType;
     //    @BindView(R.id.tv_pod)
 //    TextView mTvPodLabel;
-    @BindView(R.id.et_pod_tag)
-    EditText metPodTag;
+//    @BindView(R.id.et_pod_tag)
+//    EditText metPodTag;
 
     @BindColor(R.color.text_color_899ab6)
     int mTextColor899ab6;
@@ -37,23 +40,38 @@ public class APPServiceCreateStep2Activity extends BaseActivity {
     int mDefaultBg;
     @BindColor(R.color.line_color_2f3543)
     int mLineColor2f3543;
+    @BindView(R.id.spv_status)
+    StatusSelectPopView mSpvStatus;
+    @BindView(R.id.tv_see_example)
+    TextView mTvSeeExample;
+    @BindView(R.id.ll_one)
+    LinearLayout mLlOne;
+    @BindView(R.id.et_ip)
+    EditText mEtIp;
+    @BindView(R.id.et_port)
+    EditText mEtPort;
+    @BindView(R.id.et_namespace)
+    EditText mEtNamespace;
+    @BindView(R.id.et_external_name)
+    EditText mEtExternalName;
+    @BindView(R.id.ll_three)
+    LinearLayout mLlThree;
+    @BindView(R.id.ll_two)
+    LinearLayout mLlTwo;
 
-    private int mSourceType;
-    private int mServiceType;
     private AppBean mAppBean;
-    private OptionsPickerView mPvOptions;
-    private List<String> mSelects;
-    private String mServiceName;
+    private int mPos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_appservice_create_step2);
 
-        mAppBean = getIntent().getParcelableExtra("appBean");
+        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
         //服务来源
-        mSourceType = getIntent().getIntExtra("sourceType", 0);
-        mServiceName = getIntent().getStringExtra("serviceName");
+//        mSourceType = getIntent().getIntExtra("sourceType", 0);
+//        mServiceName = getIntent().getStringExtra("serviceName");
 
         initTitleBar(true, "创建服务", "下一步", new View.OnClickListener() {
             @Override
@@ -66,64 +84,80 @@ public class APPServiceCreateStep2Activity extends BaseActivity {
     }
 
     private void initView() {
-        mPvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+
+        List<String> statusTitles = new ArrayList<>();
+        statusTitles.add("集群内应用，通过标签选择");
+        statusTitles.add("集群外，通过映射服务");
+        statusTitles.add("集群外，通过别名映射服务");
+
+        mSpvStatus.initData(statusTitles);
+        mSpvStatus.setOnSelectListener(new StatusSelectPopView.OnSelectListener() {
             @Override
-            public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                mServiceType = options1 + 1;
-                mTvSourceType.setText(mSelects.get(options1));
+            public void onSelect(int pos) {
+                mPos = pos;
+                switch (pos) {
+                    case 0:
+                        mLlOne.setVisibility(View.VISIBLE);
+                        mLlTwo.setVisibility(View.GONE);
+                        mLlThree.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        mLlOne.setVisibility(View.GONE);
+                        mLlTwo.setVisibility(View.VISIBLE);
+                        mLlThree.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        mLlOne.setVisibility(View.GONE);
+                        mLlTwo.setVisibility(View.GONE);
+                        mLlThree.setVisibility(View.VISIBLE);
+                        break;
+                }
+
             }
-        })
-                .setTitleText("选择方式")
-                .setTitleColor(mTextColor899ab6)//标题文字颜色
-                .setSubmitColor(mColorPrimary)//确定按钮文字颜色
-                .setCancelColor(mColorPrimary)//取消按钮文字颜色
-                .setTitleBgColor(mDefaultBg)//标题背景颜色 Night mode
-                .setBgColor(mDefaultBg)//滚轮背景颜色 Night mode
-                .setTextColorCenter(mTextColor899ab6)
-                .setTextColorOut(mTextColor556278)
-                .setContentTextSize(14)
-                .setTitleSize(14)
-                .setSubCalSize(14)
-                .setDividerColor(mLineColor2f3543)
-                .build();
+        });
+
     }
 
     private void initData() {
-        mSelects = new ArrayList<>();
-        // 1 集群内访问，2. 集群内外部可访问，3. 负载均衡器
-        mSelects.add("仅集群内访问");//1
-        mSelects.add("集群内和外部可访问");//2
-        mSelects.add("通过负载均衡器访问");//3
-        mPvOptions.setPicker(mSelects);
+
     }
 
     private void next() {
+//        Intent intent = new Intent(this, APPServiceCreateStep3Activity.class);
+//        intent.putExtra("sourceType", mSourceType);
+//        intent.putExtra("serviceType", mServiceType);
+//        intent.putExtra("serviceName", mServiceName);
+//        intent.putExtra("appBean", mAppBean);
+//        intent.putExtra("podTag", metPodTag.getText().toString());
+//        startActivity(intent);
+
+        switch (mPos){
+            case 0:
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+        }
+
         Intent intent = new Intent(this, APPServiceCreateStep3Activity.class);
-        intent.putExtra("sourceType", mSourceType);
-        intent.putExtra("serviceType", mServiceType);
-        intent.putExtra("serviceName", mServiceName);
-        intent.putExtra("appBean", mAppBean);
-        intent.putExtra("podTag", metPodTag.getText().toString());
         startActivity(intent);
+
     }
 
-    @OnClick({R.id.ll_select_type, R.id.ll_select_pod})
-    public void onClick(View view) {
+    @OnClick({R.id.tv_yaml, R.id.tv_see_example})
+    public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ll_select_type:
-                mPvOptions.show();
+            case R.id.tv_yaml:
                 break;
-//            case R.id.ll_select_pod:
-//                Intent intent = new Intent(this, APPServiceCreatePodLabelActivity.class);
-//
-//                startActivityForResult(intent, 0);
-//                break;
+            case R.id.tv_see_example:
+                ActivityUtils.startActivity(AppServiceExampleActivity.class);
+                break;
+
         }
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-// TODO: 2018/5/14
-    }
 }

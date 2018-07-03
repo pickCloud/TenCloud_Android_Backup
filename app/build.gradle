@@ -44,12 +44,20 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
 }
 
 repositories {
     flatDir {
         dirs 'libs'
     }
+
 }
 
 dependencies {
@@ -105,7 +113,7 @@ dependencies {
      *     log
      */
 //    compile "com.github.zhaokaiqiang.klog:library:${libs.klog}"
-    implementation 'com.orhanobut:logger:2.2.0'
+//    implementation 'com.orhanobut:logger:2.2.0'
 
     /**
      *      流式布局
@@ -160,5 +168,7 @@ dependencies {
 
     implementation 'com.blankj:utilcode:1.16.4'
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    compile 'com.just.agentweb:agentweb:4.0.2' // (必选)
 
 }

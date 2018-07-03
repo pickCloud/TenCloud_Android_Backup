@@ -1,13 +1,13 @@
 package com.ten.tencloud.module.other.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
-import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.utils.SelectPhotoHelper;
 
@@ -51,7 +51,7 @@ public class SelectPhotoActivity extends TakePhotoActivity {
     }
 
     private void showImg(ArrayList<TImage> images) {
-        Logger.e(images.toString());
+        Log.e("images", images.toString());
 //        Intent intent=new Intent(this,ResultActivity.class);
 //        intent.putExtra("images",images);
 //        startActivity(intent);

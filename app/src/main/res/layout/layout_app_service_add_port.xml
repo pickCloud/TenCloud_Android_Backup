@@ -52,18 +52,23 @@
 
     <LinearLayout style="@style/ListItemLLFirst">
 
-        <LinearLayout style="@style/ListItemLL2">
+        <RelativeLayout style="@style/ListItemLL2">
 
             <TextView
                 style="@style/ListItemTextKey"
+                android:layout_centerVertical="true"
                 android:text="协议" />
 
-            <EditText
-                android:id="@+id/et_protocol"
-                style="@style/ListItemEditValue"
-                android:hint="支持TCP/UDP,默认TCP" />
+            <com.ten.tencloud.widget.StatusSelectPopView
+                android:id="@+id/spv_protocol"
+                android:layout_width="140dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:gravity="right" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <View style="@style/LineHorizontal2f3543" />
 
@@ -100,7 +105,7 @@
             <EditText
                 android:id="@+id/et_target_port"
                 style="@style/ListItemEditValue"
-                android:hint="1~65535,要和访问的pod端口对应"
+                android:hint="请输入填写端口名称或端口号"
                 android:inputType="number" />
 
         </LinearLayout>
@@ -109,24 +114,20 @@
 
     </LinearLayout>
 
-    <LinearLayout style="@style/ListItemLLFirst">
 
-        <LinearLayout style="@style/ListItemLL2">
+    <RelativeLayout style="@style/ListItemLLFirst">
 
-            <TextView
-                style="@style/ListItemTextKey"
-                android:text="节点端口" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="参考：https/TCP/9376、https/TCP/9376、https/TCP/9376"
+            android:textColor="#ff556278"
+            android:textSize="10sp" />
 
-            <EditText
-                android:id="@+id/et_node_port"
-                style="@style/ListItemEditValue"
-                android:hint="'仅集群内访问' 类型不用填"
-                android:inputType="number" />
+    </RelativeLayout>
 
-        </LinearLayout>
+    <View style="@style/LineHorizontal2f3543" />
 
-        <View style="@style/LineHorizontal2f3543" />
-
-    </LinearLayout>
 
 </LinearLayout>

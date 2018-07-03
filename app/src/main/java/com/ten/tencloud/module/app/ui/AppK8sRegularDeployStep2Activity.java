@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
@@ -81,9 +82,17 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
                 mContainerBean.setDeployment_name(mName);
                 mContainerBean.setApp_name(mAppBean.getName());
                 String count = mEtPodCount.getText().toString();
+                if (ObjectUtils.isEmpty(count)){
+                    showMessage("请输入数量");
+                    return;
+                }
+
                 mContainerBean.setReplica_num(Integer.parseInt(count));
                 String podTag = mEtPodTag.getText().toString();
-
+                if (ObjectUtils.isEmpty(podTag)){
+                    showMessage("请输入Pod模板标签");
+                    return;
+                }
                 if (TextUtils.isEmpty(podTag) || !podTag.contains("=")){
                     showMessage("Pod模板标签格式错误");
                     return;
@@ -142,20 +151,11 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_add_container: {
-//                Intent intent = new Intent(this, AppK8sRegularDeployAddContainerActivity.class);
-//                startActivityForResult(intent, REQUEST_CODE_ADD_CONTAINER);
                 createLayoutView();
 
                 break;
             }
-//            case R.id.ll_select_node: {
-//                // TODO: 2018/5/8 选择集群
-////                Intent intent = new Intent(this, AppK8sRegularDeployNodeTypeActivity.class);
-//                Intent intent = new Intent(this, ServerClusterListActivity.class);
-//                intent.putExtra("select", true);
-//                startActivityForResult(intent, REQUEST_CODE_SELECT_NODE);
-//                break;
-//            }
+
         }
     }
 
@@ -183,6 +183,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
             @Override
             public void onClick(View v) {//端口
                 Intent intent = new Intent(mContext, AppK8sRegularDeployAddPortActivity.class);
+                intent.putExtra("ports", datas.get(key).ports);
                 startActivityForResult(intent, key);
             }
         });

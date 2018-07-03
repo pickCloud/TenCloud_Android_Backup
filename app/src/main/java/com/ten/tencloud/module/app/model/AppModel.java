@@ -49,7 +49,7 @@ public class AppModel {
     }
 
     public Observable<Object> newApp(String name, String description, String repos_name, String repos_ssh_url,
-                                     String repos_https_url, String logo_url, int image_id, List<Integer> labels, String master_app) {
+                                     String repos_https_url, String logo_url, int image_id, List<Integer> labels, Integer master_app) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", name);
         hashMap.put("description", description);
@@ -73,7 +73,7 @@ public class AppModel {
     }
 
     public Observable<Object> updateApp(int id, String name, String description, String repos_name, String repos_ssh_url,
-                                        String repos_https_url, String logo_url, List<Integer> labels) {
+                                        String repos_https_url, String logo_url, List<Integer> labels, Integer master_app) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", id);
         hashMap.put("name", name);
@@ -82,10 +82,10 @@ public class AppModel {
         hashMap.put("repos_ssh_url", repos_ssh_url);
         hashMap.put("repos_https_url", repos_https_url);
         hashMap.put("logo_url", logo_url);
-//        if (master_app != null){
-//            hashMap.put("master_app", master_app);
-//
-//        }
+        if (master_app != null){
+            hashMap.put("master_app", master_app);
+
+        }
         Collections.sort(labels);
         hashMap.put("labels", labels);
         RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
@@ -269,9 +269,17 @@ public class AppModel {
 
     //删除应用
     public Observable<Object> applicationDel(int id) {
-
         return TenApp.getRetrofitClient().getTenAppApi()
                 .applicationDel(id)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //清除github授权
+    public Observable<Object> githubClear() {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .githubClear()
                 .map(new HttpResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

@@ -125,5 +125,9 @@ public interface TenAppApi {
     @GET("/api/deployment/replicas")
     Observable<Response<JesResponse<List<DeploymentInfoBean>>>> deploymentReplicas(@Query("deployment_id") int deployment_id, @Query("show_verbose") Integer show_verbose);
 
+    //清除授权
+    @POST("/api/github/clear")
+    Observable<Response<JesResponse<Object>>> githubClear();
+
 }
 

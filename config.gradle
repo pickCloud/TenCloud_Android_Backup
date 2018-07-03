@@ -9,7 +9,7 @@ ext {
     ]
 
     libraries = [
-            supportVersion           : "27+",
+            supportVersion           : "27.1.1",
             multidex                 : "1.0.3",
             stickyheadersrecyclerview: "0.4.3",
             retrofit                 : "2.4.0",

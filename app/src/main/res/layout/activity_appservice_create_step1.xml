@@ -20,24 +20,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选择服务来源"
+            android:text="设置服务名称"
             android:textColor="@color/text_color_566278"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_yaml"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="跳过，直接用YAML定义部署"
-            android:textColor="@color/text_color_287db6"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </android.support.constraint.ConstraintLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,7 +56,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_select_source"
+            android:id="@+id/ll_select_pod"
             style="@style/ListItemLLFirst">
 
             <LinearLayout style="@style/ListItemLL2">
@@ -74,20 +64,12 @@
                 <TextView
                     style="@style/ListItemTextKey"
                     android:layout_width="wrap_content"
-                    android:text="选择服务来源" />
+                    android:text="服务标签" />
 
-                <TextView
-                    android:id="@+id/tv_source"
+                <EditText
+                    android:id="@+id/et_pod_tag"
                     style="@style/ListItemEditValue"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:hint="去选择" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:src="@mipmap/icon_arrow_right" />
+                    android:hint="key1=value1,key2=value2" />
 
             </LinearLayout>
 
@@ -95,6 +77,13 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
+
+    <!--<com.ten.tencloud.widget.spinner.NiceSpinner-->
+        <!--android:id="@+id/nice_spinner"-->
+        <!--android:layout_width="180dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="16dp"/>-->
 
 </LinearLayout>

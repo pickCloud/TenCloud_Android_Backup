@@ -18,7 +18,7 @@ import com.ten.tencloud.widget.blur.BlurBuilder;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainPageToolBoxActivity extends BaseActivity implements ApplicationDelContract.View{
+public class MainPageToolBoxActivity extends BaseActivity implements ApplicationDelContract.View {
 
     @BindView(R.id.iv_blur)
     ImageView mIvBlur;
@@ -29,7 +29,8 @@ public class MainPageToolBoxActivity extends BaseActivity implements Application
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createView(R.layout.activity_main_page_toolbox);
+
+        createView(R.layout.activity_main_toolbox);
         hideToolBar();
         StatusBarUtils.setColor(this, Color.BLACK);
         mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
@@ -37,23 +38,25 @@ public class MainPageToolBoxActivity extends BaseActivity implements Application
         mAppDelPresenter = new AppDelPresenter();
         mAppDelPresenter.attachView(this);
 
-
         applyBlur();
+
     }
 
     @OnClick({R.id.btn_tool1, R.id.btn_tool2, R.id.btn_tool3, R.id.btn_close})
     public void onClick(View view) {
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.btn_tool1:
-                Intent intent = new Intent(this, AppAddActivity.class);
-                intent.putExtra("master_app", mAppBean.getId());
+                intent = new Intent(this, AppAddActivity.class);
+                intent.putExtra(IntentKey.APP_ID, mAppBean.getId());
                 intent.putExtra("type", 1);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.btn_tool2:
-//                Intent intent = new Intent(this, AppK8sRegularDeployStep1Activity.class);
-//                intent.putExtra("appBean", mAppBean);
-//                startActivity(intent);
+                intent = new Intent(this, APPServiceCreateStep1Activity.class);
+                intent.putExtra(IntentKey.APP_ITEM, mAppBean);
+                startActivity(intent);
 
                 break;
             case R.id.btn_tool3:

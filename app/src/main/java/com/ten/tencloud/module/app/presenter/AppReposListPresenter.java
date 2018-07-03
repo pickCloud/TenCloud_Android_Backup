@@ -47,4 +47,15 @@ public class AppReposListPresenter extends BasePresenter<AppReposListContract.Vi
                     }
                 }));
     }
+
+    @Override
+    public void githubClear() {
+        mSubscriptions.add(AppModel.getInstance().githubClear()
+        .subscribe(new JesSubscribe<Object>(mView) {
+            @Override
+            public void _onSuccess(Object o) {
+                mView.githubClearSuc();
+            }
+        }));
+    }
 }

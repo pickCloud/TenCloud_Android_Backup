@@ -7,12 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.ReposBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.module.app.adapter.RvAppReposAdapter;
 import com.ten.tencloud.module.app.contract.AppReposListContract;
 import com.ten.tencloud.module.app.presenter.AppReposListPresenter;
@@ -49,6 +51,10 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
         initTitleBar(true, "绑定github代码仓库", "确认", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ObjectUtils.isEmpty(mReposUrl)){
+                    mAppReposListPresenter.githubClear();
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("url", mReposUrl);
                 bundle.putString("name", mReposName);
@@ -79,6 +85,7 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
         mRvAppReposAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<ReposBean>() {
             @Override
             public void onObjectItemClicked(ReposBean reposBean, int position) {
+
                 mRvAppReposAdapter.setSelectPos(position);
                 mReposName = reposBean.getRepos_name();
                 mReposUrl = reposBean.getRepos_url();
@@ -96,6 +103,7 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
 
     @Override
     public void showReposList(List<ReposBean> reposBeans) {
+        reposBeans.add(0, new ReposBean("不绑定", ""));
         mTvRight.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
@@ -105,7 +113,15 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
     @Override
     public void goAuth(String url) {
         mTvRight.setVisibility(View.GONE);
-        Utils.openInBrowser(this, url);
+        Intent intent = new Intent(mContext, WebviewActivity.class);
+        intent.putExtra(IntentKey.URL, url);
+        startActivity(intent);
+//        Utils.openInBrowser(this, url);
+    }
+
+    @Override
+    public void githubClearSuc() {
+        finish();
     }
 
     @Override

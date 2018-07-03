@@ -20,13 +20,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选择服务类型"
+            android:text="选择服务来源"
             android:textColor="@color/text_color_566278"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_yaml"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳过，直接用YAML定义部署"
+            android:textColor="@color/text_color_287db6"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,33 +46,44 @@
         android:background="@color/bg_232730"
         android:orientation="vertical">
 
+
         <LinearLayout
-            android:id="@+id/ll_select_pod"
+            android:id="@+id/ll_select_source"
             style="@style/ListItemLLFirst">
 
-            <LinearLayout style="@style/ListItemLL2">
+            <RelativeLayout style="@style/ListItemLL2">
 
                 <TextView
                     style="@style/ListItemTextKey"
                     android:layout_width="wrap_content"
-                    android:text="添加pod标签" />
+                    android:layout_centerVertical="true"
+                    android:text="选择服务来源" />
 
-                <EditText
-                    android:id="@+id/et_pod_tag"
-                    style="@style/ListItemEditValue"
-                    android:hint="key1=value1,key2=value2" />
+                <com.ten.tencloud.widget.StatusSelectPopView
+                    android:id="@+id/spv_status"
+                    android:layout_width="180dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:gravity="right" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <View style="@style/LineHorizontal2f3543" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_select_type"
-            style="@style/ListItemLLFirst">
+            android:id="@+id/ll_one"
+            style="@style/ListItemLLFirst"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout style="@style/ListItemLL2">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp">
 
                 <TextView
                     style="@style/ListItemTextKey"
@@ -68,24 +91,134 @@
                     android:text="选择服务类型" />
 
                 <TextView
-                    android:id="@+id/tv_service_type"
-                    style="@style/ListItemEditValue"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:hint="去选择" />
-
-                <ImageView
+                    android:id="@+id/tv_see_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:src="@mipmap/icon_arrow_right" />
+                    android:text="查看集群内有哪些实例标签"
+                    android:textColor="#287DB6"
+                    android:textSize="12sp" />
+            </RelativeLayout>
 
-            </LinearLayout>
-
-            <View style="@style/LineHorizontal2f3543" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="请输入标签"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:textColor="#556278"
+                android:textColorHint="#556278"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout style="@style/ListItemLLFirst">
+
+                <LinearLayout style="@style/ListItemLL2">
+
+                    <TextView
+                        style="@style/ListItemTextKey"
+                        android:text="IP地址输入" />
+
+                    <EditText
+                        android:id="@+id/et_ip"
+                        style="@style/ListItemEditValue"
+                        android:hint="请输入IP地址" />
+
+                </LinearLayout>
+
+                <View style="@style/LineHorizontal2f3543" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ListItemLL2"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/ListItemTextKey"
+                    android:layout_width="wrap_content"
+                    android:text="端口号" />
+
+                <EditText
+                    android:id="@+id/et_port"
+                    style="@style/ListItemEditValue"
+                    android:hint="请输入端口号" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/ListItemLLFirst">
+
+                <LinearLayout style="@style/ListItemLL2">
+
+                    <TextView
+                        style="@style/ListItemTextKey"
+                        android:layout_width="90dp"
+                        android:text="namespace" />
+
+                    <EditText
+                        android:id="@+id/et_namespace"
+                        style="@style/ListItemEditValue"
+                        android:hint="没有输入，则为系统默认" />
+
+                </LinearLayout>
+
+                <View style="@style/LineHorizontal2f3543" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/ListItemLLFirst">
+
+                <LinearLayout style="@style/ListItemLL2">
+
+                    <TextView
+                        style="@style/ListItemTextKey"
+                        android:layout_width="90dp"
+                        android:text="externalName" />
+
+                    <EditText
+                        android:id="@+id/et_external_name"
+                        style="@style/ListItemEditValue"
+                        android:hint="请输入CHANME" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View style="@style/LineHorizontal2f3543" />
+
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:lineSpacingExtra="6dp"
+        android:text="支持对标签的key或者key/value进行运算，逗号(表示AND)分割每组筛选，运算支持：\n >“=”，“="
+        android:textColor="#556278"
+        android:textSize="10sp" />
 </LinearLayout>
+
+

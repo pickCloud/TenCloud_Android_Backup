@@ -1,6 +1,7 @@
 package com.ten.tencloud.module.app.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.module.app.model.AppCreateServiceModel;
 import com.ten.tencloud.widget.dialog.AppK8sDeployDialog;
 
@@ -34,7 +36,7 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
     private String mName;
     private AppBean mAppBean;
 
-    private AppCreateServiceModel mAppK8sDeployModel;
+    private AppCreateServiceModel mAppCreateServiceModel;
     private AppK8sDeployDialog mAppK8sDeployDialog;
 
     private String mYamlCode = "";
@@ -50,7 +52,7 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
         mName = getIntent().getStringExtra("name");
         mYaml = getIntent().getStringExtra("yaml");
 
-        mAppBean = getIntent().getParcelableExtra("appBean");
+        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
 
         initView();
         initData();
@@ -67,7 +69,7 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
     }
 
     private void initData() {
-        mAppK8sDeployModel = new AppCreateServiceModel(new AppCreateServiceModel.OnAppK8sDeployListener() {
+        mAppCreateServiceModel = new AppCreateServiceModel(new AppCreateServiceModel.OnAppServiceListener() {
             @Override
             public void onSuccess() {
                 showLogDialog("部署成功", true);
@@ -105,7 +107,7 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_start, R.id.tv_log})
+    @OnClick({R.id.btn_start, R.id.tv_log, R.id.btn_view_image})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
@@ -114,29 +116,34 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
             case R.id.tv_log:
                 showLogDialog("", false);
                 break;
+            case R.id.btn_view_image:
+                Intent intent = new Intent(this, AppServiceDetailsActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
     private void startDeploy() {
         String yaml = mEtCode.getText().toString();
         Map<String, Object> map = new HashMap<>();
-        map.put("app_name", mAppBean.getName());
-        map.put("deployment_name", mName);
-        map.put("server_id", mServerId);
         map.put("app_id", mAppBean.getId());
+        map.put("app_name", mAppBean.getName());
+        map.put("service_name", mName);
+        map.put("service_type", mServerId);
+        map.put("service_source", mServerId);
         map.put("yaml", yaml);
         String json = TenApp.getInstance().getGsonInstance().toJson(map);
-        mAppK8sDeployModel.connect();
-        mAppK8sDeployModel.send(json);
+        mAppCreateServiceModel.connect();
+        mAppCreateServiceModel.send(json);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mBtnStart.setText("部署中...请稍候...");
+                mBtnStart.setText("创建中...请稍候...");
                 mBtnStart.setEnabled(false);
             }
         });
         mMakeStatus = -1;
-        showLogDialog("正在部署中...请稍候...\n", true);
+        showLogDialog("正在创建中...请稍候...\n", true);
     }
 
     //构建状态
@@ -147,7 +154,7 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
             @Override
             public void run() {
                 if (mAppK8sDeployDialog == null) {
-                    mAppK8sDeployDialog = new AppK8sDeployDialog(mContext);
+                    mAppK8sDeployDialog = new AppK8sDeployDialog(mContext, "正在创建中...请稍候");
                     mAppK8sDeployDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {
@@ -156,7 +163,7 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
                                 mLlFailed.setVisibility(View.GONE);
                                 mLlSuccess.setVisibility(View.GONE);
                                 mBtnStart.setEnabled(true);
-                                mBtnStart.setText("重新部署");
+                                mBtnStart.setText("重新创建");
                             }
                         }
                     });
@@ -172,8 +179,8 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mAppK8sDeployModel.close();
-        mAppK8sDeployModel.onDestroy();
-        mAppK8sDeployModel = null;
+        mAppCreateServiceModel.close();
+        mAppCreateServiceModel.onDestroy();
+        mAppCreateServiceModel = null;
     }
 }

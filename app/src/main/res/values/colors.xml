@@ -106,4 +106,7 @@
 
     <color name="line_color">#FF2F3543</color>
 
+    <color name="light_gray">#fff5f5f5</color>
+
+
 </resources>

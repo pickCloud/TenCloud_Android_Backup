@@ -6,12 +6,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.orhanobut.logger.Logger;
 import com.ten.tencloud.R;
 import com.ten.tencloud.utils.ToastUtils;
 import com.ten.tencloud.utils.Utils;
@@ -97,7 +97,7 @@ public class ShareDialog extends BottomSheetDialog {
             @Override
             public void onClick(View v) {
                 String url = "http" + mContent.split("http")[1];
-                Logger.e(url);
+                Log.e("url", url);
                 UMWeb umWeb = new UMWeb(url);
                 umWeb.setTitle("拾云");
                 umWeb.setDescription(mContent);

@@ -21,30 +21,21 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.AppBean;
-import com.ten.tencloud.bean.AppBrief;
-import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ProviderBean;
-import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
-import com.ten.tencloud.module.app.adapter.RvAppServiceDeploymentAdapter;
-import com.ten.tencloud.module.app.adapter.RvAppServiceAdapter;
 import com.ten.tencloud.module.app.contract.AppLabelSelectContract;
 import com.ten.tencloud.module.app.contract.AppListContract;
-import com.ten.tencloud.module.app.contract.AppServiceHomeContract;
 import com.ten.tencloud.module.app.presenter.AppLabelSelectPresenter;
 import com.ten.tencloud.module.app.presenter.AppListPresenter;
-import com.ten.tencloud.module.app.presenter.AppServiceHomePresenter;
-import com.ten.tencloud.widget.decoration.Hor16Ver8ItemDecoration;
-import com.ten.tencloud.widget.decoration.ServiceItemDecoration;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeSet;
 
 import butterknife.BindView;
@@ -121,8 +112,8 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
         mAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
             @Override
             public void onObjectItemClicked(AppBean appBean, int position) {
-                Intent intent = new Intent(getActivity(), AppMainPageDetailsActivity.class);
-                intent.putExtra("id", appBean.getId());
+                Intent intent = new Intent(getActivity(), AppMainDetailsActivity.class);
+                intent.putExtra(IntentKey.APP_ID, appBean.getId());
                 startActivityForResult(intent, Constants.APP_DETAILS);
 //                startActivity(new Intent(getActivity(), AppDetailActivity.class).putExtra("id", appBean.getId()));
             }

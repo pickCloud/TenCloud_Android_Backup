@@ -17,7 +17,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.blankj.utilcode.constant.TimeConstants;
 import com.blankj.utilcode.util.ObjectUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.DeploymentBean;
@@ -32,6 +34,7 @@ import com.ten.tencloud.module.app.contract.AppDeployListContract;
 import com.ten.tencloud.module.app.presenter.DeployInfoPresenter;
 import com.ten.tencloud.module.app.presenter.DeployListPresenter;
 import com.ten.tencloud.utils.UiUtils;
+import com.ten.tencloud.utils.Utils;
 import com.ten.tencloud.widget.blur.BlurBuilder;
 
 import java.util.ArrayList;
@@ -80,8 +83,8 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
 //    TenForbidAutoScrollView mScrollView;
     private OperationAdapter mOperationAdapter;
 
-    private List<DeploymentInfoBean> deploymentInfoBeans = new ArrayList<>();
-    private List<UpdateRecordBean> updateRecordBeans = new ArrayList<>();
+//    private List<DeploymentInfoBean> deploymentInfoBeans = new ArrayList<>();
+//    private List<UpdateRecordBean> updateRecordBeans = new ArrayList<>();
     private UpdateRecordAdapter mUpdateRecordAdapter;
     private DeployInfoPresenter mDeployInfoPresenter;
     private DeployDialog mDeployDialog;
@@ -102,6 +105,8 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
         mAppId = getIntent().getIntExtra(IntentKey.APP_ID, 0);
         mDeploymentId = getIntent().getIntExtra(IntentKey.DEPLOYMENT_ID, 0);
 
+//        mAppId = 58;
+//        mDeploymentId = 42;
 
         mRecOperation.setLayoutManager(new LinearLayoutManager(this));
         mOperationAdapter = new OperationAdapter();
@@ -136,21 +141,21 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
 
             switch (mDeploymentBean.getStatus()) {
                 case Constants.DEPLOYMENT_STATUS_INIT:
-                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
-                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_green), null, null, null);
-                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
+//                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
+//                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_green), null, null, null);
+//                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
                     mTvStatus.setText("进行中");
                     break;
                 case Constants.DEPLOYMENT_STATUS_NORMAL:
-                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
-                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
-                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
+//                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
+//                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail), null, null, null);
+//                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
                     mTvStatus.setText("已完成");
                     break;
                 case Constants.DEPLOYMENT_STATUS_ERROR:
-                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
-                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_pink), null, null, null);
-                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
+//                    mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
+//                    mTvStatus.setCompoundDrawablesWithIntrinsicBounds(UiUtils.getDrawable(R.mipmap.icon_detail_pink), null, null, null);
+//                    mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
                     mTvStatus.setText("失败");
                     break;
             }
@@ -160,8 +165,13 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
             mTvKyyy.setText(mDeploymentBean.getAvailableReplicas() + "");
             mTvGxyy.setText(mDeploymentBean.getUpdatedReplicas() + "");
             mTvDeployment.setText(mDeploymentBean.getYaml());
+            long sec = -TimeUtils.getTimeSpanByNow(mDeploymentBean.getCreate_time(), TimeConstants.SEC);
+            mTvRunTime.setText(Utils.formatTime(sec * 1000));
         }
     }
+
+
+
     @Override
     public void showEmpty() {
 
@@ -201,7 +211,8 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_refresh:
-                mDeployInfoPresenter.deploymentPods(mDeploymentBean.getId(), null);//获取部署详情
+//                mDeployInfoPresenter.deploymentPods(mDeploymentId, null);//获取部署详情
+                mDeployListPresenter.getDeployList(mAppId, mDeploymentId,  1);
 
                 break;
             case R.id.tv_desc:
