@@ -90,6 +90,10 @@ public class AppMakeImageStep2Activity extends BaseActivity {
                         mBtnStart.setVisibility(View.GONE);
                         mLlFailed.setVisibility(View.GONE);
                         mLlSuccess.setVisibility(View.VISIBLE);
+                        findViewById(R.id.tv_edit).setVisibility(View.VISIBLE);
+                        mEtCode.setFocusable(false);
+                        mEtCode.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+                        mEtCode.setClickable(false); // user navigates with wheel and selects widget
                     }
                 });
             }
@@ -116,9 +120,20 @@ public class AppMakeImageStep2Activity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_start, R.id.tv_view_log, R.id.tv_include_images, R.id.btn_view_image})
+    @OnClick({R.id.btn_start, R.id.tv_view_log, R.id.tv_include_images, R.id.btn_view_image, R.id.tv_edit})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_edit:
+                mEtCode.setFocusable(true);
+                mEtCode.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
+                mEtCode.setClickable(true); // user navigates with wheel and selects widget
+                mBtnStart.setVisibility(View.VISIBLE);
+                mLlFailed.setVisibility(View.GONE);
+                mLlSuccess.setVisibility(View.GONE);
+                mBtnStart.setEnabled(true);
+                mBtnStart.setText("重新构建");
+                break;
+
             case R.id.btn_start:
 //                String fileName = "dockerfile_" + System.currentTimeMillis();
 //                FileUtils.writeTxtToFile(mEtCode.getText().toString().trim(), Constants.TEMP_DIR, fileName);

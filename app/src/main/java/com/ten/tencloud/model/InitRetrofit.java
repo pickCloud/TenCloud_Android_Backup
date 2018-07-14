@@ -1,9 +1,7 @@
 package com.ten.tencloud.model;
 
 
-import com.ihsanbal.logging.Level;
-import com.ihsanbal.logging.LoggingInterceptor;
-import com.ten.tencloud.BuildConfig;
+import android.util.Log;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.Url;
 import com.ten.tencloud.model.netapi.TenAppApi;
@@ -21,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
@@ -47,13 +46,19 @@ public class InitRetrofit {
         OkHttpClient.Builder newBuilder = new OkHttpClient().newBuilder();
         newBuilder.interceptors().add(new AddCookiesInterceptor());
         //日志打印
-        newBuilder.addInterceptor(new LoggingInterceptor.Builder()
-                .loggable(BuildConfig.DEBUG)
-                .setLevel(Level.BODY)
-                .log(Platform.INFO)
-                .request("Request")
-                .response("Response")
-                .build());
+
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLogger());
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        newBuilder.addInterceptor(logInterceptor);
+
+//        newBuilder.addInterceptor(new LoggingInterceptor.Builder()
+//                .loggable(BuildConfig.DEBUG)
+//                .setLevel(Level.BODY)
+//                .log(Platform.INFO)
+//                .request("Request")
+//                .response("Response")
+//                .build());
         //设置缓存路径跟大小
 //        newBuilder.cache(new Cache(new File(Constants.NET_CATCH_DIR), Constants.NET_CATCH_SIZE_52428800));
         newBuilder.connectTimeout(Constants.NET_TIMEOUT_60, TimeUnit.SECONDS);
@@ -85,5 +90,13 @@ public class InitRetrofit {
     public TenAppApi getTenAppApi(){
         return client.create(TenAppApi.class);
     }
+
+    public class HttpLogger implements HttpLoggingInterceptor.Logger {
+        @Override
+        public void log(String message) {
+            Log.d("TenLog", message);
+        }
+    }
+
 
 }

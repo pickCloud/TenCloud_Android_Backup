@@ -40,4 +40,15 @@ public class DeployListPresenter extends BasePresenter<AppDeployListContract.Vie
                     }
                 }));
     }
+
+    @Override
+    public void deploymentDelete(int app_id, int deployment_id) {
+        mSubscriptions.add(AppModel.getInstance().deploymentDelete(app_id, deployment_id)
+                .subscribe(new JesSubscribe<Object>(mView) {
+                    @Override
+                    public void _onSuccess(Object o) {
+                        mView.showResult(o);
+                    }
+                }));
+    }
 }

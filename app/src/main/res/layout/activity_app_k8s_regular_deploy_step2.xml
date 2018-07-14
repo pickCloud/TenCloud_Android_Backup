@@ -5,170 +5,175 @@
     android:layout_height="match_parent"
     android:background="@color/default_bg">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/default_bg"
-    android:orientation="vertical">
-
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/bg_2f3543"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="部署定义"
-            android:textColor="@color/text_color_566278"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_yaml"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="跳过，直接用YAML定义部署"
-            android:textColor="@color/text_color_287db6"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_232730"
+        android:layout_height="match_parent"
+        android:background="@color/default_bg"
         android:orientation="vertical">
 
-        <LinearLayout style="@style/ListItemLLFirst">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/bg_2f3543"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-            <LinearLayout style="@style/ListItemLL2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="部署定义"
+                android:textColor="@color/text_color_566278"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    style="@style/ListItemTextKey"
-                    android:layout_width="wrap_content"
-                    android:text="预设Pod数量" />
+            <TextView
+                android:id="@+id/tv_yaml"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="跳过，直接用YAML定义部署"
+                android:textColor="@color/text_color_287db6"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/et_pod_count"
-                    style="@style/ListItemEditValue"
-                    android:hint="请输入数量"
-                    android:inputType="number" />
-
-            </LinearLayout>
-
-            <View style="@style/LineHorizontal2f3543" />
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/ListItemLLFirst">
-
-            <LinearLayout style="@style/ListItemLL2">
-
-                <TextView
-                    style="@style/ListItemTextKey"
-                    android:layout_width="wrap_content"
-                    android:text="Pod模板标签" />
-
-                <EditText
-                    android:id="@+id/et_pod_tag"
-                    style="@style/ListItemEditValue"
-                    android:hint="key1=value1,key2=value2" />
-
-            </LinearLayout>
-
-            <View style="@style/LineHorizontal2f3543" />
-
-        </LinearLayout>
-
-
+        </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/default_bg"
-            android:orientation="vertical"
-            tools:context="com.ten.tencloud.module.app.ui.AppK8sRegularDeployAddContainerActivity">
+            android:layout_height="wrap_content"
+            android:background="@color/bg_232730"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/ll_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <LinearLayout style="@style/ListItemLLFirst">
 
-            </LinearLayout>
+                <LinearLayout style="@style/ListItemLL2">
 
-            <LinearLayout
-                android:id="@+id/ll_add_container"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:visibility="visible"
-                android:background="@color/bg_2f3543"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                    <TextView
+                        style="@style/ListItemTextKey"
+                        android:layout_width="wrap_content"
+                        android:text="预设实例数量" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_add_opt" />
+                    <EditText
+                        android:id="@+id/et_pod_count"
+                        style="@style/ListItemEditValue"
+                        android:hint="请输入数量"
+                        android:inputType="number" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="添加新容器"
-                    android:textColor="@color/text_color_899ab6"
-                    android:textSize="14sp" />
+                </LinearLayout>
+
+                <View style="@style/LineHorizontal2f3543" />
 
             </LinearLayout>
 
-        </LinearLayout>
 
-        <!--<LinearLayout-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/ListItemTextKey"
+                        android:layout_width="wrap_content"
+                        android:text="实例标签" />
+
+                    <EditText
+                        android:id="@+id/et_pod_tag"
+                        style="@style/ListItemEditValue"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:hint="用于关联service，格式：key1=value1,key2=value2" />
+
+                </LinearLayout>
+
+                <View style="@style/LineHorizontal2f3543" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/default_bg"
+                android:orientation="vertical"
+                tools:context="com.ten.tencloud.module.app.ui.AppK8sRegularDeployAddContainerActivity">
+
+                <LinearLayout
+                    android:id="@+id/ll_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_add_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/bg_2f3543"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_add_opt" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="添加新容器"
+                        android:textColor="@color/text_color_899ab6"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--<LinearLayout-->
             <!--android:id="@+id/ll_add_container"-->
             <!--style="@style/ListItemLLFirst">-->
 
             <!--<LinearLayout style="@style/ListItemLL2">-->
 
-                <!--<TextView-->
-                    <!--style="@style/ListItemTextKey"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:text="配置pod模板容器" />-->
+            <!--<TextView-->
+            <!--style="@style/ListItemTextKey"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="配置pod模板容器" />-->
 
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_container"-->
-                    <!--style="@style/ListItemEditValue"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="right"-->
-                    <!--android:hint="去添加" />-->
+            <!--<TextView-->
+            <!--android:id="@+id/tv_container"-->
+            <!--style="@style/ListItemEditValue"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="right"-->
+            <!--android:hint="去添加" />-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginRight="16dp"-->
-                    <!--android:src="@mipmap/icon_arrow_right" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:src="@mipmap/icon_arrow_right" />-->
 
             <!--</LinearLayout>-->
 
             <!--<View style="@style/LineHorizontal2f3543" />-->
 
-        <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
 
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ObjectUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
@@ -71,7 +72,6 @@ public class AppDeployListActivity extends BaseActivity implements AppDeployList
 
         mAppId = getIntent().getIntExtra(IntentKey.APP_ID, 0);
 
-        mRlFilter.setVisibility(View.GONE);
         initTitleBar(true, "部署列表");
 
         mAppHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
@@ -93,17 +93,18 @@ public class AppDeployListActivity extends BaseActivity implements AppDeployList
 
     private void initView() {
         mRvApp.setLayoutManager(new LinearLayoutManager(this));
-        mAppServiceDeploymentAdapter = new RvAppServiceDeploymentAdapter(this);
-        mRvApp.addItemDecoration(new Hor16Ver8ItemDecoration());
+        mAppServiceDeploymentAdapter = new RvAppServiceDeploymentAdapter();
+//        mRvApp.addItemDecoration(new Hor16Ver8ItemDecoration());
         mRvApp.setAdapter(mAppServiceDeploymentAdapter);
-        mAppServiceDeploymentAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<DeploymentBean>() {
+        mAppServiceDeploymentAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onObjectItemClicked(DeploymentBean deploymentBean, int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DeploymentBean deploymentBean = (DeploymentBean) adapter.getData().get(position);
+
                 Intent intent = new Intent(mContext, AppDeployDetailsActivity.class);
                 intent.putExtra(IntentKey.APP_ID, deploymentBean.getApp_id());
                 intent.putExtra(IntentKey.DEPLOYMENT_ID, deploymentBean.getId());
                 startActivity(intent);
-
             }
         });
 
@@ -151,17 +152,25 @@ public class AppDeployListActivity extends BaseActivity implements AppDeployList
     public void showList(List<DeploymentBean> data) {
         if (isRefrsh){
             mRefresh.finishRefresh();
-            mAppServiceDeploymentAdapter.setDatas(data);
+            mAppServiceDeploymentAdapter.setNewData(data);
         }
         else{
             if (!ObjectUtils.isEmpty(data))
                 mPage ++ ;
 
             mAppServiceDeploymentAdapter.addData(data);
+            mAppServiceDeploymentAdapter.addData(data);
             mRefresh.finishLoadmore();
 
         }
 
+    }
+
+    @Override
+    public void showResult(Object o) {
+        isRefrsh = true;
+        mPage = 1;
+        initData();
     }
 
     @Override

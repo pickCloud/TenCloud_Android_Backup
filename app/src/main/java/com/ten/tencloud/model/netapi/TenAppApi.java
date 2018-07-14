@@ -5,10 +5,13 @@ import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppBrief;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.DeploymentInfoBean;
+import com.ten.tencloud.bean.ExampleBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
+import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.bean.ServiceBriefBean;
+import com.ten.tencloud.bean.ServicePortBean;
 
 import java.util.List;
 import java.util.Map;
@@ -96,7 +99,7 @@ public interface TenAppApi {
 
     //镜像部署列表
     @GET("/api/image")
-    Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("id") int appId);
+    Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("id") int id, @Query("app_id") int app_id);
 
     //检查部署名称
     @GET("/api/deployment/check_name")
@@ -111,7 +114,7 @@ public interface TenAppApi {
     Observable<Response<JesResponse<String>>> generateServiceYAML(@Body RequestBody body);
 
     @GET("/api/deployment/brief")
-    Observable<Response<JesResponse<List<DeploymentBean>>>> getDeployList(@Query("app_id") Integer id, @Query("status") Integer status, @Query("deployment_id") Integer deployment_id,
+    Observable<Response <JesResponse<List<DeploymentBean>>>> getDeployList(@Query("app_id") Integer id, @Query("status") Integer status, @Query("deployment_id") Integer deployment_id,
                                                                           @Query("show_yaml") Integer show_yaml, @Query("show_log") Integer show_log, @Query("page") int page, @Query("page_num") int pageNum);
 
     @GET("/api/deployment/brief")
@@ -128,6 +131,38 @@ public interface TenAppApi {
     //清除授权
     @POST("/api/github/clear")
     Observable<Response<JesResponse<Object>>> githubClear();
+
+    //服务列表
+    @GET("/api/service/detail")
+    Observable<Response<JesResponse<List<ServiceBean>>>> serviceList(@Query("app_id") int app_id);
+
+    //服务详情
+    @GET("/api/service/detail")
+    Observable<Response<JesResponse<List<ServiceBean>>>> serviceDetail(@Query("app_id") int app_id, @Query("service_id") int service_id, @Query("show_yaml") int show_yaml);
+
+    //删除服务
+    @POST("/api/service/delete")
+    Observable<Response<JesResponse<Object>>> serviceDel(@Query("app_id") int app_id, @Query("service_id") int service_id);
+
+    //ingress详情
+    @GET("/api/ingress/info")
+    Observable<Response<JesResponse<ServiceBean>>> ingressInfo(@Query("app_id") int app_id, @Query("show_detail") int show_detail);
+
+    //获取ingress规则配置pop选择
+    @GET("/api/service/service_port")
+    Observable<Response<JesResponse<List<ServicePortBean>>>> servicePort(@Query("app_id") int app_id);
+
+    //配置ingress规则
+    @POST("/api/ingress/config")
+    Observable<Response<JesResponse<Object>>> ingressIngress(@Body RequestBody body);
+
+    //pod_labels实例
+    @GET("/api/application/pod_labels")
+    Observable<Response<JesResponse<List<ExampleBean>>>> podLabels(@Query("app_id") int app_id);
+
+    //删除部署
+    @POST("/api/deployment/delete")
+    Observable<Response<JesResponse<Object>>> deploymentDelete(@Body RequestBody body);
 
 }
 

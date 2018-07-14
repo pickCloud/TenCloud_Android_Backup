@@ -115,7 +115,9 @@
     </LinearLayout>
 
 
-    <RelativeLayout style="@style/ListItemLLFirst">
+    <RelativeLayout
+        android:id="@+id/rl_link_desc"
+        style="@style/ListItemLLFirst">
 
         <TextView
             android:layout_width="match_parent"

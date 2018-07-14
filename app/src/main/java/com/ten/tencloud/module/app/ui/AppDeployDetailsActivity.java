@@ -25,8 +25,10 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.DeploymentInfoBean;
 import com.ten.tencloud.bean.UpdateRecordBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.OperationAdapter;
 import com.ten.tencloud.module.app.adapter.UpdateRecordAdapter;
 import com.ten.tencloud.module.app.contract.AppDeployInfoContract;
@@ -83,7 +85,7 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
 //    TenForbidAutoScrollView mScrollView;
     private OperationAdapter mOperationAdapter;
 
-//    private List<DeploymentInfoBean> deploymentInfoBeans = new ArrayList<>();
+    //    private List<DeploymentInfoBean> deploymentInfoBeans = new ArrayList<>();
 //    private List<UpdateRecordBean> updateRecordBeans = new ArrayList<>();
     private UpdateRecordAdapter mUpdateRecordAdapter;
     private DeployInfoPresenter mDeployInfoPresenter;
@@ -105,9 +107,6 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
         mAppId = getIntent().getIntExtra(IntentKey.APP_ID, 0);
         mDeploymentId = getIntent().getIntExtra(IntentKey.DEPLOYMENT_ID, 0);
 
-//        mAppId = 58;
-//        mDeploymentId = 42;
-
         mRecOperation.setLayoutManager(new LinearLayoutManager(this));
         mOperationAdapter = new OperationAdapter();
         mRecOperation.setAdapter(mOperationAdapter);
@@ -124,7 +123,16 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
 
         mDeployInfoPresenter.deploymentPods(mDeploymentId, null);//获取部署详情
 
-        mDeployListPresenter.getDeployList(mAppId, mDeploymentId,  1);
+        mDeployListPresenter.getDeployList(mAppId, mDeploymentId, 1);
+
+        RefreshBroadCastHandler mAppDelete = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_DELETE);
+        mAppDelete.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mDeployListPresenter.deploymentDelete(mAppId, mDeploymentId);
+
+            }
+        });
 
         mUpdateRecordAdapter.addData(new UpdateRecordBean());
         mUpdateRecordAdapter.addData(new UpdateRecordBean());
@@ -133,8 +141,8 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
 
     }
 
-    void initData(){
-        if (!ObjectUtils.isEmpty(mDeploymentBean)){
+    void initData() {
+        if (!ObjectUtils.isEmpty(mDeploymentBean)) {
             mTvName.setText(mDeploymentBean.getName());
             mTvRelevanceApplication.setText("关联应用   应用名称 " + mDeploymentBean.getApp_name());
             mTvDate.setText("创建时间 " + mDeploymentBean.getCreate_time());
@@ -167,10 +175,9 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
             mTvDeployment.setText(mDeploymentBean.getYaml());
             long sec = -TimeUtils.getTimeSpanByNow(mDeploymentBean.getCreate_time(), TimeConstants.SEC);
             mTvRunTime.setText(Utils.formatTime(sec * 1000));
+
         }
     }
-
-
 
     @Override
     public void showEmpty() {
@@ -179,7 +186,7 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
 
     @Override
     public void showList(List<DeploymentBean> data) {
-        if (!ObjectUtils.isEmpty(data) && data.size() > 0){
+        if (!ObjectUtils.isEmpty(data) && data.size() > 0) {
             mDeploymentBean = data.get(0);
             initData();
 
@@ -188,11 +195,18 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
     }
 
     @Override
+    public void showResult(Object o) {
+        RefreshBroadCastHandler mInfoBroadCastHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_INFO_CHANGE_ACTION);
+        mInfoBroadCastHandler.sendBroadCast();
+        finish();
+    }
+
+    @Override
     public void showDeploymentPodsList(List<DeploymentInfoBean> data) {
-        if (ObjectUtils.isEmpty(data))
+        mOperationAdapter.setNewData(data);
+        if (ObjectUtils.isEmpty(data)) {
             mOperationAdapter.setEmptyView(LayoutInflater.from(this).inflate(R.layout.include_empty, null));
-        else
-            mOperationAdapter.setNewData(data);
+        }
 
     }
 
@@ -211,8 +225,7 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_refresh:
-//                mDeployInfoPresenter.deploymentPods(mDeploymentId, null);//获取部署详情
-                mDeployListPresenter.getDeployList(mAppId, mDeploymentId,  1);
+                mDeployListPresenter.getDeployList(mAppId, mDeploymentId, 1);
 
                 break;
             case R.id.tv_desc:
@@ -222,15 +235,19 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
                 mDeployDialog.show();
                 break;
             case R.id.btn_toolbox:
-                BlurBuilder.snapShotWithoutStatusBar(this);
-                Intent intent = new Intent(this, DeployDetailsToolBoxActivity.class);
-//                intent.putExtra("appBean", mAppBean);
-                startActivity(intent);
-                overridePendingTransition(0, 0);
+                DeployDetailsToolBoxActivity deployDetailsToolBoxActivity = new DeployDetailsToolBoxActivity();
+                Bundle bundle = new Bundle();
+                bundle.putInt("appId", mDeploymentBean.getApp_id());
+                bundle.putString("appName", mDeploymentBean.getApp_name());
+                bundle.putString("name", mDeploymentBean.getName());
+                bundle.putString("yaml", mDeploymentBean.getYaml());
+                bundle.putInt("serverId", mDeploymentBean.getServer_id());
+                bundle.putInt("deployment_id", mDeploymentBean.getId());
+                deployDetailsToolBoxActivity.setArguments(bundle);
+                deployDetailsToolBoxActivity.show(getSupportFragmentManager(), "blur_sample");
                 break;
         }
     }
-
 
     public class DeployDialog extends Dialog {
 
@@ -258,6 +275,17 @@ public class AppDeployDetailsActivity extends BaseActivity implements AppDeployI
             params.height = WindowManager.LayoutParams.WRAP_CONTENT;
             setCancelable(false);
             setCanceledOnTouchOutside(false);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 03) {
+                mDeployListPresenter.deploymentDelete(mAppId, mDeploymentId);
+
+            }
         }
     }
 }

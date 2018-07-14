@@ -8,13 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
+import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.even.FinishActivityEven;
 import com.ten.tencloud.module.app.model.AppCreateServiceModel;
 import com.ten.tencloud.widget.dialog.AppK8sDeployDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,8 +38,8 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
     @BindView(R.id.ll_success)
     View mLlSuccess;
 
-    private String mName;
-    private AppBean mAppBean;
+    private String mServiceName;
+//    private AppBean mAppBean;
 
     private AppCreateServiceModel mAppCreateServiceModel;
     private AppK8sDeployDialog mAppK8sDeployDialog;
@@ -42,45 +47,71 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
     private String mYamlCode = "";
 
     private String mYaml;
-    private int mServerId;
+    private int mServiceType;
+    private int mSourceType;
+    private String mServiceId;
+    private RefreshBroadCastHandler mAppRefreshHandler;
+    private int mAppId;
+    private String mAppName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createView(R.layout.activity_app_k8s_regular_deploy_step3);
+        createView(R.layout.activity_appservice_create_step4);
         initTitleBar(true, "创建服务");
-        mName = getIntent().getStringExtra("name");
-        mYaml = getIntent().getStringExtra("yaml");
+        mServiceName = getIntent().getStringExtra(IntentKey.SERVICE_NAME);
+        mAppName = getIntent().getStringExtra(IntentKey.APP_NAME);
+        mYaml = getIntent().getStringExtra(IntentKey.YAML);
+        mSourceType = getIntent().getIntExtra(IntentKey.SERVICE_SOURCE, -1);
+        mServiceType = getIntent().getIntExtra(IntentKey.SERVICE_TYPE, -1);
+        mAppId = getIntent().getIntExtra(IntentKey.APP_ID, -1);
 
-        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
+        int serviceId = getIntent().getIntExtra(IntentKey.SERVICE_ID, -1);
+        if (serviceId != -1) {
+            mServiceId = serviceId + "";
+        }
+        if (!ObjectUtils.isEmpty(mServiceId)){
+            mBtnStart.setText("更新服务");
+        }
+
+//        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
+        mAppRefreshHandler = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION);
 
         initView();
         initData();
+
     }
 
     private void initView() {
         mBtnStart.setVisibility(View.VISIBLE);
         if (!TextUtils.isEmpty(mYaml)) {
             mEtCode.setText(mYaml);
-        } else {
-            mEtCode.setText(mYamlCode);
         }
+//        else {
+//            mEtCode.setText(mYamlCode);
+//        }
         mEtCode.setSelection(mEtCode.getText().toString().length());
     }
 
     private void initData() {
         mAppCreateServiceModel = new AppCreateServiceModel(new AppCreateServiceModel.OnAppServiceListener() {
             @Override
-            public void onSuccess() {
-                showLogDialog("部署成功", true);
+            public void onSuccess(final String serviec_id) {
+                showLogDialog("创建成功", true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mServiceId = serviec_id.substring(serviec_id.indexOf(":") + 1, serviec_id.length());
+
                         mMakeStatus = 0;
-                        mAppK8sDeployDialog.setStatus(true);
+                        mAppK8sDeployDialog.setServiceStatus(true);
                         mBtnStart.setVisibility(View.GONE);
                         mLlFailed.setVisibility(View.GONE);
                         mLlSuccess.setVisibility(View.VISIBLE);
+                        findViewById(R.id.tv_edit).setVisibility(View.VISIBLE);
+                        mEtCode.setFocusable(false);
+                        mEtCode.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+                        mEtCode.setClickable(false); // user navigates with wheel and selects widget
                     }
                 });
             }
@@ -92,7 +123,7 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
                     @Override
                     public void run() {
                         mMakeStatus = 1;
-                        mAppK8sDeployDialog.setStatus(false);
+                        mAppK8sDeployDialog.setServiceStatus(false);
                         mBtnStart.setVisibility(View.GONE);
                         mLlFailed.setVisibility(View.VISIBLE);
                         mLlSuccess.setVisibility(View.GONE);
@@ -107,9 +138,19 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_start, R.id.tv_log, R.id.btn_view_image})
+    @OnClick({R.id.btn_start, R.id.tv_log, R.id.btn_view_image, R.id.tv_edit})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_edit:
+                mEtCode.setFocusable(true);
+                mEtCode.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
+                mEtCode.setClickable(true); // user navigates with wheel and selects widget
+                mBtnStart.setVisibility(View.VISIBLE);
+                mLlFailed.setVisibility(View.GONE);
+                mLlSuccess.setVisibility(View.GONE);
+                mBtnStart.setEnabled(true);
+                mBtnStart.setText("重新创建");
+                break;
             case R.id.btn_start:
                 startDeploy();
                 break;
@@ -118,7 +159,12 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
                 break;
             case R.id.btn_view_image:
                 Intent intent = new Intent(this, AppServiceDetailsActivity.class);
+                intent.putExtra(IntentKey.APP_ID, mAppId);
+                intent.putExtra(IntentKey.SERVICE_ID, Integer.valueOf(mServiceId));
                 startActivity(intent);
+                EventBus.getDefault().post(new FinishActivityEven());
+                mAppRefreshHandler.sendBroadCast();
+                finish();
                 break;
         }
     }
@@ -126,11 +172,19 @@ public class APPServiceCreateStep4Activity extends BaseActivity {
     private void startDeploy() {
         String yaml = mEtCode.getText().toString();
         Map<String, Object> map = new HashMap<>();
-        map.put("app_id", mAppBean.getId());
-        map.put("app_name", mAppBean.getName());
-        map.put("service_name", mName);
-        map.put("service_type", mServerId);
-        map.put("service_source", mServerId);
+        map.put("app_id", mAppId);
+        map.put("app_name", mAppName);
+        map.put("service_name", mServiceName);
+        if (mServiceType != -1) {
+            map.put("service_type", mServiceType);
+        }
+
+        if (mSourceType != -1){
+            map.put("service_source", mSourceType);
+        }
+        if (!ObjectUtils.isEmpty(mServiceId)) {
+            map.put("service_id", mServiceId);
+        }
         map.put("yaml", yaml);
         String json = TenApp.getInstance().getGsonInstance().toJson(map);
         mAppCreateServiceModel.connect();

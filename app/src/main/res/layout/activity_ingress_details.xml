@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/tv_ip"
             android:layout_marginBottom="6dp"
-            android:text="dfsf"
             android:textColor="#899AB6"
             android:textSize="14sp" />
 
@@ -27,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="ip地址：123123"
             android:textColor="#556278"
             android:textSize="10sp" />
 
@@ -55,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:text="配置"
+            android:drawableRight="@mipmap/icon_more"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp" />
 
@@ -76,7 +75,6 @@
             android:id="@+id/tv_access_rule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="234234"
             android:textColor="#899AB6"
             android:textSize="12sp" />
 
@@ -133,7 +131,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="集群内应用，通过标签选择"
                     android:textColor="#287DB6"
                     android:textSize="12sp" />
 
@@ -156,7 +153,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="集群内应用，通过标签选择"
                     android:textColor="#287DB6"
                     android:textSize="12sp" />
 
@@ -219,7 +215,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="集群内应用，通过标签选择"
                     android:textColor="#287DB6"
                     android:textSize="12sp" />
 
@@ -242,7 +237,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="集群内应用，通过标签选择"
                     android:textColor="#287DB6"
                     android:textSize="12sp" />
 

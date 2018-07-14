@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ObjectUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.flexbox.FlexboxLayout;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
@@ -33,7 +34,7 @@ import com.ten.tencloud.bean.TaskBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.IntentKey;
-import com.ten.tencloud.even.DeployEven;
+import com.ten.tencloud.even.FinishActivityEven;
 import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppDetailImageAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppDetailTaskAdapter;
@@ -102,9 +103,9 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
     private RvAppDetailImageAdapter mImageAdapter;
     private RvAppDetailTaskAdapter mTaskAdapter;
 
-    private ArrayList<DeploymentBean> mDeploymentBeans;
-    private ArrayList<ServiceBean> mServiceBeans;
-    private ArrayList<ImageBean> mImageBeans;
+//    private ArrayList<DeploymentBean> mDeploymentBeans;
+//    private ArrayList<ServiceBean> mServiceBeans;
+//    private ArrayList<ImageBean> mImageBeans;
     private ArrayList<TaskBean> mTaskBeans;
     private int mMasterAppId;
 
@@ -145,6 +146,15 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
             }
         });
 
+        RefreshBroadCastHandler mAppDelete = new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_DELETE);
+        mAppDelete.registerReceiver(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+
         initDeploymentView();
 //        initServiceView();
         initImageView();
@@ -160,17 +170,19 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
                 return false;
             }
         });
-        mDeploymentAdapter = new RvAppServiceDeploymentAdapter(this);
+        mDeploymentAdapter = new RvAppServiceDeploymentAdapter();
         mRvAppDetailDeploy.setAdapter(mDeploymentAdapter);
-        mDeploymentAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<DeploymentBean>() {
+        mDeploymentAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onObjectItemClicked(DeploymentBean deploymentBean, int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DeploymentBean deploymentBean = (DeploymentBean) adapter.getData().get(position);
                 Intent intent = new Intent(mContext, AppDeployDetailsActivity.class);
                 intent.putExtra(IntentKey.APP_ID, deploymentBean.getApp_id());
                 intent.putExtra(IntentKey.DEPLOYMENT_ID, deploymentBean.getId());
                 startActivity(intent);
             }
         });
+
 
     }
 
@@ -204,7 +216,7 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
 
     private void initData() {
         mSubApplicationPresenter.getDeploymentLatestById(mAppSubId);//获取最新部署
-        mAppImagePresenter.getAppImageById(mAppSubId);//获取镜像
+        mAppImagePresenter.getAppImageById(mAppSubId, mMasterAppId);//获取镜像
         mSubApplicationPresenter.getSubApplicationListById(mMasterAppId, mAppSubId);//获取子应用详情
 
     }
@@ -212,7 +224,7 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
     @Override
     protected void onNewIntent(Intent intent) {
         if (intent.getBooleanExtra("viewImage", false)) {
-            mAppImagePresenter.getAppImageById(mAppSubId);
+            mAppImagePresenter.getAppImageById(mAppSubId, mMasterAppId);
             int top = mRlImage.getTop();
             mScrollView.scrollTo(0, top);
         }
@@ -244,11 +256,11 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
                 startActivityNoValue(this, AppTaskListActivity.class);
                 break;
             case R.id.btn_toolbox: {
-                BlurBuilder.snapShotWithoutStatusBar(this);
-                intent = new Intent(this, AppToolBoxActivity.class);
-                intent.putExtra(IntentKey.APP_ITEM, mAppBean);
-                startActivityForResult(intent, Constants.SUB_APP_DEL);
-                overridePendingTransition(0, 0);
+                AppToolBoxActivity appToolBoxActivity = new AppToolBoxActivity();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(IntentKey.APP_ITEM, mAppBean);
+                appToolBoxActivity.setArguments(bundle);
+                appToolBoxActivity.show(getSupportFragmentManager(), "blur_sample");
                 break;
             }
             case R.id.tv_status_description:
@@ -257,61 +269,9 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
                 }
                 mStatusDialog.show();
                 break;
+                default:
         }
     }
-
-//    @Override
-//    public void showAppDetail(AppBean appBean) {
-//        mAppBean = appBean;
-//        if (!TextUtils.isEmpty(appBean.getLogo_url()))
-//            GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
-//        if (!TextUtils.isEmpty(appBean.getName()))
-//            mTvName.setText(appBean.getName());
-//
-//        String label_name = appBean.getLabel_name();
-//        if (!TextUtils.isEmpty(label_name)) {
-//            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-//            mFblLabel.removeAllViews();
-//            String[] labels = label_name.split(",");
-//            for (String label : labels) {
-//                TextView tvLabel = (TextView) inflater.inflate(R.layout.item_app_service_label_default, mFblLabel, false);
-//                tvLabel.setText(label);
-//                mFblLabel.addView(tvLabel);
-//            }
-//        }
-//        switch (appBean.getStatus()) {
-//            case Constants.APP_STATUS_INIT:
-//                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_init_round);
-//                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_09bb07));
-//                mTvStatus.setText("初创建");
-//                break;
-//            case Constants.APP_STATUS_NORMAL:
-//                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_normal_round);
-//                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_48bbc0));
-//                mTvStatus.setText("正常");
-//                break;
-//            case Constants.APP_STATUS_ERROR:
-//                mTvStatus.setBackgroundResource(R.drawable.shape_app_status_error_round);
-//                mTvStatus.setTextColor(UiUtils.getColor(R.color.text_color_ef9a9a));
-//                mTvStatus.setText("异常");
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    public void showServiceBriefDetails(ServiceBriefBean serverBatchBean) {
-//
-//    }
-//
-//    @Override
-//    public void showImages(List<ImageBean> images) {
-//        mImageAdapter.setDatas(images);
-//    }
-//
-//    @Override
-//    public void showImageEmpty() {
-//
-//    }
 
     @Override
     protected void onDestroy() {
@@ -329,10 +289,12 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
     @Override
     public void showSubApplicationDetails(AppBean appBean) {
         mAppBean = appBean;
-        if (!TextUtils.isEmpty(appBean.getLogo_url()))
+        if (!TextUtils.isEmpty(appBean.getLogo_url())) {
             GlideUtils.getInstance().loadCircleImage(mContext, mIvLogo, appBean.getLogo_url(), R.mipmap.icon_app_photo);
-        if (!TextUtils.isEmpty(appBean.getName()))
+        }
+        if (!TextUtils.isEmpty(appBean.getName())) {
             mTvName.setText(appBean.getName());
+        }
 
         String label_name = appBean.getLabel_name();
         if (!TextUtils.isEmpty(label_name)) {
@@ -349,11 +311,12 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
 
     @Override
     public void showDeploymentLatestDetails(DeploymentBean deploymentBean) {
+        List<DeploymentBean> deploymentBeans = new ArrayList<>();
+
         if (!ObjectUtils.isEmpty(deploymentBean)){
-            List<DeploymentBean> deploymentBeans = new ArrayList<>();
             deploymentBeans.add(deploymentBean);
-            mDeploymentAdapter.setDatas(deploymentBeans);
         }
+        mDeploymentAdapter.setNewData(deploymentBeans);
 
     }
 
@@ -409,7 +372,7 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void updateLastDeploy(DeployEven deployEven){
+    public void updateLastDeploy(FinishActivityEven deployEven){
         mSubApplicationPresenter.getDeploymentLatestById(mAppSubId);//获取最新部署
 
     }

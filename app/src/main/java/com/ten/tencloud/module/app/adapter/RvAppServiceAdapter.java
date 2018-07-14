@@ -34,7 +34,7 @@ public class RvAppServiceAdapter extends CJSBaseRecyclerViewAdapter<ServiceBean,
     @Override
     protected void doOnBindViewHolder(ViewHolder holder, int position) {
         holder.mTvName.setText(datas.get(position).getName());
-        holder.mTvType.setText(datas.get(position).getType());
+        holder.mTvType.setText(datas.get(position).getType()+ "");
         holder.mTvIp.setText(datas.get(position).getIp());
         holder.mTvOutIp.setText(datas.get(position).getOutIp());
         holder.mTvBurden.setText(datas.get(position).getBurden());

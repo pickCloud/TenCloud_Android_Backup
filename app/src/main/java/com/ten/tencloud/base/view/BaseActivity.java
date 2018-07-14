@@ -1,5 +1,6 @@
 package com.ten.tencloud.base.view;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
@@ -420,13 +421,17 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         if (mLoadDialog == null) {
             mLoadDialog = new LoadDialog(this);
         }
-        mLoadDialog.show();
+        if(!((Activity) mContext).isFinishing())
+        {
+            mLoadDialog.show();
+
+        }
     }
 
     @Override
     public void hideLoading() {
         if (mLoadDialog != null) {
-            mLoadDialog.cancelDelay();
+            mLoadDialog.dismiss();
         }
     }
 

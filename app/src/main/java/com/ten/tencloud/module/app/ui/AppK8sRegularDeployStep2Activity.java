@@ -64,6 +64,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
 
     private AppContainerBean mContainerBean = new AppContainerBean();
     private AppK8sDeployPresenter mAppK8sDeployPresenter;
+    private boolean isYaml;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +136,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
                     containerBeans.add(appContainerBean);
                 }
                 mContainerBean.containers = containerBeans;
+                isYaml = false;
                 mAppK8sDeployPresenter.generateYAML(mContainerBean);
             }
         });
@@ -147,7 +149,7 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
 
     }
 
-    @OnClick({R.id.ll_add_container})
+    @OnClick({R.id.ll_add_container, R.id.tv_yaml})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_add_container: {
@@ -155,6 +157,39 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
 
                 break;
             }
+            case R.id.tv_yaml:
+                isYaml = true;
+                mContainerBean.setApp_id(mAppBean.getId());
+                mContainerBean.setDeployment_name(mName);
+                mContainerBean.setApp_name(mAppBean.getName());
+//                String count = mEtPodCount.getText().toString();
+//                if (ObjectUtils.isEmpty(count)){
+//                    showMessage("请输入数量");
+//                    return;
+//                }
+//
+//                mContainerBean.setReplica_num(Integer.parseInt(count));
+//                String podTag = mEtPodTag.getText().toString();
+//                if (ObjectUtils.isEmpty(podTag)){
+//                    showMessage("请输入Pod模板标签");
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(podTag) || !podTag.contains("=")){
+//                    showMessage("Pod模板标签格式错误");
+//                    return;
+//                }
+//                if (!TextUtils.isEmpty(podTag)) {
+//                    String[] split = podTag.split(",");
+//                    Map<String, String> map = new HashMap<>();
+//                    for (String s : split) {
+//                        String[] str = s.split("=");
+//                        map.put(str[0], str[1]);
+//                    }
+//                    mContainerBean.setPod_label(map);
+//                }
+                mContainerBean.setGet_default(1);
+                mAppK8sDeployPresenter.generateYAML(mContainerBean);
+                break;
 
         }
     }
@@ -199,30 +234,15 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
         initKey++;
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == Constants.ACTIVITY_RESULT_CODE_FINISH) {
-//            if (requestCode == REQUEST_CODE_SELECT_NODE) {
-//                mMasterServerId = data.getIntExtra("master_server_id", -1);
-//                String clusterName = data.getStringExtra("clusterName");
-//                mTvCluster.setText(clusterName);
-//            }
-//            else
-// if (requestCode == REQUEST_CODE_ADD_CONTAINER) {
-//                mContainerBean = data.getParcelableExtra("container");
-//                if (mContainerBean != null) {
-////                    mTvContainer.setText(mContainerBean.getContainer_name());
-//                }
-//            }
-
-//        }
         if (resultCode == AppIncludeImageActivity.RESULT_CODE_ADD_CONTAINER) {
             View view = views.get(requestCode);
             TextView tvImage = view.findViewById(R.id.tv_image);
             String imageName = data.getStringExtra("imageName");
             String imageVersion = data.getStringExtra("imageVersion");
-            datas.get(requestCode).image = imageName + ":" + imageVersion;
+            String imageUrl = data.getStringExtra("imageUrl");
+            datas.get(requestCode).image = imageUrl;
             tvImage.setText(imageName + ":" + imageVersion);
         }
         if (resultCode == AppK8sRegularDeployAddPortActivity.RESULT_CODE_ADD_PORT) {
@@ -257,7 +277,8 @@ public class AppK8sRegularDeployStep2Activity extends BaseActivity implements Ap
         Intent intent = new Intent(this, AppK8sRegularDeployStep3Activity.class);
         intent.putExtra("serverId", mMasterServerId);
         intent.putExtra("yaml", yaml);
-        intent.putExtra("appBean", mAppBean);
+        intent.putExtra("appId", mAppBean.getId());
+        intent.putExtra("appName", mAppBean.getName());
         intent.putExtra("name", mName);
         startActivity(intent);
         finish();

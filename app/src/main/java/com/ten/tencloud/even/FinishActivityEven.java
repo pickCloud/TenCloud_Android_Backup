@@ -1,4 +1,4 @@
 package com.ten.tencloud.even;
 
-public class DeployEven {
+public class FinishActivityEven {
 }

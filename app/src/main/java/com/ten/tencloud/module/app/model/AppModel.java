@@ -7,10 +7,14 @@ import com.ten.tencloud.bean.AppContainerBean;
 import com.ten.tencloud.bean.AppServiceYAMLBean;
 import com.ten.tencloud.bean.DeploymentBean;
 import com.ten.tencloud.bean.DeploymentInfoBean;
+import com.ten.tencloud.bean.ExampleBean;
 import com.ten.tencloud.bean.ImageBean;
 import com.ten.tencloud.bean.LabelBean;
 import com.ten.tencloud.bean.ReposBean;
+import com.ten.tencloud.bean.ServerBean;
+import com.ten.tencloud.bean.ServiceBean;
 import com.ten.tencloud.bean.ServiceBriefBean;
+import com.ten.tencloud.bean.ServicePortBean;
 import com.ten.tencloud.model.HttpResultFunc;
 import com.ten.tencloud.utils.RetrofitUtils;
 
@@ -170,9 +174,9 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<ImageBean>> getAppImages(int appId) {
+    public Observable<List<ImageBean>> getAppImages(int id, int app_id) {
         return TenApp.getRetrofitClient().getTenAppApi()
-                .getAppImages(appId)
+                .getAppImages(id, app_id)
                 .map(new HttpResultFunc<List<ImageBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -232,6 +236,21 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+
+    //删除指定部署
+    public Observable<Object> deploymentDelete(int app_id, int deployment_id) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("app_id", app_id);
+        hashMap.put("deployment_id", deployment_id);
+        RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(hashMap));
+
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .deploymentDelete(body)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public Observable<List<DeploymentInfoBean>> deploymentReplicas(Integer app_id, Integer show_verbose) {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .deploymentReplicas(app_id, show_verbose)
@@ -281,6 +300,75 @@ public class AppModel {
         return TenApp.getRetrofitClient().getTenAppApi()
                 .githubClear()
                 .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //获取服务详情
+    public Observable<List<ServiceBean>> serviceDetail(int app_id, int service_id, int show_yaml) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .serviceDetail(app_id, service_id, show_yaml)
+                .map(new HttpResultFunc<List<ServiceBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //获取服务列表
+    public Observable<List<ServiceBean>> serviceList(int app_id) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .serviceList(app_id)
+                .map(new HttpResultFunc<List<ServiceBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //删除服务
+    public Observable<Object> serviceDel(int app_id, int service_id) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .serviceDel(app_id, service_id)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    //ingress详情
+    public Observable<ServiceBean> ingressInfo(int app_id, int show_detail) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .ingressInfo(app_id, show_detail)
+                .map(new HttpResultFunc<ServiceBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    //获取ingress规则配置pop选择
+    public Observable<List<ServicePortBean>> servicePort(int app_id) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .servicePort(app_id)
+                .map(new HttpResultFunc<List<ServicePortBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    //修改ingress配置规则
+    public Observable<Object> ingressIngress(Map<String, Object> bean) {
+        RequestBody body = RetrofitUtils.stringToJsonBody(TenApp.getInstance().getGsonInstance().toJson(bean));
+
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .ingressIngress(body)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    //podLabels
+    public Observable<List<ExampleBean>> podLabels(int app_id) {
+
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .podLabels(app_id)
+                .map(new HttpResultFunc<List<ExampleBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

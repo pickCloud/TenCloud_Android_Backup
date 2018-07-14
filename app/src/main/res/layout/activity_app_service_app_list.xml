@@ -10,6 +10,7 @@
     <RelativeLayout
         android:id="@+id/rl_filter"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="41dp">
 
         <TextView
@@ -17,7 +18,7 @@
             android:layout_height="match_parent"
             android:focusable="true"
             android:gravity="center"
-            android:paddingStart="16dp"
+            android:paddingStart="11dp"
             android:text="主应用列表"
             android:textColor="@color/text_color_899ab6"
             android:textSize="12sp" />
@@ -31,7 +32,7 @@
             android:drawableEnd="@mipmap/icon_filter"
             android:focusable="true"
             android:gravity="center"
-            android:paddingEnd="16dp"
+            android:paddingEnd="11dp"
             android:text="筛选"
             android:textColor="@color/text_color_899ab6"
             android:textSize="12sp" />
@@ -57,6 +58,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_app"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never" />

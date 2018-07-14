@@ -84,4 +84,10 @@ public class AppK8sDeployDialog extends Dialog {
                 : UiUtils.getColor(R.color.text_color_ef9a9a));
     }
 
+    public void setServiceStatus(boolean isSuccess) {
+        mTvStatus.setText(isSuccess ? "创建成功" : "创建失败");
+        mTvStatus.setTextColor(isSuccess ? UiUtils.getColor(R.color.text_color_09bb07)
+                : UiUtils.getColor(R.color.text_color_ef9a9a));
+    }
+
 }

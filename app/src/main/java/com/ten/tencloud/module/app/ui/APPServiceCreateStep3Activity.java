@@ -16,13 +16,20 @@ import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.AppContainerBean;
 import com.ten.tencloud.bean.AppServiceYAMLBean;
+import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.even.FinishActivityEven;
 import com.ten.tencloud.module.app.contract.AppServiceYamlContract;
 import com.ten.tencloud.module.app.presenter.AppServiceYamlPresenter;
 import com.ten.tencloud.utils.UiUtils;
 import com.ten.tencloud.widget.StatusSelectPopView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,45 +37,28 @@ import butterknife.OnClick;
 public class APPServiceCreateStep3Activity extends BaseActivity implements AppServiceYamlContract.View {
     @BindView(R.id.spv_status)
     StatusSelectPopView mSpvStatus;
-//    @BindView(R.id.tv_public_ip)
-//    TextView mTtPublicIp;
     @BindView(R.id.ll_layout)
     LinearLayout mLlLayout;
     @BindView(R.id.ll_add_port)
     LinearLayout mLlAddPort;
 
-//    @BindView(R.id.et_cluster_ip)
-//    EditText et_cluster_ip;
-//    @BindView(R.id.et_public_ip)
-//    EditText et_public_ip;
-//    //负载均衡
-//    @BindView(R.id.et_balance_user)
-//    EditText et_balance_user;
-//    @BindView(R.id.et_balance_provider)
-//    EditText et_balance_provider;
-//    @BindView(R.id.tv_port)
-//    TextView tv_port;
-
-
     private int mSourceType;
-    private int mServiceType;
     private AppBean mAppBean;
-    private List<AppServiceYAMLBean.Port> mPorts;
     private String mServiceName;
     private AppServiceYamlPresenter mAppServiceYamlPresenter;
-    private String mPodTag;
+    private String mServiceTag;
     private int mPos;
-//    private int currentPostion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_appservice_create_step3);
-//        mSourceType = getIntent().getIntExtra("sourceType", 0);
-//        mServiceType = getIntent().getIntExtra("serviceType", 0);
-//        mAppBean = getIntent().getParcelableExtra("appBean");
-//        mServiceName = getIntent().getStringExtra("serviceName");
-//        mPodTag = getIntent().getStringExtra("podTag");
+        mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
+
+        mSourceType = getIntent().getIntExtra(IntentKey.SERVICE_SOURCE, 0);
+        mServiceName = getIntent().getStringExtra(IntentKey.SERVICE_NAME);
+        mServiceTag = getIntent().getStringExtra(IntentKey.SERVICE_TAG);
+
 
         initTitleBar(true, "创建服务", "下一步", new View.OnClickListener() {
             @Override
@@ -116,6 +106,11 @@ public class APPServiceCreateStep3Activity extends BaseActivity implements AppSe
         View removePort = view.findViewById(R.id.ll_remove_port);
         StatusSelectPopView spvProtocol = view.findViewById(R.id.spv_protocol);
 
+        if (mSourceType == 0) {
+            view.findViewById(R.id.rl_link_desc).setVisibility(View.GONE);
+        }
+
+
         List<String> statusTitles = new ArrayList<>();
         statusTitles.add("TCP");
         statusTitles.add("UDP");
@@ -138,8 +133,44 @@ public class APPServiceCreateStep3Activity extends BaseActivity implements AppSe
     private void next() {
 
         AppServiceYAMLBean appServiceYAMLBean = new AppServiceYAMLBean();
+        appServiceYAMLBean.setService_name(mServiceName);
+        appServiceYAMLBean.setApp_name(mAppBean.getName());
+        appServiceYAMLBean.setApp_id(mAppBean.getId());
 
-//        appServiceYAMLBean.set
+        String[] split = mServiceTag.split(",");
+        Map<String, String> map = new HashMap<>();
+        for (String s : split) {
+            String[] str = s.split("=");
+            map.put(str[0], str[1]);
+        }
+        appServiceYAMLBean.setLabels(map);
+
+        appServiceYAMLBean.setService_source(mSourceType + 1);
+        appServiceYAMLBean.setService_type(mPos + 1);
+
+        switch (mSourceType){
+            case 0://集群内
+                String selector_label = getIntent().getStringExtra(IntentKey.SELECTOR_LABEL);
+                String[] selectorLabelSplit = selector_label.split(",");
+                Map<String, String> selectorLabelMap = new HashMap<>();
+                for (String s : selectorLabelSplit) {
+                    String[] str = s.split("=");
+                    selectorLabelMap.put(str[0], str[1]);
+                }
+                appServiceYAMLBean.setSelector_label(selectorLabelMap);
+
+                break;
+            case 1://集群外，映射
+                Map<String, String> externalIpMap = new HashMap<>();
+                externalIpMap.put("ip", getIntent().getStringExtra(IntentKey.SERVICE_IP));
+                externalIpMap.put("port", getIntent().getStringExtra(IntentKey.SERVICE_PORT));
+                appServiceYAMLBean.setExternalIpMap(externalIpMap);
+                break;
+            case 2://集群外，别名映射
+                appServiceYAMLBean.setExternalName(getIntent().getStringExtra(IntentKey.EXTERNAL_NAME));
+                appServiceYAMLBean.setNamespace(getIntent().getStringExtra(IntentKey.SERVICE_NAMESPACE));
+                break;
+        }
 
         ArrayList<AppServiceYAMLBean.Port> ports = new ArrayList<>();
 
@@ -179,12 +210,9 @@ public class APPServiceCreateStep3Activity extends BaseActivity implements AppSe
             ports.add(port);
 
         }
+        appServiceYAMLBean.setPorts(ports);
+        mAppServiceYamlPresenter.generateYAML(appServiceYAMLBean);
 
-        System.out.print(ports);
-
-        Intent intent = new Intent(this, APPServiceCreateStep4Activity.class);
-        intent.putExtra("yaml", "");
-        startActivity(intent);
 
     }
 
@@ -198,28 +226,15 @@ public class APPServiceCreateStep3Activity extends BaseActivity implements AppSe
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == APPServiceCreateAddPortActivity.RESULT_CODE_ADD_PORT) {
-//            mPorts = data.getParcelableArrayListExtra("ports");
-//            if (mPorts == null || mPorts.size() == 0) {
-//                return;
-//            }
-//            String port = "";
-//            for (int i = 0; i < mPorts.size(); i++) {
-//                port = port + "," + mPorts.get(i).getName();
-//            }
-//            port = port.replaceFirst(",", "");
-//            if (TextUtils.isEmpty(port)) {
-//                return;
-//            }
-//            tv_port.setText(port);
-//        }
-    }
-
-    @Override
     public void showYAML(String yaml) {
         Intent intent = new Intent(this, APPServiceCreateStep4Activity.class);
-        intent.putExtra("yaml", yaml);
+        intent.putExtra(IntentKey.YAML, yaml);
+//        intent.putExtra(IntentKey.APP_ITEM, mAppBean);
+        intent.putExtra(IntentKey.APP_ID, mAppBean.getId());
+        intent.putExtra(IntentKey.APP_NAME, mAppBean.getName());
+        intent.putExtra(IntentKey.SERVICE_SOURCE, mSourceType + 1);
+        intent.putExtra(IntentKey.SERVICE_NAME, mServiceName);
+        intent.putExtra(IntentKey.SERVICE_TYPE, mPos + 1);
         startActivity(intent);
     }
 
@@ -229,4 +244,16 @@ public class APPServiceCreateStep3Activity extends BaseActivity implements AppSe
         mAppServiceYamlPresenter.detachView();
         mAppServiceYamlPresenter = null;
     }
+
+    @Override
+    protected boolean isBindEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void finish(FinishActivityEven finishActivityEven){
+        finish();
+
+    }
+
 }

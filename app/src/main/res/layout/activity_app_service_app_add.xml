@@ -155,6 +155,7 @@
 
             <TextView
                 style="@style/SettingItemLabel"
+                android:layout_marginRight="16dp"
                 android:text="镜像来源" />
 
             <TextView
@@ -180,8 +181,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="32dp"
         android:onClick="login"
         android:text="确定添加" />

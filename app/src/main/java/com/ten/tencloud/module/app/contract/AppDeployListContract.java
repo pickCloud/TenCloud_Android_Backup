@@ -15,11 +15,13 @@ public class AppDeployListContract {
         void showEmpty();
 
         void showList(List<DeploymentBean> data);
+        void showResult(Object o);
     }
 
    public interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
 
         void getDeployList(Integer app_id, Integer status, Integer deployment_id, Integer show_yaml, Integer show_log, Integer id, int page, boolean isMore);
         void getDeployList(Integer app_id, Integer deployment_id, Integer show_yaml);
+        void deploymentDelete(int app_id, int deployment_id);
     }
 }

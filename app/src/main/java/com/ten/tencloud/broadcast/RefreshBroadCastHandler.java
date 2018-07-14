@@ -45,6 +45,10 @@ public class RefreshBroadCastHandler {
      * 应用列表变化
      */
     public final static String APP_LIST_CHANGE_ACTION = "APP_LIST_CHANGE_ACTION";
+    /**
+     * 应用列表变化
+     */
+    public final static String APP_LIST_CHANGE_DELETE = "APP_LIST_CHANGE_DELETE";
 
     /**
      * 应用详情变化
@@ -60,6 +64,12 @@ public class RefreshBroadCastHandler {
      * 选择代码分支
      */
     public final static String APP_BRANCH_CHANGE_ACTION = "APP_BRANCH_CHANGE_ACTION";
+
+
+    /**
+     * 选择代码分支
+     */
+    public final static String APP_SERVICE_DELETE_ACTION = "APP_SERVICE_DELETE";
 
     private LocalBroadcastManager mLocalBroadcastManager;
     private BroadcastReceiver mReceiver;

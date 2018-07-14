@@ -168,13 +168,31 @@
         <activity
             android:name=".module.server.ui.ServerToolBoxActivity"
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
-        <activity android:name=".module.server.ui.ServerImportStep1Activity" />
-        <activity android:name=".module.server.ui.ServerImportStep2Activity" />
-        <activity android:name=".module.server.ui.ServerImportStep3Activity" />
-        <activity android:name=".module.app.ui.AppMakeImageStep1Activity" />
-        <activity android:name=".module.app.ui.AppMakeImageStep2Activity" />
+        <activity
+            android:name=".module.server.ui.ServerImportStep1Activity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.ServerImportStep2Activity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.ServerImportStep3Activity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppMakeImageStep1Activity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppMakeImageStep2Activity"
+
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.app.ui.AppToolBoxActivity"
+
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
         <activity
             android:name=".module.app.ui.AppBranchesActivity"
@@ -191,46 +209,125 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.app.ui.AppIncludeImageActivity" />
-        <activity android:name=".module.app.ui.AppK8sRegularDeployStep1Activity" />
-        <activity android:name=".module.app.ui.AppK8sRegularDeployStep2Activity" />
-        <activity android:name=".module.app.ui.AppK8sRegularDeployAddContainerActivity" />
-        <activity android:name=".module.app.ui.AppK8sRegularDeployAddPortActivity" />
-        <activity android:name=".module.app.ui.AppK8sRegularDeployNodeTypeActivity" />
-        <activity android:name=".module.server.ui.ServerClusterListActivity" />
-        <activity android:name=".module.server.ui.ServerClusterNodeActivity" />
-        <activity android:name=".module.server.ui.ServerClusterCreateActivity" />
-        <activity android:name=".module.server.ui.ServerClusterCreateTypeActivity" />
-        <activity android:name=".module.server.ui.ServerClusterCreateServerActivity" />
-        <activity android:name=".module.image.ui.ImageListActivity" />
-        <activity android:name=".module.image.ui.ImageAddActivity" />
-        <activity android:name=".module.image.ui.ImageAddSelectFileActivity" />
-        <activity android:name=".module.image.ui.ImageDetailActivity" />
-        <activity android:name=".module.image.ui.ImageVersionListActivity" />
-        <activity android:name=".module.app.ui.AppK8sRegularDeployStep3Activity" />
-        <activity android:name=".module.app.ui.AppK8sRegularDeployNodeSpecificActivity" />
-        <activity android:name=".module.server.ui.CostDetailActivity" />
-        <activity android:name=".module.server.ui.CostInfoActivity" />
-        <activity android:name=".module.event.ui.EventListActivity" />
-        <activity android:name=".module.app.ui.APPServiceCreateStep1Activity" />
-        <activity android:name=".module.app.ui.APPServiceCreateStep2Activity" />
-        <activity android:name=".module.app.ui.APPServiceCreatePodLabelActivity" />
-        <activity android:name=".module.app.ui.APPServiceCreateStep3Activity" />
-        <activity android:name=".module.app.ui.APPServiceCreateAddPortActivity" />
-        <activity android:name=".module.app.ui.APPServiceCreateStep4Activity"></activity>
+        <activity
+            android:name=".module.app.ui.AppK8sRegularDeployStep1Activity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppK8sRegularDeployStep2Activity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppK8sRegularDeployAddContainerActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppK8sRegularDeployAddPortActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppK8sRegularDeployNodeTypeActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.ServerClusterListActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.ServerClusterNodeActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.ServerClusterCreateActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.ServerClusterCreateTypeActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.ServerClusterCreateServerActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.image.ui.ImageListActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.image.ui.ImageAddActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.image.ui.ImageAddSelectFileActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.image.ui.ImageDetailActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.image.ui.ImageVersionListActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppK8sRegularDeployStep3Activity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.AppK8sRegularDeployNodeSpecificActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.CostDetailActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.server.ui.CostInfoActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.event.ui.EventListActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.APPServiceCreateStep1Activity"
+
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.APPServiceCreateStep2Activity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.APPServiceCreatePodLabelActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.APPServiceCreateStep3Activity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.app.ui.APPServiceCreateStep4Activity"
+
+            android:screenOrientation="portrait"></activity>
 
 
         <activity
             android:name=".module.app.ui.MainPageToolBoxActivity"
+
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
 
         <activity
             android:name=".module.app.ui.DeployDetailsToolBoxActivity"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
 
         <activity
             android:name=".module.app.ui.ServiceToolBoxActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoAction.NotAnimation" />
-
 
 
         <activity

@@ -3,23 +3,28 @@ package com.ten.tencloud.module.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ObjectUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.constants.Constants;
 import com.ten.tencloud.constants.IntentKey;
-import com.ten.tencloud.even.DeployEven;
+import com.ten.tencloud.even.FinishActivityEven;
 import com.ten.tencloud.module.app.contract.AppK8sDeployContract;
 import com.ten.tencloud.module.app.presenter.AppK8sDeployPresenter;
+import com.ten.tencloud.module.other.contract.SplashContract;
 import com.ten.tencloud.module.server.ui.ServerClusterListActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
 
@@ -64,6 +69,12 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
                 startActivityForResult(intent, REQUEST_CODE_SELECT_NODE);
             }
         });
+
+        if (!ObjectUtils.isEmpty(mAppBean.getName())){
+            int anInt = SPUtils.getInstance().getInt(Constants.CODE_NO, 1);
+            SPUtils.getInstance().put(Constants.CODE_NO, (anInt+1));
+            mEtName.setText(mAppBean.getName() + "-" + TimeUtils.getNowString(new SimpleDateFormat("yyyyMMdd")) + "-" + anInt);
+        }
     }
 
     private void next() {
@@ -107,7 +118,7 @@ public class AppK8sRegularDeployStep1Activity extends BaseActivity implements Ap
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void finish(DeployEven deployEven){
+    public void finish(FinishActivityEven deployEven){
         finish();
 
     }

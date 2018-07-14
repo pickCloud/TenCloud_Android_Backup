@@ -58,6 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="通过检查"
+                    android:visibility="gone"
                     android:textColor="#899AB6"
                     android:textSize="12sp" />
 

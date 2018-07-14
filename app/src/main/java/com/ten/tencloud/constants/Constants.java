@@ -129,4 +129,7 @@ public class Constants {
     public static final int APP_DETAILS_DEL = APP_DETAILS + 1;
 
 
+
+    public static final String CODE_NO = "code_no";
+
 }

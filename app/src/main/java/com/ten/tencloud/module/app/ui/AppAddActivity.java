@@ -117,12 +117,12 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
             if (mMasterAppId == -1) {
                 initTitleBar(true, "添加主应用");
                 mBtnSureAdd.setText("确定添加");
-                findViewById(R.id.ll_mirror_image).setVisibility(View.GONE);
+//                findViewById(R.id.ll_mirror_image).setVisibility(View.GONE);
 
             } else {
                 initTitleBar(true, "修改主应用");
                 mBtnSureAdd.setText("确定修改");
-                findViewById(R.id.ll_mirror_image).setVisibility(View.GONE);
+//                findViewById(R.id.ll_mirror_image).setVisibility(View.GONE);
                 mAppDetailPresenter.getAppById(mMasterAppId);
             }
         }else if(mType == 1){//子应用
@@ -222,7 +222,8 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                 mLabelSelectDialog.setHistoryLabelData(mLabelBeans);
                 break;
             case R.id.tv_repos:
-                startActivityForResult(new Intent(this, AppRepositoryActivity.class), Constants.ACTIVITY_REQUEST_CODE_COMMON2);
+                startActivityForResult(new Intent(this, AppRepositoryActivity.class).putExtra("mReposUrl", mReposUrl)
+                        , Constants.ACTIVITY_REQUEST_CODE_COMMON2);
                 break;
             case R.id.btn_sure_add:
                 addOrUpdateApp();
@@ -262,8 +263,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                             @Override
                             public void _onSuccess(Object o) {
                                 showToastMessage("应用添加成功");
-                                mBtnSureAdd.setEnabled(true);
-                                mBtnSureAdd.setText("确定添加");
                                 mAppRefreshHandler.sendBroadCast();
                                 finish();
                             }
@@ -291,8 +290,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                             @Override
                             public void _onSuccess(Object o) {
                                 showToastMessage("应用修改成功");
-                                mBtnSureAdd.setEnabled(true);
-                                mBtnSureAdd.setText("确定修改");
                                 mAppRefreshHandler.sendBroadCast();
                                 mAppInfoRefreshHandler.sendBroadCast();
                                 finish();
@@ -323,8 +320,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                             @Override
                             public void _onSuccess(Object o) {
                                 showToastMessage("应用添加成功");
-                                mBtnSureAdd.setEnabled(true);
-                                mBtnSureAdd.setText("确定添加");
                                 mAppRefreshHandler.sendBroadCast();
                                 finish();
                             }
@@ -352,8 +347,6 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
                             @Override
                             public void _onSuccess(Object o) {
                                 showToastMessage("应用修改成功");
-                                mBtnSureAdd.setEnabled(true);
-                                mBtnSureAdd.setText("确定修改");
                                 mAppRefreshHandler.sendBroadCast();
                                 mAppInfoRefreshHandler.sendBroadCast();
                                 finish();

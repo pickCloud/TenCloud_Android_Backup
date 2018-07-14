@@ -13,16 +13,74 @@ import java.util.Map;
 
 public class AppServiceYAMLBean {
     private String service_name;
+    private int get_default;
     private String app_name;
     private int app_id;
     private int service_source;
-    private Map<String, String> pod_label;
-    private int service_type;
+    private Map<String, String> labels;
+
+    private Map<String, String> selector_label;
+    private Integer service_type;
     private String clusterIP;
     private String loadBalancerIP;
     private String provider;
+
+
+    private String externalName;
+    private String namespace;
     private List<String> externalIPs;
     private List<Port> ports;
+
+    public Map<String, String> getExternalIpMap() {
+        return externalIpMap;
+    }
+
+    public void setExternalIpMap(Map<String, String> externalIpMap) {
+        this.externalIpMap = externalIpMap;
+    }
+
+    public int getGet_default() {
+        return get_default;
+    }
+
+    public void setGet_default(int get_default) {
+        this.get_default = get_default;
+    }
+
+    public String getExternalName() {
+        return externalName;
+    }
+
+    public void setExternalName(String externalName) {
+        this.externalName = externalName;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+
+    private Map<String, String> externalIpMap;
+
+    public Map<String, String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(Map<String, String> labels) {
+        this.labels = labels;
+    }
+
+    public Map<String, String> getSelector_label() {
+        return selector_label;
+    }
+
+    public void setSelector_label(Map<String, String> selector_label) {
+        this.selector_label = selector_label;
+    }
 
     public String getService_name() {
         return service_name;
@@ -60,14 +118,6 @@ public class AppServiceYAMLBean {
         return this;
     }
 
-    public Map<String, String> getPod_label() {
-        return pod_label;
-    }
-
-    public AppServiceYAMLBean setPod_label(Map<String, String> pod_label) {
-        this.pod_label = pod_label;
-        return this;
-    }
 
     public String getLoadBalancerIP() {
         return loadBalancerIP;
@@ -128,7 +178,7 @@ public class AppServiceYAMLBean {
         private String protocol;
         private int port;
         private int targetPort;
-        private int nodePort;
+//        private int nodePort;
 
         public String getName() {
             return name;
@@ -166,14 +216,14 @@ public class AppServiceYAMLBean {
             return this;
         }
 
-        public int getNodePort() {
-            return nodePort;
-        }
-
-        public Port setNodePort(int nodePort) {
-            this.nodePort = nodePort;
-            return this;
-        }
+//        public int getNodePort() {
+//            return nodePort;
+//        }
+//
+//        public Port setNodePort(int nodePort) {
+//            this.nodePort = nodePort;
+//            return this;
+//        }
 
         @Override
         public int describeContents() {
@@ -186,7 +236,7 @@ public class AppServiceYAMLBean {
             dest.writeString(this.protocol);
             dest.writeInt(this.port);
             dest.writeInt(this.targetPort);
-            dest.writeInt(this.nodePort);
+//            dest.writeInt(this.nodePort);
         }
 
         public Port() {
@@ -197,7 +247,7 @@ public class AppServiceYAMLBean {
             this.protocol = in.readString();
             this.port = in.readInt();
             this.targetPort = in.readInt();
-            this.nodePort = in.readInt();
+//            this.nodePort = in.readInt();
         }
 
         public static final Parcelable.Creator<Port> CREATOR = new Parcelable.Creator<Port>() {

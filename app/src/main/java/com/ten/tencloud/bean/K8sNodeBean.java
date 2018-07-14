@@ -307,6 +307,7 @@ public class K8sNodeBean {
 
                 private String address;
                 private String type;
+                private String ip;
 
                 public String getAddress() {
                     return address;
@@ -318,6 +319,14 @@ public class K8sNodeBean {
 
                 public String getType() {
                     return type;
+                }
+
+                public String getIp() {
+                    return ip;
+                }
+
+                public void setIp(String ip) {
+                    this.ip = ip;
                 }
 
                 public void setType(String type) {

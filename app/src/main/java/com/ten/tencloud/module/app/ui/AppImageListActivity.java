@@ -81,7 +81,7 @@ public class AppImageListActivity extends BaseActivity implements AppImageContra
     }
 
     private void initData() {
-        mAppImagePresenter.getAppImageById(mAppId);
+        mAppImagePresenter.getAppImageById(0, mAppId);
     }
 
     @OnClick({R.id.tv_filter})

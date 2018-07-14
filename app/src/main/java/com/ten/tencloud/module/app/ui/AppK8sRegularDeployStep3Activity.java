@@ -8,12 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.TenApp;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.constants.IntentKey;
-import com.ten.tencloud.even.DeployEven;
+import com.ten.tencloud.even.FinishActivityEven;
 import com.ten.tencloud.module.app.model.AppK8sDeployModel;
 import com.ten.tencloud.widget.dialog.AppK8sDeployDialog;
 
@@ -37,7 +38,7 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
     View mLlSuccess;
 
     private String mName;
-    private AppBean mAppBean;
+//    private AppBean mAppBean;
 
     private AppK8sDeployModel mAppK8sDeployModel;
     private AppK8sDeployDialog mAppK8sDeployDialog;
@@ -66,16 +67,27 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
     private String mYaml;
     private int mServerId;
     private String mDeploymentId;
+    private int mAppId;
+    private String mAppName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createView(R.layout.activity_app_k8s_regular_deploy_step3);
         initTitleBar(true, "常规部署");
+        mAppName = getIntent().getStringExtra("appName");
         mName = getIntent().getStringExtra("name");
         mYaml = getIntent().getStringExtra("yaml");
         mServerId = getIntent().getIntExtra("serverId", -1);
-        mAppBean = getIntent().getParcelableExtra("appBean");
+        int deploymentId = getIntent().getIntExtra("deployment_id", -1);
+        if (deploymentId != -1) {
+            mDeploymentId = deploymentId + "";
+        }
+        if (!ObjectUtils.isEmpty(mDeploymentId)){
+            mBtnStart.setText("更新部署");
+        }
+
+        mAppId = getIntent().getIntExtra("appId", -1);
 
         initView();
         initData();
@@ -94,11 +106,11 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AppDeployDetailsActivity.class);
-                intent.putExtra(IntentKey.APP_ID, mAppBean.getId());
+                intent.putExtra(IntentKey.APP_ID, mAppId);
                 intent.putExtra(IntentKey.DEPLOYMENT_ID, Integer.valueOf(mDeploymentId));
                 startActivity(intent);
                 finish();
-                EventBus.getDefault().post(new DeployEven());
+                EventBus.getDefault().post(new FinishActivityEven());
 
             }
         });
@@ -119,6 +131,10 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
                         mBtnStart.setVisibility(View.GONE);
                         mLlFailed.setVisibility(View.GONE);
                         mLlSuccess.setVisibility(View.VISIBLE);
+                        findViewById(R.id.tv_edit).setVisibility(View.VISIBLE);
+                        mEtCode.setFocusable(false);
+                        mEtCode.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+                        mEtCode.setClickable(false); // user navigates with wheel and selects widget
                     }
                 });
             }
@@ -145,9 +161,19 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_start, R.id.tv_log})
+    @OnClick({R.id.btn_start, R.id.tv_log, R.id.tv_edit})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_edit:
+                mEtCode.setFocusable(true);
+                mEtCode.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
+                mEtCode.setClickable(true); // user navigates with wheel and selects widget
+                mBtnStart.setVisibility(View.VISIBLE);
+                mLlFailed.setVisibility(View.GONE);
+                mLlSuccess.setVisibility(View.GONE);
+                mBtnStart.setEnabled(true);
+                mBtnStart.setText("重新部署");
+                break;
             case R.id.btn_start:
                 startDeploy();
                 break;
@@ -160,10 +186,13 @@ public class AppK8sRegularDeployStep3Activity extends BaseActivity {
     private void startDeploy() {
         String yaml = mEtCode.getText().toString();
         Map<String, Object> map = new HashMap<>();
-        map.put("app_name", mAppBean.getName());
+        map.put("app_name", mAppName);
         map.put("deployment_name", mName);
         map.put("server_id", mServerId);
-        map.put("app_id", mAppBean.getId());
+        if (!ObjectUtils.isEmpty(mDeploymentId))
+            map.put("deployment_id", mDeploymentId);
+
+        map.put("app_id", mAppId);
         map.put("yaml", yaml);
         String json = TenApp.getInstance().getGsonInstance().toJson(map);
         mAppK8sDeployModel.connect();

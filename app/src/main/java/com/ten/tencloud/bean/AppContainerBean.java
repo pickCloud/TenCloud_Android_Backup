@@ -21,6 +21,7 @@ public class AppContainerBean implements Parcelable {
     private String container_name;
     private String name;
     private String image;
+    private int get_default;
 
     public String getName() {
         return name;
@@ -36,6 +37,14 @@ public class AppContainerBean implements Parcelable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getGet_default() {
+        return get_default;
+    }
+
+    public void setGet_default(int get_default) {
+        this.get_default = get_default;
     }
 
     private List<Port> ports;
@@ -103,10 +112,19 @@ public class AppContainerBean implements Parcelable {
     public static class Port implements Parcelable {
         private String name;
         private String protocol;
+        private String port;
         private int containerPort;
 
         public String getName() {
             return name;
+        }
+
+        public String getPort() {
+            return port;
+        }
+
+        public void setPort(String port) {
+            this.port = port;
         }
 
         public void setName(String name) {

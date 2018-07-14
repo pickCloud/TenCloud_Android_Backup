@@ -118,13 +118,17 @@ public abstract class BaseFragment extends Fragment implements IBaseView {
         if (mLoadDialog == null) {
             mLoadDialog = new LoadDialog(mActivity);
         }
-        mLoadDialog.show();
+        if(!getActivity().isFinishing())
+        {
+            mLoadDialog.show();
+
+        }
     }
 
     @Override
     public void hideLoading() {
         if (mLoadDialog != null) {
-            mLoadDialog.cancelDelay();
+            mLoadDialog.dismiss();
         }
     }
 

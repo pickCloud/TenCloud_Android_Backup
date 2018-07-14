@@ -98,9 +98,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
     compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
     compile "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
-    compile("com.github.ihsanbal:LoggingInterceptor:${libs.okhttp3_logging}") {
-        exclude group: 'org.json', module: 'json'
-    }
+    compile "com.squareup.okhttp3:logging-interceptor:${libs.okhttp3_logging}"
 
     /**
      *     Glide
@@ -169,6 +167,8 @@ dependencies {
     implementation 'com.blankj:utilcode:1.16.4'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
-    compile 'com.just.agentweb:agentweb:4.0.2' // (必选)
+    implementation 'com.just.agentweb:agentweb:4.0.2' // (必选)
+//    implementation 'jp.wasabeef:blurry:2.1.1'
+    compile 'fr.tvbarthel.blurdialogfragment:lib:2.2.0'
 
 }

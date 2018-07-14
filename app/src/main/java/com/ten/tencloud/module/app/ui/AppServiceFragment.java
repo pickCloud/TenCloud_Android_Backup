@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ObjectUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
@@ -108,16 +109,17 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
         mRefresh.autoRefresh();
 
         mRvApp.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAppAdapter = new RvAppAdapter(getActivity());
-        mAppAdapter.setOnItemClickListener(new CJSBaseRecyclerViewAdapter.OnItemClickListener<AppBean>() {
+        mAppAdapter = new RvAppAdapter();
+        mAppAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onObjectItemClicked(AppBean appBean, int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                AppBean appBean = (AppBean) adapter.getData().get(position);
                 Intent intent = new Intent(getActivity(), AppMainDetailsActivity.class);
                 intent.putExtra(IntentKey.APP_ID, appBean.getId());
                 startActivityForResult(intent, Constants.APP_DETAILS);
-//                startActivity(new Intent(getActivity(), AppDetailActivity.class).putExtra("id", appBean.getId()));
             }
         });
+
         mRvApp.setAdapter(mAppAdapter);
 
         mAppFilterDialog = new AppFilterDialog(getActivity());
@@ -170,7 +172,7 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
             showMessage("暂无更多数据");
             mRefresh.finishLoadmore();
         } else {
-            mAppAdapter.clear();
+            mAppAdapter.getData().clear();
             mRefresh.finishRefresh();
             mEmptyView.setVisibility(View.VISIBLE);
             mRvApp.setVisibility(View.GONE);
@@ -185,7 +187,7 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
             mAppAdapter.addData(msg);
             mRefresh.finishLoadmore();
         } else {
-            mAppAdapter.setDatas(msg);
+            mAppAdapter.setNewData(msg);
             mRefresh.finishRefresh();
         }
     }

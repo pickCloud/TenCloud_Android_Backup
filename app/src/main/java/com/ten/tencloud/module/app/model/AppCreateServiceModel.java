@@ -45,12 +45,20 @@ public class AppCreateServiceModel {
             @Override
             public void onMessage(WebSocket webSocket, String text) {
                 Log.d("接收", "接收==>" + text);
-                if ("success".equals(text)) {
+//                if ("success".equals(text)) {
+//                    isSuccess = true;
+//                    if (OnAppServiceListener != null) {
+//                        OnAppServiceListener.onSuccess();
+//                    }
+//
+//
+//                }
+                if (text.contains("service ID")) {
                     isSuccess = true;
                     if (OnAppServiceListener != null) {
-                        OnAppServiceListener.onSuccess();
+                        OnAppServiceListener.onSuccess(text);
                     }
-                } else if ("failure".equals(text)) {
+                }else if ("failure".equals(text)) {
                     if (OnAppServiceListener != null) {
                         OnAppServiceListener.onFailure("创建失败");
                     }
@@ -115,7 +123,7 @@ public class AppCreateServiceModel {
 
     public interface OnAppServiceListener {
 
-        void onSuccess();
+        void onSuccess(String service_id);
 
         void onFailure(String message);
 

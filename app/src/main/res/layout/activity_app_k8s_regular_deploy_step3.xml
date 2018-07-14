@@ -38,15 +38,31 @@
             android:textColor="@color/text_color_899ab6"
             android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_log"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="查看日志"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp" />
 
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看日志"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_edit"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingLeft="16dp"
+                android:text="编辑"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <EditText
@@ -75,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/bg_2f3543"
-            android:text="开始创建"
+            android:text="开始部署"
             android:textColor="@color/selector_line_button_lake_blue_text"
             android:visibility="gone" />
 
@@ -96,7 +112,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="创建失败"
+                android:text="部署失败"
                 android:textColor="@color/text_color_ef9a9a"
                 android:textSize="16dp" />
 
@@ -127,7 +143,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="创建成功"
+                    android:text="部署成功"
                     android:textColor="@color/text_color_09bb07"
                     android:textSize="16dp" />
 
@@ -139,7 +155,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="查看服务" />
+                android:text="查看部署" />
 
         </LinearLayout>
 

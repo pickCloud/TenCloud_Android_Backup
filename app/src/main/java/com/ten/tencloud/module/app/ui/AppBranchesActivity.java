@@ -13,6 +13,7 @@ import com.ten.tencloud.R;
 import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
+import com.ten.tencloud.constants.IntentKey;
 import com.ten.tencloud.module.app.adapter.RvAppBranchAdapter;
 import com.ten.tencloud.module.app.contract.AppBranchListContract;
 import com.ten.tencloud.module.app.presenter.AppBranchListPresenter;
@@ -103,7 +104,10 @@ public class AppBranchesActivity extends BaseActivity implements AppBranchListCo
     @Override
     public void goAuth(String url) {
         mTvRight.setVisibility(View.GONE);
-        Utils.openInBrowser(this, url);
+        Intent intent = new Intent(mContext, WebviewActivity.class);
+        intent.putExtra(IntentKey.URL, url);
+        startActivity(intent);
+//        Utils.openInBrowser(this, url);
     }
 
     @Override

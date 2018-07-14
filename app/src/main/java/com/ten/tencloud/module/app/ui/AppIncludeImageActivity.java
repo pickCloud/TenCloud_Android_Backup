@@ -63,6 +63,7 @@ public class AppIncludeImageActivity extends BaseActivity implements AppImageCon
         Intent data = new Intent();
         data.putExtra("imageName", selectObj.getName());
         data.putExtra("imageVersion", selectObj.getVersion());
+        data.putExtra("imageUrl", selectObj.getUrl());
         setResult(type == TYPE_DEFAULT ? Constants.ACTIVITY_RESULT_CODE_FINISH : RESULT_CODE_ADD_CONTAINER, data);
         finish();
     }
@@ -74,7 +75,7 @@ public class AppIncludeImageActivity extends BaseActivity implements AppImageCon
     }
 
     private void initData() {
-        mAppImagePresenter.getAppImageById(0);
+        mAppImagePresenter.getAppImageById(0, 0);
     }
 
     @Override

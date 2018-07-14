@@ -53,7 +53,7 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
             public void onClick(View v) {
                 if (ObjectUtils.isEmpty(mReposUrl)){
                     mAppReposListPresenter.githubClear();
-                    return;
+//                    return;
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("url", mReposUrl);
@@ -108,6 +108,18 @@ public class AppRepositoryActivity extends BaseActivity implements AppReposListC
         mRecyclerView.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.GONE);
         mRvAppReposAdapter.setDatas(reposBeans);
+        String mReposUrl = getIntent().getStringExtra("mReposUrl");
+        if (!ObjectUtils.isEmpty(mReposUrl)){
+            for (int i = 0; i < reposBeans.size(); i++) {
+                ReposBean reposBean = reposBeans.get(i);
+                if (reposBean.getRepos_url().equals(mReposUrl)){
+                    mRvAppReposAdapter.setSelectPos(i);
+                    break;
+
+                }
+            }
+
+        }
     }
 
     @Override

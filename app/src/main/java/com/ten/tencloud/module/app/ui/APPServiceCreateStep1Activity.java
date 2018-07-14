@@ -6,12 +6,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.constants.IntentKey;
+import com.ten.tencloud.even.FinishActivityEven;
 import com.ten.tencloud.module.app.contract.AppCheckNameContract;
 import com.ten.tencloud.module.app.presenter.AppCheckNamePresenter;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,28 +32,11 @@ public class APPServiceCreateStep1Activity extends BaseActivity implements AppCh
     @BindView(R.id.et_pod_tag)
     EditText mEtPodTag;
 
-//    @BindView(R.id.et_name)
-//    EditText mEtName;
-//    @BindView(R.id.tv_source)
-//    TextView mTvSource;
-//    @BindColor(R.color.text_color_899ab6)
-//    int mTextColor899ab6;
-//    @BindColor(R.color.text_color_556278)
-//    int mTextColor556278;
-//    @BindColor(R.color.colorPrimary)
-//    int mColorPrimary;
-//    @BindColor(R.color.default_bg)
-//    int mDefaultBg;
-//    @BindColor(R.color.line_color_2f3543)
-//    int mLineColor2f3543;
-
-    //    private OptionsPickerView mPvOptions;
-//    private ArrayList<String> mSelects;
-
     private int mSourceType = -1; //（1.内部服务，2.外部服务）
     private AppBean mAppBean;
     private AppCheckNamePresenter mCheckNamePresenter;
     private String mName;
+    private String mPodTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,39 +53,6 @@ public class APPServiceCreateStep1Activity extends BaseActivity implements AppCh
         mCheckNamePresenter = new AppCheckNamePresenter();
         mCheckNamePresenter.attachView(this);
 
-        initView();
-        initData();
-
-    }
-
-    private void initView() {
-//        mPvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
-//            @Override
-//            public void onOptionsSelect(int options1, int option2, int options3, View v) {
-//                mSourceType = options1;
-//                mTvSource.setText(mSelects.get(options1));
-//            }
-//        })
-//                .setTitleText("选择方式")
-//                .setTitleColor(mTextColor899ab6)//标题文字颜色
-//                .setSubmitColor(mColorPrimary)//确定按钮文字颜色
-//                .setCancelColor(mColorPrimary)//取消按钮文字颜色
-//                .setTitleBgColor(mDefaultBg)//标题背景颜色 Night mode
-//                .setBgColor(mDefaultBg)//滚轮背景颜色 Night mode
-//                .setTextColorCenter(mTextColor899ab6)
-//                .setTextColorOut(mTextColor556278)
-//                .setContentTextSize(14)
-//                .setTitleSize(14)
-//                .setSubCalSize(14)
-//                .setDividerColor(mLineColor2f3543)
-//                .build();
-    }
-
-    private void initData() {
-//        mSelects = new ArrayList<>();
-//        mSelects.add("集群内服务");//1
-//        mSelects.add("集群外服务");//2
-//        mPvOptions.setPicker(mSelects);
     }
 
     //下一步
@@ -111,33 +66,44 @@ public class APPServiceCreateStep1Activity extends BaseActivity implements AppCh
             showMessage("请输入服务名称");
             return;
         }
-        String podTag = mEtPodTag.getText().toString();
-        if (TextUtils.isEmpty(podTag)) {
+
+        mPodTag = mEtPodTag.getText().toString();
+        if (ObjectUtils.isEmpty(mPodTag)){
             showMessage("请输入服务标签");
             return;
         }
+        if (TextUtils.isEmpty(mPodTag) || !mPodTag.contains("=")){
+            showMessage("服务标签格式错误");
+            return;
+        }
+
         //验证名称
         mCheckNamePresenter.checkDeployName(mName, mAppBean.getId());
     }
 
-//    @OnClick({R.id.ll_select_source /*, R.id.tv_yaml*/})
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.ll_select_source:
-////                mPvOptions.show();
-//                break;
-////            case R.id.tv_yaml:
-////                // TODO: 2018/5/14
-////                break;
-//        }
-//    }
-
     @Override
     public void checkResult() {
         Intent intent = new Intent(this, APPServiceCreateStep2Activity.class);
-        intent.putExtra("sourceType", mSourceType + 1);
-        intent.putExtra("appBean", mAppBean);
-        intent.putExtra("serviceName", mName);
+        intent.putExtra(IntentKey.APP_ITEM, mAppBean);
+        intent.putExtra(IntentKey.SERVICE_NAME, mName);
+        intent.putExtra(IntentKey.SERVICE_TAG, mPodTag);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCheckNamePresenter.detachView();
+    }
+
+    @Override
+    protected boolean isBindEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void finish(FinishActivityEven finishActivityEven){
+        finish();
+
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ObjectUtils;
 import com.ten.tencloud.R;
 import com.ten.tencloud.base.view.BaseActivity;
 import com.ten.tencloud.bean.AppBean;
@@ -50,6 +51,10 @@ public class AppMakeImageStep1Activity extends BaseActivity {
             }
         });
         mAppBean = getIntent().getParcelableExtra(IntentKey.APP_ITEM);
+
+        if (!ObjectUtils.isEmpty(mAppBean.getName())){
+            mEtName.setText(mAppBean.getName());
+        }
     }
 
     private void next() {

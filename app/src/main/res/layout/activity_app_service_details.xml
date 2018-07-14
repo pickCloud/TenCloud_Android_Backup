@@ -111,7 +111,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="集群内应用，通过标签选择"
                             android:textColor="#899AB6"
                             android:textSize="12sp" />
 
@@ -134,7 +133,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="集群内应用，通过标签选择"
                             android:textColor="#899AB6"
                             android:textSize="12sp" />
 
@@ -158,7 +156,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="集群内应用，通过标签选择"
                             android:textColor="#899AB6"
                             android:textSize="12sp" />
 
@@ -228,7 +225,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="成功"
                             android:textColor="#09BB07"
                             android:textSize="12sp" />
 
@@ -238,6 +234,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:text="通过检查"
+                            android:visibility="gone"
                             android:textColor="#899AB6"
                             android:textSize="12sp" />
 
@@ -260,7 +257,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="集群内应用，通过标签选择"
                             android:textColor="#899AB6"
                             android:textSize="12sp" />
 
@@ -287,32 +283,21 @@
 
             </RelativeLayout>
 
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/selector_banner_bg"
                 app:cardCornerRadius="2dp"
                 app:cardPreventCornerOverlap="true">
 
-                <LinearLayout
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_service_end"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_service_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:padding="16dp"
-                        android:text="xxxxx"
-                        android:textColor="#FF556278"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
+                    android:layout_height="wrap_content" />
 
             </android.support.v7.widget.CardView>
 
@@ -359,7 +344,7 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/tv_deployment"
+                        android:id="@+id/tv_yaml"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
