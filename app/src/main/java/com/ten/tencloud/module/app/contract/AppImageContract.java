@@ -13,13 +13,16 @@ public interface AppImageContract {
 
     interface View extends IBaseView {
 
-        void showImages(List<ImageBean> images);
+        void showImages(List<ImageBean> images, boolean isLoadMore);
 
-        void showImageEmpty();
+        void showImageEmpty(boolean isLoadMore);
     }
 
     interface Presenter<V extends IBaseView> extends IBasePresenter<V> {
 
-        void getAppImageById(int id, int app_id);
+        void getAppImageById(Integer app_id);
+
+        void getAppListByPage(int app_id, boolean isLoadMore);
+
     }
 }

@@ -1,11 +1,13 @@
 package com.ten.tencloud.module.app.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.ten.tencloud.base.adapter.CJSBaseRecyclerViewAdapter;
 import com.ten.tencloud.base.view.BaseFragment;
 import com.ten.tencloud.bean.AppBean;
 import com.ten.tencloud.bean.LabelBean;
+import com.ten.tencloud.bean.PermissionTemplateBean;
 import com.ten.tencloud.bean.ProviderBean;
 import com.ten.tencloud.broadcast.RefreshBroadCastHandler;
 import com.ten.tencloud.constants.Constants;
@@ -31,9 +34,13 @@ import com.ten.tencloud.listener.OnRefreshListener;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.contract.AppLabelSelectContract;
 import com.ten.tencloud.module.app.contract.AppListContract;
+import com.ten.tencloud.module.app.contract.ApplicationDelContract;
+import com.ten.tencloud.module.app.presenter.AppDelPresenter;
 import com.ten.tencloud.module.app.presenter.AppLabelSelectPresenter;
 import com.ten.tencloud.module.app.presenter.AppListPresenter;
 import com.ten.tencloud.widget.dialog.AppFilterDialog;
+import com.ten.tencloud.widget.dialog.CommonDialog;
+import com.ten.tencloud.widget.popup.DelPopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +52,7 @@ import butterknife.OnClick;
 /**
  * Created by chenxh@10.com on 2018/3/26.
  */
-public class AppServiceFragment extends BaseFragment implements AppListContract.View, AppLabelSelectContract.View {
+public class AppServiceFragment extends BaseFragment implements AppListContract.View, AppLabelSelectContract.View, ApplicationDelContract.View {
 
     @BindView(R.id.tv_filter)
     TextView mTvFilter;
@@ -64,6 +71,8 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
     private AppListPresenter mAppListPresenter;
     private AppLabelSelectPresenter mAppLabelSelectPresenter;
     private Integer label = null;
+    private DelPopupWindow mDelPopupWindow;
+    private AppDelPresenter mAppDelPresenter;
 
     @Nullable
     @Override
@@ -88,6 +97,9 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
 
         mAppLabelSelectPresenter = new AppLabelSelectPresenter();
         mAppLabelSelectPresenter.attachView(this);
+
+        mAppDelPresenter = new AppDelPresenter();
+        mAppDelPresenter.attachView(this);
 
         initView();
 
@@ -121,6 +133,37 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
         });
 
         mRvApp.setAdapter(mAppAdapter);
+
+        mAppAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final BaseQuickAdapter adapter, View view, final int position) {
+                mDelPopupWindow = new DelPopupWindow(getActivity());
+                mDelPopupWindow.setOnButtonClickListener(new DelPopupWindow.OnButtonClickListener() {
+                    @Override
+                    public void onDelClick() {
+                        new CommonDialog(getActivity())
+                                .setMessage("确认删除该应用？")
+                                .setPositiveButton("确认", new CommonDialog.OnButtonClickListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+//                                            mTemplatesPresenter.delTemplate(bean.getId());
+                                        mAppDelPresenter.deleteApp(((AppBean)adapter.getData().get(position)).getId());
+
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
+                });
+
+                int[] location = new int[2];
+                view.getLocationOnScreen(location);
+                int x = (view.getWidth() / 2) - (mDelPopupWindow.getWidth() / 2);
+                int y = location[1] + (view.getHeight() / 2);
+                mDelPopupWindow.showAtLocation(view, Gravity.NO_GRAVITY, x, y);
+                return false;
+            }
+        });
 
         mAppFilterDialog = new AppFilterDialog(getActivity());
         mAppFilterDialog.setAppFilterListener(new AppFilterDialog.AppFilterListener() {
@@ -237,5 +280,11 @@ public class AppServiceFragment extends BaseFragment implements AppListContract.
 
             }
         }
+    }
+
+    @Override
+    public void showResult(Object o) {
+        mAppListPresenter.getAppListByPage(false, label);
+
     }
 }

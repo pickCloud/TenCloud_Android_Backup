@@ -80,7 +80,7 @@
                     <TextView
                         android:id="@+id/tv_public_ip"
                         style="@style/ListItemEditValue"
-                        android:gravity="right"
+                        android:gravity="right|center_vertical"
                         android:hint="系统指派，需要调整到下一步yaml文件…" />
 
                 </LinearLayout>

@@ -122,7 +122,7 @@ public class AppAddActivity extends BaseActivity implements TakePhoto.TakeResult
             } else {
                 initTitleBar(true, "修改主应用");
                 mBtnSureAdd.setText("确定修改");
-//                findViewById(R.id.ll_mirror_image).setVisibility(View.GONE);
+                findViewById(R.id.ll_mirror_image).setVisibility(View.GONE);
                 mAppDetailPresenter.getAppById(mMasterAppId);
             }
         }else if(mType == 1){//子应用

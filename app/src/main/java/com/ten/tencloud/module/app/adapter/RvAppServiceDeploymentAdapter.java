@@ -68,7 +68,11 @@ public class RvAppServiceDeploymentAdapter extends BaseQuickAdapter<DeploymentBe
         helper.setText(R.id.tv_create_date, item.getCreate_time());
         long sec = -TimeUtils.getTimeSpanByNow(item.getCreate_time(), TimeConstants.SEC);
 
-        helper.setText(R.id.tv_running_time, com.ten.tencloud.utils.Utils.formatTime(sec * 1000));
+        String formatTime = com.ten.tencloud.utils.Utils.formatTime(sec * 1000);
+//        String utilStr = formatTime.substring(0, formatTime.length()-1);
+        helper.setText(R.id.tv_running_time, formatTime.substring(0, formatTime.length()-1));
+        helper.setText(R.id.tv_util, formatTime.substring(formatTime.length()-1, formatTime.length()));
+
 
 
     }

@@ -216,7 +216,7 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
 
     private void initData() {
         mSubApplicationPresenter.getDeploymentLatestById(mAppSubId);//获取最新部署
-        mAppImagePresenter.getAppImageById(mAppSubId, mMasterAppId);//获取镜像
+        mAppImagePresenter.getAppImageById(mAppSubId);//获取镜像
         mSubApplicationPresenter.getSubApplicationListById(mMasterAppId, mAppSubId);//获取子应用详情
 
     }
@@ -224,7 +224,7 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
     @Override
     protected void onNewIntent(Intent intent) {
         if (intent.getBooleanExtra("viewImage", false)) {
-            mAppImagePresenter.getAppImageById(mAppSubId, mMasterAppId);
+            mAppImagePresenter.getAppImageById(mAppSubId);
             int top = mRlImage.getTop();
             mScrollView.scrollTo(0, top);
         }
@@ -248,7 +248,7 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
 //                break;
             case R.id.tv_image_more: {
                 intent = new Intent(this, AppImageListActivity.class);
-                intent.putExtra(IntentKey.APP_ID, mAppSubId);
+                intent.putExtra(IntentKey.APP_ITEM, mAppBean);
                 startActivity(intent);
                 break;
             }
@@ -321,12 +321,13 @@ public class AppSubDetailActivity extends BaseActivity implements SubApplication
     }
 
     @Override
-    public void showImages(List<ImageBean> images) {
+    public void showImages(List<ImageBean> images, boolean isLoadMore) {
         mImageAdapter.setDatas(images);
+
     }
 
     @Override
-    public void showImageEmpty() {
+    public void showImageEmpty(boolean isLoadMore) {
 
     }
 

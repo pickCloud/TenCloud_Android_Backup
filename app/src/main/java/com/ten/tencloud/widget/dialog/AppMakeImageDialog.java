@@ -31,7 +31,9 @@ public class AppMakeImageDialog extends Dialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE); // 去掉头
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // 去掉
+
+        // 头
         Window window = getWindow();
         window.setGravity(Gravity.CENTER);
         window.setContentView(R.layout.dialog_server_add_log);

@@ -99,7 +99,11 @@ public interface TenAppApi {
 
     //镜像部署列表
     @GET("/api/image")
-    Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("id") int id, @Query("app_id") int app_id);
+    Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("app_id") Integer app_id);
+
+    //镜像部署列表
+    @GET("/api/image")
+    Observable<Response<JesResponse<List<ImageBean>>>> getAppImages(@Query("app_id") int app_id, @Query("page") int page, @Query("page_num") int page_num);
 
     //检查部署名称
     @GET("/api/deployment/check_name")

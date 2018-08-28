@@ -174,9 +174,17 @@ public class AppModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<List<ImageBean>> getAppImages(int id, int app_id) {
+    public Observable<List<ImageBean>> getAppImages(Integer app_id) {
         return TenApp.getRetrofitClient().getTenAppApi()
-                .getAppImages(id, app_id)
+                .getAppImages(app_id)
+                .map(new HttpResultFunc<List<ImageBean>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<ImageBean>> getAppImages(int app_id, int page, int page_num) {
+        return TenApp.getRetrofitClient().getTenAppApi()
+                .getAppImages(app_id, page, page_num)
                 .map(new HttpResultFunc<List<ImageBean>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

@@ -1,10 +1,12 @@
 package com.ten.tencloud.module.app.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,13 +34,17 @@ import com.ten.tencloud.module.app.adapter.MicroserviceAdapter;
 import com.ten.tencloud.module.app.adapter.RvAppAdapter;
 import com.ten.tencloud.module.app.contract.AppDetailContract;
 import com.ten.tencloud.module.app.contract.AppServiceContract;
+import com.ten.tencloud.module.app.contract.ApplicationDelContract;
 import com.ten.tencloud.module.app.contract.SubApplicationContract;
+import com.ten.tencloud.module.app.presenter.AppDelPresenter;
 import com.ten.tencloud.module.app.presenter.AppDetailPresenter;
 import com.ten.tencloud.module.app.presenter.AppServicePresenter;
 import com.ten.tencloud.module.app.presenter.SubApplicationPresenter;
 import com.ten.tencloud.utils.glide.GlideUtils;
 import com.ten.tencloud.widget.CircleImageView;
 import com.ten.tencloud.widget.blur.BlurBuilder;
+import com.ten.tencloud.widget.dialog.CommonDialog;
+import com.ten.tencloud.widget.popup.DelPopupWindow;
 
 import java.util.List;
 import java.util.Map;
@@ -50,7 +56,8 @@ import butterknife.OnClick;
 /**
  * 主应用详情
  */
-public class AppMainDetailsActivity extends BaseActivity implements AppDetailContract.View, SubApplicationContract.View, AppServiceContract.View {
+public class AppMainDetailsActivity extends BaseActivity implements AppDetailContract.View, SubApplicationContract.View, AppServiceContract.View
+, ApplicationDelContract.View{
 
     @BindView(R.id.iv_logo)
     CircleImageView mIvLogo;
@@ -84,6 +91,8 @@ public class AppMainDetailsActivity extends BaseActivity implements AppDetailCon
     private SubApplicationPresenter mSubApplicationPresenter;
     private AppServicePresenter mAppServicePresenter;
     private ServiceBean mIngressInfo;
+    private DelPopupWindow mDelPopupWindow;
+    private AppDelPresenter mAppDelPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +150,37 @@ public class AppMainDetailsActivity extends BaseActivity implements AppDetailCon
             }
         });
 
+        mRvAppAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final BaseQuickAdapter adapter, View view, final int position) {
+                mDelPopupWindow = new DelPopupWindow(mContext);
+                mDelPopupWindow.setOnButtonClickListener(new DelPopupWindow.OnButtonClickListener() {
+                    @Override
+                    public void onDelClick() {
+                        new CommonDialog(mContext)
+                                .setMessage("确认删除该子应用？")
+                                .setPositiveButton("确认", new CommonDialog.OnButtonClickListener() {
+                                    @Override
+                                    public void onClick(Dialog dialog) {
+//                                            mTemplatesPresenter.delTemplate(bean.getId());
+                                        mAppDelPresenter.deleteApp(((AppBean)adapter.getData().get(position)).getId());
+
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
+                });
+
+                int[] location = new int[2];
+                view.getLocationOnScreen(location);
+                int x = (view.getWidth() / 2) - (mDelPopupWindow.getWidth() / 2);
+                int y = location[1] + (view.getHeight() / 2);
+                mDelPopupWindow.showAtLocation(view, Gravity.NO_GRAVITY, x, y);
+                return false;
+            }
+        });
+
 
         mAppDetailPresenter = new AppDetailPresenter();
         mAppDetailPresenter.attachView(this);
@@ -150,6 +190,9 @@ public class AppMainDetailsActivity extends BaseActivity implements AppDetailCon
 
         mAppServicePresenter = new AppServicePresenter();
         mAppServicePresenter.attachView(this);
+
+        mAppDelPresenter = new AppDelPresenter();
+        mAppDelPresenter.attachView(this);
 
         mSubApplicationPresenter.getAppSubApplicationList(mAppId);
         mAppDetailPresenter.getAppById(mAppId);
@@ -286,13 +329,16 @@ public class AppMainDetailsActivity extends BaseActivity implements AppDetailCon
 
     @Override
     public void showResult(Object o) {
+        mSubApplicationPresenter.getAppSubApplicationList(mAppId);
 
     }
 
     @Override
     public void showIngressInfo(ServiceBean ingressInfo) {
-        if (ingressInfo == null)
+        if (ingressInfo == null) {
+            mTvIngressName.setText("ingress-" + mAppId);
             return;
+        }
         mIngressInfo = ingressInfo;
         mTvIngressName.setText(ingressInfo.getName());
 

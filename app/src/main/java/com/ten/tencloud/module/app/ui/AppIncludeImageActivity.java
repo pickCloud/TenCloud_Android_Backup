@@ -75,18 +75,18 @@ public class AppIncludeImageActivity extends BaseActivity implements AppImageCon
     }
 
     private void initData() {
-        mAppImagePresenter.getAppImageById(0, 0);
+        mAppImagePresenter.getAppImageById(  null);
     }
 
     @Override
-    public void showImages(List<ImageBean> images) {
+    public void showImages(List<ImageBean> images, boolean isLoadMore) {
         mIncludeImageAdapter.setDatas(images);
         mRvImage.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void showImageEmpty() {
+    public void showImageEmpty(boolean isLoadMore) {
         mRvImage.setVisibility(View.INVISIBLE);
         mEmptyView.setVisibility(View.VISIBLE);
     }

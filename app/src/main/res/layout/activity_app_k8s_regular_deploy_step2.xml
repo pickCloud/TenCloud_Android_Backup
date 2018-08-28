@@ -80,6 +80,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_marginTop="16dp"
                         style="@style/ListItemTextKey"
                         android:layout_width="wrap_content"
                         android:text="实例标签" />

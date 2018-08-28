@@ -291,6 +291,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         mTvCompanyPhone.setText(Utils.hide4Phone(companyInfo.getMobile()));
         GlideUtils.getInstance().loadCircleImage(mActivity, mIvCompanyLogo,
                 companyInfo.getImage_url(), R.mipmap.icon_com_photo);
+        new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION).sendBroadCast();
+
     }
 
     @Override
@@ -300,6 +302,8 @@ public class MineFragment extends BaseFragment implements UserHomeContract.View,
         mTvUserPhone.setText(Utils.hide4Phone(user.getMobile()));
         GlideUtils.getInstance().loadCircleImage(mActivity, mIvUserAvatar,
                 user.getImage_url(), R.mipmap.icon_userphoto);
+        new RefreshBroadCastHandler(RefreshBroadCastHandler.APP_LIST_CHANGE_ACTION).sendBroadCast();
+
     }
 
     @Override

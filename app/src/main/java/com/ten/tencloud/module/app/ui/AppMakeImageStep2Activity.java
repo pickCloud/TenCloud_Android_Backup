@@ -2,6 +2,7 @@ package com.ten.tencloud.module.app.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -94,6 +95,8 @@ public class AppMakeImageStep2Activity extends BaseActivity {
                         mEtCode.setFocusable(false);
                         mEtCode.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
                         mEtCode.setClickable(false); // user navigates with wheel and selects widget
+                        mEtCode.setTextColor(Color.parseColor("#556278"));
+
                     }
                 });
             }
@@ -124,6 +127,7 @@ public class AppMakeImageStep2Activity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_edit:
+                findViewById(R.id.tv_edit).setVisibility(View.GONE);
                 mEtCode.setFocusable(true);
                 mEtCode.setFocusableInTouchMode(true); // user touches widget on phone with touch screen
                 mEtCode.setClickable(true); // user navigates with wheel and selects widget
@@ -132,6 +136,7 @@ public class AppMakeImageStep2Activity extends BaseActivity {
                 mLlSuccess.setVisibility(View.GONE);
                 mBtnStart.setEnabled(true);
                 mBtnStart.setText("重新构建");
+                mEtCode.setTextColor(Color.parseColor("#899ab6"));
                 break;
 
             case R.id.btn_start:

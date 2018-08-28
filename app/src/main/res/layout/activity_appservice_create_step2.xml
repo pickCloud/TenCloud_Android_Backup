@@ -88,7 +88,7 @@
                 <TextView
                     style="@style/ListItemTextKey"
                     android:layout_width="wrap_content"
-                    android:text="选择服务类型" />
+                    android:text="标签输入" />
 
                 <TextView
                     android:id="@+id/tv_see_example"

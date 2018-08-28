@@ -30,6 +30,7 @@ import com.ten.tencloud.module.app.model.AppCreateServiceModel;
 import com.ten.tencloud.module.app.presenter.AppServicePresenter;
 import com.ten.tencloud.widget.blur.BlurBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,8 +113,8 @@ public class AppServiceDetailsActivity extends BaseActivity implements AppServic
     @Override
     public void showServiceDetails(ServiceBean serviceBean) {
         mServiceBean = serviceBean;
-        if (!ObjectUtils.isEmpty(serviceBean.getSubsets())){
-            mServiceEndAdapter.setNewData(serviceBean.getSubsets());
+        if (!ObjectUtils.isEmpty(serviceBean.getEndpoint().get("subsets"))){
+            mServiceEndAdapter.setNewData((List<Map<String, List<Map<String, Object>>>>) serviceBean.getEndpoint().get("subsets"));
         }
         mTvName.setText(serviceBean.getName());
         mTvId.setText("Uid" + serviceBean.getId());
@@ -230,20 +231,6 @@ public class AppServiceDetailsActivity extends BaseActivity implements AppServic
                         getIntent().getIntExtra(IntentKey.SERVICE_ID, 0), 1);
                 break;
             case R.id.btn_toolbox:
-//                BlurBuilder.snapShotWithoutStatusBar(this);
-//                Intent intent = new Intent(this, ServiceToolBoxActivity.class);
-//
-//                intent.putExtra(IntentKey.YAML, mServiceBean.getYaml());
-//                intent.putExtra(IntentKey.APP_ID, mServiceBean.getApp_id());
-//                intent.putExtra(IntentKey.APP_NAME, mServiceBean.getApp_name());
-//                intent.putExtra(IntentKey.SERVICE_SOURCE, mServiceBean.getSource());
-//                intent.putExtra(IntentKey.SERVICE_NAME, mServiceBean.getName());
-//                intent.putExtra(IntentKey.SERVICE_TYPE, mServiceBean.getType());
-//                intent.putExtra(IntentKey.SERVICE_ID, mServiceBean.getId());
-//
-//                startActivityForResult(intent, SERVICE_TOOL_CODE);
-//                overridePendingTransition(0, 0);
-
                 ServiceToolBoxActivity serviceToolBoxActivity = new ServiceToolBoxActivity();
                 Bundle bundle = new Bundle();
                 bundle.putString(IntentKey.YAML, mServiceBean.getYaml());

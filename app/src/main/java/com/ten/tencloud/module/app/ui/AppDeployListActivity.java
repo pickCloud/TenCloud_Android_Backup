@@ -159,7 +159,6 @@ public class AppDeployListActivity extends BaseActivity implements AppDeployList
                 mPage ++ ;
 
             mAppServiceDeploymentAdapter.addData(data);
-            mAppServiceDeploymentAdapter.addData(data);
             mRefresh.finishLoadmore();
 
         }

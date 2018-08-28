@@ -38,7 +38,6 @@ public class ServiceBean implements Serializable{
     private Map<String, Object> backend;
     private Map<String, Object> controller;
 
-    private List<SubsetBean> subsets;
 
     public ServiceBean(String name, int type, String ip, String outIp, String burden, String port, String createDate, int status) {
         this.name = name;
@@ -53,14 +52,6 @@ public class ServiceBean implements Serializable{
 
     public ServiceBean(){
 
-    }
-
-    public List<SubsetBean> getSubsets() {
-        return subsets;
-    }
-
-    public void setSubsets(List<SubsetBean> subsets) {
-        this.subsets = subsets;
     }
 
     public String getApp_name() {

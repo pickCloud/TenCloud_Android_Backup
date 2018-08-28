@@ -60,6 +60,8 @@
 
             <TextView
                 android:id="@+id/tv_image"
+                android:text="23423"
+                android:gravity="center_vertical"
                 style="@style/ListItemEditValue"
                 android:layout_weight="1" />
 

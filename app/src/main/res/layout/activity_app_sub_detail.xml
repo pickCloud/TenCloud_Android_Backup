@@ -66,13 +66,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-
             <RelativeLayout
                 android:id="@+id/rl_image"
                 android:layout_width="wrap_content"
-                android:layout_height="41dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:paddingBottom="16dp"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -117,7 +117,8 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="41dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:gravity="center_vertical">

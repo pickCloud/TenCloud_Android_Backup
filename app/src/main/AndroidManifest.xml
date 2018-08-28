@@ -115,19 +115,29 @@
         <activity
             android:name=".module.login.ui.JoinComTipsActivity"
             android:label="@string/title_activity_join_com_tips"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoAction" />
         <activity
             android:name=".module.other.ui.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoAction.FullScreen.Splash" />
 
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5a5f057d8f4a9d6ff4000042" />
 
-        <activity android:name=".module.server.ui.ServerDetail2Activity" />
-        <activity android:name=".module.server.ui.ServerDetailBasicActivity" />
-        <activity android:name=".module.server.ui.ServerDetailConfigActivity" />
-        <activity android:name=".module.server.ui.ServerMonitorActivity" />
+        <activity android:name=".module.server.ui.ServerDetail2Activity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".module.server.ui.ServerDetailBasicActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".module.server.ui.ServerDetailConfigActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".module.server.ui.ServerMonitorActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".module.app.ui.AppAddActivity"
             android:screenOrientation="portrait" />
